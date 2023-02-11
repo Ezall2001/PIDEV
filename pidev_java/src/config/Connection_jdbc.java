@@ -29,10 +29,10 @@ public class Connection_jdbc {
     }
   }
 
-  public static Connection_jdbc getInstance() {
+  public static Connection getInstance() {
     if (cnx_instance == null)
       cnx_instance = new Connection_jdbc();
-    return cnx_instance;
+    return cnx_instance.getCnx();
   }
 
   public Connection getCnx() {
