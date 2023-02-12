@@ -2,11 +2,7 @@ package config;
 
 public class Log {
 
-  public Log() {
-
-  }
-
-  private static String verifier_implementation_toString(Object obj) {
+  private static String verify_toString_implementation(Object obj) {
     try {
       if (obj.getClass().getMethod("toString").getDeclaringClass() != Object.class)
         return obj.toString();
@@ -19,13 +15,13 @@ public class Log {
   }
 
   public static void console(Object obj) {
-    String message = verifier_implementation_toString(obj);
+    String message = verify_toString_implementation(obj);
     System.out.println(message);
   }
 
   /// TODO: finish the file output log
-  public static void fichier(Object obj) {
-    String message = verifier_implementation_toString(obj);
+  public static void file(Object obj) {
+    String message = verify_toString_implementation(obj);
     System.out.println(message);
   }
 
