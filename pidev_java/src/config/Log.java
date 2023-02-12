@@ -25,4 +25,7 @@ public class Log {
     System.out.println(message);
   }
 
+  public static void fichier(String message) {
+  }
+
 }
