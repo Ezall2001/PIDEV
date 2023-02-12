@@ -5,9 +5,10 @@ import java.util.List;
 
 public class Question {
     int id;
-    String title;
-    String description;
-    String message;
+    private String title;
+    private String description;
+    private String message;
+    private int nb_vote;
     Answer r = new Answer();
 
     //  one to many relationship
@@ -46,6 +47,11 @@ public class Question {
 
     }
 
+    public int get_Nbvote() {
+        return nb_vote;
+
+    }
+
     public String getTitle() {
         return title;
 
@@ -68,6 +74,11 @@ public class Question {
 
     public void setId(int id) {
         this.id = id;
+
+    }
+
+    public void setNbvote(int nb_vote) {
+        this.nb_vote = nb_vote;
 
     }
 

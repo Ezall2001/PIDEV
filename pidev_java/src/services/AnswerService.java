@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 import config.Jdbc_connection;
 import config.Log;
@@ -54,6 +55,7 @@ public class AnswerService implements InterfaceService<Answer> {
                 Answer r = new Answer();
 
                 r.setMessage(rs.getString("message"));
+                r.setNbvote(rs.getInt("nb_vote"));
 
                 answers.add(r);
             }
@@ -128,6 +130,14 @@ public class AnswerService implements InterfaceService<Answer> {
         } catch (SQLException ex) {
             Log.console(ex.getMessage());
         }
+
+    }
+
+    public List<Answer> trie() {
+        List<Answer> answers = new ArrayList<>();
+        answers = get_All();
+        answers = answers.stream().sorted((a, b) -> b.get_Nbvote() - a.get_Nbvote()).collect(Collectors.toList());
+        return answers;
 
     }
 

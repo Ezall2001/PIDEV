@@ -1,7 +1,11 @@
 package tests;
 
+import java.nio.file.DirectoryStream.Filter;
+import java.util.List;
+
 import config.Jdbc_connection;
 import config.Log;
+import entities.Question;
 import services.AnswerService;
 import services.QuestionService;
 
@@ -10,6 +14,8 @@ public class Tester {
     Jdbc_connection.getInstance();
     /* ***************************************************najiba's test**************************************************************************** */
     QuestionService qs = new QuestionService();
+    List<Question> q;
+
     AnswerService rs = new AnswerService();
     /*------------------------add functions----------------------------- */
 
@@ -18,7 +24,7 @@ public class Tester {
 
     /*------------------------get All functions----------------------------- */
 
-    Log.console(qs.get_All());
+    //Log.console(qs.get_All());
     //Log.console(rs.get_All());
     //Log.console(qs.get_with_answer(1));
 
@@ -38,7 +44,10 @@ public class Tester {
 
     //rs.update(2, "najiba123");
 
-    /*------------------------add functions----------------------------- */
+    /*------------------------filter functions----------------------------- */
+    Log.console(qs.filter_qs(1));
+    /*------------------------trie----------------------------- */
+    //Log.console(rs.trie());
 
   }
 }

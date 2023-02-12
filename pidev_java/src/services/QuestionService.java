@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Collectors;
+
 import config.Jdbc_connection;
 import config.Log;
 import entities.Answer;
@@ -53,8 +55,9 @@ public class QuestionService implements InterfaceService<Question> {
             ResultSet rs = ste.executeQuery(sql);
             while (rs.next()) {
                 Question q = new Question();
-
+                q.setId(rs.getInt(1));
                 q.setTitle(rs.getString("title"));
+                q.setNbvote(rs.getInt("nb_vote"));
                 q.setDescription(rs.getString(3));
 
                 questions.add(q);
@@ -161,6 +164,34 @@ public class QuestionService implements InterfaceService<Question> {
         }
 
         return map;
+    }
+
+    public List<Question> filter_qs(int choice) {
+        List<Question> questions = new ArrayList<>();
+        questions = get_All();
+        switch (choice) {
+            //filter by number of vote 
+
+            case 1:
+
+                questions = questions.stream()
+                        .sorted((a, b) -> b.get_Nbvote() - a.get_Nbvote())
+                        .collect(Collectors.toList());
+
+                break;
+            // recent 
+            case 2:
+                questions = questions.stream()
+                        .sorted((a, b) -> b.getId() - a.getId())
+                        .collect(Collectors.toList());
+
+                break;
+
+            default:
+                break;
+        }
+        return questions;
+
     }
 
 }

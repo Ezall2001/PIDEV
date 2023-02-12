@@ -4,6 +4,7 @@ public class Answer {
     private int id;
     private String message;
     private int question_id;
+    private int nb_vote;
     // la relation one to many
     private Question question;
 
@@ -30,6 +31,15 @@ public class Answer {
     }
 
     // getters and setters
+    public int get_Nbvote() {
+        return nb_vote;
+
+    }
+
+    public void setNbvote(int nb_vote) {
+        this.nb_vote = nb_vote;
+
+    }
 
     public int getId_question() {
         return question_id;
