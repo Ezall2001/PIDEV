@@ -27,7 +27,6 @@ public class Base_service {
   private <T extends Base_entity> void validate_fields(T entity, List<String> fields) throws Exception {
     if (!entity.check_fields_exist(fields))
       throw new Exception(String.format("fields %s do not exist in entity %s", fields, entity.get_class_name()));
-
   }
 
   protected <T> Service_response<T> get_success_response(String method_name, String entity_name, T body) {
