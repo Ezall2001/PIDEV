@@ -14,11 +14,6 @@ import java.util.List;
 
 public class Base_service {
   protected static final Connection cnx = Jdbc_connection.getInstance();
-  protected String service_name;
-
-  protected Base_service(String service_name) {
-    this.service_name = service_name;
-  }
 
   private String get_service_class_name() {
     return this.getClass().getSimpleName();

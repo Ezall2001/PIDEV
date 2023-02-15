@@ -8,10 +8,6 @@ import types.Service_response;
 
 public class Session_service extends Base_service {
 
-  public Session_service() {
-    super("session_service");
-  }
-
   public Service_response<Integer> add_session(Session answer) {
     return super.add(answer, null);
   }
