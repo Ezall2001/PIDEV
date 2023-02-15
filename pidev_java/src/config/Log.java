@@ -1,6 +1,5 @@
 package config;
 
-import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -26,7 +25,6 @@ public class Log {
     System.out.println(message);
   }
 
-  /// TODO: finish the file output log
   public static void file(Object obj) {
     LocalDateTime timestamp = LocalDateTime.now();
     String message = String.format("%s : %s\n", timestamp, get_output(obj));
