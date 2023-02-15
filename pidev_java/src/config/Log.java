@@ -14,7 +14,7 @@ public class Log {
 
   }
 
-  ///TODO: handle null obj
+  /// TODO: handle null obj
   public static void console(Object obj) {
     String message = verify_toString_implementation(obj);
     System.out.println(message);

@@ -46,7 +46,7 @@ public class Entity_getter_setter_mapper {
 
     if (!is_verified)
       throw new Exception(
-          String.format("method(s) in getter_setter_map not implemented in entity %s\nhint: check override pairs",
+          String.format("method(s) in getter_setter_map not implemented in entity %s\nhInteger: check override pairs",
               entity.get_class_name()));
   }
 

@@ -9,7 +9,7 @@ import entities.Base_entity;
 
 public class Statement_helpers {
 
-  int parameter_index;
+  Integer parameter_index;
 
   public Statement_helpers() {
     parameter_index = 1;
@@ -20,7 +20,7 @@ public class Statement_helpers {
     String columns = Sql_helpers.get_sql_columns(fields);
     String place_holders = Sql_helpers.get_sql_place_holders(fields);
 
-    String sql = String.format("insert into %s (%s) values (%s)", table_name, columns, place_holders);
+    String sql = String.format("insert Integero %s (%s) values (%s)", table_name, columns, place_holders);
     return sql;
   }
 
@@ -64,7 +64,7 @@ public class Statement_helpers {
 
   public String build_statment_method(String perfix, String type) {
     if (type.equals("Integer"))
-      type = "Int";
+      type = "Integer";
 
     return String.format("%s%s", perfix, type);
 
@@ -74,7 +74,7 @@ public class Statement_helpers {
     String statement_getter_return_type = result.getClass().getDeclaredMethod(
         getter_name, String.class).getReturnType().getTypeName();
 
-    if (statement_getter_return_type.equals("int"))
+    if (statement_getter_return_type.equals("Integer"))
       statement_getter_return_type = "java.lang.Integer";
     else if (statement_getter_return_type.equals("double"))
       statement_getter_return_type = "java.lang.Double";
