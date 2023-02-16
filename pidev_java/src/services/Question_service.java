@@ -10,7 +10,7 @@ import types.Service_response;
 public class Question_service extends Base_service {
 
     public Question_service() {
-        super("service_name");
+        super();
     }
 
     public Service_response<Integer> add_question(Question question) {

@@ -20,10 +20,7 @@ public class Log {
     }
   }
 
-<<<<<<< HEAD
   ///TODO: handle null obj
-=======
->>>>>>> 5d73cb49e3c579a5f00c46a37a3f516de910129e
   public static void console(Object obj) {
     String message = get_output(obj);
     System.out.println(message);
