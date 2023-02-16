@@ -87,7 +87,7 @@ public class Answer extends Base_entity {
 
     @Override
     public String toString() {
-        return "Reponse [id=" + id + ", message=" + message +
+        return "Reponse [ message=" + message +
                 "]";
     }
 
