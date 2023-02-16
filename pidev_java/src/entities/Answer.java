@@ -3,14 +3,12 @@ package entities;
 import types.Getter_setter_map;
 
 public class Answer extends Base_entity {
-    private Integer id;
+    private Integer id, question_id;
     private String message;
-    private Integer question_id;
     private Integer vote_nb;
 
     public Answer() {
         Getter_setter_map map = build_getter_setter_map();
-
         set_getter_setter_map(map);
     }
 

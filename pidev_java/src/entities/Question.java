@@ -1,7 +1,5 @@
 package entities;
 
-import java.util.List;
-
 import types.Getter_setter_map;
 
 public class Question extends Base_entity {
@@ -10,31 +8,26 @@ public class Question extends Base_entity {
 
     public Question() {
         Getter_setter_map map = build_getter_setter_map();
-
         set_getter_setter_map(map);
     }
 
     public Question(Integer id, String title, String description) {
-        this();
+        this(title, description);
         this.id = id;
-        this.title = title;
-        this.description = description;
-
     }
 
+    public Question(String title, String description, Integer vote_nb) {
+        this(title,description);
+        this.vote_nb = vote_nb;
+    }  
+      
     public Question(String title, String description) {
         this();
         this.title = title;
         this.description = description;
-
+        this.vote_nb=0;
     }
 
-    public Question(String title, String description, Integer vote_nb) {
-        this();
-        this.title = title;
-        this.description = description;
-
-    }
 
     public Integer get_id() {
         return id;
@@ -69,15 +62,6 @@ public class Question extends Base_entity {
     public void set_vote_nb(Integer vote_nb) {
         this.vote_nb = vote_nb;
     }
-
-    /*  //  methodes one to many
-    public List<Answer> getAnswers() {
-        return answers;
-    }
-    
-    public void addAnswer(Answer answer) {
-        answers.add(answer);
-    } */
 
     @Override
     public String toString() {
