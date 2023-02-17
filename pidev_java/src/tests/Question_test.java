@@ -4,9 +4,7 @@ import java.util.List;
 
 import config.Log;
 import entities.Answer;
-import entities.Question;
 import services.Answer_service;
-import services.Question_service;
 import types.Service_response;
 
 public class Question_test {
