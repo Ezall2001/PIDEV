@@ -3,9 +3,7 @@ package tests;
 import java.util.List;
 
 import config.Log;
-import entities.Class_esprit;
 import entities.Course;
-import services.Class_esprit_service;
 import services.Course_service;
 import types.Service_response;
 
