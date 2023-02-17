@@ -1,91 +1,103 @@
 package entities;
 
-
 import types.Getter_setter_map;
 import types.Getter_setter_pair;
-import java.util.List;
 
 public class Course extends Base_entity {
-  private Integer id,id_subject;
-  private String name ;
-  private String description, difficulty;
-   
-    Subject subject ;
-  
-    
-  
+
+  enum Difficulty {
+    EASY, MEDIUM, HARD
+  };
+
+  private Integer id, id_subject;
+  private String name, description;
+  private Difficulty difficulty;
 
   public Course() {
     Getter_setter_map map = build_getter_setter_map(
-    );
+        new Getter_setter_pair("difficulty", "get_difficulty_String", "set_difficulty"));
     set_getter_setter_map(map);
   }
 
-
-
-  public Course(int id,String name ) {
-
-    this.id = id;
-    this.name = name;
-    
-}
-
-public Course(int id, String name, String description, String difficulty) {
-  
-  this(name, description ,difficulty);
+  public Course(Integer id, String name, String description, String difficulty, Integer id_subject) {
+    this(name, description, difficulty, id_subject);
     set_id(id);
-}
-  public Course(int id, String name, String description, String difficulty,int id_subject) {
-    this.id = id;
-    this.name = name;
-    this.description = description;
-    this.difficulty = difficulty;
-    this.id_subject = id_subject;
-   
   }
 
-  public Course(String name, String description, String difficulty) {
+  public Course(Integer id, String name, String description, Difficulty difficulty, Integer id_subject) {
+    this(name, description, difficulty, id_subject);
+    set_id(id);
+  }
+
+  public Course(String name, String description, String difficulty, Integer id_subject) {
+    this(name, description, id_subject);
+    set_difficulty(difficulty);
+  }
+
+  public Course(String name, String description, Difficulty difficulty, Integer id_subject) {
+    this(name, description, id_subject);
+    set_difficulty(difficulty);
+  }
+
+  public Course(String name, String description, Integer id_subject) {
     this();
     set_name(name);
     set_description(description);
-    set_difficulty(difficulty); 
+    set_id_subject(id_subject);
   }
 
- 
-
-  public int get_id() {
+  public Integer get_id() {
     return id;
-}
-public String get_name() {
-    return name;
-}
+  }
 
-public String get_description() {
-    return description;
-}
-
-public String get_difficulty() {
-    return difficulty;
-}
-
-public void set_id(int id) {
+  public void set_id(Integer id) {
     this.id = id;
-    }
-public void set_name(String name) {
-this.name = name;
-}
-public void set_description(String description) {
-this.description = description;
-} 
+  }
 
-public void set_difficulty (String difficulty) {
-this.difficulty  = difficulty;
-}  
+  public String get_name() {
+    return name;
+  }
 
+  public void set_name(String name) {
+    this.name = name;
+  }
 
-@Override
-public String toString() {
-    return "cour{" + "id=" + id + ",nom_cour =" + name +  
-    ", description=" + description + ", difficulter=" + difficulty + '}';
-}
+  public String get_description() {
+    return description;
+  }
+
+  public void set_description(String description) {
+    this.description = description;
+  }
+
+  public Integer get_id_subject() {
+    return id_subject;
+  }
+
+  public void set_id_subject(Integer id_subject) {
+    this.id_subject = id_subject;
+  }
+
+  public String get_difficulty_String() {
+    return difficulty.toString();
+  }
+
+  public Difficulty get_difficulty_Difficulty() {
+    return difficulty;
+  }
+
+  public void set_difficulty(String difficulty) {
+    this.difficulty = Difficulty.valueOf(difficulty);
+  }
+
+  public void set_difficulty(Difficulty difficulty) {
+    this.difficulty = difficulty;
+  }
+
+  @Override
+  public String toString() {
+    return "Course [id=" + id + ", id_subject=" + id_subject + ", name=" + name + ", description=" + description
+        + ", difficulty=" + difficulty + "]";
+  }
+
 }
