@@ -54,15 +54,15 @@ public class Test_service {
         return tests;
     }
 
-    public void modify(Test test, int new_id, String new_type, int new_min_points, int new_duration) {
-        String sql = "update tests set id=? ,type=? ,min_points=?, duration=?  where id=? ";
+    // ? edited
+    public void modify(Test test) {
+        String sql = "update tests set type=? ,min_points=?, duration=?  where id=? ";
         try {
             PreparedStatement ste = cnx.prepareStatement(sql);
-            ste.setInt(1, new_id);
-            ste.setString(2, new_type);
-            ste.setInt(3, new_min_points);
-            ste.setInt(4, new_duration);
-            ste.setInt(5, test.get_id());
+            ste.setString(1, test.getType());
+            ste.setInt(2, test.get_min_points());
+            ste.setInt(3, test.get_duration());
+            ste.setInt(4, test.get_id());
             ste.executeUpdate();
             Log.console("test modifié");
         } catch (SQLException ex) {
@@ -71,7 +71,7 @@ public class Test_service {
 
     }
 
-    public void delete(Test test, int id) {
+    public void delete(int id) {
         String sql = "delete from tests where id=?";
         try {
             PreparedStatement ste = cnx.prepareStatement(sql);

@@ -35,7 +35,7 @@ public class Test_qs_service {
 
     }
 
-    public void delete(Test_qs question, int id) {
+    public void delete(int id) {
         String sql = "delete from test_qs where id=?";
         try {
             PreparedStatement ste = cnx.prepareStatement(sql);
@@ -72,23 +72,20 @@ public class Test_qs_service {
         return test_questions;
     }
 
-    public void modify(Test_qs question, int new_id, int new_question_number, String new_question,
-            String new_correct_option, String new_optionA, String new_optionB,
-            String new_optionC, String new_optionD) {
-        String sql = "update test_qs set id=? , question_number=?, question=?, correct_option=?, optionA=?"
+    public void modify(Test_qs question) {
+        String sql = "update test_qs question_number=?, question=?, correct_option=?, optionA=?"
                 +
                 ", optionB=?, optionC=?, optionD=? where id=? ";
         try {
             PreparedStatement ste = cnx.prepareStatement(sql);
-            ste.setInt(1, new_id);
-            ste.setInt(2, new_question_number);
-            ste.setString(3, new_question);
-            ste.setString(4, new_correct_option);
-            ste.setString(5, new_optionA);
-            ste.setString(6, new_optionB);
-            ste.setString(7, new_optionC);
-            ste.setString(8, new_optionD);
-            ste.setInt(9, question.get_id());
+            ste.setInt(1, question.get_question_number());
+            ste.setString(2, question.get_question());
+            ste.setString(3, question.get_correct_option());
+            ste.setString(4, question.get_optionA());
+            ste.setString(5, question.get_optionB());
+            ste.setString(6, question.get_optionC());
+            ste.setString(7, question.get_optionD());
+            ste.setInt(8, question.get_id());
             ste.executeUpdate();
             Log.console("question modifiée");
         } catch (SQLException ex) {
