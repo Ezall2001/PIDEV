@@ -1,6 +1,5 @@
 package services;
 
-import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import config.Jdbc_connection;
@@ -12,7 +11,7 @@ import javax.crypto.KeyGenerator;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
+
 import java.sql.Statement;
 import java.sql.Timestamp;
 import java.time.Instant;
@@ -171,13 +170,6 @@ public class User_session_service {
                 .signWith(SignatureAlgorithm.HS256,
                         generate_key())
                 .compact();
-    }
-
-    public Claims parse_token(String token) {
-        return Jwts.parser()
-                .setSigningKey(generate_key())
-                .parseClaimsJws(token)
-                .getBody();
     }
 
 }
