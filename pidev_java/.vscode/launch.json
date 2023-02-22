@@ -1,0 +1,38 @@
+{
+    // Utilisez IntelliSense pour en savoir plus sur les attributs possibles.
+    // Pointez pour afficher la description des attributs existants.
+    // Pour plus d'informations, visitez : https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Launch Current File",
+            "request": "launch",
+            "mainClass": "${file}"
+        },
+        {
+            "type": "java",
+            "name": "Launch App",
+            "request": "launch",
+            "mainClass": "App",
+            "projectName": "pidev_java_a2c7adeb",
+            "vmArgs": "--module-path \"C:/Java/javafx-sdk-19.0.2.1/lib\" --add-modules javafx.controls,javafx.fxml"
+        },
+        {
+            "type": "java",
+            "name": "Launch Nour_test",
+            "request": "launch",
+            "mainClass": "tests.Nour_test",
+            "projectName": "pidev_java_a2c7adeb",
+            "vmArgs": "--module-path \"C:/Java/javafx-sdk-19.0.2.1/lib\" --add-modules javafx.controls,javafx.fxml"
+        },
+        {
+            "type": "java",
+            "name": "Launch Tester",
+            "request": "launch",
+            "mainClass": "tests.Tester",
+            "projectName": "pidev_java_a2c7adeb",
+            "vmArgs": "--module-path \"C:/Java/javafx-sdk-19.0.2.1/lib\" --add-modules javafx.controls,javafx.fxml"
+        }
+    ]
+}
