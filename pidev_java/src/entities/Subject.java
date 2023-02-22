@@ -1,82 +1,95 @@
-package entities;
-import types.Getter_setter_map;
-import types.Getter_setter_pair;
+
+package  entities ;
+
 import java.util.List;
 
-public class Subject extends Base_entity {
-  private Integer id;
-  private String name ;
-  private String description ,difficulty ;
-  
+import config.Log;
 
-  public Subject() {
-    Getter_setter_map map = build_getter_setter_map(
-    );
-    set_getter_setter_map(map);
-  }
+public class  Subject  {
 
-  public Subject(int id, String name, String description, String difficulty) {
-    this(name, description ,difficulty);
-     this.id = id;
+    public enum Level {
+        CLASS_A , CLASS_B  
+    };
+    private int id ;
+    private String subject_name;
+    
+    private String description;
+    private Level level;
+   
+    private List<Course> courses;
+
+    public Subject() {
+    }
+
+    public Subject( String subject_name, String description,Level level) {
+      
+        this.subject_name = subject_name;
+        this.description = description;
+        this.level =level;
         
        
-    
-  }
+    }
 
-  public Subject( String name, String description, String difficulty) {
-    this();
-    set_name(name);
-    set_description(description);
-    set_difficulty (difficulty) ;
-  }
+    public Subject(int id, String subject_name, String description,Level level) {
+        this.id = id;
+        this.subject_name = subject_name;
+        this.description = description;
+        this.level =level;
+        
+       
+    }
 
- 
+   
 
-  public Integer get_id() {
-    return id;
-  }
+    public int get_id() {
+        return id;
+    }
+    public String get_subject_name() {
+        return subject_name;
+    }
 
-  public void set_id(Integer id) {
-    this.id = id;
-  }
+    public String get_description() {
+        return description;
+    }
 
-  public String get_name() {
-    return name;
-  }
+    public Level get_niveau() {
+        return this.level;
+    }
+    public String get_level_String() {
+        return this.level.toString();
+    }
 
-  public void set_name(String name) {
-    this.name = name;
-  }
-
-  public String get_description() {
-    return description;
-  }
-
-  public void set_description(String description) {
+    public void set_id(int  id) {
+        this.id = id;
+        }
+    public void set_subject_name(String subject_name) {
+    this.subject_name = subject_name;
+    }
+    public void set_description(String description) {
     this.description = description;
-  }
+    }
 
+    public void set_level(String level) {
+       
+    try {
+    this.level=Level.valueOf(level);
+    } catch (Exception e)
+     { Log.console (e.getMessage());
+    }
+       }
 
-  public String get_difficulty() {
-    return difficulty;
-}
+    public void add_courses(Course courses) {
+        this.courses.add(courses);
+        
+    }
+    public List  <Course> get_Courses(){
+        return courses;
+    }
 
+    @Override
+    public String toString() {
+        return "Matiere{" + "id=" + id + ",nom_matiere =" + subject_name +  
+        ", description=" + description + ",Level=" + get_level_String() + '}';
+    }
 
-    public void set_difficulty (String difficulty) {
-    this.difficulty  = difficulty;
-    }  
-
-   // public void add_courses(Course courses) {
-  //    this.courses.add(courses);
-      
- // }
-  //public List  <Course> get_Courses(){
-     // return courses;
- // }
-
-  @Override
-  public String toString() {
-      return "Matiere{" + "id=" + id + ",nom_matiere =" + name +  
-      ", description=" + description + ", difficulter=" + difficulty + '}';
-  }
 }
