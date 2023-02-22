@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import entities.Test_qs;
-import config.*;
+import utils.*;
 
 public class Test_qs_service {
     Connection cnx;

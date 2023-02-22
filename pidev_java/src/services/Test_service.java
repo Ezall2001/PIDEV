@@ -8,7 +8,7 @@ import java.util.List;
 import entities.Test;
 import entities.Test_qs;
 
-import config.*;
+import utils.*;
 
 public class Test_service {
     Connection cnx;

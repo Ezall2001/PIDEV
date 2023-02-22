@@ -4,7 +4,7 @@ import entities.Test;
 import entities.Test_qs;
 import services.Test_qs_service;
 import services.Test_service;
-import config.Log;
+import utils.Log;
 
 public class Nour_test {
     public static void main(String[] args) {
