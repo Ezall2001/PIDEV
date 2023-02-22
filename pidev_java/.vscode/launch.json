@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Launch Najiba_test",
+            "request": "launch",
+            "mainClass": "tests.Najiba_test",
+            "projectName": "pidev_java_a2c7adeb"
+        },
+        {
+            "type": "java",
             "name": "Launch Current File",
             "request": "launch",
             "mainClass": "${file}"
