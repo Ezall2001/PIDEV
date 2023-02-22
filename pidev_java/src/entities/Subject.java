@@ -1,48 +1,49 @@
 package entities;
 
-import types.Getter_setter_map;
-import types.Getter_setter_pair;
+import java.util.List;
+
+import config.Log;
 
 public class Subject extends Base_entity {
   enum Difficulty {
     EASY, MEDIUM, HARD
   };
 
-  private Integer id, id_class_esprit;
+  private Integer id;
   private String name, description;
   private Difficulty difficulty;
+  private List<Course> courses;
+  private Class_esprit class_esprit;
 
   public Subject() {
-    Getter_setter_map map = build_getter_setter_map(
-        new Getter_setter_pair("difficulty", "get_difficulty_String", "set_difficulty"));
-    set_getter_setter_map(map);
   }
 
-  public Subject(Integer id, String name, String description, String difficulty, Integer id_class_esprit) {
-    this(name, description, difficulty, id_class_esprit);
+  public Subject(Integer id, String name, String description, String difficulty, Class_esprit class_esprit) {
     set_id(id);
-  }
-
-  public Subject(Integer id, String name, String description, Difficulty difficulty, Integer id_class_esprit) {
-    this(name, description, difficulty, id_class_esprit);
-    set_id(id);
-  }
-
-  public Subject(String name, String description, String difficulty, Integer id_class_esprit) {
-    this(name, description, id_class_esprit);
-    set_difficulty(difficulty);
-  }
-
-  public Subject(String name, String description, Difficulty difficulty, Integer id_class_esprit) {
-    this(name, description, id_class_esprit);
-    set_difficulty(difficulty);
-  }
-
-  public Subject(String name, String description, Integer id_class_esprit) {
-    this();
     set_name(name);
     set_description(description);
-    set_id_class_esprit(id_class_esprit);
+    set_class_esprit(class_esprit);
+  }
+
+  public Subject(Integer id, String name, String description, Difficulty difficulty, Class_esprit class_esprit) {
+    set_id(id);
+    set_name(name);
+    set_description(description);
+    set_class_esprit(class_esprit);
+  }
+
+  public Subject(String name, String description, String difficulty, Class_esprit class_esprit) {
+    set_name(name);
+    set_description(description);
+    set_class_esprit(class_esprit);
+    set_difficulty(difficulty);
+  }
+
+  public Subject(String name, String description, Difficulty difficulty, Class_esprit class_esprit) {
+    set_name(name);
+    set_description(description);
+    set_class_esprit(class_esprit);
+    set_difficulty(difficulty);
   }
 
   public Integer get_id() {
@@ -69,12 +70,20 @@ public class Subject extends Base_entity {
     this.description = description;
   }
 
-  public Integer get_id_class_esprit() {
-    return id_class_esprit;
+  public Class_esprit get_class_esprit() {
+    return class_esprit;
   }
 
-  public void set_id_class_esprit(Integer id_class_esprit) {
-    this.id_class_esprit = id_class_esprit;
+  public void set_class_esprit(Class_esprit class_esprit) {
+    this.class_esprit = class_esprit;
+  }
+
+  public List<Course> get_courses() {
+    return courses;
+  }
+
+  public void set_courses(List<Course> courses) {
+    this.courses = courses;
   }
 
   public String get_difficulty_String() {
@@ -86,7 +95,11 @@ public class Subject extends Base_entity {
   }
 
   public void set_difficulty(String difficulty) {
-    this.difficulty = Difficulty.valueOf(difficulty);
+    try {
+      this.difficulty = Difficulty.valueOf(difficulty);
+    } catch (Exception e) {
+      Log.file(e);
+    }
   }
 
   public void set_difficulty(Difficulty difficulty) {
@@ -95,8 +108,8 @@ public class Subject extends Base_entity {
 
   @Override
   public String toString() {
-    return "Subject [id=" + id + ", id_class_esprit=" + id_class_esprit + ", name=" + name + ", description="
-        + description + ", difficulty=" + difficulty + "]";
+    return "Subject [id=" + id + ", name=" + name + ", description=" + description + ", difficulty=" + difficulty
+        + ", courses=" + courses + ", class_esprit=" + class_esprit + "]";
   }
 
 }

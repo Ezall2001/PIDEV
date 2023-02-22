@@ -1,24 +1,19 @@
 package entities;
 
-import types.Getter_setter_map;
-
-public class Class_esprit extends Base_entity {
+public class Class_esprit {
   Integer id;
   String name;
 
   public Class_esprit() {
-    Getter_setter_map map = build_getter_setter_map();
-    set_getter_setter_map(map);
   }
 
   public Class_esprit(Integer id, String name) {
-    this(name);
-    this.id = id;
+    set_id(id);
+    set_name(name);
   }
 
   public Class_esprit(String name) {
-    this();
-    this.name = name;
+    set_name(name);
   }
 
   public Integer get_id() {

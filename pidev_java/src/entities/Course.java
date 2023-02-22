@@ -1,7 +1,6 @@
 package entities;
 
-import types.Getter_setter_map;
-import types.Getter_setter_pair;
+import config.Log;
 
 public class Course extends Base_entity {
 
@@ -14,35 +13,35 @@ public class Course extends Base_entity {
   private Difficulty difficulty;
 
   public Course() {
-    Getter_setter_map map = build_getter_setter_map(
-        new Getter_setter_pair("difficulty", "get_difficulty_String", "set_difficulty"));
-    set_getter_setter_map(map);
   }
 
   public Course(Integer id, String name, String description, String difficulty, Integer id_subject) {
-    this(name, description, difficulty, id_subject);
     set_id(id);
+    set_name(name);
+    set_description(description);
+    set_difficulty(difficulty);
+    set_id_subject(id_subject);
   }
 
   public Course(Integer id, String name, String description, Difficulty difficulty, Integer id_subject) {
-    this(name, description, difficulty, id_subject);
     set_id(id);
+    set_name(name);
+    set_description(description);
+    set_difficulty(difficulty);
+    set_id_subject(id_subject);
   }
 
   public Course(String name, String description, String difficulty, Integer id_subject) {
-    this(name, description, id_subject);
+    set_name(name);
+    set_description(description);
     set_difficulty(difficulty);
+    set_id_subject(id_subject);
   }
 
   public Course(String name, String description, Difficulty difficulty, Integer id_subject) {
-    this(name, description, id_subject);
-    set_difficulty(difficulty);
-  }
-
-  public Course(String name, String description, Integer id_subject) {
-    this();
     set_name(name);
     set_description(description);
+    set_difficulty(difficulty);
     set_id_subject(id_subject);
   }
 
@@ -87,7 +86,11 @@ public class Course extends Base_entity {
   }
 
   public void set_difficulty(String difficulty) {
-    this.difficulty = Difficulty.valueOf(difficulty);
+    try {
+      this.difficulty = Difficulty.valueOf(difficulty);
+    } catch (Exception e) {
+      Log.file(e);
+    }
   }
 
   public void set_difficulty(Difficulty difficulty) {
