@@ -18,7 +18,7 @@ public class Course_Service {
     
     Connection cnx;
     public Course_Service() {
-        Connection cnx ;
+       
             cnx = Jdbc_connection.getInstance();
        
     }
