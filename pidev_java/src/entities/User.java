@@ -4,6 +4,10 @@ import java.util.Objects;
 import java.io.File;
 import java.io.FileInputStream;
 import java.security.MessageDigest;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+
 import config.Log;
 
 public class User {
@@ -27,12 +31,6 @@ public class User {
     protected Type_user type;
 
     public User() {
-    }
-
-    public User(int user_id, String email) {
-        this.user_id = user_id;
-        this.email = email;
-
     }
 
     public User(String email) {
@@ -124,11 +122,22 @@ public class User {
     //TODO : problem in this setter 
     public String get_level_string() {
 
-        if (this.level != null) {
-            return this.level.toString();
-        } else {
-            return "Unknown level";
+        if (this.score <= 100) {
+            return ("New Commer");
+
         }
+        if (this.score >= 200) {
+            return "BEGINNER";
+
+        }
+        if (this.score >= 400) {
+            return "COMPETENT";
+
+        }
+        if (this.score >= 800) {
+            return "PROFICIENT";
+        } else
+            return "EXPERT";
     }
 
     public void set_level(String level) {
@@ -212,23 +221,6 @@ public class User {
         } catch (Exception e) {
             Log.console(e.getMessage());
         }
-    }
-
-    public boolean checkPassword(String password) {
-        try {
-            MessageDigest message_digest = MessageDigest.getInstance("SHA-256");
-            message_digest.update(password.getBytes());
-            byte[] bytes = message_digest.digest();
-            StringBuilder string_builder = new StringBuilder();
-            for (byte b : bytes) {
-                string_builder.append(Integer.toString((b & 0xff) + 0x100, 16).substring(1));
-            }
-            String hashedInput = string_builder.toString();
-            return hashedInput.equals(hashed_password);
-        } catch (Exception e) {
-            Log.console(e.getMessage());
-        }
-        return false;
     }
 
     public Type_user get_type_Type_user() {

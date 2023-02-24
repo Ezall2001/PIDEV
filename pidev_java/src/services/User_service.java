@@ -2,7 +2,9 @@ package services;
 
 import config.Jdbc_connection;
 import java.io.ByteArrayInputStream;
+import java.io.Console;
 import java.io.File;
+import java.security.MessageDigest;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -10,6 +12,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import entities.User;
@@ -92,8 +95,12 @@ public class User_service {
             ResultSet rSet = pst.executeQuery(sql);
             // Grade grad = Grade.valueOf(rSet.getString("level"));
             while (rSet.next()) {
-                User user = new User(rSet.getString("first_name"), rSet.getString("last_name"), rSet.getInt("age"),
-                        rSet.getString("bio"), rSet.getString("email"), rSet.getString("hashed_password"),
+                User user = new User(rSet.getString("first_name"),
+                        rSet.getString("last_name"),
+                        rSet.getInt("age"),
+                        rSet.getString("bio"),
+                        rSet.getString("email"),
+                        rSet.getString("hashed_password"),
                         rSet.getBytes("picture_data"));
                 user_list.add(user);
 
@@ -127,37 +134,55 @@ public class User_service {
 
     }
 
-    public List<User> find_by_level(String grade) {
-        List<User> user_list = new ArrayList<>();
+    public boolean checkPassword(String password, String hashed_password) {
         try {
-            String sql = "select * from users where level= '" + grade + "'";
-            PreparedStatement pst = cnx.prepareStatement(sql);
-            ResultSet rSet = pst.executeQuery();
-            while (rSet.next()) {
-                User user = new User();
-                user.set_email(rSet.getString("email"));
-                user.set_first_name(rSet.getString("first_name"));
-                user.set_last_name(rSet.getString("last_name"));
-                user.set_age(rSet.getInt("age"));
-                user.set_description(rSet.getString("bio"));
-                user.set_picture_data(rSet.getBytes("picture_data"));
-                user_list.add(user);
+            MessageDigest message_digest = MessageDigest.getInstance("SHA-256");
+            message_digest.update(password.getBytes());
+            byte[] bytes = message_digest.digest();
+            StringBuilder string_builder = new StringBuilder();
+            for (byte b : bytes) {
+                string_builder.append(Integer.toString((b & 0xff) + 0x100, 16).substring(1));
             }
+            String hashedInput = string_builder.toString();
+            return hashedInput.equals(hashed_password);
         } catch (Exception e) {
             Log.console(e.getMessage());
         }
-        return user_list;
-
+        return false;
     }
 
-    /// TODO: correct this method
-    // public List<User> sort() {
-    //     List<User> user_list = new ArrayList<>();
-    //     user_list = get_All();
-    //     user_list = user_list.stream().sorted((a, b) -> b.get_score() -
-    //             a.get_score())
-    //             .collect(Collectors.toList());
-    //     return user_list;
-    // }
+    public User login(String email, String password) {
+        try {
+            Log.console("jyt hne ");
+            // String sql = "SELECT email, hashed_password FROM users WHERE email = ?";
+            String sql = "SELECT email, hashed_password,first_name, last_name, age, bio, picture_data FROM users WHERE email = ?";
+            PreparedStatement pst = cnx.prepareStatement(sql);
+            pst.setString(1, email);
+            ResultSet rSet = pst.executeQuery();
+            while (rSet.next()) {
+                Log.console("mouchni khaaadmaaa");
+                String hashed_password = rSet.getString("hashed_password");
+                if (checkPassword(password, hashed_password)) {
+                    Log.console("user mijoud");
+                    User user = new User();
+                    user.set_email(rSet.getString("email"));
+                    user.set_first_name(rSet.getString("first_name"));
+                    user.set_last_name(rSet.getString("last_name"));
+                    user.set_age(rSet.getInt("age"));
+                    user.set_description(rSet.getString("bio"));
+                    user.set_picture_data(rSet.getBytes("picture_data"));
+                    return user;
+                } else
+                    Log.console("user moushi mijoud");
+                return null;
+
+            }
+        } catch (
+
+        Exception e) {
+            Log.console(e.getMessage());
+        }
+        return null;
+    }
 
 }
