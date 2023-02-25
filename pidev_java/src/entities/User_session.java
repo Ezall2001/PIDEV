@@ -5,7 +5,7 @@ import java.util.Objects;
 
 public class User_session {
 
-    private String session_id;
+    private Integer session_id;
     private User user;
     private String token;
     private Instant created_at;
@@ -14,19 +14,24 @@ public class User_session {
     public User_session() {
     }
 
-    public User_session(String session_id, User user, String token, Instant created_at, Instant expires_at) {
+    public User_session(Integer session_id, User user, String token, Instant created_at, Instant expires_at) {
+        this(user, token, created_at, expires_at);
         this.session_id = session_id;
+
+    }
+
+    public User_session(User user, String token, Instant created_at, Instant expires_at) {
         this.user = user;
         this.token = token;
         this.created_at = created_at;
         this.expires_at = expires_at;
     }
 
-    public String get_session_id() {
+    public Integer get_session_id() {
         return session_id;
     }
 
-    public void set_session_id(String session_id) {
+    public void set_session_id(Integer session_id) {
         this.session_id = session_id;
     }
 

@@ -1,6 +1,6 @@
-package pages;
+package pages.profile;
 
-import config.Log;
+import utils.Log;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;

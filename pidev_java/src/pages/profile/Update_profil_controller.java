@@ -1,8 +1,8 @@
-package pages;
+package pages.profile;
 
 import java.io.IOException;
 
-import config.Log;
+import utils.Log;
 import entities.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -151,7 +151,7 @@ public class Update_profil_controller {
                 user.set_age(age_converted);
             }
             if (!bio_update_area.getText().isEmpty()) {
-                user.set_description(bio_update_area.getText());
+                user.set_bio(bio_update_area.getText());
             }
             this.user = user;
             user_service.update(user);

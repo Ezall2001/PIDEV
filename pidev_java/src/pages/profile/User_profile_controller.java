@@ -1,11 +1,11 @@
-package pages;
+package pages.profile;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 
 import javax.swing.plaf.LabelUI;
 
-import config.Log;
+import utils.Log;
 import javafx.scene.Node;
 import entities.User;
 import javafx.event.ActionEvent;
@@ -41,15 +41,16 @@ public class User_profile_controller {
         user = new User();
     }
 
+    //TODO: PICTURE +LEVEL
     public void display_user(User user) {
         this.user = user;
         first_and_last_name_label.setText(user.get_first_name() + " " + user.get_last_name());
         age_label.setText("Age: " + user.get_age());
-        level_label.setText("Niveau: " + user.get_level_string());
+        // level_label.setText("Niveau: " + user.get_level_string());
         score_label.setText("Points: " + user.get_score() + "/800");
-        bio_text.setText(user.get_description());
-        Image image = new Image(new ByteArrayInputStream(user.get_picture_data()));
-        student_profile_picture.setImage(image);
+        bio_text.setText(user.get_bio());
+        // Image image = new Image(new ByteArrayInputStream(user.get()));
+        // student_profile_picture.setImage(image);
 
     }
 

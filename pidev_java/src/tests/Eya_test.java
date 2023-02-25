@@ -1,36 +1,45 @@
 package tests;
 
-import config.Log;
+import utils.Log;
 import entities.User;
+import entities.User.Level;
 
 import java.io.File;
 import java.sql.SQLException;
 import java.util.List;
 
-import config.Jdbc_connection;
+import javax.lang.model.util.ElementScanner6;
+
+import utils.Jdbc_connection;
 import services.User_service;
 import services.User_session_service;
 import entities.User;
-import config.Jdbc_connection;
+import utils.Jdbc_connection;
 
 public class Eya_test {
     public static void main(String[] args) {
         Jdbc_connection.getInstance();
-        File picture_path1 = new File("C:/Users/MSI/Pictures/WallPaper/picture.jpg");
+        // File picture_path1 = new File("C:/Users/MSI/Pictures/WallPaper/picture.jpg");
         User_service user_service = new User_service();
-        User u1 = new User("eya", "harbi", 21, "many many words here", "eya@esprit.tn", "azerty", picture_path1);
-        User u2 = new User("armen", "bakir", 22, "LOVELY KHARYA", "armen@esprit.tn", "azertouta", picture_path1);
-        User u3 = new User("najiba", "rym", 22, "NOUR", "ourTeam@eya.tn", "somepassword", picture_path1);
+        User u1 = new User("eya", "harbi", 21, "many many words here", "eya@esprit.tn", "azerty");
+        User u2 = new User("armen", "bakir", 22, "LOVELY KHARYA", "armen@esprit.tn", "azertouta");
+        User u3 = new User("najiba", "rym", 22, "NOURrrrrrrr", "ourTeam@eya.tn", "somepassword");
+        User u4 = new User("k;", "lmlm", 22, "heyarrr", "ourTeam@eya.tn", "someblapassword");
         User_session_service user_session_service = new User_session_service();
         /**
          * *USER_SERVICE
          */
+        // if (((user_service.find_by_email(u2.get_email()) == null)) && (user_service.check_user_infos(u2)))
+        //     System.out.println(" mijoud");
+        // else
+        //     System.out.println(" mch mijoud");
         /*  
         * * add student
         */
-        // user_service.add(u1);
-        // user_service.add(u2);
-        // user_service.add(u3);
+        user_service.add(u1);
+        user_service.add(u2);
+        user_service.add(u3);
+        user_service.add(u4);
         /*  
         * update student
         */
@@ -41,39 +50,53 @@ public class Eya_test {
         // user_service.delete(u1);
         // User usoura;
         // usoura = user_service.login("eya@fza.tn", "azerty");
-        Log.console(u1.get_level_string());
+        // Log.console(u1.get_level_string());
         /*  
         
         
         * advanced methods
         */
-        // Log.console(user_service.get_All());
-        // Log.console(user_service.find_by_id(7));
-        // Log.console(user_service.find_by_level("newcommer"));
-
-        // List<User> users = user_service.sort();
-
+        // Log.console(user_service.get_all());
+        // Log.console(user_service.find_by_id(19));
+        // if (user_service.check_password("azerty", u1.get_hashed_password())) {
+        //     Log.console("nafssou wallah");
+        // } else
+        //     Log.console("nice try ");
         /**
          * *USER_SESSION_SERVICE
          */
         /*  
         * * create session
         */
-        // user_session_service.create_session(u1, 100);
+
+        user_session_service.create_session(u1);
+        user_session_service.create_session(u2);
+        user_session_service.create_session(u3);
         /*  
         * * delete session
         */
-        // user_session_service.delete_session(
-        // "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhcm1lbkBleWEudG4ifQ.o6oDigD7eJxNLbgIFmOmFM46NG1Lgrt0NZWZIhvMc2I");
+        // user_session_service.delete_session_by_email(u2.get_email());
+
+        // Log.console(user_service.login("armen@esprit.tn", "azertouta"));
+        // user_service.logout(u2);
+        // if (user_service.logged_in(u2))
+        //     Log.console("loged in");
+        // else
+        //     Log.console("Logged out");
+
         /*  
+        
         * * check if session exists and not expired
         */
-        // user_session_service.get_session(
-        //     "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJvdXJUZWFtQGV5YS50biJ9.XKkugbd2BKFt8PtazNygIFE-2h9VEYOjrQuSbl6OR9g");
+        // Log.console(user_session_service.get_all());
         /*  
         * * delete expired sessions
         */
         // user_session_service.delete_expired_sessions();
         // Log.console(user_session_service.get_All());
     }
+
+    // private static Level valueOf(String string) {
+    //     return null;
+    // }
 }
