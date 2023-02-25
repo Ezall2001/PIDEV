@@ -1,5 +1,9 @@
 package services;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -8,12 +12,16 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+import com.mysql.cj.jdbc.BlobFromLocator;
 import com.mysql.cj.protocol.Message;
 
 import entities.Answer;
 import entities.Question;
+import entities.Subject;
 import utils.Jdbc_connection;
 import utils.Log;
 
@@ -36,6 +44,10 @@ public class Question_service {
             } else if (q.get_title().length() > 40) {
 
                 throw new Exception("vous devez minimiser votre question");
+            } else if (is_matching(q.getTitle()) || is_matching(q.get_description())) {
+
+                throw new Exception("vous n'avez pas le droit d utiliser ce genre des mots");
+
             } else {
                 pst.executeUpdate();
                 pst.close();
@@ -135,6 +147,10 @@ public class Question_service {
                 throw new Exception("vous devez remplir remplir les champs");
             } else if (title.length() > 40) {
                 throw new Exception("vous devez minimiser votre question");
+            } else if (is_matching(title) || is_matching(description)) {
+
+                throw new Exception("vous n'avez pas le droit d utiliser ce genre des mots");
+
             } else {
                 statement.setString(1, title);
                 statement.setString(2, description);
@@ -199,6 +215,123 @@ public class Question_service {
         }
         return questions;
 
+    }
+
+    public boolean is_matching(String str) {
+        boolean checked = true;
+        try {
+            //Path fileName = Path.of("D:\\pidev-2023\\PIDEV\\pidev_java\\src\\services\\words-forbidden.txt");
+            //Path fileName = Path.of("./words-forbidden.txt");
+            Path fileName = Paths.get("src/services/words-forbidden.txt");
+
+            String str1 = Files.readString(fileName);
+            //Log.console(str1);
+
+            Pattern pattern = Pattern.compile(str1, Pattern.CASE_INSENSITIVE);
+            Matcher matcher = pattern.matcher(str);
+
+            if (matcher.find()) {
+                checked = true;
+
+            } else {
+                checked = false;
+            }
+        } catch (IOException e) {
+            Log.console(e.getMessage());
+        }
+
+        return checked;
+    }
+
+    // public HashMap<Question, List<Subject>> get_with_subject(int questionId) {
+    //     HashMap<Question, List<Subject>> map = new HashMap<>();
+    //     List<Subject> subjects = new ArrayList<>();
+
+    //     try {
+    //         String sql = "SELECT questions.id, questions.title, subject.subject_name, subject.id " +
+    //                 "FROM questions " +
+    //                 "LEFT JOIN subject ON questions.subject_id = subject.id " +
+    //                 "WHERE questions.id = ?";
+    //         PreparedStatement stmt = cnx.prepareStatement(sql);
+    //         stmt.setInt(1, questionId);
+    //         ResultSet rs = stmt.executeQuery();
+
+    //         while (rs.next()) {
+    //             String questionTitle = rs.getString("title");
+    //             String subjectName = rs.getString("subject_name");
+    //             int subjectId = rs.getInt("id");
+    //             Subject subject = new Subject(subjectId, subjectName);
+    //             subjects.add(subject);
+
+    //             Question question = new Question(questionId, questionTitle);
+    //             map.put(question, subjects);
+    //         }
+
+    //         rs.close();
+    //         stmt.close();
+
+    //     } catch (SQLException ex) {
+    //         Log.console(ex.getMessage());
+    //     }
+
+    //     return map;
+    // }
+
+    public HashMap<String, String> get_with_subject(int questionId) {
+        HashMap<String, String> map = new HashMap<>();
+
+        try {
+            String sql = "SELECT questions.title, subject.subject_name " +
+                    "FROM questions " +
+                    "LEFT JOIN subject ON questions.subject_id = subject.id " +
+                    "WHERE questions.id = ?";
+            PreparedStatement stmt = cnx.prepareStatement(sql);
+            stmt.setInt(1, questionId);
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                String questionTitle = rs.getString("title");
+                String subjectName = rs.getString("subject_name");
+                map.put(questionTitle, subjectName);
+            }
+
+            rs.close();
+            stmt.close();
+
+        } catch (SQLException ex) {
+            Log.console(ex.getMessage());
+        }
+
+        return map;
+    }
+
+    /*SELECT questions.title, users.first_name
+    FROM questions
+    LEFT JOIN users ON questions.user_id = users.id
+    WHERE questions.id = 39 */
+    public HashMap<String, String> get_with_uesr(int questionId) {
+        HashMap<String, String> map = new HashMap<>();
+
+        try {
+            String sql = "SELECT questions.title, users.first_name FROM questions LEFT JOIN users ON questions.user_id = users.id WHERE questions.id = ?";
+            PreparedStatement stmt = cnx.prepareStatement(sql);
+            stmt.setInt(1, questionId);
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                String questionTitle = rs.getString("title");
+                String usertName = rs.getString("first_name");
+                map.put(questionTitle, usertName);
+            }
+
+            rs.close();
+            stmt.close();
+
+        } catch (SQLException ex) {
+            Log.console(ex.getMessage());
+        }
+
+        return map;
     }
 
 }

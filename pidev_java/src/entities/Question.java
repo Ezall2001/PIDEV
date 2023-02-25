@@ -9,6 +9,8 @@ public class Question {
     int id;
     private String title;
     private String description;
+    private User user;
+    private Subject subject;
 
     //  one to many relationship
     private List<Answer> answers = new ArrayList<>();
@@ -88,6 +90,23 @@ public class Question {
 
     public void addAnswer(Answer answer) {
         answers.add(answer);
+    }
+
+    public User get_user() {
+        return user;
+    }
+
+    public void set_user(User user) {
+        this.user = user;
+    }
+
+    //one to many for subject
+    public Subject get_subject() {
+        return subject;
+    }
+
+    public void set_subject(Subject subject) {
+        this.subject = subject;
     }
 
     // toString

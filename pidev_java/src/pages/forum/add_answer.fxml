@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.gluonhq.charm.glisten.mvc.View?>
+<?import javafx.geometry.Insets?>
+<?import javafx.geometry.Rectangle2D?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.control.TextArea?>
+
+
+<View maxHeight="1.7976931348623157E308" minWidth="400.0" prefWidth="1440.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pages.forum.Add_answer_controller">
+   <center>
+      <ScrollPane accessibleRole="PARENT" blendMode="DARKEN" fitToHeight="true" fitToWidth="true" BorderPane.alignment="CENTER">
+         <content>
+        <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+         <children>
+         <Button stylesheets="@../../../public/css/styling.css" fx:id="btn4" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#return_to" prefHeight="29.0" prefWidth="78.0" text="Retour">
+         <font>
+         
+            <Font name="Tw Cen MT" size="18.0" />
+         </font>
+      </Button>
+            <Label alignment="CENTER" prefHeight="90.0" prefWidth="919.0" textFill="#451bdc" text="Espace Reponse">
+               <font>
+            <Font name="Tw Cen MT" size="48.0" />
+         </font>
+         
+           
+            </Label>
+            <Label prefHeight="98.0" prefWidth="302.0"  textFill="#451bdc" text="  Entrer votre réponse :">
+               <font>
+            <Font name="Tw Cen MT" size="25.0" />
+         </font>
+            </Label>
+            <TextArea fx:id="text1" prefHeight="200.0" prefWidth="200.0" />
+            <Label prefHeight="42.0" prefWidth="971.0" />
+            <HBox prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <Button stylesheets="@../../../public/css/styling.css" fx:id="btn1" mnemonicParsing="false" prefHeight="44.0" prefWidth="131.0" onAction="#add_rep" text="Ajouter" />
+                  <Label prefHeight="88.0" prefWidth="539.0" />
+                  
+               </children>
+            </HBox>
+              <Label prefHeight="100.0" prefWidth="86.0" />
+          
+         </children>
+      </VBox>
+                        
+                       
+         </content>
+      </ScrollPane>
+   </center>
+</View>

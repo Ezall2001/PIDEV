@@ -6,6 +6,7 @@ public class Answer {
     private int vote_nb;
     // la relation one to many
     private Question question;
+    private User user;
 
     // constructors
     public Answer() {
@@ -60,6 +61,15 @@ public class Answer {
 
     public void set_question(Question question) {
         this.question = question;
+    }
+
+    // methodes one to many
+    public User get_user() {
+        return user;
+    }
+
+    public void set_user(User user) {
+        this.user = user;
     }
 
     // toString

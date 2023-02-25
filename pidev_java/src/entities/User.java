@@ -1,10 +1,15 @@
 package entities;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.security.MessageDigest;
 import utils.Log;
 
 public class User {
+  private List<Answer> answers = new ArrayList<>();
+  private List<Question> questions = new ArrayList<>();
+
   public static enum Type {
     ADMIN, STUDENT
   };
@@ -59,6 +64,24 @@ public class User {
     set_password(password);
     set_hashed_password();
     type = Type.STUDENT;
+  }
+
+  //  methodes one to many with answer
+  public List<Answer> get_answers() {
+    return answers;
+  }
+
+  public void add_answer(Answer answer) {
+    answers.add(answer);
+  }
+
+  //  methodes one to many with question 
+  public List<Question> get_question() {
+    return questions;
+  }
+
+  public void add_question(Question question) {
+    questions.add(question);
   }
 
   public Integer get_id() {

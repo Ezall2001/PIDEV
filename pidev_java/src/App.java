@@ -1,5 +1,6 @@
 import java.io.File;
 import java.io.FileInputStream;
+import java.util.function.Consumer;
 
 import entities.User;
 import javafx.application.Application;
@@ -10,6 +11,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import pages.forum.Forum_controller;
 import pages.session.Session_controller;
 import utils.Log;
 import utils.Router;
@@ -23,7 +25,11 @@ public class App extends Application {
     @Override
     public void start(Stage main_stage) {
         Router.init(main_stage);
-        Router.render_user_template("Session", null);
+        Consumer<Forum_controller> consumer = forumontroller -> {
+
+        };
+
+        Router.render_user_template("Forum", consumer);
 
     }
 
