@@ -3,8 +3,7 @@ package pages.test;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.*;
-import java.util.List;
-import java.util.Map;
+
 import java.util.ResourceBundle;
 
 import javax.swing.JOptionPane;
@@ -22,18 +21,18 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+
 import javafx.scene.control.TextField;
-import javafx.scene.control.cell.PropertyValueFactory;
+
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import javafx.util.Callback;
+
 import services.Test_service;
 import utils.Jdbc_connection;
 import utils.Log;
-import utils.Router;
+
+import utils.Shared_model_nour;
 
 public class Test_controller implements Initializable {
 
@@ -63,8 +62,12 @@ public class Test_controller implements Initializable {
 
     @FXML
     private ListView<Test> list_id;
+
     @FXML
     private Button show_qs_btn;
+
+    @FXML
+    private Button consulter_test_btn;
 
     @FXML
     void add_test_btn(MouseEvent event) throws IOException {
@@ -129,6 +132,26 @@ public class Test_controller implements Initializable {
     }
 
     @FXML
+    void consulter_test(MouseEvent event) throws IOException {
+
+        selected_test = list_id.getSelectionModel().getSelectedItem();
+        Shared_model_nour model = Shared_model_nour.getInstance();
+        model.set_test(selected_test);
+
+        // Log.console(model.get_test().toString());
+
+        if (selected_test != null) {
+            Parent parent = FXMLLoader.load(getClass().getResource("qs.fxml"));
+            Scene scene = new Scene(parent);
+            Stage stage = new Stage();
+            stage.setScene(scene);
+            stage.initStyle(StageStyle.UTILITY);
+            stage.show();
+        }
+
+    }
+
+    @FXML
     void refresh_btn(MouseEvent event) {
         t.clear();
         t = service.get_all2();
@@ -167,6 +190,8 @@ public class Test_controller implements Initializable {
 
         });
     }
+
+    //! needed to retrieve data from textfields
 
     Connection cnx;
 

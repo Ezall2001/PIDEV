@@ -3,7 +3,9 @@ package services;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
+import entities.Test;
 import entities.Test_qs;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -171,6 +173,15 @@ public class Test_qs_service {
             Log.console(ex.getMessage());
         }
         return test_questions;
+    }
+
+    public List<Test_qs> sort_qs_by_number() {
+        List<Test_qs> questions = new ArrayList<>();
+        questions = get_all();
+        questions = questions.stream().sorted((a, b) -> a.get_question_number() - b.get_question_number())
+                .collect(Collectors.toList());
+        return questions;
+
     }
 
 }

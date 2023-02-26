@@ -10,6 +10,7 @@ import java.util.ResourceBundle;
 
 import javax.swing.JOptionPane;
 
+import entities.Test;
 import entities.Test_qs;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
@@ -25,9 +26,11 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import services.Test_qs_service;
+import services.Test_service;
 import types.check;
 import utils.Jdbc_connection;
 import utils.Log;
+import utils.Shared_model_nour;
 
 public class qs_controller implements Initializable {
 
@@ -116,13 +119,22 @@ public class qs_controller implements Initializable {
         });
     }
 
+    Test test;
     ObservableList<Test_qs> list;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        Test_qs_service service = new Test_qs_service();
-        list = service.get_all22();
+        Test_service service_test = new Test_service();
+        Test_qs_service service_qs = new Test_qs_service();
+        Shared_model_nour model = Shared_model_nour.getInstance();
+        // list = service.get_all22();
+        // liste_qs.setItems(list);
+
+        test = service_test.get_by_id(model.get_test().get_id());
+        // System.out.println(test.toString());
+        list = (service_test.get_with_questions_list(test.get_id()));
         liste_qs.setItems(list);
+
     }
 
     Connection cnx;

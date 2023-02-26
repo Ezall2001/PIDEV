@@ -19,6 +19,7 @@ public class Test_service {
         cnx = Jdbc_connection.getInstance();
     }
 
+    // virgin test 
     public void add(Test test) {
         try {
             String sql = "insert into tests (type,min_points,duration)"
@@ -33,6 +34,58 @@ public class Test_service {
                 ste.setString(1, type);
                 ste.setInt(2, min_points);
                 ste.setInt(3, duration);
+                ste.executeUpdate();
+                Log.console("test ajouté");
+            } else
+                Log.console("invalides");
+        } catch (SQLException ex) {
+            Log.console(ex.getMessage());
+        }
+
+    }
+
+    // subject test
+    public void add_with_subject(Test test) {
+        try {
+            String sql = "insert into tests (type,min_points,duration,id_subject)"
+                    + "values (?,?,?,?)";
+            PreparedStatement ste = cnx.prepareStatement(sql);
+            //!
+            int duration = test.get_duration();
+            int min_points = test.get_min_points();
+            String type = test.getType();
+            //!
+            if (check.IntValidator(min_points) && check.IntValidator(duration) && check.StringValidator(type)) {
+                ste.setString(1, type);
+                ste.setInt(2, min_points);
+                ste.setInt(3, duration);
+                ste.setInt(4, test.getSubject().get_id());
+                ste.executeUpdate();
+                Log.console("test ajouté");
+            } else
+                Log.console("invalides");
+        } catch (SQLException ex) {
+            Log.console(ex.getMessage());
+        }
+
+    }
+
+    // course test
+    public void add_with_course(Test test) {
+        try {
+            String sql = "insert into tests (type,min_points,duration,id_course)"
+                    + "values (?,?,?,?)";
+            PreparedStatement ste = cnx.prepareStatement(sql);
+            //!
+            int duration = test.get_duration();
+            int min_points = test.get_min_points();
+            String type = test.getType();
+            //!
+            if (check.IntValidator(min_points) && check.IntValidator(duration) && check.StringValidator(type)) {
+                ste.setString(1, type);
+                ste.setInt(2, min_points);
+                ste.setInt(3, duration);
+                ste.setInt(4, test.getCourse().get_id_c());
                 ste.executeUpdate();
                 Log.console("test ajouté");
             } else
@@ -177,6 +230,52 @@ public class Test_service {
 
         }
         return tests;
+    }
+
+    // one to many using observableList
+    public ObservableList<Test_qs> get_with_questions_list(int id) {
+        ObservableList<Test_qs> questions = FXCollections.observableArrayList();
+        try {
+            // Retrieve the test from the database
+            String sql = "SELECT * FROM tests where id=? ";
+            PreparedStatement ste = cnx.prepareStatement(sql);
+            ste.setInt(1, id);
+            ResultSet set = ste.executeQuery();
+            //!
+            ObservableList<Test> tests = FXCollections.observableArrayList();
+            while (set.next()) {
+                Test t = new Test(
+                        set.getInt(1),
+                        set.getInt(3),
+                        set.getInt(4),
+                        set.getString("type"));
+                tests.add(t);
+            }
+
+            // Retrieve the questions for the test
+            for (Test test : tests) {
+                sql = "SELECT * FROM test_qs WHERE id_test =?";
+                ste = cnx.prepareStatement(sql);
+                ste.setInt(1, id);
+                set = ste.executeQuery();
+
+                while (set.next()) {
+                    Test_qs question = new Test_qs(
+                            Integer.parseInt(set.getString("id")),
+                            Integer.parseInt(set.getString("question_number")),
+                            set.getString("question"),
+                            set.getString("correct_option"),
+                            set.getString("optionA"),
+                            set.getString("optionB"),
+                            set.getString("optionC"),
+                            set.getString("optionD"));
+                    questions.add(question);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return questions;
     }
 
 }

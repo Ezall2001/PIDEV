@@ -3,6 +3,8 @@ package entities;
 public class Test {
 
     private int id, min_points, duration;
+    private Subject subject;
+    private Course course;
 
     private enum Type {
         matiere, cours;
@@ -26,6 +28,22 @@ public class Test {
 
     public void setType(String type) {
         this.type = Type.valueOf(type);
+    }
+
+    public Subject getSubject() {
+        return subject;
+    }
+
+    public void setSubject(Subject subject) {
+        this.subject = subject;
+    }
+
+    public Course getCourse() {
+        return course;
+    }
+
+    public void setCourse(Course course) {
+        this.course = course;
     }
 
     public int get_id() {

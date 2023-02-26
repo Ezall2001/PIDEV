@@ -26,8 +26,7 @@ public class test extends Application {
         Scene scene = new Scene(root);
         main_Stage.setScene(scene);
         main_Stage.show();
-        //jezbdhezbcbz
-        //bvjfdbvj
+
         // Router.init(main_Stage);
         // Router.render_user_template("test_home", null);
 

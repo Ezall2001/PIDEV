@@ -12,7 +12,6 @@
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
 
-
 <View maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="701.0" prefWidth="920.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pages.test.test_home_controller">
    <center>
       <Pane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #EEEEEE;" BorderPane.alignment="CENTER">
@@ -72,7 +71,7 @@
                                     <Font name="Roboto" size="24.0" />
                                  </font>
                               </Label>
-                              <Label text="seuil">
+                              <Label fx:id="seuil_label" text="seuil">
                                  <font>
                                     <Font name="Roboto" size="24.0" />
                                  </font>
@@ -86,7 +85,7 @@
                         </HBox>
                      </children>
                   </VBox>
-                  <Button fx:id="passer_test_btn" layoutX="165.0" layoutY="352.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="164.0" style="-fx-background-color: #CDFBF8; -fx-background-radius: 19; -fx-border-radius: 19; -fx-border-color: #000000;" text="Passer le test">
+                  <Button fx:id="passer_test_btn" layoutX="165.0" layoutY="352.0" mnemonicParsing="false" onMouseClicked="#passer_test_btn_action" prefHeight="40.0" prefWidth="164.0" style="-fx-background-color: #CDFBF8; -fx-background-radius: 19; -fx-border-radius: 19; -fx-border-color: #000000;" text="Passer le test">
                      <font>
                         <Font name="Roboto" size="14.0" />
                      </font>

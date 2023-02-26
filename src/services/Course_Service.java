@@ -26,15 +26,16 @@ public class Course_Service {
 
     public void add_course(Course course) {
         try {
-            String sql = "insert into course(id_c,course_name,description_c,difficulty_c)"
-                    + "values (?,?,?,?)";
+            String sql = "insert into courses (id_c,course_name,description_c,difficulty,id_subject)"
+                    + "values (?,?,?,?,?)";
             PreparedStatement ste = cnx.prepareStatement(sql);
             ste.setInt(1, course.get_id_c());
             ste.setString(2, course.get_course_name());
-            ste.setString(4, course.get_difficulty_String());
             ste.setString(3, course.get_description_c());
+            ste.setString(4, course.get_difficulty_String());
+            ste.setInt(5, course.getSubject().get_id());
             ste.executeUpdate();
-            Log.console("Cour ajoutée");
+            Log.console("Cours ajouté");
         } catch (SQLException ex) {
             Log.file(ex.getMessage());
         }
@@ -43,7 +44,7 @@ public class Course_Service {
     public void update(int id_c, String course_name) {
 
         try {
-            String sql = "UPDATE course SET course_name=?  WHERE id_c=?";
+            String sql = "UPDATE courses SET course_name=?  WHERE id_c=?";
             PreparedStatement statement = cnx.prepareStatement(sql);
             statement.setInt(2, id_c);
 
@@ -61,7 +62,7 @@ public class Course_Service {
     public List<Course> get_all() {
         List<Course> courses = new ArrayList<>();
         try {
-            String sql = "select * from course";
+            String sql = "select * from courses";
             Statement ste = cnx.createStatement();
             ResultSet result = ste.executeQuery(sql);
             Difficulty diff = Difficulty.valueOf(result.getString("difficulty"));
@@ -79,7 +80,7 @@ public class Course_Service {
     }
 
     public void delete_course(Course course) {
-        String sql = "delete from ,course where course_name=?";
+        String sql = "delete from ,courses where course_name=?";
         try {
             PreparedStatement ste = cnx.prepareStatement(sql);
             ste.setString(2, course.get_course_name());
@@ -94,7 +95,7 @@ public class Course_Service {
     public List<Course> get_by_id(int id_c) {
         List<Course> courses = new ArrayList<>();
         try {
-            String sql = "SELECT * FROM course WHERE id_c=?";
+            String sql = "SELECT * FROM courses WHERE id_c=?";
             PreparedStatement ste = cnx.prepareStatement(sql);
             ste.setInt(1, id_c);
             ResultSet rs = ste.executeQuery();

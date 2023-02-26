@@ -14,8 +14,12 @@ import java.util.stream.Collectors;
 
 import utils.*;
 import entities.Subject.Level;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import entities.Course;
 import entities.Subject;
+import entities.Test;
+import entities.Test_qs;
 import entities.Course.Difficulty;
 
 public class Subject_Service {
@@ -171,4 +175,156 @@ public class Subject_Service {
             return null;
         }
     }
+
+    // ? ---------------------------  Nour's additions :
+
+    // one to one : get subject's test
+    public Test get_subject_test(int id) {
+
+        Test test = new Test();
+        try {
+            // Retrieve the subject and its test from the database
+            String sql = "SELECT * FROM subject INNER JOIN tests ON subject.id = tests.id_subject where subject.id=?";
+            PreparedStatement ste = cnx.prepareStatement(sql);
+            ste.setInt(1, id);
+            ResultSet set = ste.executeQuery();
+
+            while (set.next()) {
+
+                Subject subject = new Subject(set.getInt("id"),
+                        set.getString("subject_name"),
+                        set.getString("description"),
+                        Level.valueOf(set.getString("niveau")));
+
+                test.set_id(set.getInt("id"));
+                test.set_min_points(set.getInt("min_points"));
+                test.set_duration(set.getInt("duration"));
+                test.setType(set.getString("type"));
+                test.setSubject(subject);
+
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return test;
+    }
+
+    // this one returns a subject object (not a list)
+    public Subject get_by_id_2(int id) {
+
+        Subject subject = new Subject();
+        try {
+            String sql = "select * from subject where id=? ";
+            PreparedStatement ste = cnx.prepareStatement(sql);
+            ste.setInt(1, id);
+            ResultSet set = ste.executeQuery();
+            if (set.next()) {
+                subject.set_id(id);
+                subject.set_subject_name(set.getString("subject_name"));
+                subject.set_description(set.getString("description"));
+                subject.set_level(set.getString("niveau"));
+            }
+
+        } catch (SQLException ex) {
+            Log.console(ex.getMessage());
+        }
+        return subject;
+    }
+
+    // get subject test's questions
+
+    public List<Test_qs> get_subject_test_questions(int id) {
+
+        List<Test_qs> questions_list = new ArrayList<Test_qs>();
+        Subject subject = get_by_id_2(id);
+
+        try {
+            // Retrieve the subject and its test_question from the database
+
+            String sql = "SELECT test_qs.id, test_qs.question_number, test_qs.optionA,test_qs.optionB, test_qs.optionC, test_qs.optionD, test_qs.correct_option, "
+                    +
+                    "test_qs.question, subject.subject_name from test_qs INNER JOIN tests ON tests.id_subject = test_qs.id_subject "
+                    +
+                    "JOIN subject ON tests.id_subject = subject.id where test_qs.id_subject =? ";
+
+            PreparedStatement ste = cnx.prepareStatement(sql);
+            ste.setInt(1, id);
+            ResultSet set = ste.executeQuery();
+
+            while (set.next()) {
+                Test_qs question = new Test_qs(
+                        Integer.parseInt(set.getString("id")),
+                        Integer.parseInt(set.getString("question_number")),
+                        set.getString("question"),
+                        set.getString("correct_option"),
+                        set.getString("optionA"),
+                        set.getString("optionB"),
+                        set.getString("optionC"),
+                        set.getString("optionD"));
+                questions_list.add(question);
+            }
+
+        } catch (SQLException ex) {
+            ex.getMessage();
+        }
+        return questions_list;
+    }
+
+    public int count_subject_questions(int id) {
+
+        int sum = 0;
+        try {
+            String sql = "SELECT count(test_qs.id_subject) as sum_question from test_qs INNER JOIN subject ON test_qs.id_subject = subject.id where test_qs.id_subject=? ";
+            PreparedStatement ste = cnx.prepareStatement(sql);
+            ste.setInt(1, id);
+            ResultSet set = ste.executeQuery();
+            set.next();
+            sum = set.getInt(1);
+
+        } catch (SQLException ex) {
+            ex.getMessage();
+        }
+        return sum;
+    }
 }
+// public ObservableList<Test> get_with_tests_list(int id) {
+//     ObservableList<Test> tests = FXCollections.observableArrayList();
+//     try {
+//         // Retrieve the subject from the database
+//         String sql = "SELECT * FROM subject where id=? ";
+//         PreparedStatement ste = cnx.prepareStatement(sql);
+//         ste.setInt(1, id);
+//         ResultSet set = ste.executeQuery();
+//         //!
+//         ObservableList<Subject> subject = FXCollections.observableArrayList();
+//         while (set.next()) {
+//             Subject subj = new Subject(
+//                     set.getInt(1),
+//                     set.getString(2),
+//                     set.getString(3),
+//                     Level.valueOf(set.getString("niveau")));
+//             subject.add(subj);
+//         }
+
+//         // Retrieve the tests for the subject
+//         for (Subject sub : subject) {
+//             sql = "SELECT * FROM tests WHERE id_subject =?";
+//             ste = cnx.prepareStatement(sql);
+//             ste.setInt(1, id);
+//             set = ste.executeQuery();
+
+//             while (set.next()) {
+//                 Test x = new Test(
+//                         Integer.parseInt(set.getString("id")),
+//                         Integer.parseInt(set.getString("min_points")),
+//                         Integer.parseInt(set.getString("duration")),
+//                         set.getString("type"));
+//                 tests.add(x);
+//             }
+//         }
+//     } catch (SQLException e) {
+//         e.printStackTrace();
+//     }
+//     return tests;
+// }
