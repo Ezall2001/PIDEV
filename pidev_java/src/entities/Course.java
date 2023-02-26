@@ -4,103 +4,87 @@ import utils.Log;
 
 public class Course {
 
-  enum Difficulty {
-    EASY, MEDIUM, HARD
+  public enum Difficulty {
+    easy, normal, hard
   };
 
-  private Integer id, id_subject;
-  private String name, description;
+  private int id_c;
+  private String course_name;
+
+  private String description_c;
   private Difficulty difficulty;
+  Subject subject;
 
   public Course() {
   }
 
-  public Course(Integer id, String name, String description, String difficulty, Integer id_subject) {
-    set_id(id);
-    set_name(name);
-    set_description(description);
-    set_difficulty(difficulty);
-    set_id_subject(id_subject);
+  public Course(int id_c, String course_name) {
+
+    this.id_c = id_c;
+    this.course_name = course_name;
   }
 
-  public Course(Integer id, String name, String description, Difficulty difficulty, Integer id_subject) {
-    set_id(id);
-    set_name(name);
-    set_description(description);
-    set_difficulty(difficulty);
-    set_id_subject(id_subject);
+  public Course(String course_name, String description_c, Difficulty difficulty) {
+
+    this.course_name = course_name;
+    this.description_c = description_c;
+    this.difficulty = difficulty;
+
   }
 
-  public Course(String name, String description, String difficulty, Integer id_subject) {
-    set_name(name);
-    set_description(description);
-    set_difficulty(difficulty);
-    set_id_subject(id_subject);
+  public Course(int id_c, String course_name, String description_c, Difficulty difficulty) {
+    this.id_c = id_c;
+    this.course_name = course_name;
+    this.description_c = description_c;
+    this.difficulty = difficulty;
+
   }
 
-  public Course(String name, String description, Difficulty difficulty, Integer id_subject) {
-    set_name(name);
-    set_description(description);
-    set_difficulty(difficulty);
-    set_id_subject(id_subject);
+  public int get_id_c() {
+    return id_c;
   }
 
-  public Integer get_id() {
-    return id;
+  public String get_course_name() {
+    return course_name;
   }
 
-  public void set_id(Integer id) {
-    this.id = id;
+  public String get_description_c() {
+    return description_c;
   }
 
-  public String get_name() {
-    return name;
-  }
-
-  public void set_name(String name) {
-    this.name = name;
-  }
-
-  public String get_description() {
-    return description;
-  }
-
-  public void set_description(String description) {
-    this.description = description;
-  }
-
-  public Integer get_id_subject() {
-    return id_subject;
-  }
-
-  public void set_id_subject(Integer id_subject) {
-    this.id_subject = id_subject;
+  public Difficulty get_difficulty() {
+    return this.difficulty;
   }
 
   public String get_difficulty_String() {
-    return difficulty.toString();
+    return this.difficulty.toString();
   }
 
-  public Difficulty get_difficulty_Difficulty() {
-    return difficulty;
+  public void set_id_c(int id_c) {
+    this.id_c = id_c;
+  }
+
+  public void set_course_name(String course_name) {
+    this.course_name = course_name;
+  }
+
+  public void set_description_c(String description_c) {
+    this.description_c = description_c;
   }
 
   public void set_difficulty(String difficulty) {
+
     try {
       this.difficulty = Difficulty.valueOf(difficulty);
     } catch (Exception e) {
-      Log.file(e);
+      Log.console(e.getMessage());
     }
-  }
-
-  public void set_difficulty(Difficulty difficulty) {
-    this.difficulty = difficulty;
   }
 
   @Override
   public String toString() {
-    return "Course [id=" + id + ", id_subject=" + id_subject + ", name=" + name + ", description=" + description
-        + ", difficulty=" + difficulty + "]";
+    return "cour{" + "id=" + id_c + ",nom_cour =" + course_name +
+        ", description=" + description_c + ", difficulter=" + get_difficulty_String() + '}';
   }
 
 }
