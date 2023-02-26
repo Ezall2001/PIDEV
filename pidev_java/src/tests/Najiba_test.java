@@ -4,8 +4,10 @@ import java.util.List;
 
 import entities.Answer;
 import entities.Question;
+import entities.Subject;
 import services.Answer_service;
 import services.Question_service;
+import services.Subject_service;
 import utils.Jdbc_connection;
 import utils.Log;
 
@@ -17,14 +19,18 @@ public class Najiba_test {
          * test*************************************************************************
          * ***
          */
-        Question q1 = new Question("ygcdx", "wessim");
+        Question q1 = new Question("ygcdx", "najibaa");
         Answer r1 = new Answer(10, "message2");
         Question_service q = new Question_service();
         Answer_service rs = new Answer_service();
+        Subject s1 = new Subject();
+        Subject_service sc = new Subject_service();
+        Subject ss = new Subject(102, "subject2", "des2");
 
         /*------------------------add functions----------------------------- */
 
-        //q.add(q1);
+        //q.add(q1, ss);
+
         //rs.add(r1, q1);
 
         /*------------------------get All functions----------------------------- */
@@ -32,8 +38,10 @@ public class Najiba_test {
         // Log.console(q.get_All());
         //Log.console(rs.get_All());
         //Log.console(q.get_with_answer(4));
-        Log.console(q.get_with_subject(39));
-        Log.console(q.get_with_uesr(39));
+        //Log.console(q.get_with_subject(41));
+        //Log.console(q.get_with_uesr(41));
+        // Log.console(sc.get_by_name("subject1"));
+        Log.console(q.get_subject(ss));
 
         /*------------------------get by id functions----------------------------- */
 

@@ -10,6 +10,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.List;
 import entities.Question;
+import entities.Subject;
 import javafx.collections.FXCollections;
 import javafx.event.Event;
 import javafx.fxml.FXMLLoader;
@@ -39,6 +40,7 @@ public class Service_Fx {
 
     public void show_list(ListView<Question> list1, List<Question> l1) {
         list1.setItems(FXCollections.observableArrayList(l1));
+        Subject s = new Subject();
         list1.setCellFactory(param -> new ListCell<Question>() {
             @Override
             protected void updateItem(Question item, boolean empty) {
@@ -47,8 +49,10 @@ public class Service_Fx {
                     setText(null);
                 } else {
                     setText(item.get_title());
+                    //setText(item.get_by_id(s.get_id()));
                 }
             }
+
         });
 
     }

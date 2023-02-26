@@ -1,28 +1,54 @@
 .button {
-    -fx-background-color: #6593f5;
+    -fx-background-color: rgb(97, 10, 147);
     -fx-background-radius: 10em;
+    -fx-text-fill: white;
 }
 
 .button:hover {
-    -fx-background-color: #0553fc;
+    -fx-background-color: rgb(97, 10, 147);
+    -fx-text-fill: white;
 }
 
 .button:pressed {
-    -fx-background-color: #4563a2;
+    -fx-background-color: rgb(97, 10, 147);
+    -fx-text-fill: white;
 }
 
 .menuButton {
-    -fx-background-color: #6593f5;
+    -fx-background-color: rgb(97, 10, 147);
     -fx-background-radius: 10em;
+    -fx-text-fill: white;
 }
 
 .menuItem {
-    -fx-background-color: #6593f5;
+    -fx-background-color: rgb(97, 10, 147);
     -fx-background-radius: 10em;
+    -fx-text-fill: white;
 }
 
 .table-view .column-header .label {
-    -fx-text-fill: #6593f5;
+    -fx-text-fill: rgb(165, 79, 215);
     -fx-font-weight: bold;
     -fx-alignement: CENTER_LEFT;
+}
+
+.choice-box {
+    -fx-background-color: rgb(165, 79, 215);
+    -fx-border-color: rgb(165, 79, 215);
+    -fx-border-width: 7px;
+    -fx-padding: 5px;
+    -fx-font-size: 14px;
+}
+
+.my-choicebox .label {
+    -fx-font-size: 16px;
+    -fx-text-fill: white;
+}
+
+.my-choicebox .arrow {
+    -fx-background-color: red;
+}
+
+.choice-box .context-menu {
+    -fx-background-color: rgb(180, 133, 184);
 }

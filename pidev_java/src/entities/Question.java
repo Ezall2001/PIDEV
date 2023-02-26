@@ -26,6 +26,12 @@ public class Question {
 
     }
 
+    public Question(int id, String title) {
+        this.id = id;
+        this.title = title;
+
+    }
+
     public Question(String title, String description) {
 
         this.title = title;

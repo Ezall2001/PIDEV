@@ -29,7 +29,7 @@
                               <BorderPane prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <top>
                                     <VBox nodeOrientation="LEFT_TO_RIGHT" prefHeight="111.0" prefWidth="949.0" stylesheets="@../../../public/css/styling.css" BorderPane.alignment="CENTER">
-                                        <HBox alignment="CENTER" prefHeight="65.0" prefWidth="949.0" style="-fx-background-color: #6593f5;" BorderPane.alignment="CENTER">
+                                        <HBox alignment="CENTER" prefHeight="65.0" prefWidth="949.0" style="-fx-background-color: rgb(165, 79, 215);" BorderPane.alignment="CENTER">
                            <children>
                               <ImageView fitHeight="50.0" fitWidth="50.0">
                                  <image>
@@ -83,10 +83,10 @@
                                           
                                              <children>
 
-                                                <MenuButton  stylesheets="@../../../public/css/styling.css"  fx:id="btn2" mnemonicParsing="false" styleClass="menuButton" text="Filtrer" textFill="WHITE">
+                                                <MenuButton  stylesheets="@../../../public/css/styling.css"  fx:id="btn2" mnemonicParsing="false" styleClass="menuButton" textFill="WHITE" text="Filtrer" >
                                                    <items>
                                                       <MenuItem  mnemonicParsing="false" onAction="#filter_re" text="Récent" />
-                                                      <MenuItem mnemonicParsing="false" text="Matiére" />
+                                                      <MenuItem mnemonicParsing="false" onAction="#onscelect"  text="Matiére" />
                                                    </items>
                                                    <font>
                                                       <Font name="Arial Black" size="17.0" />

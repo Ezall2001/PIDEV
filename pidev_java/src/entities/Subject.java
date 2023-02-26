@@ -45,6 +45,19 @@ public class Subject {
 
   }
 
+  public Subject(int id, String subject_name, String description) {
+    this.id = id;
+    this.subject_name = subject_name;
+    this.description = description;
+
+  }
+
+  public Subject(int id, String subject_name) {
+    this.id = id;
+    this.subject_name = subject_name;
+
+  }
+
   public int get_id() {
     return id;
   }

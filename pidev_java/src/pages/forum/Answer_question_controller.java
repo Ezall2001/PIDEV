@@ -161,7 +161,14 @@ public class Answer_question_controller implements Initializable {
                     errorAlert.setHeaderText("votre question ne doit pas depasser 40 caractéres");
                     errorAlert.setContentText("vous devez remplir de noveau");
                     errorAlert.showAndWait();
-                } else {
+                } else if (ps.is_matching(title) || ps.is_matching(description)) {
+                    Alert errorAlert = new Alert(AlertType.ERROR);
+                    errorAlert.setHeaderText("Attention");
+                    errorAlert.setContentText("vous n'avez pas le droit d utiliser ce genre des mots");
+                    errorAlert.showAndWait();
+                }
+
+                else {
                     ps.update(q.get_id(), title, description);
                     Question q1 = ps.get_by_id(q.get_id()).get(0);
 

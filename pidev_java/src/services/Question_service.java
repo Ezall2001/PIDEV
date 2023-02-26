@@ -12,6 +12,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -32,12 +33,14 @@ public class Question_service {
         cnx = Jdbc_connection.getInstance();
     }
 
-    public void add(Question q) {
+    public void add(Question q, Subject c) {
 
         try {
-            PreparedStatement pst = cnx.prepareStatement("insert into questions(title,description) values(?,?)");
+            PreparedStatement pst = cnx
+                    .prepareStatement("insert into questions(title,description,subject_id) values(?,?,?)");
             pst.setString(1, q.get_title());
             pst.setString(2, q.get_description());
+            pst.setInt(3, c.get_id());
 
             if (q.get_title() == "" || q.get_description() == "") {
                 throw new Exception("vous devez remplir remplir les champs");
@@ -332,6 +335,35 @@ public class Question_service {
         }
 
         return map;
+    }
+
+    //SELECT * FROM subject LEFT JOIN questions ON subject.id = questions.subject_id WHERE subject.id=41 ;
+    public List<Question> get_subject(Subject s) {
+        Subject_service service = new Subject_service();
+        List<Question> questions = new ArrayList<>();
+        //List<Subject> q = service.get_by_id(s.get_id());
+
+        try {
+            String sql = "SELECT * FROM subject LEFT JOIN questions ON subject.id = questions.subject_id WHERE subject.id=?";
+            PreparedStatement ste = cnx.prepareStatement(sql);
+            ste.setInt(1, s.get_id());
+            ResultSet rs = ste.executeQuery();
+            while (rs.next()) {
+                String title = rs.getString("title");
+                String description = rs.getString("description");
+                int id_rep = rs.getInt(5);
+                Question r = new Question(id_rep, title, description);
+                questions.add(r);
+            }
+
+            rs.close();
+            ste.close();
+
+        } catch (SQLException ex) {
+            Log.console(ex.getMessage());
+        }
+
+        return questions;
     }
 
 }
