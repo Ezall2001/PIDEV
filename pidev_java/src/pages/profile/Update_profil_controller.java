@@ -42,6 +42,10 @@ public class Update_profil_controller {
     public void set_user(User user) {
         this.user = user;
         // last_name_update_field.setText("armen");
+        last_name_update_field.setText(user.get_last_name());
+        first_name_update_field.setText(user.get_first_name());
+        age_update_field.setText(Integer.toString(user.get_age()));
+        bio_update_area.setText(user.get_bio());
 
     }
 

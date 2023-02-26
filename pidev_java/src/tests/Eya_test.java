@@ -36,10 +36,10 @@ public class Eya_test {
         /*  
         * * add student
         */
-        user_service.add(u1);
-        user_service.add(u2);
-        user_service.add(u3);
-        user_service.add(u4);
+        // user_service.add(u1);
+        // user_service.add(u2);
+        // user_service.add(u3);
+        // user_service.add(u4);
         /*  
         * update student
         */
@@ -48,8 +48,8 @@ public class Eya_test {
         * delete student
         */
         // user_service.delete(u1);
-        // User usoura;
-        // usoura = user_service.login("eya@fza.tn", "azerty");
+
+        // user_service.login("eya@esprit.tn", "azerty");
         // Log.console(u1.get_level_string());
         /*  
         
@@ -69,9 +69,9 @@ public class Eya_test {
         * * create session
         */
 
-        user_session_service.create_session(u1);
-        user_session_service.create_session(u2);
-        user_session_service.create_session(u3);
+        // user_session_service.create_session(u1);
+        // user_session_service.create_session(u2);
+        // user_session_service.create_session(u3);
         /*  
         * * delete session
         */
@@ -93,7 +93,7 @@ public class Eya_test {
         * * delete expired sessions
         */
         // user_session_service.delete_expired_sessions();
-        // Log.console(user_session_service.get_All());
+        Log.console(user_session_service.get_all());
     }
 
     // private static Level valueOf(String string) {

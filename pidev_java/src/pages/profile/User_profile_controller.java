@@ -7,6 +7,7 @@ import javax.swing.plaf.LabelUI;
 
 import utils.Log;
 import javafx.scene.Node;
+import entities.Current_user_data;
 import entities.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -21,6 +22,7 @@ import javafx.stage.Stage;
 
 public class User_profile_controller {
     User user;
+    User currentUser = Current_user_data.get_current_user();
     private Stage stage;
     private Scene scene;
     private Parent root;
@@ -64,7 +66,20 @@ public class User_profile_controller {
             stage = (Stage) ((Node) mouse_event.getSource()).getScene().getWindow();
             scene = new Scene(root);
             stage.setScene(scene);
-            Log.console("azerttoyofb");
+            stage.show();
+        } catch (IOException e) {
+            Log.file(e);
+        }
+    }
+
+    public void go_to_test(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("TEST.fxml"));
+            root = loader.load();
+
+            stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            scene = new Scene(root);
+            stage.setScene(scene);
             stage.show();
         } catch (IOException e) {
             Log.file(e);

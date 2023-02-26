@@ -12,6 +12,7 @@ public class Main_eya extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("login.fxml"));
+        // FXMLLoader loader = new FXMLLoader(getClass().getResource("Admin_profile.fxml"));
         // FXMLLoader loader = new FXMLLoader(getClass().getResource("User_profile.fxml"));
         Parent root = loader.load();
         loader.setRoot(root);

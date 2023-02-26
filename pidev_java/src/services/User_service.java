@@ -2,8 +2,6 @@ package services;
 
 import utils.Jdbc_connection;
 import utils.Log;
-
-import java.io.Console;
 import java.security.MessageDigest;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -12,22 +10,25 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.gluonhq.impl.charm.a.b.b.u;
-
+import entities.Current_user_data;
 import entities.User;
 
 public class User_service {
   Connection cnx;
+  //TODO: ****things i changed
   User_session_service user_session_service = new User_session_service();
+  private static User_service user_service_instance;
 
   public User_service() {
+    user_session_service = User_session_service.get_user_session_service_instance();
+
     cnx = Jdbc_connection.getInstance();
   }
 
   public User add(User user) {
     if ((find_by_email(user.get_email()) == null) && (check_user_infos(user))) {
 
-      String sql = "insert into users(first_name,last_name,bio,age,email,password) values (?,?,?,?,?,?)";
+      String sql = "insert into users(first_name,last_name,bio,age,email,password,score) values (?,?,?,?,?,?,?)";
       try {
 
         PreparedStatement stmt = cnx.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
@@ -37,6 +38,7 @@ public class User_service {
         stmt.setInt(4, user.get_age());
         stmt.setString(5, user.get_email());
         stmt.setString(6, user.get_hashed_password());
+        stmt.setInt(7, 0);
         stmt.executeUpdate();
 
         ResultSet generated_id = stmt.getGeneratedKeys();
@@ -168,6 +170,9 @@ public class User_service {
     String last_name = user.get_last_name();
     String bio = user.get_bio();
     Integer age = user.get_age();
+    if ((email.isEmpty()) || (!email.endsWith("@esprit.tn"))) {
+      return false;
+    }
     if ((first_name.isEmpty()) || (!first_name.matches("[a-zA-Z]+")) || ((first_name.length() < 2))) {
       return false;
     }
@@ -195,7 +200,6 @@ public class User_service {
       while (rSet.next()) {
         String hashed_password = rSet.getString("password");
         if (check_password(password, hashed_password)) {
-
           User user = new User();
           user.set_id(rSet.getInt("id"));
           user.set_first_name(rSet.getString("first_name"));
@@ -208,14 +212,15 @@ public class User_service {
           user.set_type(rSet.getString("type"));
           user_session_service.create_session(user);
           Log.console("session created");
+          Current_user_data.set_current_user(user);
+          Current_user_data.set_current_session(user_session_service.get_user_session(user));
           return user;
-        }
-        return null;
+        } else
+
+          return null;
 
       }
-    } catch (
-
-    Exception e) {
+    } catch (Exception e) {
       Log.file(e.getMessage());
     }
     return null;
@@ -248,5 +253,13 @@ public class User_service {
     if (user_session_service.find_session_by_email(user.get_email()))
       return true;
     return false;
+  }
+
+  //TODO: ****things i changed
+  public static User_service get_user_service_instance() {
+    if (user_service_instance == null) {
+      user_service_instance = new User_service();
+    }
+    return user_service_instance;
   }
 }

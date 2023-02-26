@@ -11,17 +11,17 @@ import javax.crypto.KeyGenerator;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 public class User_session_service {
     Connection cnx;
+    private static User_session_service instance = null;
 
     public User_session_service() {
         cnx = Jdbc_connection.getInstance();
@@ -39,23 +39,6 @@ public class User_session_service {
         return null;
     }
 
-    public boolean check_email(User user) {
-        String sql = "SELECT COUNT(*) FROM users WHERE email = ?";
-        try (PreparedStatement pst = cnx.prepareStatement(sql)) {
-            pst.setString(1, user.get_email());
-            ResultSet rSet = pst.executeQuery();
-            rSet.next();
-            int count = rSet.getInt(1);
-            if (count > 0) {
-                return true;
-            }
-
-        } catch (Exception e) {
-            Log.file(e.getMessage());
-        }
-        return false;
-    }
-
     public User_session create_session(User user) {
         if (check_email(user)) {
             String sql = "INSERT INTO " + SESSIONS_TABLE
@@ -70,6 +53,7 @@ public class User_session_service {
                 pst.setTimestamp(3, Timestamp.from(now));
                 pst.setTimestamp(4, Timestamp.from(expires_at));
                 pst.executeUpdate();
+                Log.console("here");
                 return new User_session(user, token, now, expires_at);
             } catch (Exception e) {
                 Log.file(e.getMessage());
@@ -99,21 +83,20 @@ public class User_session_service {
         }
     }
 
-    public User_session find_session_by_id(String session_id) {
+    public User_session find_session_by_id(Integer session_id) {
         String sql = "SELECT * FROM " + SESSIONS_TABLE + " WHERE session_id = ? " +
                 "AND expires_at > ? ";
         try (PreparedStatement pst = cnx.prepareStatement(sql)) {
-            pst.setString(1, session_id);
+            pst.setInt(1, session_id);
             pst.setTimestamp(2, (Timestamp.from(Instant.now())));
-            ResultSet result = pst.executeQuery();
-            if (result.next()) {
-                User user = new User(result.getString("email"));
-                Instant created_at = result.getTimestamp("created_at").toInstant();
-                Instant expires_at = result.getTimestamp("expires_at").toInstant();
+            ResultSet rSet = pst.executeQuery();
+            if (rSet.next()) {
+                User user = new User(rSet.getString("email"));
+                Instant created_at = rSet.getTimestamp("created_at").toInstant();
+                Instant expires_at = rSet.getTimestamp("expires_at").toInstant();
                 Date expiration = Date.from(expires_at);
                 Log.console("session exists and not expired ");
-                return (new User_session(user, generate_token(user,
-                        expiration), created_at, expires_at));
+                return (new User_session(session_id, user, generate_token(user, expiration), created_at, expires_at));
             }
         } catch (Exception e) {
 
@@ -123,23 +106,37 @@ public class User_session_service {
     }
 
     public boolean find_session_by_email(String email) {
-        String sql = "SELECT * FROM " + SESSIONS_TABLE + " WHERE email = ? " +
+        String sql = "SELECT COUNT(*) FROM " + SESSIONS_TABLE + " WHERE email = ? " +
                 "AND expires_at > ? ";
         try (PreparedStatement pst = cnx.prepareStatement(sql)) {
             pst.setString(1, email);
             pst.setTimestamp(2, (Timestamp.from(Instant.now())));
-            ResultSet result = pst.executeQuery();
-            if (result.next()) {
-                User user = new User(result.getString("email"));
-                Instant created_at = result.getTimestamp("created_at").toInstant();
-                Instant expires_at = result.getTimestamp("expires_at").toInstant();
-                Date expiration = Date.from(expires_at);
-                Log.console("session exists and not expired ");
+            ResultSet rSet = pst.executeQuery();
+            rSet.next();
+            int count = rSet.getInt(1);
+            if (count > 0) {
                 return true;
             }
         } catch (Exception e) {
 
-            Log.console(e.getMessage());
+            Log.file(e.getMessage());
+        }
+        return false;
+    }
+
+    public boolean check_email(User user) {
+        String sql = "SELECT COUNT(*) FROM users WHERE email = ?";
+        try (PreparedStatement pst = cnx.prepareStatement(sql)) {
+            pst.setString(1, user.get_email());
+            ResultSet rSet = pst.executeQuery();
+            rSet.next();
+            int count = rSet.getInt(1);
+            if (count > 0) {
+                return true;
+            }
+
+        } catch (Exception e) {
+            Log.file(e.getMessage());
         }
         return false;
     }
@@ -191,4 +188,31 @@ public class User_session_service {
                 .compact();
     }
 
+    public static User_session get_user_session(User user) throws SQLException {
+        Connection cnx;
+        cnx = Jdbc_connection.getInstance();
+        String sql = "SELECT * FROM user_sessions WHERE email = ? AND expires_at > ?";
+        PreparedStatement pst = cnx.prepareStatement(sql);
+        pst.setString(1, user.get_email());
+        pst.setTimestamp(2, Timestamp.from(Instant.now()));
+        ResultSet rSet = pst.executeQuery();
+        if (rSet.next()) {
+            User_session session = new User_session();
+            session.set_session_id(rSet.getInt("session_id"));
+            session.set_user(user);
+            session.set_token(rSet.getString("token"));
+            session.set_created_at(rSet.getTimestamp("created_at").toInstant());
+            session.set_expires_at(rSet.getTimestamp("expires_at").toInstant());
+            return session;
+        } else {
+            return null;
+        }
+    }
+
+    public static User_session_service get_user_session_service_instance() {
+        if (instance == null) {
+            instance = new User_session_service();
+        }
+        return instance;
+    }
 }
