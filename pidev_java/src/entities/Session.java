@@ -13,6 +13,7 @@ public class Session {
   private Double price;
   private LocalDate date;
   private LocalTime start_time, end_time;
+  private String topics;
   private List<Resource> resources;
 
   public Session() {
@@ -20,21 +21,23 @@ public class Session {
   }
 
   public Session(Integer id_user, Integer id_course, Double price, LocalDate date, LocalTime start_time,
-      LocalTime end_time) {
+      LocalTime end_time, String topics) {
     set_id_user(id_user);
     set_id_course(id_course);
     set_price(price);
     set_date(date);
     set_start_time(start_time);
     set_end_time(end_time);
+    set_topics(topics);
   }
 
-  public Session(Integer id, Double price, Date date, Time start_time, Time end_time) {
+  public Session(Integer id, Double price, Date date, Time start_time, Time end_time, String topics) {
     set_id(id);
     set_price(price);
     set_date(date);
     set_start_time(start_time);
     set_end_time(end_time);
+    set_topics(topics);
   }
 
   public Integer get_id() {
@@ -65,6 +68,10 @@ public class Session {
     return price;
   }
 
+  public String get_price_string() {
+    return String.format("%.3f DT", price);
+  }
+
   public void set_price(Double price) {
     this.price = price;
   }
@@ -75,6 +82,10 @@ public class Session {
 
   public Date get_date_sqlDate() {
     return DateTime_helpers.localDate_sqlDate_converter(date);
+  }
+
+  public String get_date_string() {
+    return date.toString();
   }
 
   public void set_date(LocalDate date) {
@@ -93,6 +104,10 @@ public class Session {
     return DateTime_helpers.localTime_sqlTime_converter(start_time);
   }
 
+  public String get_start_time_string() {
+    return start_time.toString();
+  }
+
   public void set_start_time(LocalTime start_time) {
     this.start_time = start_time;
   }
@@ -109,12 +124,29 @@ public class Session {
     return DateTime_helpers.localTime_sqlTime_converter(end_time);
   }
 
+  public String get_end_time_string() {
+    return end_time.toString();
+  }
+
   public void set_end_time(LocalTime end_time) {
     this.end_time = end_time;
   }
 
   public void set_end_time(Time start_time) {
     this.end_time = DateTime_helpers.localTime_sqlTime_converter(start_time);
+  }
+
+  public String get_time_interval() {
+    return String.format("%02d:%02d -> %02d:%02d", start_time.getHour(), start_time.getMinute(), end_time.getHour(),
+        end_time.getMinute());
+  }
+
+  public String get_topics() {
+    return topics;
+  }
+
+  public void set_topics(String topics) {
+    this.topics = topics;
   }
 
   public List<Resource> get_resources() {

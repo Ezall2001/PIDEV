@@ -5,7 +5,7 @@ import java.util.List;
 import utils.Log;
 
 public class Subject {
-  enum Difficulty {
+  public enum Difficulty {
     EASY, MEDIUM, HARD
   };
 
@@ -35,15 +35,15 @@ public class Subject {
   public Subject(String name, String description, String difficulty, Class_esprit class_esprit) {
     set_name(name);
     set_description(description);
-    set_class_esprit(class_esprit);
     set_difficulty(difficulty);
+    set_class_esprit(class_esprit);
   }
 
   public Subject(String name, String description, Difficulty difficulty, Class_esprit class_esprit) {
     set_name(name);
     set_description(description);
-    set_class_esprit(class_esprit);
     set_difficulty(difficulty);
+    set_class_esprit(class_esprit);
   }
 
   public Integer get_id() {

@@ -18,6 +18,7 @@ public class User {
   private Integer age, score;
   private String email, password, hashed_password;
   private Type type;
+  private Class_esprit class_esprit;
 
   public User() {
   }
@@ -175,6 +176,14 @@ public class User {
     } catch (Exception e) {
       Log.file(e.getMessage());
     }
+  }
+
+  public Class_esprit get_class_esprit() {
+    return class_esprit;
+  }
+
+  public void set_class_esprit(Class_esprit class_esprit) {
+    this.class_esprit = class_esprit;
   }
 
   public static Integer compute_level_breakpoint_score(Level level) {

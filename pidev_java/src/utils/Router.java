@@ -5,6 +5,7 @@ import java.util.function.Consumer;
 import com.gluonhq.charm.glisten.mvc.View;
 
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import templates.user_template.User_template_controller;
@@ -44,10 +45,23 @@ public class Router {
     }
   }
 
+  public static <T> void render_dialog(String dialog_name, Consumer<T> controller_manipulator) {
+    try {
+      Stage dialog_stage = new Stage();
+      Parent dialog = load_dialog(dialog_name, controller_manipulator);
+      dialog_stage.setScene(new Scene(dialog));
+      dialog_stage.setTitle(dialog_name);
+      dialog_stage.show();
+    } catch (Exception e) {
+      Log.file(e);
+    }
+  }
+
   private static <T> View load_page(String page_name, Consumer<T> controller_manipulator) {
     try {
       String page_path = String.format("/pages/%s/%s.fxml", page_name.toLowerCase(), page_name);
       FXMLLoader page_loader = new FXMLLoader(Router.class.getResource(page_path));
+
       View page_vue = page_loader.load();
 
       if (controller_manipulator != null)
@@ -62,7 +76,25 @@ public class Router {
 
   }
 
-  private static void update_scene(View view, String page_name) {
+  private static <T> Parent load_dialog(String dialog_name, Consumer<T> controller_manipulator) {
+    try {
+      String dialog_path = String.format("/dialogs/%s/%s.fxml", dialog_name.toLowerCase(), dialog_name);
+
+      FXMLLoader dialog_Loader = new FXMLLoader(Router.class.getResource(dialog_path));
+
+      Parent dialog = dialog_Loader.load();
+
+      if (controller_manipulator != null)
+        controller_manipulator.accept(dialog_Loader.getController());
+
+      return dialog;
+    } catch (Exception e) {
+      Log.file(e);
+      return null;
+    }
+  }
+
+  private static void update_scene(Parent view, String page_name) {
     main_stage.setTitle(String.format("Myalò : %s", page_name));
     main_stage.setScene(new Scene(view, pref_width, pref_height));
     main_stage.show();

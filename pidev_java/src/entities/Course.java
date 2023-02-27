@@ -4,7 +4,7 @@ import utils.Log;
 
 public class Course {
 
-  enum Difficulty {
+  public enum Difficulty {
     EASY, MEDIUM, HARD
   };
 

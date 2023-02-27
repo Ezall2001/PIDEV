@@ -10,6 +10,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import entities.Class_esprit;
 import entities.User;
 
 public class User_service {
@@ -20,7 +21,7 @@ public class User_service {
   }
 
   public User add(User user) {
-    String sql = "insert into users(first_name,last_name,bio,age,email,password) values (?,?,?,?,?,?)";
+    String sql = "insert into users(first_name,last_name,bio,age,email,password,id_class_esprit) values (?,?,?,?,?,?,?)";
     try {
 
       PreparedStatement stmt = cnx.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
@@ -30,6 +31,7 @@ public class User_service {
       stmt.setInt(4, user.get_age());
       stmt.setString(5, user.get_email());
       stmt.setString(6, user.get_hashed_password());
+      stmt.setInt(7, user.get_class_esprit().get_id());
       stmt.executeUpdate();
 
       ResultSet generated_id = stmt.getGeneratedKeys();
@@ -38,6 +40,7 @@ public class User_service {
       return user;
 
     } catch (Exception e) {
+
       Log.file(e.getMessage());
       return null;
     }
@@ -45,7 +48,7 @@ public class User_service {
   }
 
   public void update(User user) {
-    String sql = "UPDATE users SET first_name=?, last_name=?, age=?, bio=?, avatar_path=? where id=?";
+    String sql = "UPDATE users SET first_name=?, last_name=?, age=?, bio=?, avatar_path=?, class_esprit_id=? where id=?";
     try {
       PreparedStatement stmt = cnx.prepareStatement(sql);
       stmt.setString(1, user.get_first_name());
@@ -53,7 +56,8 @@ public class User_service {
       stmt.setInt(3, user.get_age());
       stmt.setString(4, user.get_bio());
       stmt.setString(5, user.get_avatar_path());
-      stmt.setInt(6, user.get_id());
+      stmt.setInt(6, user.get_class_esprit().get_id());
+      stmt.setInt(7, user.get_id());
       stmt.executeUpdate();
 
     } catch (Exception e) {
@@ -90,6 +94,8 @@ public class User_service {
             result.getString("email"),
             result.getString("avatar_path"),
             result.getString("type"));
+
+        user.set_class_esprit(new Class_esprit(result.getString(0)));
 
         users.add(user);
 

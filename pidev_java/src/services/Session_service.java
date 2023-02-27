@@ -19,7 +19,7 @@ public class Session_service {
   }
 
   public Session add(Session session) {
-    String sql = "insert into sessions(price,date,start_time,end_time,id_user,id_course) values (?,?,?,?,?,?)";
+    String sql = "insert into sessions(price,date,start_time,end_time,id_user,topics,id_course) values (?,?,?,?,?,?,?)";
     try {
 
       PreparedStatement stmt = cnx.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
@@ -28,7 +28,8 @@ public class Session_service {
       stmt.setTime(3, session.get_start_time_sqlTime());
       stmt.setTime(4, session.get_end_time_sqlTime());
       stmt.setInt(5, session.get_id_user());
-      stmt.setInt(6, session.get_id_course());
+      stmt.setString(6, session.get_topics());
+      stmt.setInt(7, session.get_id_course());
       stmt.executeUpdate();
 
       ResultSet generated_id = stmt.getGeneratedKeys();
@@ -44,14 +45,15 @@ public class Session_service {
   }
 
   public void update(Session session) {
-    String sql = "UPDATE sessions SET price=?, date=?, start_time=?, end_time=? where id=?";
+    String sql = "UPDATE sessions SET price=?, date=?, start_time=?, end_time=?, topics=? where id=?";
     try {
       PreparedStatement stmt = cnx.prepareStatement(sql);
       stmt.setDouble(1, session.get_price());
       stmt.setDate(2, session.get_date_sqlDate());
       stmt.setTime(3, session.get_start_time_sqlTime());
       stmt.setTime(4, session.get_end_time_sqlTime());
-      stmt.setInt(5, session.get_id());
+      stmt.setString(5, session.get_topics());
+      stmt.setInt(6, session.get_id());
       stmt.executeUpdate();
 
     } catch (Exception e) {
@@ -84,7 +86,8 @@ public class Session_service {
             result.getDouble("price"),
             result.getDate("date"),
             result.getTime("start_time"),
-            result.getTime("end_time"));
+            result.getTime("end_time"),
+            result.getString("topics"));
 
         sessions.add(session);
 
@@ -109,7 +112,8 @@ public class Session_service {
             result.getDouble("price"),
             result.getDate("date"),
             result.getTime("start_time"),
-            result.getTime("end_time"));
+            result.getTime("end_time"),
+            result.getString("topics"));
 
     } catch (Exception e) {
       Log.file(e.getMessage());
