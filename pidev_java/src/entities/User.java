@@ -29,6 +29,10 @@ public class User {
     set_hashed_password(hashed_password);
   }
 
+  public User(String email) {
+    set_email(email);
+  }
+
   // GET ADMIN
   public User(Integer id, String first_name, String last_name) {
     set_first_name(first_name);
@@ -220,7 +224,7 @@ public class User {
   public String toString() {
     return "User [id=" + id + ", first_name=" + first_name + ", last_name=" + last_name + ", bio=" + bio
         + ", avatar_path=" + avatar_path + ", age=" + age + ", score=" + score + ", email=" + email + ", password="
-        + password + ", hashed_password=" + hashed_password + ", type=" + type + "]";
+        + password + ", type=" + type + "]";
   }
 
   @Override

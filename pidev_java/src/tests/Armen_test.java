@@ -32,7 +32,7 @@ public class Armen_test extends Application {
     Router.render_user_template("Session",
         (Session_controller controller) -> controller.hydrate(
             session,
-            course.get_name()));
+            course.get_course_name()));
 
   }
 

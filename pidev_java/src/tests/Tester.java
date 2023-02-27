@@ -73,9 +73,9 @@ public class Tester {
   public static List<Subject> insert_subjects(List<Class_esprit> class_esprit_list) {
     List<Subject> subjects = new ArrayList<>();
 
-    subjects.add(new Subject("C", lorem, Subject.Difficulty.MEDIUM, class_esprit_list.get(0)));
-    subjects.add(new Subject("C++", lorem, Subject.Difficulty.EASY, class_esprit_list.get(1)));
-    subjects.add(new Subject("java", lorem, Subject.Difficulty.HARD, class_esprit_list.get(2)));
+    subjects.add(new Subject("C", lorem, Subject.Level., class_esprit_list.get(0)));
+    subjects.add(new Subject("C++", lorem, Subject.Level.EASY, class_esprit_list.get(1)));
+    subjects.add(new Subject("java", lorem, Subject.Level.HARD, class_esprit_list.get(2)));
 
     return subjects.stream().map(
         subject -> subject_service.add(subject)).collect(Collectors.toList());
@@ -84,10 +84,10 @@ public class Tester {
   public static List<Course> insert_courses(List<Subject> subjects) {
     List<Course> courses = new ArrayList<>();
 
-    courses.add(new Course("type variable", lorem, Course.Difficulty.EASY, subjects.get(0).get_id()));
-    courses.add(new Course("structure", lorem, Course.Difficulty.MEDIUM, subjects.get(0).get_id()));
-    courses.add(new Course("pointeur", lorem, Course.Difficulty.HARD, subjects.get(0).get_id()));
-    courses.add(new Course("Classes", lorem, Course.Difficulty.HARD, subjects.get(1).get_id()));
+    courses.add(new Course("type variable", lorem, Course.Level.EASY, subjects.get(0).get_id()));
+    courses.add(new Course("structure", lorem, Course.Level., subjects.get(0).get_id()));
+    courses.add(new Course("pointeur", lorem, Course.Level.HARD, subjects.get(0).get_id()));
+    courses.add(new Course("Classes", lorem, Course.Level.HARD, subjects.get(1).get_id()));
 
     return courses.stream().map(
         course -> course_service.add(course)).collect(Collectors.toList());
@@ -119,12 +119,11 @@ public class Tester {
     LocalTime time_3 = LocalTime.of(17, 30, 00);
     LocalTime time_4 = LocalTime.of(18, 30, 00);
 
-    sessions.add(new Session(users.get(0).get_id(), courses.get(0).get_id(), 12.5, date_1, time_1, time_2, lorem));
-    sessions.add(new Session(users.get(1).get_id(), courses.get(0).get_id(), 16.5, date_1, time_1, time_2, lorem));
-    sessions.add(new Session(users.get(1).get_id(), courses.get(1).get_id(), 16.5, date_2, time_3, time_4, lorem));
+    sessions.add(new Session(users.get(0).get_id(), courses.get(0).get_id_c(), 12.5, date_1, time_1, time_2, lorem));
+    sessions.add(new Session(users.get(1).get_id(), courses.get(0).get_id_c(), 16.5, date_1, time_1, time_2, lorem));
+    sessions.add(new Session(users.get(1).get_id(), courses.get(1).get_id_c(), 16.5, date_2, time_3, time_4, lorem));
 
     return sessions.stream().map(
         session -> session_service.add(session)).collect(Collectors.toList());
   }
-
 }
