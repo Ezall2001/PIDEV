@@ -180,7 +180,7 @@ public class Question_service {
             ResultSet rs = ste.executeQuery();
             while (rs.next()) {
                 String message = rs.getString("message");
-                int id_rep = rs.getInt(4);
+                int id_rep = rs.getInt(6);
                 Answer r = new Answer(id_rep, message);
                 answers.add(r);
             }

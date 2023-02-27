@@ -2,6 +2,7 @@ package pages.forum;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import entities.Answer;
@@ -13,7 +14,6 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -21,7 +21,9 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import services.Answer_service;
+import utils.Log;
 import utils.Service_Fx;
+import utils.Shared_answer;
 import utils.Shared_model;
 
 public class Manage_answer_controller implements Initializable {
@@ -42,29 +44,38 @@ public class Manage_answer_controller implements Initializable {
 
     @FXML
     void delete_answer(MouseEvent event) throws IOException {
-        Shared_model sharedModel = Shared_model.getInstance();
-        Answer q = sharedModel.get_answer();
-        Answer_service ps = new Answer_service();
-        ps.delete(q);
-        Alert alert = new Alert(AlertType.INFORMATION);
-        alert.setTitle("");
-        alert.setHeaderText("question supprimée");
-        alert.showAndWait();
-        sf.redirect(event, "/pages/forum/Answer_question.fxml");
+
+        try {
+            Shared_answer SharedAnswer = Shared_answer.getInstance();
+            Answer q = SharedAnswer.getAnswer();
+            Answer_service ps = new Answer_service();
+
+            Alert alert = new Alert(AlertType.INFORMATION);
+            alert.setTitle("");
+            alert.setHeaderText("question supprimée");
+            alert.showAndWait();
+            ps.delete(q);
+            sf.redirect(event, "/pages/forum/Answer_question.fxml");
+        } catch (Exception e) {
+            Log.console(e.getMessage());
+        }
 
     }
 
     @FXML
     void update_answer(MouseEvent event) throws IOException {
-        Shared_model sharedModel = Shared_model.getInstance();
-        Answer q = sharedModel.get_answer();
+        Shared_answer SharedAnswer = Shared_answer.getInstance();
+        Answer q = SharedAnswer.getAnswer();
+        int id = q.getId();
+        Answer_service rs = new Answer_service();
+        List<Answer> list = rs.get_by_id(id);
         Stage stage = new Stage();
         stage.initModality(Modality.APPLICATION_MODAL);
 
         // Create the form controls
         Label nameLabel = new Label("Reponse:");
         TextArea nameField = new TextArea();
-        nameField.setText(q.get_message());
+        nameField.setText(q.getMessage());
         Button submitButton = new Button("modifier");
 
         // Add the form controls to the VBox
@@ -72,16 +83,25 @@ public class Manage_answer_controller implements Initializable {
 
         // Add an event handler to the Submit button
         submitButton.setOnAction(e -> {
+
+            Log.console(list);
+            String message2 = nameField.getText();
             // Handle the form submission
-            Answer_service ps = new Answer_service();
+            try {
 
-            String message = nameField.getText();
-            ps.update(q.get_id(), message);
-            Answer q1 = ps.get_by_id(q.get_id()).get(0);
+                rs.update(id, message2);
 
-            lb1.setText(q1.get_message());
+                Log.console(list);
+                //Log.console(q.get_id());
+                Answer q1 = list.get(0);
 
-            stage.close();
+                lb1.setText(q1.getMessage());
+
+                stage.close();
+
+            } catch (Exception ex) {
+                Log.console(ex.getMessage());
+            }
         });
 
         // Create and show the modal dialog
@@ -101,9 +121,9 @@ public class Manage_answer_controller implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         Answer_service qs = new Answer_service();
-        Shared_model sharedModel = Shared_model.getInstance();
-        Answer q = sharedModel.get_answer();
-        lb1.setText(q.get_message());
+        Shared_answer SharedAnswer = Shared_answer.getInstance();
+        Answer q = SharedAnswer.getAnswer();
+        lb1.setText(q.getMessage());
 
     }
 

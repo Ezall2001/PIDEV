@@ -22,6 +22,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.MenuButton;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
@@ -35,6 +37,7 @@ import services.Question_service;
 import utils.Log;
 import utils.Router;
 import utils.Service_Fx;
+import utils.Shared_answer;
 import utils.Shared_model;
 import javafx.scene.Node;
 
@@ -61,6 +64,11 @@ public class Answer_question_controller implements Initializable {
 
     @FXML
     private ListView<Answer> list2;
+    @FXML
+    private TableView<Answer> tab1;
+
+    @FXML
+    private TableColumn<Answer, String> cl1;
 
     @FXML
     private Label list3;
@@ -120,7 +128,7 @@ public class Answer_question_controller implements Initializable {
         alert.setHeaderText("question supprimée");
         alert.showAndWait();
         ps.delete(q);
-        //sf.redirect(event, "../gui/Show_question.fxml");
+        sf.redirect(event, "/pages/forum/Forum.fxml");
 
     }
 
@@ -222,7 +230,7 @@ public class Answer_question_controller implements Initializable {
 
                 value = entry.getValue();
                 //Log.console(value.get(0));
-                if (value.get(0).get_message() == null) {
+                if (value.get(0).getMessage() == null) {
                     number_answer = 0;
                 } else {
                     number_answer = entry.getValue().size();
@@ -232,38 +240,41 @@ public class Answer_question_controller implements Initializable {
                 //Log.console(value);
 
             }
+            sf.show_tab(tab1, value);
 
-            // get list
-            list2.setItems(FXCollections.observableArrayList(value));
-            tx3.setText(number_answer_string);
-            list2.setCellFactory(param -> new ListCell<Answer>() {
-                @Override
-                protected void updateItem(Answer item, boolean empty) {
-                    super.updateItem(item, empty);
-                    if (empty || item == null) {
-                        setText(null);
-                    } else {
-                        setText(item.get_message());
+            // // get list
+            // list2.setItems(FXCollections.observableArrayList(value));
+            // tx3.setText(number_answer_string);
+            // list2.setCellFactory(param -> new ListCell<Answer>() {
+            //     @Override
+            //     protected void updateItem(Answer item, boolean empty) {
+            //         super.updateItem(item, empty);
+            //         if (empty || item == null) {
+            //             setText(null);
+            //         } else {
+            //             setText(item.get_message());
 
-                    }
-                }
+            //         }
+            //     }
 
-            });
-            list2.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            // });
+            tab1.setOnMouseClicked(new EventHandler<MouseEvent>() {
                 List<Answer> l2 = new ArrayList<>();
 
                 @Override
                 public void handle(MouseEvent event) {
 
                     try {
-                        l2 = list2.getSelectionModel().getSelectedItems();
+                        l2 = tab1.getSelectionModel().getSelectedItems();
 
-                        Shared_model sharedModel = Shared_model.getInstance();
-                        sharedModel.set_answer(l2.get(0));
+                        Shared_answer SharedAnswer = Shared_answer.getInstance();
+                        SharedAnswer.setAnswer(l2.get(0));
+                        Log.console("NNNNNNNNNNNNNNNNNNNNNNNNNNNNNN");
+                        Log.console(l2);
 
                         sf.redirect(event, "/pages/forum/Manage_answer.fxml");
 
-                        Log.console(sharedModel.getUser());
+                        //Log.console(sharedModel.getUser());
 
                     } catch (Exception e) {
 

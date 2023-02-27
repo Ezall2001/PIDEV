@@ -2,16 +2,30 @@ package utils;
 
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TableCell;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.ToggleButton;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import services.Answer_service;
+
 import java.io.IOException;
 import java.util.List;
+import javafx.geometry.Insets;
+import entities.Answer;
 import entities.Question;
 import entities.Subject;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -20,6 +34,8 @@ public class Service_Fx {
     private Stage stage;
     private Parent root;
     private Scene scene;
+    Answer_service s = new Answer_service();
+    Answer a = new Answer();
 
     public void redirect(Event event, String chemain) throws IOException {
 
@@ -54,6 +70,80 @@ public class Service_Fx {
             }
 
         });
+
+    }
+
+    public void show_tab(TableView<Answer> list1, List<Answer> l1) {
+        ObservableList<Answer> data = FXCollections.observableArrayList(l1);
+        list1.setItems(data);
+
+        TableColumn<Answer, String> titleColumn = new TableColumn<>("Réponse");
+        titleColumn.setCellValueFactory(new PropertyValueFactory<>("message"));
+        titleColumn.setPrefWidth(1245);
+
+        list1.getColumns().add(titleColumn);
+
+        list1.setItems(data);
+        TableColumn<Answer, Button> titleColumn1 = new TableColumn<>("Vote");
+        titleColumn1.setCellFactory(col -> {
+            // Create a Button Cell
+            TableCell<Answer, Button> cell = new TableCell<>() {
+
+                // Override updateItem to set the Button
+                @Override
+                public void updateItem(Button item, boolean empty) {
+
+                    super.updateItem(item, empty);
+                    if (empty) {
+                        setGraphic(null);
+                    } else {
+
+                        Button doubleSidedButton = new Button();
+                        doubleSidedButton.setStyle("-fx-background-color: transparent;");
+                        Button leftButton = new Button("+");
+
+                        Label nb_vote = new Label();
+                        //l1.get(0).get_vote_nb()
+                        nb_vote.setPadding(new Insets(30));
+                        Button rightButton = new Button("-");
+
+                        GridPane gridPane = new GridPane();
+                        gridPane.addRow(0, leftButton, nb_vote, rightButton);
+                        doubleSidedButton.setGraphic(gridPane);
+
+                        leftButton.setOnAction(event -> {
+
+                            Answer rowDataa = getTableView().getItems().get(getIndex());
+                            s.incri(rowDataa);
+                            System.out.println("*********************");
+                            System.out.println(rowDataa);
+
+                        });
+                        rightButton.setOnAction(event -> {
+                            // effectue l'action pour le bouton de droite
+                            Answer rowDataa = getTableView().getItems().get(getIndex());
+                            s.déc(rowDataa);
+                            //System.out.println(rowDataa.get_vote_nb());
+
+                        });
+                        //ToggleButton button = new ToggleButton("Click Me");
+
+                        setGraphic(doubleSidedButton);
+
+                        doubleSidedButton.setOnAction((ActionEvent event) -> {
+                            // Do something when button is clicked
+                            Answer rowData = getTableView().getItems().get(getIndex());
+                            nb_vote.setText(Integer.toString(rowData.get_vote_nb()));
+
+                        });
+
+                    }
+                }
+            };
+
+            return cell;
+        });
+        list1.getColumns().add(titleColumn1);
 
     }
 

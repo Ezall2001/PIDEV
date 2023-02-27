@@ -7,7 +7,6 @@ public class Shared_model {
     private static Shared_model instance;
 
     private Question user;
-    private Answer answer;
 
     private Shared_model() {
     }
@@ -25,14 +24,6 @@ public class Shared_model {
 
     public void setUser(Question user) {
         this.user = user;
-    }
-
-    public Answer get_answer() {
-        return answer;
-    }
-
-    public void set_answer(Answer answer) {
-        this.answer = answer;
     }
 
 }

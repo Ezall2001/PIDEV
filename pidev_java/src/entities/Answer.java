@@ -34,22 +34,22 @@ public class Answer {
 
     }
 
-    public int get_id() {
+    public int getId() {
         return id;
 
     }
 
-    public String get_message() {
-        return message;
-
-    }
-
-    public void set_message(String message) {
+    public void setMessage(String message) {
         this.message = message;
 
     }
 
-    public void set_id(int id) {
+    public String getMessage() {
+        return message;
+
+    }
+
+    public void setId(int id) {
         this.id = id;
 
     }
@@ -75,7 +75,8 @@ public class Answer {
     // toString
     @Override
     public String toString() {
-        return "Reponse{" + "message=" + message + '}';
+        return "Reponse{" + "message=" + message + "id = " + id + "nb_vote = " + vote_nb
+                + '}';
     }
 
 }

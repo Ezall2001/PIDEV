@@ -39,14 +39,6 @@ public class Question {
 
     }
 
-    public Question(String title, String description, List<Answer> answers) {
-
-        this.title = title;
-        this.description = description;
-        this.answers = answers;
-
-    }
-
     //  getters and setters
 
     public int get_id() {
@@ -106,7 +98,7 @@ public class Question {
         this.user = user;
     }
 
-    //one to many for subject
+    // //one to many for subject
     public Subject get_subject() {
         return subject;
     }

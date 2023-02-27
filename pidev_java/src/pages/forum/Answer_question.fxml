@@ -20,6 +20,11 @@
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
+<?import javafx.collections.ObservableList?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.cell.PropertyValueFactory?>
+
 
 <View maxHeight="1.7976931348623157E308" minWidth="400.0" prefWidth="1440.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pages.forum.Answer_question_controller">
    <center>
@@ -148,10 +153,16 @@
                                     </Button>
                                       </children>
                                     </HBox>
-                                     <ListView  style="-fx-background-color: #000; -fx-border-color: #fff; -fx-text-fill: #fff; -fx-font-size: 22;"  fx:id="list2" layoutX="6.0" layoutY="441.0" prefHeight="500.0" prefWidth="904.0">
-                                      <items ></items>
-                                       </ListView>    
-                                      
+                                     
+                                      <!-- Define a table view -->
+                                    <TableView fx:id="tab1"  style="-fx-background-color: #000; -fx-border-color: #fff; -fx-text-fill: #fff; -fx-font-size: 22;"  layoutX="6.0" layoutY="441.0" prefHeight="500.0" prefWidth="904.0">
+                                        
+                                        <!-- Define columns for the table view -->
+                                        <columns>
+                                            
+                                     </columns>
+                                        
+                                    </TableView>      
                                 </VBox>
                              
                         

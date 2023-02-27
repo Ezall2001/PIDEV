@@ -20,12 +20,14 @@ public class Najiba_test {
          * ***
          */
         Question q1 = new Question("ygcdx", "najibaa");
-        Answer r1 = new Answer(10, "message2");
+        Answer r1 = new Answer(14, "najiba12345");
         Question_service q = new Question_service();
         Answer_service rs = new Answer_service();
         Subject s1 = new Subject();
         Subject_service sc = new Subject_service();
         Subject ss = new Subject(102, "subject2", "des2");
+        Answer r2;
+        //Log.console(rs.get_by_id(12));
 
         /*------------------------add functions----------------------------- */
 
@@ -35,29 +37,32 @@ public class Najiba_test {
 
         /*------------------------get All functions----------------------------- */
 
-        // Log.console(q.get_All());
-        //Log.console(rs.get_All());
+        //Log.console(q.get_all());
+        // Log.console(rs.get_all());
         //Log.console(q.get_with_answer(4));
         //Log.console(q.get_with_subject(41));
         //Log.console(q.get_with_uesr(41));
         // Log.console(sc.get_by_name("subject1"));
-        Log.console(q.get_subject(ss));
+        //Log.console(q.get_subject(ss));
 
         /*------------------------get by id functions----------------------------- */
 
-        // Log.console(qs.get_by_id(1));
-        // Log.console(rs.get_by_id(2));
+        //Log.console(q.get_by_id(41));
+
+        //Log.console(rs.get_by_id(13));
 
         /*------------------------delete functions----------------------------- */
 
         //q.delete(q1);
-        // rs.delete(r1);
+        //rs.delete(r1);
+        //Log.console(r1.getId());
 
         /*------------------------update functions----------------------------- */
 
         //q.update(1, "najiba123", "ccccccccc");
 
-        //rs.update(2, "najiba123");
+        //rs.update(14, "najiba1235");
+        Log.console(r1.get_vote_nb());
 
         /*------------------------filter functions----------------------------- */
         //Log.console(q.filter_qs(2));
