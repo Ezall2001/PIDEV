@@ -25,9 +25,11 @@ import entities.Question;
 import entities.Subject;
 import utils.Jdbc_connection;
 import utils.Log;
+import utils.Service_Fx;
 
 public class Question_service {
     Connection cnx;
+    Service_Fx sf = new Service_Fx();
 
     public Question_service() {
         cnx = Jdbc_connection.getInstance();
@@ -47,7 +49,7 @@ public class Question_service {
             } else if (q.get_title().length() > 40) {
 
                 throw new Exception("vous devez minimiser votre question");
-            } else if (is_matching(q.getTitle()) || is_matching(q.get_description())) {
+            } else if (sf.is_matching(q.getTitle()) || sf.is_matching(q.get_description())) {
 
                 throw new Exception("vous n'avez pas le droit d utiliser ce genre des mots");
 
@@ -150,7 +152,7 @@ public class Question_service {
                 throw new Exception("vous devez remplir remplir les champs");
             } else if (title.length() > 40) {
                 throw new Exception("vous devez minimiser votre question");
-            } else if (is_matching(title) || is_matching(description)) {
+            } else if (sf.is_matching(title) || sf.is_matching(description)) {
 
                 throw new Exception("vous n'avez pas le droit d utiliser ce genre des mots");
 
@@ -181,7 +183,9 @@ public class Question_service {
             while (rs.next()) {
                 String message = rs.getString("message");
                 int id_rep = rs.getInt(6);
-                Answer r = new Answer(id_rep, message);
+                int vote_nb = rs.getInt("vote_nb");
+
+                Answer r = new Answer(id_rep, message, vote_nb);
                 answers.add(r);
             }
             map.put(q.get(0), answers);
@@ -218,32 +222,6 @@ public class Question_service {
         }
         return questions;
 
-    }
-
-    public boolean is_matching(String str) {
-        boolean checked = true;
-        try {
-            //Path fileName = Path.of("D:\\pidev-2023\\PIDEV\\pidev_java\\src\\services\\words-forbidden.txt");
-            //Path fileName = Path.of("./words-forbidden.txt");
-            Path fileName = Paths.get("src/services/words-forbidden.txt");
-
-            String str1 = Files.readString(fileName);
-            //Log.console(str1);
-
-            Pattern pattern = Pattern.compile(str1, Pattern.CASE_INSENSITIVE);
-            Matcher matcher = pattern.matcher(str);
-
-            if (matcher.find()) {
-                checked = true;
-
-            } else {
-                checked = false;
-            }
-        } catch (IOException e) {
-            Log.console(e.getMessage());
-        }
-
-        return checked;
     }
 
     // public HashMap<Question, List<Subject>> get_with_subject(int questionId) {

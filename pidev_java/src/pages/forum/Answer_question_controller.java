@@ -94,22 +94,21 @@ public class Answer_question_controller implements Initializable {
 
     @FXML
     void trier_rp(ActionEvent event) {
-        /*  Answer_service qs = new Answer_service();
+        Answer_service qs = new Answer_service();
         Shared_model sharedModel = Shared_model.getInstance();
         Question q = sharedModel.getUser();
-        List<Answer> l1 = qs.trie();
-        list2.setItems(FXCollections.observableArrayList(l1));
-        list2.setCellFactory(param -> new ListCell<Answer>() {
-            @Override
-            protected void updateItem(Answer item, boolean empty) {
-                super.updateItem(item, empty);
-                if (empty || item == null) {
-                    setText(null);
-                } else {
-                    setText(item.get_message());
-                }
-            }
-        });*/
+        List<Answer> l1 = qs.trie(q);
+        sf.show_tab(list2, l1);
+
+    }
+
+    @FXML
+    void filter_rp(ActionEvent event) {
+        Answer_service qs = new Answer_service();
+        Shared_model sharedModel = Shared_model.getInstance();
+        Question q = sharedModel.getUser();
+        List<Answer> l1 = qs.filtrer_recent(q);
+        sf.show_tab(list2, l1);
 
     }
 
@@ -169,7 +168,7 @@ public class Answer_question_controller implements Initializable {
                     errorAlert.setHeaderText("votre question ne doit pas depasser 40 caractéres");
                     errorAlert.setContentText("vous devez remplir de noveau");
                     errorAlert.showAndWait();
-                } else if (ps.is_matching(title) || ps.is_matching(description)) {
+                } else if (sf.is_matching(title) || sf.is_matching(description)) {
                     Alert errorAlert = new Alert(AlertType.ERROR);
                     errorAlert.setHeaderText("Attention");
                     errorAlert.setContentText("vous n'avez pas le droit d utiliser ce genre des mots");
@@ -240,7 +239,8 @@ public class Answer_question_controller implements Initializable {
                 //Log.console(value);
 
             }
-            sf.show_tab(tab1, value);
+            sf.show_tab(list2, value);
+            tx3.setText(number_answer_string);
 
             // // get list
             // list2.setItems(FXCollections.observableArrayList(value));
@@ -258,14 +258,14 @@ public class Answer_question_controller implements Initializable {
             //     }
 
             // });
-            tab1.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            list2.setOnMouseClicked(new EventHandler<MouseEvent>() {
                 List<Answer> l2 = new ArrayList<>();
 
                 @Override
                 public void handle(MouseEvent event) {
 
                     try {
-                        l2 = tab1.getSelectionModel().getSelectedItems();
+                        l2 = list2.getSelectionModel().getSelectedItems();
 
                         Shared_answer SharedAnswer = Shared_answer.getInstance();
                         SharedAnswer.setAnswer(l2.get(0));

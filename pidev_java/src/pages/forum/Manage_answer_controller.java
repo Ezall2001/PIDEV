@@ -66,9 +66,9 @@ public class Manage_answer_controller implements Initializable {
     void update_answer(MouseEvent event) throws IOException {
         Shared_answer SharedAnswer = Shared_answer.getInstance();
         Answer q = SharedAnswer.getAnswer();
-        int id = q.getId();
+
         Answer_service rs = new Answer_service();
-        List<Answer> list = rs.get_by_id(id);
+
         Stage stage = new Stage();
         stage.initModality(Modality.APPLICATION_MODAL);
 
@@ -84,20 +84,32 @@ public class Manage_answer_controller implements Initializable {
         // Add an event handler to the Submit button
         submitButton.setOnAction(e -> {
 
-            Log.console(list);
             String message2 = nameField.getText();
             // Handle the form submission
             try {
+                if (message2 == "") {
+                    Alert errorAlert = new Alert(AlertType.ERROR);
+                    errorAlert.setHeaderText("Champs vides");
+                    errorAlert.setContentText("vous devez remplir remplir les champs");
+                    errorAlert.showAndWait();
+                } else if (sf.is_matching(message2)) {
+                    Alert errorAlert = new Alert(AlertType.ERROR);
+                    errorAlert.setHeaderText("Attention");
+                    errorAlert.setContentText("vous n'avez pas le droit d utiliser ce genre des mots");
+                    errorAlert.showAndWait();
+                }
 
-                rs.update(id, message2);
+                else {
 
-                Log.console(list);
-                //Log.console(q.get_id());
-                Answer q1 = list.get(0);
+                    rs.update(q.getId(), message2);
 
-                lb1.setText(q1.getMessage());
+                    //Log.console(q.get_id());
+                    Answer q1 = rs.get_by_id(q.getId()).get(0);
 
-                stage.close();
+                    lb1.setText(q1.getMessage());
+
+                    stage.close();
+                }
 
             } catch (Exception ex) {
                 Log.console(ex.getMessage());

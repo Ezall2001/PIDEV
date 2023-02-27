@@ -18,7 +18,13 @@ import javafx.stage.Stage;
 import services.Answer_service;
 
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import javafx.geometry.Insets;
 import entities.Answer;
 import entities.Question;
@@ -73,78 +79,151 @@ public class Service_Fx {
 
     }
 
-    public void show_tab(TableView<Answer> list1, List<Answer> l1) {
+    public boolean is_matching(String str) {
+        boolean checked = true;
+        try {
+            //Path fileName = Path.of("D:\\pidev-2023\\PIDEV\\pidev_java\\src\\services\\words-forbidden.txt");
+            //Path fileName = Path.of("./words-forbidden.txt");
+            Path fileName = Paths.get("src/services/words-forbidden.txt");
+
+            String str1 = Files.readString(fileName);
+            //Log.console(str1);
+
+            Pattern pattern = Pattern.compile(str1, Pattern.CASE_INSENSITIVE);
+            Matcher matcher = pattern.matcher(str);
+
+            if (matcher.find()) {
+                checked = true;
+
+            } else {
+                checked = false;
+            }
+        } catch (IOException e) {
+            Log.console(e.getMessage());
+        }
+
+        return checked;
+    }
+
+    /* public void show_tab(TableView<Answer> list1, List<Answer> l1) {
         ObservableList<Answer> data = FXCollections.observableArrayList(l1);
         list1.setItems(data);
-
+    
         TableColumn<Answer, String> titleColumn = new TableColumn<>("Réponse");
         titleColumn.setCellValueFactory(new PropertyValueFactory<>("message"));
         titleColumn.setPrefWidth(1245);
-
+    
         list1.getColumns().add(titleColumn);
-
+    
         list1.setItems(data);
         TableColumn<Answer, Button> titleColumn1 = new TableColumn<>("Vote");
         titleColumn1.setCellFactory(col -> {
             // Create a Button Cell
             TableCell<Answer, Button> cell = new TableCell<>() {
-
+    
                 // Override updateItem to set the Button
                 @Override
                 public void updateItem(Button item, boolean empty) {
-
+    
                     super.updateItem(item, empty);
                     if (empty) {
                         setGraphic(null);
                     } else {
-
+    
                         Button doubleSidedButton = new Button();
                         doubleSidedButton.setStyle("-fx-background-color: transparent;");
                         Button leftButton = new Button("+");
-
+    
                         Label nb_vote = new Label();
                         //l1.get(0).get_vote_nb()
                         nb_vote.setPadding(new Insets(30));
                         Button rightButton = new Button("-");
-
+    
                         GridPane gridPane = new GridPane();
                         gridPane.addRow(0, leftButton, nb_vote, rightButton);
                         doubleSidedButton.setGraphic(gridPane);
-
+    
                         leftButton.setOnAction(event -> {
-
+    
                             Answer rowDataa = getTableView().getItems().get(getIndex());
                             s.incri(rowDataa);
                             System.out.println("*********************");
                             System.out.println(rowDataa);
-
+    
                         });
                         rightButton.setOnAction(event -> {
                             // effectue l'action pour le bouton de droite
                             Answer rowDataa = getTableView().getItems().get(getIndex());
                             s.déc(rowDataa);
                             //System.out.println(rowDataa.get_vote_nb());
-
+    
                         });
                         //ToggleButton button = new ToggleButton("Click Me");
-
+    
                         setGraphic(doubleSidedButton);
-
+    
                         doubleSidedButton.setOnAction((ActionEvent event) -> {
                             // Do something when button is clicked
                             Answer rowData = getTableView().getItems().get(getIndex());
                             nb_vote.setText(Integer.toString(rowData.get_vote_nb()));
-
+    
                         });
-
+    
                     }
                 }
             };
-
+    
             return cell;
         });
         list1.getColumns().add(titleColumn1);
+    
+    } */
+    public void show_tab(ListView<Answer> list1, List<Answer> l1) {
+        ObservableList<Answer> data = FXCollections.observableArrayList(l1);
+        list1.setItems(data);
 
+        list1.setCellFactory(lv -> new ListCell<>() {
+            @Override
+            public void updateItem(Answer answer, boolean empty) {
+                super.updateItem(answer, empty);
+                if (empty) {
+                    setText(null);
+                    setGraphic(null);
+                } else {
+                    setText(answer.getMessage());
+                    Button doubleSidedButton = new Button();
+                    doubleSidedButton.setStyle("-fx-background-color: transparent;");
+                    Button leftButton = new Button("+");
+
+                    Label nb_vote = new Label(Integer.toString(data.get(getIndex()).get_vote_nb()));
+                    nb_vote.setPadding(new Insets(30));
+                    System.out.println("*********************");
+                    System.out.println(data);
+                    Button rightButton = new Button("-");
+
+                    GridPane gridPane = new GridPane();
+                    gridPane.addRow(0, leftButton, nb_vote, rightButton);
+                    doubleSidedButton.setGraphic(gridPane);
+
+                    leftButton.setOnAction(event -> {
+                        Answer rowDataa = answer;
+                        s.incri(rowDataa);
+
+                        System.out.println(rowDataa);
+                    });
+                    rightButton.setOnAction(event -> {
+                        Answer rowDataa = answer;
+                        s.déc(rowDataa);
+                    });
+
+                    setGraphic(doubleSidedButton);
+
+                    doubleSidedButton.setOnAction((ActionEvent event) -> {
+                        nb_vote.setText(Integer.toString(answer.get_vote_nb()));
+                    });
+                }
+            }
+        });
     }
 
 }

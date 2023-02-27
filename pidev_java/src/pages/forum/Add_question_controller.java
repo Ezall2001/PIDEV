@@ -106,7 +106,7 @@ public class Add_question_controller implements Initializable {
                 tx1.setText("");
                 tx2.setText("");
 
-            } else if (qs.is_matching(title) || qs.is_matching(description)) {
+            } else if (sf.is_matching(title) || sf.is_matching(description)) {
                 Alert errorAlert = new Alert(AlertType.ERROR);
                 errorAlert.setHeaderText("Attention");
                 errorAlert.setContentText("vous n'avez pas le droit d utiliser ce genre des mots");

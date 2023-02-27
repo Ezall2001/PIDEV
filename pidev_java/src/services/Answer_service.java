@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
 import java.util.stream.Collectors;
@@ -13,6 +14,7 @@ import entities.Answer;
 import entities.Question;
 import utils.Jdbc_connection;
 import utils.Log;
+import utils.Service_Fx;
 
 public class Answer_service {
     Connection cnx;
@@ -23,20 +25,25 @@ public class Answer_service {
     }
 
     public void add(Answer r, Question q) {
+        Service_Fx sf = new Service_Fx();
 
         try {
 
             PreparedStatement pst = cnx.prepareStatement("insert into answers(message, question_id) values(?,?) ");
             pst.setString(1, r.getMessage());
             pst.setInt(2, q.get_id());
+            if (r.getMessage() == "") {
+                throw new Exception("vous devez remplir remplir les champs");
+            } else if (sf.is_matching(r.getMessage())) {
 
-            int x = pst.executeUpdate();
-            pst.close();
+                throw new Exception("vous n'avez pas le droit d utiliser ce genre des mots");
 
-            if (x == 1) {
-                Log.console("la réponse est ajoutée avec succés");
+            } else {
+                pst.executeUpdate();
+                pst.close();
             }
-        } catch (SQLException ex) {
+
+        } catch (Exception ex) {
             Log.console(ex.getMessage());
         }
 
@@ -111,30 +118,69 @@ public class Answer_service {
     }
 
     public void update(int id, String message) {
+        Service_Fx sf = new Service_Fx();
         try {
 
             String sql = "UPDATE answers SET message=? WHERE id=?";
             PreparedStatement statement = cnx.prepareStatement(sql);
-            statement.setString(1, message);
-            statement.setInt(2, id);
-            int x = statement.executeUpdate();
-            statement.close();
-            if (x == 1) {
-                Log.console("la reponse est modifier avec succés");
+            if (message == "") {
+                throw new Exception("vous devez remplir remplir les champs");
+            } else if (sf.is_matching(message)) {
+
+                throw new Exception("vous n'avez pas le droit d utiliser ce genre des mots");
+
+            } else {
+                statement.setString(1, message);
+                statement.setInt(2, id);
+                int x = statement.executeUpdate();
+                statement.close();
+                if (x == 1) {
+                    Log.console("la reponse est modifier avec succés");
+                }
             }
             //Log.console(get_all());
 
-        } catch (SQLException ex) {
+        } catch (Exception ex) {
             Log.console(ex.getMessage());
         }
 
     }
 
-    public List<Answer> trie() {
+    public List<Answer> trie(Question q) {
         List<Answer> answers = new ArrayList<>();
+        HashMap<Question, List<Answer>> map = new HashMap<Question, List<Answer>>();
+        Question_service qs = new Question_service();
+        map = qs.get_with_answer(q.get_id());
+        for (HashMap.Entry<Question, List<Answer>> entry : map.entrySet()) {
 
-        answers = get_all();
+            answers = entry.getValue();
+            //Log.console(value.get(0));
+
+            //Log.console(value);
+
+        }
+
         answers = answers.stream().sorted((a, b) -> b.get_vote_nb() - a.get_vote_nb()).collect(Collectors.toList());
+        return answers;
+
+    }
+
+    public List<Answer> filtrer_recent(Question q) {
+        List<Answer> answers = new ArrayList<>();
+        HashMap<Question, List<Answer>> map = new HashMap<Question, List<Answer>>();
+        Question_service qs = new Question_service();
+        map = qs.get_with_answer(q.get_id());
+        for (HashMap.Entry<Question, List<Answer>> entry : map.entrySet()) {
+
+            answers = entry.getValue();
+            //Log.console(value.get(0));
+
+            //Log.console(value);
+
+        }
+
+        answers = answers.stream().sorted((a, b) -> b.getId() - a.getId()).collect(Collectors.toList());
+
         return answers;
 
     }
@@ -150,11 +196,10 @@ public class Answer_service {
 
                 a.set_vote_nb(rs.getInt("vote_nb"));
                 nb_vote = a.get_vote_nb();
-                Log.console("hobbi" + nb_vote);
 
                 nb_vote = nb_vote + 1;
                 a.set_vote_nb(nb_vote);
-                Log.console("hobbi" + nb_vote);
+
                 update(a.getId(), nb_vote);
 
             }
@@ -179,11 +224,10 @@ public class Answer_service {
 
                 a.set_vote_nb(rs.getInt("vote_nb"));
                 nb_vote = a.get_vote_nb();
-                Log.console("hobbi" + nb_vote);
 
                 nb_vote = nb_vote - 1;
                 a.set_vote_nb(nb_vote);
-                Log.console("hobbi" + nb_vote);
+
                 update2(a.getId(), nb_vote);
 
             }

@@ -59,6 +59,13 @@ public class Add_answer_controller implements Initializable {
                 errorAlert.setHeaderText("Champs vides");
                 errorAlert.setContentText("vous devez remplir remplir les champs");
                 errorAlert.showAndWait();
+            } else if (sf.is_matching(message)) {
+                Alert errorAlert = new Alert(AlertType.ERROR);
+                errorAlert.setHeaderText("Attention");
+                errorAlert.setContentText("vous n'avez pas le droit d utiliser ce genre des mots");
+                errorAlert.showAndWait();
+                text1.setText("");
+
             } else {
                 Answer p = new Answer(message);
 

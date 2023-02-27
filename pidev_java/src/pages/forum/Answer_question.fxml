@@ -135,8 +135,8 @@
                                         <children>
                                     <MenuButton stylesheets="@../../../public/css/styling.css"   styleClass="menuButton" fx:id="btn1"  mnemonicParsing="false" prefHeight="38.0" prefWidth="115.0" textFill="WHITE"  text="filtrer">
                                         <items>
-                                        <MenuItem mnemonicParsing="false" text="Interessant"  />
-                                        <MenuItem mnemonicParsing="false" text="Récent" />
+                                        <MenuItem mnemonicParsing="false" onAction="#trier_rp" text="Interessant"  />
+                                        <MenuItem mnemonicParsing="false" onAction="#filter_rp" text="Récent" />
                                         </items>
                                         <font>
                                             <Font name="Arial Black" size="17.0" />
@@ -155,14 +155,10 @@
                                     </HBox>
                                      
                                       <!-- Define a table view -->
-                                    <TableView fx:id="tab1"  style="-fx-background-color: #000; -fx-border-color: #fff; -fx-text-fill: #fff; -fx-font-size: 22;"  layoutX="6.0" layoutY="441.0" prefHeight="500.0" prefWidth="904.0">
+                                    <ListView  style="-fx-background-color: #000; -fx-border-color: #fff; -fx-text-fill: #fff; -fx-font-size: 22;"  fx:id="list2" layoutX="6.0" layoutY="441.0" prefHeight="500.0" prefWidth="904.0">
+                                      <items ></items>
+                                       </ListView>    
                                         
-                                        <!-- Define columns for the table view -->
-                                        <columns>
-                                            
-                                     </columns>
-                                        
-                                    </TableView>      
                                 </VBox>
                              
                         
