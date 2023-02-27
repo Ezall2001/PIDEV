@@ -1,22 +1,21 @@
 package entities;
 
 public class Resource {
-  private Integer id, id_session;
+  private Integer id;
   private String name, file_path;
+  private Session session;
 
   public Resource() {
 
   }
 
-  public Resource(Integer id_session, String name, String file_path) {
-    set_id_session(id_session);
+  public Resource(String name, String file_path) {
     set_name(name);
     set_file_path(file_path);
   }
 
-  public Resource(Integer id, Integer id_session, String name, String file_path) {
+  public Resource(Integer id, String name, String file_path) {
     set_id(id);
-    set_id_session(id_session);
     set_name(name);
     set_file_path(file_path);
   }
@@ -27,14 +26,6 @@ public class Resource {
 
   public void set_id(Integer id) {
     this.id = id;
-  }
-
-  public Integer get_id_session() {
-    return id_session;
-  }
-
-  public void set_id_session(Integer id_session) {
-    this.id_session = id_session;
   }
 
   public String get_name() {
@@ -53,9 +44,18 @@ public class Resource {
     this.file_path = file_path;
   }
 
+  public Session get_session() {
+    return session;
+  }
+
+  public void set_session(Session session) {
+    this.session = session;
+  }
+
   @Override
   public String toString() {
-    return "Resource [id=" + id + ", id_session=" + id_session + ", name=" + name + ", file_path=" + file_path + "]";
+    return "Resource [id=" + id + ", name=" + name + ", file_path=" + file_path + ", session=" + session.toString()
+        + "]";
   }
 
 }
