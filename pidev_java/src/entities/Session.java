@@ -9,21 +9,20 @@ import java.util.List;
 import utils.DateTime_helpers;
 
 public class Session {
-  private Integer id, id_user, id_course;
+  private Integer id;
   private Double price;
   private LocalDate date;
   private LocalTime start_time, end_time;
   private String topics;
   private List<Resource> resources;
+  private User user;
+  private Course course;
 
   public Session() {
 
   }
 
-  public Session(Integer id_user, Integer id_course, Double price, LocalDate date, LocalTime start_time,
-      LocalTime end_time, String topics) {
-    set_id_user(id_user);
-    set_id_course(id_course);
+  public Session(Double price, LocalDate date, LocalTime start_time, LocalTime end_time, String topics) {
     set_price(price);
     set_date(date);
     set_start_time(start_time);
@@ -46,22 +45,6 @@ public class Session {
 
   public void set_id(Integer id) {
     this.id = id;
-  }
-
-  public Integer get_id_user() {
-    return id_user;
-  }
-
-  public void set_id_user(Integer id_user) {
-    this.id_user = id_user;
-  }
-
-  public Integer get_id_course() {
-    return id_course;
-  }
-
-  public void set_id_course(Integer id_course) {
-    this.id_course = id_course;
   }
 
   public Double get_price() {
@@ -157,10 +140,27 @@ public class Session {
     this.resources = resources;
   }
 
+  public User get_user() {
+    return user;
+  }
+
+  public void set_user(User user) {
+    this.user = user;
+  }
+
+  public Course get_course() {
+    return course;
+  }
+
+  public void set_course(Course course) {
+    this.course = course;
+  }
+
   @Override
   public String toString() {
-    return "Session [id=" + id + ", id_user=" + id_user + ", id_course=" + id_course + ", price=" + price + ", date="
-        + date + ", start_time=" + start_time + ", end_time=" + end_time + ", resources=" + resources + "]";
+    return "Session [id=" + id + ", price=" + price + ", date=" + date + ", start_time=" + start_time + ", end_time="
+        + end_time + ", topics=" + topics + ", resources=" + resources + ", user=" + user.toString() + ", course="
+        + course.toString() + "]";
   }
 
 }

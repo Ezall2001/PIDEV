@@ -101,8 +101,6 @@ public class User_service {
             result.getString("avatar_path"),
             result.getString("type"));
 
-        user.set_class_esprit(new Class_esprit(result.getString(0)));
-
         users.add(user);
 
       }
