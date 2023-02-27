@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.gluonhq.charm.glisten.mvc.View?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<View maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="810.0" prefWidth="1440.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pages.profile.User_profile_controller">
+    <left>
+        <VBox alignment="TOP_CENTER" minWidth="-Infinity" prefHeight="810.0" prefWidth="436.0" BorderPane.alignment="CENTER">
+            <children>
+                <Label alignment="CENTER" minWidth="0.0" text="Espace Profil" textAlignment="CENTER" textFill="#051148">
+                    <font>
+                        <Font name="Roboto Bold" size="36.0" />
+                    </font>
+                    <effect>
+                        <DropShadow blurType="TWO_PASS_BOX" height="20.52" offsetY="2.0" radius="6.8275" spread="0.07" width="8.79">
+                            <color>
+                                <Color opacity="0.25" />
+                            </color>
+                        </DropShadow>
+                    </effect>
+                    <VBox.margin>
+                        <Insets top="100.0" />
+                    </VBox.margin>
+                </Label>
+                <ImageView id="profile_picture" fx:id="student_profile_picture" fitHeight="128.0" fitWidth="129.0" pickOnBounds="true" style="-fx-border-radius: 100; -fx-background-radius: 100;">
+                    <image>
+                        <Image url="@pic_eya/icon_profil.jpg" />
+                    </image>
+                    <VBox.margin>
+                        <Insets top="50.0" />
+                    </VBox.margin>
+                </ImageView>
+                <Label fx:id="first_and_last_name_label" text="Eya Harbi">
+                    <VBox.margin>
+                        <Insets top="10.0" />
+                    </VBox.margin>
+                    <font>
+                        <Font name="Roboto Bold" size="24.0" />
+                    </font>
+                </Label>
+            <Label fx:id="age_label" text="Age :  " textFill="#000000ba">
+               <font>
+                  <Font name="Inter Regular" size="14.0" />
+               </font>
+            </Label>
+            <Text fill="#051148" onMouseClicked="#Update_profil" strokeType="OUTSIDE" strokeWidth="0.0" text="Modifier le profil" underline="true">
+               <VBox.margin>
+                  <Insets top="5.0" />
+               </VBox.margin>
+               <font>
+                  <Font name="Roboto" size="15.0" />
+               </font>
+            </Text>
+            <Label fx:id="level_label" text="Niveau : Amateur" textFill="#051148">
+               <font>
+                  <Font name="Roboto Bold" size="18.0" />
+               </font>
+               <VBox.margin>
+                  <Insets top="40.0" />
+               </VBox.margin>
+            </Label>
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#c6c5c5" height="14.0" stroke="TRANSPARENT" strokeType="INSIDE" style="-fx-border-radius: 100; -fx-background-radius: 40;" width="156.0">
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin>
+            </Rectangle>
+            <Label fx:id="score_label" alignment="TOP_LEFT" text="Points:    /1000" textFill="#222020ab">
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+            </Label>
+            <Label fx:id="Bio_label" alignment="TOP_LEFT" text="Bio" textFill="#051148">
+               <VBox.margin>
+                  <Insets top="30.0" />
+               </VBox.margin>
+               <font>
+                  <Font name="Roboto Bold" size="18.0" />
+               </font>
+            </Label>
+            <Label fx:id="bio_text" prefHeight="108.0" prefWidth="312.0" text="Lorem ipsum dolor sit amet. Ab alias pariatur et earum sequi At explicabo delectus et dolores assumenda eum sint galisum quo quae corporis est soluta iure." wrapText="true" />
+            <Button mnemonicParsing="false" onAction="#go_to_test" text="Test" />
+            </children>
+        </VBox>
+    </left>
+   <center>
+      <VBox prefHeight="200.0" prefWidth="100.0" style="-fx-background-color: #A7A7A7;" BorderPane.alignment="CENTER" />
+   </center>
+</View>

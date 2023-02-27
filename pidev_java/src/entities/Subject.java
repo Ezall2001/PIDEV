@@ -45,6 +45,7 @@ public class Subject {
 
   }
 
+<<<<<<< HEAD
   public Subject(int id, String subject_name, String description) {
     this.id = id;
     this.subject_name = subject_name;
@@ -58,6 +59,8 @@ public class Subject {
 
   }
 
+=======
+>>>>>>> 28a69ff4fe2b06bf2161c656a698b3dce405953c
   public int get_id() {
     return id;
   }
