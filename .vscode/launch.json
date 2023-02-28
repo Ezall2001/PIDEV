@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Eya_test",
+            "request": "launch",
+            "mainClass": "tests.Eya_test",
+            "projectName": "pidev_java_cbd222ac"
+        },
+        {
+            "type": "java",
             "name": "Launch Current File",
             "request": "launch",
             "mainClass": "${file}"

@@ -1,5 +1,6 @@
 package entities;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import utils.*;
@@ -12,7 +13,7 @@ public class Subject {
 
   private int id;
   private String subject_name;
-
+  private List<Question> questions = new ArrayList<>();
   private String description;
   private Level level;
 
@@ -91,6 +92,14 @@ public class Subject {
   public String toString() {
     return "Matiere{" + "id=" + id + ",nom_matiere =" + subject_name +
         ", description=" + description + ",Level=" + get_level_String() + '}';
+  }
+
+  public List<Question> get_question() {
+    return questions;
+  }
+
+  public void add_question(Question question) {
+    questions.add(question);
   }
 
 }

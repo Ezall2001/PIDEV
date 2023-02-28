@@ -1,6 +1,6 @@
 package entities;
 
-import utils.*;
+import utils.Log;
 
 public class Course {
 
@@ -30,6 +30,13 @@ public class Course {
 
     this.id_c = id_c;
     this.course_name = course_name;
+  }
+
+  public Course(String course_name, String description_c, Difficulty difficulty) {
+    this.course_name = course_name;
+    this.description_c = description_c;
+    this.difficulty = difficulty;
+
   }
 
   public Course(int id_c, String course_name, String description_c, Difficulty difficulty) {
