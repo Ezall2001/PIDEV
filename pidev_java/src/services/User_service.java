@@ -10,6 +10,8 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.databind.ser.std.StdKeySerializers.Default;
+
 import entities.Current_user_data;
 import entities.User;
 
@@ -27,10 +29,10 @@ public class User_service {
 
   public User add(User user) {
     if ((find_by_email(user.get_email()) == null) && (check_user_infos(user))) {
-
+      int score = 0;
+      // user.set_score(0);
       String sql = "insert into users(first_name,last_name,bio,age,email,password,score) values (?,?,?,?,?,?,?)";
       try {
-
         PreparedStatement stmt = cnx.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
         stmt.setString(1, user.get_first_name());
         stmt.setString(2, user.get_last_name());
@@ -38,7 +40,8 @@ public class User_service {
         stmt.setInt(4, user.get_age());
         stmt.setString(5, user.get_email());
         stmt.setString(6, user.get_hashed_password());
-        stmt.setInt(7, 0);
+        // stmt.setInt(7, user.get_score());
+        stmt.setInt(7, score);
         stmt.executeUpdate();
 
         ResultSet generated_id = stmt.getGeneratedKeys();
@@ -207,6 +210,7 @@ public class User_service {
           user.set_bio(rSet.getString("bio"));
           user.set_avatar_path(rSet.getString("avatar_path"));
           user.set_age(rSet.getInt("age"));
+          user.set_score(rSet.getInt("score"));
           user.set_email(rSet.getString("email"));
           user.set_password(rSet.getString("password"));
           user.set_type(rSet.getString("type"));

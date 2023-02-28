@@ -76,6 +76,7 @@ public class Login_controller {
             Current_user_data.set_current_user(user);
         } else {
             error_login.setText("*** verifier vos parametre");
+            Log.console("here");
         }
     }
 

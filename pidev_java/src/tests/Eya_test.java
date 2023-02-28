@@ -37,9 +37,11 @@ public class Eya_test {
         * * add student
         */
         // user_service.add(u1);
-        // user_service.add(u2);
-        // user_service.add(u3);
+        user_service.delete(u2);
+        user_service.add(u2);
+        // Log.console(user_service.add(u1));
         // user_service.add(u4);
+        Log.console(u2);
         /*  
         * update student
         */
@@ -47,7 +49,6 @@ public class Eya_test {
         /*  
         * delete student
         */
-        // user_service.delete(u1);
 
         // user_service.login("eya@esprit.tn", "azerty");
         // Log.console(u1.get_level_string());
@@ -56,7 +57,7 @@ public class Eya_test {
         
         * advanced methods
         */
-        // Log.console(user_service.get_all());
+        Log.console(user_service.get_all());
         // Log.console(user_service.find_by_id(19));
         // if (user_service.check_password("azerty", u1.get_hashed_password())) {
         //     Log.console("nafssou wallah");
@@ -83,7 +84,6 @@ public class Eya_test {
         //     Log.console("loged in");
         // else
         //     Log.console("Logged out");
-
         /*  
         
         * * check if session exists and not expired
@@ -93,7 +93,7 @@ public class Eya_test {
         * * delete expired sessions
         */
         // user_session_service.delete_expired_sessions();
-        Log.console(user_session_service.get_all());
+        // Log.console(user_session_service.get_all());
     }
 
     // private static Level valueOf(String string) {
