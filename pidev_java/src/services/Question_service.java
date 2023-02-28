@@ -21,8 +21,11 @@ import com.mysql.cj.jdbc.BlobFromLocator;
 import com.mysql.cj.protocol.Message;
 
 import entities.Answer;
+import entities.Current_user_data;
 import entities.Question;
 import entities.Subject;
+import entities.User;
+import entities.User_session;
 import utils.Jdbc_connection;
 import utils.Log;
 import utils.Service_Fx;
@@ -89,6 +92,42 @@ public class Question_service {
             rs.close();
             ste.close();
         } catch (SQLException e) {
+            Log.console(e.getMessage());
+        }
+
+        return questions;
+    }
+
+    public List<Question> get_all_qs_user() {
+        User_service us = new User_service();
+
+        User user = us.login("najiba@esprit.tn", "najiba123");
+        Log.console(us.login("najiba@esprit.tn", "najiba123"));
+
+        List<Question> questions = new ArrayList<>();
+
+        try {
+            String sql = "SELECT * FROM users LEFT JOIN questions ON users.id = questions.user_id WHERE users.id=?";
+
+            PreparedStatement ste = cnx.prepareStatement(sql);
+            ste.setInt(1, user.get_id());
+
+            ResultSet rs = ste.executeQuery();
+            while (rs.next()) {
+                Question q = new Question();
+                q.set_id(rs.getInt(11));
+                q.set_title(rs.getString("title"));
+                q.set_description(rs.getString("description"));
+
+                questions.add(q);
+            }
+
+        } catch (SQLException e) {
+            Log.console(e.getMessage());
+        }
+        try {
+
+        } catch (Exception e) {
             Log.console(e.getMessage());
         }
 

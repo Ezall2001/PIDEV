@@ -37,6 +37,7 @@ public class Eya_test {
         * * add student
         */
         // user_service.add(u1);
+        Log.console(u1);
         // user_service.add(u2);
         // user_service.add(u3);
         // user_service.add(u4);

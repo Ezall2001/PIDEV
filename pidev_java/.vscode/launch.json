@@ -4,7 +4,23 @@
     // Pour plus d'informations, visitez : https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
-    
+
+        {
+            "type": "java",
+            "name": "Launch Main_eya",
+            "request": "launch",
+            "mainClass": "pages.profile.Main_eya",
+            "projectName": "pidev_java_c85c8afe",
+            "vmArgs": "--module-path \"C:/Java/javafx-sdk-19.0.2.1/lib\" --add-modules javafx.controls,javafx.fxml"
+        },
+        {
+            "type": "java",
+            "name": "Launch Eya_test",
+            "request": "launch",
+            "mainClass": "tests.Eya_test",
+            "projectName": "pidev_java_c85c8afe",
+            "vmArgs": "--module-path \"C:/Java/javafx-sdk-19.0.2.1/lib\" --add-modules javafx.controls,javafx.fxml"
+        },
         {
             "type": "java",
             "name": "Launch Najiba_test",

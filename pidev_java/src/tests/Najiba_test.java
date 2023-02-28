@@ -5,13 +5,16 @@ import java.util.List;
 import entities.Answer;
 import entities.Question;
 import entities.Subject;
+import entities.User;
 import services.Answer_service;
 import services.Question_service;
 import services.Subject_service;
+import services.User_service;
 import utils.Jdbc_connection;
 import utils.Log;
 
 public class Najiba_test {
+
     public static void main(String[] args) {
         Jdbc_connection.getInstance();
         /*
@@ -19,6 +22,8 @@ public class Najiba_test {
          * test*************************************************************************
          * ***
          */
+        User_service us = new User_service();
+
         Question q1 = new Question("ygcdx", "najibaa");
         Answer r1 = new Answer(14, "najiba12345");
         Question_service q = new Question_service();
@@ -37,7 +42,7 @@ public class Najiba_test {
 
         /*------------------------get All functions----------------------------- */
 
-        //Log.console(q.get_all());
+        Log.console(q.get_all_qs_user());
         // Log.console(rs.get_all());
         //Log.console(q.get_with_answer(4));
         //Log.console(q.get_with_subject(41));
@@ -62,7 +67,7 @@ public class Najiba_test {
         //q.update(1, "najiba123", "ccccccccc");
 
         //rs.update(14, "najiba1235");
-        Log.console(r1.get_vote_nb());
+        // Log.console(r1.get_vote_nb());
 
         /*------------------------filter functions----------------------------- */
         //Log.console(q.filter_qs(2));
