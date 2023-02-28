@@ -46,8 +46,9 @@ public class User_profile_controller {
     //TODO: PICTURE +LEVEL
     public void display_user(User user) {
         this.user = user;
-        first_and_last_name_label.setText(user.get_first_name() + " " + user.get_last_name());
-        age_label.setText("Age: " + user.get_age());
+        first_and_last_name_label.setText(currentUser.get_first_name() + " " + currentUser.get_last_name());
+        age_label.setText("Age: " + currentUser.get_age());
+        Log.console(user.get_score());
         // level_label.setText("Niveau: " + user.get_level_string());
         score_label.setText("Points: " + user.get_score() + "/800");
         bio_text.setText(user.get_bio());

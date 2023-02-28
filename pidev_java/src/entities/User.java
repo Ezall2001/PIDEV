@@ -1,6 +1,12 @@
 package entities;
 
 import java.util.Arrays;
+import java.io.File;
+//to handle the Exception
+import java.io.IOException;
+import java.awt.image.BufferedImage;
+//importing ImageIO class
+import javax.imageio.ImageIO;
 import java.security.MessageDigest;
 import utils.Log;
 
@@ -62,6 +68,7 @@ public class User {
     set_email(email);
     set_password(password);
     set_hashed_password();
+    set_score(0);
     type = Type.STUDENT;
   }
 
@@ -103,6 +110,24 @@ public class User {
 
   public void set_avatar_path(String avatar_path) {
     this.avatar_path = avatar_path;
+  }
+
+  public File get_avatar_picture() {
+    int width = 1920; //width of the image
+    int height = 1080; //height of the image
+    BufferedImage image = null;
+    File f = null;
+    try {//here D:\\Wallpaper\\img2.jpg is image path which is inside D drive Wallpaper folder and image name is img.jpg
+      f = new File(get_avatar_path());
+      image = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+      image = ImageIO.read(f);
+      System.out.println("Read Successfully.");
+    } catch (IOException e) {
+      System.out.println("Error: " + e);
+    }
+
+    return null;
+
   }
 
   public Integer get_age() {
