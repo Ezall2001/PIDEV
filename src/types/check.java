@@ -1,7 +1,17 @@
 package types;
 
+import java.util.StringTokenizer;
+
+import javax.swing.BorderFactory;
+
+import javafx.scene.Node;
+import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.control.Labeled;
 
 // import java.lang.reflect.Field;
 
@@ -59,6 +69,39 @@ public class check {
         optionB.setSelected(false);
         optionC.setSelected(false);
         optionD.setSelected(false);
+    }
+
+    public static String get_remarque(int note, int total_qs) {
+        if (note == total_qs)
+            return "Excellent";
+        else if (note >= (total_qs / 2) && note != total_qs)
+            return "Assez bien";
+        else if (note <= (total_qs / 2) && note != 0)
+            return "Pas assez";
+        else if (note == 0)
+            return "Test échoué";
+        else
+            return "";
+    }
+
+    public static void set_resultat_color(Label label_remarque, Label resultat_test_label, VBox box,
+            Pane résultat_container) {
+        if (label_remarque.getText().equals("Excellent") || label_remarque.getText().equals("Assez bien")) {
+            resultat_test_label.setTextFill(Color.rgb(211, 228, 205, 1));
+            // résultat_container.setBorder(BorderFactory.createLineBorder(Color.rgb(0, 0, 0, 0)));
+            for (Node child : box.getChildren()) {
+                ((Labeled) child).setTextFill(Color.rgb(211, 228, 205, 1));
+            }
+
+        }
+
+        else if (label_remarque.getText().equals("Pas assez") || label_remarque.getText().equals("Test échoué")) {
+            resultat_test_label.setTextFill(Color.rgb(205, 4, 4, 1));
+
+            for (Node child : box.getChildren()) {
+                ((Labeled) child).setTextFill(Color.rgb(205, 4, 4, 1));
+            }
+        }
     }
 
     // public static void selected_radio_btn(RadioButton optionA, RadioButton optionB, RadioButton optionC,

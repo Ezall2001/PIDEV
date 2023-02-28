@@ -50,6 +50,11 @@ public class Nour_test {
         // t.setCourse(y);
         // service.add_with_course(t);
         // service.modify(t);
+        //-----------------------------------------------------
+        // System.out.println(course_service.get_course_test(79));
+        // System.out.println(course_service.get_by_id_2(79));
+        // System.out.println(course_service.get_course_test_questions(79));
+        // System.out.println(course_service.count_course_questions(79));
 
         Test_qs question = new Test_qs(8, 6, "zz", "SIMBA", "MESHMESH", "TAMA",
                 "NONE", "ALL");

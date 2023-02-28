@@ -1,6 +1,8 @@
 package utils;
 
 import entities.*;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 
 public class Shared_model_nour {
 
@@ -9,6 +11,24 @@ public class Shared_model_nour {
     private Test test = null;
     private Subject subject = null;
     private Course course = null;
+    private Scene scene = null;
+    private Stage stage = null;
+
+    public Stage getStage() {
+        return stage;
+    }
+
+    public void setStage(Stage stage) {
+        this.stage = stage;
+    }
+
+    public Scene getScene() {
+        return scene;
+    }
+
+    public void setScene(Scene scene) {
+        this.scene = scene;
+    }
 
     private Shared_model_nour() {
     }

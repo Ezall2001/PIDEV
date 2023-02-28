@@ -28,12 +28,12 @@
                         </Label>
                         <HBox layoutX="36.0" layoutY="53.0" prefHeight="24.0" prefWidth="246.0" spacing="15.0">
                            <children>
-                              <Label prefHeight="24.0" prefWidth="82.0" text="Matière :">
+                              <Label prefHeight="24.0" prefWidth="82.0" text="Cours :">
                                  <font>
                                     <Font name="Roboto" size="20.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="nom_matiere_label" text="nom_matière">
+                              <Label fx:id="nom_cours_label" text="nom_cours">
                                  <font>
                                     <Font name="Roboto" size="20.0" />
                                  </font>
@@ -148,7 +148,7 @@
                         </HBox>
                      </children>
                   </HBox>
-                  <Button fx:id="question_suivante_btn" layoutX="519.0" layoutY="457.0" mnemonicParsing="false" onMouseClicked="#question_suivante_btn_action" prefHeight="35.0" prefWidth="143.0" style="-fx-background-color: #CDFBF8; -fx-background-radius: 19; -fx-border-color: #000000; -fx-border-radius: 19;" text="question suivante">
+                  <Button fx:id="question_suivante_btn" layoutX="146.0" layoutY="457.0" mnemonicParsing="false" onMouseClicked="#question_suivante_btn_action" prefHeight="35.0" prefWidth="154.0" style="-fx-background-color: #CDFBF8; -fx-background-radius: 19; -fx-border-color: #000000; -fx-border-radius: 19;" text="question suivante">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
@@ -157,7 +157,7 @@
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor></Button>
-                  <Button fx:id="imprimer_resultat_btn" layoutX="519.0" layoutY="457.0" mnemonicParsing="false" onMouseClicked="#imprimer_resultat_btn_action" prefHeight="35.0" prefWidth="143.0" style="-fx-background-color: #97A8F8; -fx-background-radius: 19; -fx-border-radius: 19; -fx-border-color: #000000;" text="Imprimer résultat">
+                  <Button fx:id="imprimer_resultat_btn" layoutX="640.0" layoutY="455.0" mnemonicParsing="false" onMouseClicked="#imprimer_resultat_btn_action" prefHeight="35.0" prefWidth="94.0" style="-fx-background-color: #97A8F8; -fx-background-radius: 19; -fx-border-radius: 19; -fx-border-color: #000000;" text="Imprimer">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>

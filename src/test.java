@@ -13,6 +13,7 @@ import javafx.stage.Stage;
 import pages.session.Session_controller;
 import utils.Log;
 import utils.Router;
+import utils.Shared_model_nour;
 
 public class test extends Application {
     public static void main(String[] args) {
@@ -22,13 +23,13 @@ public class test extends Application {
     @Override
     public void start(Stage main_Stage) throws Exception {
 
-        Parent root = FXMLLoader.load(getClass().getResource("pages/test/test_home.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("pages/test/test_home_course.fxml"));
         Scene scene = new Scene(root);
         main_Stage.setScene(scene);
         main_Stage.show();
 
         // Router.init(main_Stage);
-        // Router.render_user_template("test_home", null);
+        // Router.render_user_template("Test", null);
 
     }
 }

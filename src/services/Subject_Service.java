@@ -246,7 +246,7 @@ public class Subject_Service {
                     +
                     "test_qs.question, subject.subject_name from test_qs INNER JOIN tests ON tests.id_subject = test_qs.id_subject "
                     +
-                    "JOIN subject ON tests.id_subject = subject.id where test_qs.id_subject =? ";
+                    "JOIN subject ON tests.id_subject = subject.id where test_qs.id_subject =? ORDER by test_qs.question_number  ";
 
             PreparedStatement ste = cnx.prepareStatement(sql);
             ste.setInt(1, id);
