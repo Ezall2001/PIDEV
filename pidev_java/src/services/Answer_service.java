@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 
 import entities.Answer;
 import entities.Question;
+import entities.User;
 import utils.Jdbc_connection;
 import utils.Log;
 import utils.Service_Fx;
@@ -24,14 +25,16 @@ public class Answer_service {
         cnx = Jdbc_connection.getInstance();
     }
 
-    public void add(Answer r, Question q) {
+    public void add(Answer r, Question q, User u) {
         Service_Fx sf = new Service_Fx();
 
         try {
 
-            PreparedStatement pst = cnx.prepareStatement("insert into answers(message, question_id) values(?,?) ");
+            PreparedStatement pst = cnx
+                    .prepareStatement("insert into answers(message, question_id, user_id) values(?,?,?) ");
             pst.setString(1, r.getMessage());
             pst.setInt(2, q.get_id());
+            pst.setInt(3, u.get_id());
             if (r.getMessage() == "") {
                 throw new Exception("vous devez remplir remplir les champs");
             } else if (sf.is_matching(r.getMessage())) {
@@ -51,6 +54,8 @@ public class Answer_service {
 
     public List<Answer> get_all() {
         List<Answer> answers = new ArrayList<>();
+        User_service u = new User_service();
+
         try {
             String sql = "select * from answers";
             java.sql.Statement ste = cnx.createStatement();
@@ -60,6 +65,7 @@ public class Answer_service {
                 r.setId(rs.getInt(rs.getInt("id")));
                 r.setMessage(rs.getString("message"));
                 r.set_vote_nb(rs.getInt("vote_nb"));
+                r.set_user(u.find_by_id(rs.getInt("user_id")));
 
                 answers.add(r);
 
@@ -92,6 +98,7 @@ public class Answer_service {
 
     public List<Answer> get_by_id(int id_rep) {
         List<Answer> Answers = new ArrayList<>();
+        User_service u = new User_service();
         try {
             String sql = "SELECT * FROM answers WHERE id=?";
             PreparedStatement ste = cnx.prepareStatement(sql);
@@ -103,6 +110,7 @@ public class Answer_service {
                 r.setMessage(rs.getString("message"));
                 r.set_vote_nb(rs.getInt("vote_nb"));
                 r.setId(rs.getInt("id"));
+                r.set_user(u.find_by_id(rs.getInt("user_id")));
 
                 Answers.add(r);
             }

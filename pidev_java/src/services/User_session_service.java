@@ -53,8 +53,9 @@ public class User_session_service {
                 pst.setTimestamp(3, Timestamp.from(now));
                 pst.setTimestamp(4, Timestamp.from(expires_at));
                 pst.executeUpdate();
-                Log.console("here");
+                Log.console("******************************");
                 return new User_session(user, token, now, expires_at);
+
             } catch (Exception e) {
                 Log.file(e.getMessage());
             }

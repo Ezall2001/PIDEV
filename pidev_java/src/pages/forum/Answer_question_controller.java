@@ -10,6 +10,7 @@ import java.util.function.Consumer;
 
 import entities.Answer;
 import entities.Question;
+import entities.User;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -80,6 +81,26 @@ public class Answer_question_controller implements Initializable {
     private Label tx3;
 
     Service_Fx sf = new Service_Fx();
+    private static Answer_question_controller instance;
+    private User user;
+
+    ///////////
+    public static Answer_question_controller getInstance() {
+
+        if (instance == null) {
+            instance = new Answer_question_controller();
+        }
+        return instance;
+    }
+
+    public User get_user() {
+        return user;
+    }
+
+    public void set_user(User user) {
+        this.user = user;
+    }
+    ////////////
 
     public void setList2(ListView<Answer> list2) {
         this.list2 = list2;
@@ -198,11 +219,12 @@ public class Answer_question_controller implements Initializable {
 
     @FXML
     void return_to(ActionEvent event) throws IOException {
-        Consumer<Forum_controller> consumer = forumontroller -> {
+        // Consumer<Forum_controller> consumer = forumontroller -> {
 
-        };
+        // };
 
-        Router.render_user_template("Forum", consumer);
+        // Router.render_user_template("Forum", consumer);
+        sf.redirect(event, "/pages/forum/Forum.fxml");
 
     }
 
@@ -220,6 +242,20 @@ public class Answer_question_controller implements Initializable {
             Question_service qs = new Question_service();
             Shared_model sharedModel = Shared_model.getInstance();
             Question q = sharedModel.getUser();
+            Answer_question_controller as = Answer_question_controller.getInstance();
+            Log.console(q.get_user().get_id());
+
+            User user = as.get_user();
+            if (user.get_id() != q.get_user().get_id()) {
+                img1.setVisible(false);
+                img2.setVisible(false);
+
+            } else {
+                img1.setVisible(true);
+                img2.setVisible(true);
+
+            }
+
             list3.setText(q.get_title());
             list4.setText(q.get_description());
 
@@ -258,6 +294,7 @@ public class Answer_question_controller implements Initializable {
             //     }
 
             // });
+
             list2.setOnMouseClicked(new EventHandler<MouseEvent>() {
                 List<Answer> l2 = new ArrayList<>();
 
@@ -266,15 +303,17 @@ public class Answer_question_controller implements Initializable {
 
                     try {
                         l2 = list2.getSelectionModel().getSelectedItems();
+                        if (user.get_id() == l2.get(0).get_user().get_id()) {
+                            Shared_answer SharedAnswer = Shared_answer.getInstance();
+                            SharedAnswer.setAnswer(l2.get(0));
 
-                        Shared_answer SharedAnswer = Shared_answer.getInstance();
-                        SharedAnswer.setAnswer(l2.get(0));
-                        Log.console("NNNNNNNNNNNNNNNNNNNNNNNNNNNNNN");
-                        Log.console(l2);
+                            Log.console("NNNNNNNNNNNNNNNNNNNNNNNNNNNNNN");
+                            Log.console(l2);
 
-                        sf.redirect(event, "/pages/forum/Manage_answer.fxml");
-
-                        //Log.console(sharedModel.getUser());
+                            sf.redirect(event, "/pages/forum/Manage_answer.fxml");
+                        } else {
+                            Log.console("u are not the user");
+                        }
 
                     } catch (Exception e) {
 

@@ -15,6 +15,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import pages.forum.Answer_question_controller;
 import services.User_service;
 
 public class Login_controller {
@@ -59,6 +60,10 @@ public class Login_controller {
                 root = loader.load();
                 User_profile_controller user_profile_controller = loader.getController();
                 user_profile_controller.display_user(user);
+                //partie najiba
+                Answer_question_controller as = Answer_question_controller.getInstance();
+                as.set_user(user);
+                ////////////////
                 stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
                 scene = new Scene(root);
                 stage.setScene(scene);
@@ -70,6 +75,7 @@ public class Login_controller {
                 scene = new Scene(root);
                 stage.setScene(scene);
                 stage.show();
+
             }
 
             // set the current user in AppData

@@ -132,6 +132,7 @@ public class Manage_answer_controller implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
         Answer_service qs = new Answer_service();
         Shared_answer SharedAnswer = Shared_answer.getInstance();
         Answer q = SharedAnswer.getAnswer();

@@ -12,6 +12,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import pages.forum.Forum_controller;
+import pages.profile.Login_controller;
 import pages.session.Session_controller;
 import utils.Log;
 import utils.Router;
@@ -30,6 +31,7 @@ public class App extends Application {
         };
 
         Router.render_user_template("Forum", consumer);
+        Log.console("00000000" + main_stage);
 
     }
 

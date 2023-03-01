@@ -89,7 +89,7 @@
                </font>
             </Label>
             <Label fx:id="bio_text" prefHeight="108.0" prefWidth="312.0" text="Lorem ipsum dolor sit amet. Ab alias pariatur et earum sequi At explicabo delectus et dolores assumenda eum sint galisum quo quae corporis est soluta iure." wrapText="true" />
-            <Button mnemonicParsing="false" onAction="#go_to_test" text="Test" />
+            <Button  fx:id="btn" mnemonicParsing="false"  onAction="#go_to_test" text="Forum" />
             </children>
         </VBox>
     </left>

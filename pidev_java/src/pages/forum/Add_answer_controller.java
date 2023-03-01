@@ -7,6 +7,7 @@ import java.util.function.Consumer;
 
 import entities.Answer;
 import entities.Question;
+import entities.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -52,6 +53,9 @@ public class Add_answer_controller implements Initializable {
         try {
             Shared_model sharedModel = Shared_model.getInstance();
             Question q = sharedModel.getUser();
+            Answer_question_controller as = Answer_question_controller.getInstance();
+            User user = as.get_user();
+
             String message = text1.getText();
 
             if (message == "") {
@@ -70,7 +74,7 @@ public class Add_answer_controller implements Initializable {
                 Answer p = new Answer(message);
 
                 Answer_service ps = new Answer_service();
-                ps.add(p, q);
+                ps.add(p, q, user);
                 Alert alert = new Alert(AlertType.INFORMATION);
                 alert.setTitle("");
                 alert.setHeaderText("votre reponse est ajoutée");

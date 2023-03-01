@@ -38,14 +38,15 @@ public class Question_service {
         cnx = Jdbc_connection.getInstance();
     }
 
-    public void add(Question q, Subject c) {
+    public void add(Question q, Subject c, User u) {
 
         try {
             PreparedStatement pst = cnx
-                    .prepareStatement("insert into questions(title,description,subject_id) values(?,?,?)");
+                    .prepareStatement("insert into questions(title,description,subject_id,user_id) values(?,?,?,?)");
             pst.setString(1, q.get_title());
             pst.setString(2, q.get_description());
             pst.setInt(3, c.get_id());
+            pst.setInt(4, u.get_id());
 
             if (q.get_title() == "" || q.get_description() == "") {
                 throw new Exception("vous devez remplir remplir les champs");
@@ -69,6 +70,7 @@ public class Question_service {
 
     public List<Question> get_all() {
         List<Question> questions = new ArrayList<>();
+        User_service u = new User_service();
         Statement ste = null;
         ResultSet rs = null;
 
@@ -81,6 +83,7 @@ public class Question_service {
                 q.set_id(rs.getInt(1));
                 q.set_title(rs.getString("title"));
                 q.set_description(rs.getString(3));
+                q.set_user(u.find_by_id(rs.getInt("user_id")));
 
                 questions.add(q);
             }
@@ -158,6 +161,7 @@ public class Question_service {
 
     public List<Question> get_by_id(int id) {
         List<Question> questions = new ArrayList<>();
+
         try {
             String sql = "SELECT * FROM questions WHERE id=?";
             PreparedStatement ste = cnx.prepareStatement(sql);
@@ -165,9 +169,10 @@ public class Question_service {
             ResultSet rs = ste.executeQuery();
             while (rs.next()) {
                 Question q = new Question();
-
+                User_service u = new User_service();
                 q.set_title(rs.getString("title"));
                 q.set_description(rs.getString(3));
+                q.set_user(u.find_by_id(rs.getInt("user_id")));
 
                 questions.add(q);
             }
@@ -223,8 +228,11 @@ public class Question_service {
                 String message = rs.getString("message");
                 int id_rep = rs.getInt(6);
                 int vote_nb = rs.getInt("vote_nb");
+                int user_id = rs.getInt(10);
+                User_service u = new User_service();
+                User user = u.find_by_id(user_id);
 
-                Answer r = new Answer(id_rep, message, vote_nb);
+                Answer r = new Answer(id_rep, message, vote_nb, user);
                 answers.add(r);
             }
             map.put(q.get(0), answers);
@@ -329,7 +337,7 @@ public class Question_service {
     FROM questions
     LEFT JOIN users ON questions.user_id = users.id
     WHERE questions.id = 39 */
-    public HashMap<String, String> get_with_uesr(int questionId) {
+    public HashMap<String, String> get_with_user(int questionId) {
         HashMap<String, String> map = new HashMap<>();
 
         try {
@@ -341,6 +349,7 @@ public class Question_service {
             while (rs.next()) {
                 String questionTitle = rs.getString("title");
                 String usertName = rs.getString("first_name");
+
                 map.put(questionTitle, usertName);
             }
 
@@ -381,6 +390,33 @@ public class Question_service {
         }
 
         return questions;
+    }
+
+    public HashMap<Question, List<User>> get_user(Question q) {
+        HashMap<Question, List<User>> map = new HashMap<Question, List<User>>();
+
+        List<User> answers = new ArrayList<>();
+        try {
+            String sql = "SELECT * FROM users LEFT JOIN questions ON users.id = questions.user_id WHERE users.id=?";
+            PreparedStatement ste = cnx.prepareStatement(sql);
+            ste.setInt(1, q.get_id());
+            ResultSet rs = ste.executeQuery();
+            while (rs.next()) {
+                String first_name = rs.getString("first_name");
+                int id_user = rs.getInt(11);
+
+                User r = new User(id_user, first_name);
+                answers.add(r);
+            }
+            map.put(q, answers);
+            rs.close();
+            ste.close();
+
+        } catch (SQLException ex) {
+            Log.console(ex.getMessage());
+        }
+
+        return map;
     }
 
 }

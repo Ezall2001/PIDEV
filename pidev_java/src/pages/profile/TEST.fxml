@@ -9,6 +9,6 @@
       <Label text="THIS IS A TEST INTERFACE OF THE HOME PAGE" BorderPane.alignment="CENTER" />
    </center>
    <bottom>
-      <Button fx:id="random_button" mnemonicParsing="false" onAction="#random_action" text="Button" BorderPane.alignment="CENTER" />
+      <Button fx:id="random_button" mnemonicParsing="false" onAction="#random_action" text="Forum" BorderPane.alignment="CENTER" />
    </bottom>
 </BorderPane>

@@ -9,6 +9,7 @@ import java.util.function.Consumer;
 
 import entities.Question;
 import entities.Subject;
+import entities.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 
@@ -89,6 +90,9 @@ public class Add_question_controller implements Initializable {
     @FXML
     void add_question(ActionEvent event) throws IOException {
         Question_service qs = new Question_service();
+        Answer_question_controller as = Answer_question_controller.getInstance();
+
+        User user = as.get_user();
         try {
             String title = tx1.getText();
             String description = tx2.getText();
@@ -120,7 +124,7 @@ public class Add_question_controller implements Initializable {
                 Subject_service sb = new Subject_service();
                 s = sb.get_by_name(choiceBox);
                 Question_service ps = new Question_service();
-                ps.add(p, s.get(0));
+                ps.add(p, s.get(0), user);
                 Alert alert = new Alert(AlertType.INFORMATION);
                 alert.setTitle("");
                 alert.setHeaderText("question ajoutée");
@@ -152,12 +156,13 @@ public class Add_question_controller implements Initializable {
     @FXML
     void return_to(ActionEvent event) throws IOException {
         //sf.redirect(event, "/pages/forum/Forum.fxml");
+        sf.redirect(event, "/pages/forum/Forum.fxml");
 
-        Consumer<Forum_controller> consumer = forumontroller -> {
+        // Consumer<Forum_controller> consumer = forumontroller -> {
 
-        };
+        // };
 
-        Router.render_user_template("Forum", consumer);
+        // Router.render_user_template("Forum", consumer);
 
     }
 

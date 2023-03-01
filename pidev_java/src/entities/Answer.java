@@ -25,6 +25,14 @@ public class Answer {
 
     }
 
+    public Answer(int id, String message, int vote_nb, User user) {
+        this.id = id;
+        this.message = message;
+        this.vote_nb = vote_nb;
+        this.user = user;
+
+    }
+
     public Answer(String message) {
         this.message = message;
 

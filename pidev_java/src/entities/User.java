@@ -44,6 +44,12 @@ public class User {
     type = Type.ADMIN;
   }
 
+  public User(Integer id, String first_name) {
+    set_id(id);
+    set_first_name(first_name);
+
+  }
+
   // GET USER
   public User(Integer id, String first_name, String last_name, String bio, Integer age, Integer score, String email,
       String avatar_path, String type) {
@@ -55,6 +61,19 @@ public class User {
     set_bio(bio);
     set_email(email);
     set_type(type);
+  }
+
+  public User(String first_name, String last_name, String bio, Integer age, Integer score, String email,
+      String avatar_path, String type, String password) {
+    set_id(id);
+    set_first_name(first_name);
+    set_last_name(last_name);
+    set_age(age);
+    set_score(score);
+    set_bio(bio);
+    set_email(email);
+    set_type(type);
+    set_type(password);
   }
 
   // CREATE STUDENT

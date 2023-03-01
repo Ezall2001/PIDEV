@@ -191,43 +191,43 @@ public class User_service {
 
   }
 
-  // public User login(String email, String password) {
-  //   try {
-  //     String sql = "SELECT * FROM users WHERE email = ?";
-  //     PreparedStatement pst = cnx.prepareStatement(sql);
-  //     pst.setString(1, email);
-  //     ResultSet rSet = pst.executeQuery();
-  //     Log.console(rSet);
-  //     while (rSet.next()) {
-  //       String hashed_password = rSet.getString("password");
-  //       if (check_password(password, hashed_password)) {
-  //         User user = new User();
-  //         user.set_id(rSet.getInt("id"));
-  //         Log.console(user);
-  //         user.set_first_name(rSet.getString("first_name"));
-  //         user.set_last_name(rSet.getString("last_name"));
-  //         user.set_bio(rSet.getString("bio"));
-  //         user.set_avatar_path(rSet.getString("avatar_path"));
-  //         user.set_age(rSet.getInt("age"));
-  //         user.set_email(rSet.getString("email"));
-  //         user.set_password(rSet.getString("password"));
-  //         user.set_type(rSet.getString("type"));
-  //         user_session_service.create_session(user);
-  //         Log.console("session created");
-  //         // Current_user_data.set_current_user(user);
-  //         // Current_user_data.set_current_session(user_session_service.get_user_session(user));
-  //         return user;
-  //       } else
-
-  //         return null;
-
-  //     }
-
-  //   } catch (Exception e) {
-  //   }
-  //   return null;
-  // }
   public User login(String email, String password) {
+    try {
+      String sql = "SELECT * FROM users WHERE email = ?";
+      PreparedStatement pst = cnx.prepareStatement(sql);
+      pst.setString(1, email);
+      ResultSet rSet = pst.executeQuery();
+      while (rSet.next()) {
+        String hashed_password = rSet.getString("password");
+        if (check_password(password, hashed_password)) {
+          User user = new User();
+          user.set_id(rSet.getInt("id"));
+          user.set_first_name(rSet.getString("first_name"));
+          user.set_last_name(rSet.getString("last_name"));
+          user.set_bio(rSet.getString("bio"));
+          user.set_avatar_path(rSet.getString("avatar_path"));
+          user.set_age(rSet.getInt("age"));
+          user.set_email(rSet.getString("email"));
+          user.set_password(rSet.getString("password"));
+          user.set_type(rSet.getString("type"));
+          //user_session_service.create_session(user);
+
+          //Log.console(user);
+          //Log.console("session created");
+          // Current_user_data.set_current_user(user);
+          // Current_user_data.set_current_session(user_session_service.get_user_session(user));
+          return user;
+        } else
+
+          return null;
+
+      }
+
+    } catch (Exception e) {
+    }
+    return null;
+  }
+  /* public User login(String email, String password) {
     try {
       String sql = "SELECT * FROM users WHERE email = ?";
       PreparedStatement pst = cnx.prepareStatement(sql);
@@ -250,21 +250,22 @@ public class User_service {
           user.set_type(rSet.getString("type"));
           Log.console(user);
           //user_session_service.create_session(user);
-
+  
           Log.console("session created");
           //Current_user_data.set_current_user(user);
           //Current_user_data.set_current_session(user_session_service.get_user_session(user));
           return user;
         } else
-
+  
           return null;
-
+  
       }
-
+  
     } catch (Exception e) {
     }
     return null;
   }
+  */
 
   public boolean check_password(String password, String hashed_password) {
     try {
