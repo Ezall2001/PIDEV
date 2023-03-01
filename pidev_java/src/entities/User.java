@@ -3,6 +3,7 @@ package entities;
 import java.util.Arrays;
 import java.security.MessageDigest;
 import utils.Log;
+import utils.String_helpers;
 
 public class User {
   public static enum Type {
@@ -50,6 +51,7 @@ public class User {
     set_score(score);
     set_bio(bio);
     set_email(email);
+    set_avatar_path(avatar_path);
     set_type(type);
   }
 
@@ -88,6 +90,11 @@ public class User {
 
   public void set_last_name(String last_name) {
     this.last_name = last_name;
+  }
+
+  public String get_full_name() {
+    return String.format("%s %s", String_helpers.capitalize(first_name),
+        String_helpers.capitalize(last_name));
   }
 
   public String get_bio() {
@@ -196,6 +203,11 @@ public class User {
 
   public static Integer compute_level_breakpoint_score(Integer level_index) {
     return (int) (Math.pow((level_index + 1), 2) * 100);
+  }
+
+  public String get_level() {
+    String level = compute_level().toString();
+    return String_helpers.capitalize(level);
   }
 
   public Level compute_level() {

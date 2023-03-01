@@ -9,7 +9,9 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
+import entities.Course;
 import entities.Session;
+import entities.User;
 
 public class Session_service {
   Connection cnx;
@@ -27,9 +29,9 @@ public class Session_service {
       stmt.setDate(2, session.get_date_sqlDate());
       stmt.setTime(3, session.get_start_time_sqlTime());
       stmt.setTime(4, session.get_end_time_sqlTime());
-      stmt.setInt(5, session.get_id_user());
+      stmt.setInt(5, session.get_user().get_id());
       stmt.setString(6, session.get_topics());
-      stmt.setInt(7, session.get_id_course());
+      stmt.setInt(7, session.get_course().get_id_c());
       stmt.executeUpdate();
 
       ResultSet generated_id = stmt.getGeneratedKeys();
@@ -38,7 +40,7 @@ public class Session_service {
       return session;
 
     } catch (Exception e) {
-      Log.file(e.getMessage());
+      Log.file(e);
       return null;
     }
 
@@ -61,26 +63,31 @@ public class Session_service {
     }
   }
 
-  public void delete_by_id(Integer id) {
+  public void delete_by_id(Session session) {
     String sql = "delete from sessions where id=?";
     try {
       PreparedStatement stmt = cnx.prepareStatement(sql);
-      stmt.setInt(1, id);
+      stmt.setInt(1, session.get_id());
       stmt.executeUpdate();
     } catch (Exception e) {
       Log.file(e.getMessage());
     }
   }
 
-  public List<Session> find_by_id_course(Integer id_course) {
+  public List<Session> find_by_id_course(Course course) {
     List<Session> sessions = new ArrayList<>();
     try {
-      String sql = "select * from sessions where id_course=?";
+      String sql = "select sessions.id,price,date,start_time,end_time,topics,users.first_name as user_first_name,users.last_name as user_last_name from sessions LEFT JOIN users ON users.id = sessions.id_user where id_course=?;";
       PreparedStatement stmt = cnx.prepareStatement(sql);
-      stmt.setInt(1, id_course);
+      stmt.setInt(1, course.get_id_c());
       ResultSet result = stmt.executeQuery();
 
       while (result.next()) {
+
+        User user = new User();
+        user.set_first_name(result.getString("user_first_name"));
+        user.set_last_name(result.getString("user_last_name"));
+
         Session session = new Session(
             result.getInt("id"),
             result.getDouble("price"),
@@ -88,6 +95,9 @@ public class Session_service {
             result.getTime("start_time"),
             result.getTime("end_time"),
             result.getString("topics"));
+
+        session.set_user(user);
+        session.set_course(course);
 
         sessions.add(session);
 
@@ -98,11 +108,11 @@ public class Session_service {
     return sessions;
   }
 
-  public Session find_by_id(Integer id) {
+  public Session find_by_id(Session session) {
     try {
       String sql = "select * from sessions where id=?";
       PreparedStatement stmt = cnx.prepareStatement(sql);
-      stmt.setInt(1, id);
+      stmt.setInt(1, session.get_id());
 
       ResultSet result = stmt.executeQuery();
 

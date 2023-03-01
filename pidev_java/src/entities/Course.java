@@ -57,6 +57,8 @@ public class Course {
   }
 
   public String get_difficulty_String() {
+    if (this.difficulty == null)
+      return "null";
     return this.difficulty.toString();
   }
 

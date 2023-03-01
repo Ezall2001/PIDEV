@@ -4,10 +4,12 @@ import java.util.function.Consumer;
 
 import com.gluonhq.charm.glisten.mvc.View;
 
+import entities.User;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import services.User_session_service;
 import templates.user_template.User_template_controller;
 
 public class Router {
@@ -15,12 +17,29 @@ public class Router {
   private static Integer pref_width = 1440;
   private static Integer pref_height = 810;
   private static Stage main_stage;
+  private static User_session_service user_session_service = new User_session_service();
 
   public static void init(Stage stage) {
     main_stage = stage;
   }
 
+  private static Boolean validate_user(String page_name) {
+    if (page_name.equals("Login"))
+      return true;
+
+    User user = user_session_service.get_user();
+    if (user == null) {
+      render_user_template("Login", null);
+      return false;
+    }
+
+    return true;
+  }
+
   public static <T> void render_user_template(String page_name, Consumer<T> controller_manipulator) {
+    if (!validate_user(page_name))
+      return;
+
     try {
       String template_path = "/templates/user_template/User_template.fxml";
       FXMLLoader template_loader = new FXMLLoader(Router.class.getResource(template_path));
@@ -37,7 +56,10 @@ public class Router {
     }
   }
 
-  public static void render_admin_template(String page_name) {
+  public static <T> void render_admin_template(String page_name, Consumer<T> controller_manipulator) {
+    if (!validate_user(page_name))
+      return;
+
     try {
 
     } catch (Exception e) {
@@ -80,14 +102,30 @@ public class Router {
     try {
       String dialog_path = String.format("/dialogs/%s/%s.fxml", dialog_name.toLowerCase(), dialog_name);
 
-      FXMLLoader dialog_Loader = new FXMLLoader(Router.class.getResource(dialog_path));
+      FXMLLoader dialog_loader = new FXMLLoader(Router.class.getResource(dialog_path));
 
-      Parent dialog = dialog_Loader.load();
+      Parent dialog = dialog_loader.load();
 
       if (controller_manipulator != null)
-        controller_manipulator.accept(dialog_Loader.getController());
+        controller_manipulator.accept(dialog_loader.getController());
 
       return dialog;
+    } catch (Exception e) {
+      Log.file(e);
+      return null;
+    }
+  }
+
+  public static <T> Parent load_component(String component_name, Consumer<T> controller_manipulator) {
+    try {
+      String component_path = String.format("/components/%s/%s.fxml", component_name.toLowerCase(), component_name);
+      FXMLLoader component_loader = new FXMLLoader(Router.class.getResource(component_path));
+      Parent component = component_loader.load();
+
+      if (controller_manipulator != null)
+        controller_manipulator.accept(component_loader.getController());
+
+      return component;
     } catch (Exception e) {
       Log.file(e);
       return null;

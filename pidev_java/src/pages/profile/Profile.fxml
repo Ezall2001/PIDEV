@@ -1,12 +1,139 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.gluonhq.charm.glisten.mvc.View?>
+<?import javafx.geometry.Insets?>
+<?import javafx.geometry.Rectangle2D?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
-
-<View maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+<View maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="810.0" prefWidth="1440.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pages.profile.Profile_controller">
    <center>
-      <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER" />
+      <HBox BorderPane.alignment="CENTER">
+         <children>
+              <VBox alignment="TOP_CENTER" minWidth="-Infinity" spacing="30.0">
+                  <children>
+                      <Label alignment="CENTER" text="Espace Profil" textAlignment="CENTER" textFill="#051148">
+                          <font>
+                              <Font name="Roboto Bold" size="36.0" />
+                          </font>
+                          <effect>
+                              <DropShadow blurType="TWO_PASS_BOX" height="20.52" offsetY="2.0" radius="6.8275" spread="0.07" width="8.79">
+                                  <color>
+                                      <Color opacity="0.25" />
+                                  </color>
+                              </DropShadow>
+                          </effect>
+                          <VBox.margin>
+                              <Insets />
+                          </VBox.margin>
+                      </Label>
+                  <VBox alignment="CENTER" spacing="5.0">
+                     <children>
+                        <ImageView fx:id="avatar_image" cache="true" fitHeight="150.0" fitWidth="150.0" pickOnBounds="true" smooth="false">
+                           <image>
+                              <Image url="file:/C:/Users/user/Desktop/esprit/PIDEV/pidev_java/public/image/default_avatar.png" />
+                           </image>
+                           <viewport>
+                              <Rectangle2D />
+                           </viewport>
+                        </ImageView>
+                            <Label fx:id="full_name_label" text="Eya Harbi">
+                                <font>
+                                    <Font name="System Bold" size="24.0" />
+                                </font>
+                            </Label>
+                        <HBox alignment="CENTER">
+                           <children>
+                              <Label text="Age :  " textFill="#000000ba">
+                                 <font>
+                                    <Font name="Inter Regular" size="14.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="age_label" layoutX="140.0" layoutY="10.0" textFill="#000000ba">
+                                 <font>
+                                    <Font name="Inter Regular" size="14.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </HBox>
+                        <Text fx:id="modify_profile_button" fill="#051148" onMouseClicked="#on_modify_profile_button_pressed" strokeType="OUTSIDE" strokeWidth="0.0" text="Modifier le profil" underline="true">
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin>
+                           <font>
+                              <Font name="Roboto" size="15.0" />
+                           </font>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </Text>
+                     </children>
+                  </VBox>
+                  <VBox alignment="CENTER" spacing="5.0">
+                     <children>
+                        <HBox alignment="CENTER">
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin>
+                           <children>
+                              <Label text="Niveau : " textFill="#051148">
+                                 <font>
+                                    <Font name="Roboto Bold" size="18.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="level_label" layoutX="10.0" layoutY="10.0" textFill="#051148">
+                                 <font>
+                                    <Font name="Roboto Bold" size="18.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </HBox>
+                        <StackPane alignment="CENTER_LEFT" maxWidth="200.0" prefWidth="200.0">
+                           <children>
+                              <Rectangle arcHeight="10.0" arcWidth="10.0" fill="#c6c5c5" height="10.0" stroke="TRANSPARENT" strokeType="INSIDE" strokeWidth="0.0" width="200.0" />
+                              <Rectangle fx:id="score_bar" arcHeight="10.0" arcWidth="10.0" fill="#97a8f8" height="10.0" layoutX="88.0" layoutY="78.0" stroke="TRANSPARENT" strokeLineCap="ROUND" strokeMiterLimit="0.0" strokeType="INSIDE" strokeWidth="0.0" />
+                           </children>
+                        </StackPane>
+                        <HBox alignment="CENTER">
+                           <children>
+                              <Label alignment="TOP_LEFT" text="Points : " textFill="#222020ab" />
+                              <Label fx:id="score_label" alignment="TOP_LEFT" layoutX="10.0" layoutY="10.0" textFill="#222020ab" />
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
+                  <VBox alignment="CENTER" spacing="10.0">
+                     <children>
+                        <Label alignment="TOP_LEFT" text="Bio" textFill="#051148">
+                           <font>
+                              <Font name="Roboto Bold" size="18.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="bio_label" alignment="CENTER" prefWidth="300.0" textAlignment="CENTER" wrapText="true">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </VBox>
+                  </children>
+               <padding>
+                  <Insets left="20.0" right="20.0" top="30.0" />
+               </padding>
+              </VBox>
+            <VBox style="-fx-background-color: #A7A7A7;" HBox.hgrow="ALWAYS" />
+         </children>
+      </HBox>
    </center>
 </View>

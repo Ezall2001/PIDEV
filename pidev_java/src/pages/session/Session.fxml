@@ -321,11 +321,11 @@
                      </children>
                   </VBox>
                </children>
-               <padding>
-                  <Insets left="30.0" right="30.0" top="20.0" />
-               </padding>
             </VBox>
          </content>
+         <padding>
+            <Insets left="30.0" right="30.0" top="20.0" />
+         </padding>
       </ScrollPane>
    </center>
 </View>

@@ -2,56 +2,50 @@ package services;
 
 import utils.Jdbc_connection;
 import utils.Log;
-import java.security.MessageDigest;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-
-import entities.Current_user_data;
 import entities.User;
 
 public class User_service {
   Connection cnx;
-  //TODO: ****things i changed
-  User_session_service user_session_service = new User_session_service();
-  private static User_service user_service_instance;
+
+  private static User_session_service user_session_service = new User_session_service();
 
   public User_service() {
-    user_session_service = User_session_service.get_user_session_service_instance();
-
     cnx = Jdbc_connection.getInstance();
   }
 
   public User add(User user) {
-    if ((find_by_email(user.get_email()) == null) && (check_user_infos(user))) {
-
-      String sql = "insert into users(first_name,last_name,bio,age,email,password,score) values (?,?,?,?,?,?,?)";
-      try {
-
-        PreparedStatement stmt = cnx.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
-        stmt.setString(1, user.get_first_name());
-        stmt.setString(2, user.get_last_name());
-        stmt.setString(3, user.get_bio());
-        stmt.setInt(4, user.get_age());
-        stmt.setString(5, user.get_email());
-        stmt.setString(6, user.get_hashed_password());
-        stmt.setInt(7, 0);
-        stmt.executeUpdate();
-
-        ResultSet generated_id = stmt.getGeneratedKeys();
-        generated_id.next();
-        user.set_id(generated_id.getInt(1));
-        return user;
-      } catch (Exception e) {
-
-        Log.console(e.getMessage());
-        return null;
-      }
-    } else
+    if ((find_by_email(user.get_email()) != null) || (!check_user_infos(user)))
       return null;
+
+    String sql = "insert into users(first_name,last_name,bio,age,email,password,score) values (?,?,?,?,?,?,?)";
+    try {
+      PreparedStatement stmt = cnx.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
+      stmt.setString(1, user.get_first_name());
+      stmt.setString(2, user.get_last_name());
+      stmt.setString(3, user.get_bio());
+      stmt.setInt(4, user.get_age());
+      stmt.setString(5, user.get_email());
+      stmt.setString(6, user.get_hashed_password());
+      stmt.setInt(7, 0);
+      stmt.executeUpdate();
+
+      ResultSet generated_id = stmt.getGeneratedKeys();
+      generated_id.next();
+      user.set_id(generated_id.getInt(1));
+      return user;
+
+    } catch (Exception e) {
+      Log.file(e.getMessage());
+    }
+
+    return null;
+
   }
 
   public void update(User user) {
@@ -110,11 +104,11 @@ public class User_service {
     return users;
   }
 
-  public User find_by_id(Integer id) {
+  public User find_by_id(User user) {
     try {
       String sql = "select * from users where id=?";
       PreparedStatement stmt = cnx.prepareStatement(sql);
-      stmt.setInt(1, id);
+      stmt.setInt(1, user.get_id());
 
       ResultSet result = stmt.executeQuery();
 
@@ -188,78 +182,47 @@ public class User_service {
     }
 
     return true;
-
   }
 
-  public User login(String email, String password) {
+  public User login(User user) {
     try {
       String sql = "SELECT * FROM users WHERE email = ?";
-      PreparedStatement pst = cnx.prepareStatement(sql);
-      pst.setString(1, email);
-      ResultSet rSet = pst.executeQuery();
-      while (rSet.next()) {
-        String hashed_password = rSet.getString("password");
-        if (check_password(password, hashed_password)) {
-          User user = new User();
-          user.set_id(rSet.getInt("id"));
-          user.set_first_name(rSet.getString("first_name"));
-          user.set_last_name(rSet.getString("last_name"));
-          user.set_bio(rSet.getString("bio"));
-          user.set_avatar_path(rSet.getString("avatar_path"));
-          user.set_age(rSet.getInt("age"));
-          user.set_email(rSet.getString("email"));
-          user.set_password(rSet.getString("password"));
-          user.set_type(rSet.getString("type"));
-          user_session_service.create_session(user);
-          Log.console("session created");
-          Current_user_data.set_current_user(user);
-          Current_user_data.set_current_session(user_session_service.get_user_session(user));
-          return user;
-        } else
+      PreparedStatement stmt = cnx.prepareStatement(sql);
+      stmt.setString(1, user.get_email());
+      ResultSet result = stmt.executeQuery();
 
-          return null;
+      while (result.next()) {
+        User user_to_match = new User(result.getString("email"),
+            result.getString("password"));
+
+        if (user.equals_to_user(user_to_match)) {
+          User matched_user = user_to_match;
+
+          matched_user.set_id(result.getInt("id"));
+          matched_user.set_first_name(result.getString("first_name"));
+          matched_user.set_last_name(result.getString("last_name"));
+          matched_user.set_bio(result.getString("bio"));
+          matched_user.set_avatar_path(result.getString("avatar_path"));
+          matched_user.set_age(result.getInt("age"));
+          matched_user.set_email(result.getString("email"));
+          matched_user.set_type(result.getString("type"));
+          matched_user.set_score(result.getInt("score"));
+
+          user_session_service.create_session(matched_user);
+
+          return matched_user;
+        }
 
       }
+
     } catch (Exception e) {
       Log.file(e.getMessage());
     }
     return null;
   }
 
-  public boolean check_password(String password, String hashed_password) {
-    try {
-      MessageDigest message_digest = MessageDigest.getInstance("SHA-256");
-      message_digest.update(password.getBytes());
-      byte[] bytes = message_digest.digest();
-      StringBuilder string_builder = new StringBuilder();
-      for (byte b : bytes) {
-        string_builder.append(Integer.toString((b & 0xff) + 0x100, 16).substring(1));
-      }
-      String hashedInput = string_builder.toString();
-      return hashedInput.equals(hashed_password);
-    } catch (Exception e) {
-      Log.file(e.getMessage());
-    }
-    return false;
+  public void logout() {
+    user_session_service.delete_session();
   }
 
-  public void logout(User user) {
-    user_session_service.delete_session_by_email(user.get_email());
-
-  }
-
-  public boolean logged_in(User user) {
-    user_session_service.delete_expired_sessions();
-    if (user_session_service.find_session_by_email(user.get_email()))
-      return true;
-    return false;
-  }
-
-  //TODO: ****things i changed
-  public static User_service get_user_service_instance() {
-    if (user_service_instance == null) {
-      user_service_instance = new User_service();
-    }
-    return user_service_instance;
-  }
 }

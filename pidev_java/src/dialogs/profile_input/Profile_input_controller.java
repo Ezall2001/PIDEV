@@ -1,8 +1,9 @@
-package pages.profile;
+package dialogs.profile_input;
 
 import java.io.IOException;
 
 import utils.Log;
+import utils.Router;
 import entities.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -14,9 +15,10 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import pages.profile.Profile_controller;
 import services.User_service;
 
-public class Update_profil_controller {
+public class Profile_input_controller {
     User user;
     User_service user_service;
     private Stage stage;
@@ -39,7 +41,7 @@ public class Update_profil_controller {
     @FXML
     Label bio_error;
 
-    public void set_user(User user) {
+    public void hydrate(User user) {
         this.user = user;
         // last_name_update_field.setText("armen");
         last_name_update_field.setText(user.get_last_name());
@@ -47,6 +49,9 @@ public class Update_profil_controller {
         age_update_field.setText(Integer.toString(user.get_age()));
         bio_update_area.setText(user.get_bio());
 
+        // Router.render_user_template("Profile", (Profile_controller controller) -> {
+        //     hydrate(new_user);
+        // });
     }
 
     public User get_user() {

@@ -52,15 +52,13 @@ public class Session_input_controller {
   private HBox button_wrapper;
 
   Session session;
-  String course_name;
 
   public void hydrate() {
     button_wrapper.getChildren().remove(1);
   }
 
-  public void hydrate(Session session, String course_name) {
+  public void hydrate(Session session) {
     this.session = session;
-    this.course_name = course_name;
     button_wrapper.getChildren().remove(0);
     date_input.setValue(session.get_date_localDate());
     start_time_input.setText(session.get_start_time_string());
@@ -80,16 +78,21 @@ public class Session_input_controller {
       return;
 
     Session new_session = new Session();
+    new_session.set_id(session.get_id());
+    new_session.set_course(session.get_course());
+    new_session.set_user(session.get_user());
     new_session.set_date(date_input.getValue());
     new_session.set_start_time(LocalTime.parse(start_time_input.getText()));
     new_session.set_end_time(LocalTime.parse(end_time_input.getText()));
     new_session.set_price(Double.parseDouble(price_input.getText()));
     new_session.set_topics(topics_input.getText());
+
     Router.render_user_template("Session",
-        (Session_controller controller) -> controller.hydrate(new_session, course_name));
+        (Session_controller controller) -> controller.hydrate(new_session));
   }
 
   private Boolean validate_input() {
+    ///TODO: validate in entity
     Boolean is_valid = true;
 
     start_time_error_label.setText("");

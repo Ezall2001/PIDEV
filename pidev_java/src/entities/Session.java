@@ -159,8 +159,8 @@ public class Session {
   @Override
   public String toString() {
     return "Session [id=" + id + ", price=" + price + ", date=" + date + ", start_time=" + start_time + ", end_time="
-        + end_time + ", topics=" + topics + ", resources=" + resources + ", user=" + user.toString() + ", course="
-        + course.toString() + "]";
+        + end_time + ", topics=" + topics + ", resources=" + resources + ", user=" + user + ", course="
+        + course + "]";
   }
 
 }

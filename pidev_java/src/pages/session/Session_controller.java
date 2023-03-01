@@ -15,7 +15,7 @@ import services.User_service;
 import utils.Log;
 import utils.Router;
 
-public class Session_controller implements Initializable {
+public class Session_controller {
 
   @FXML
   private Label course_label;
@@ -45,19 +45,13 @@ public class Session_controller implements Initializable {
   private Label time_label;
 
   private Session session;
-  private String course_name;
 
   private static Session_service session_service = new Session_service();
 
-  @Override
-  public void initialize(URL location, ResourceBundle resources) {
-
-  }
-
-  public void hydrate(Session session, String course_name) {
+  public void hydrate(Session session) {
     this.session = session;
-    this.course_name = course_name;
-    course_label.setText(course_name);
+    user_label.setText(session.get_user().get_full_name());
+    course_label.setText(session.get_course().get_course_name());
     date_label.setText(session.get_date_string());
     price_label.setText(session.get_price_string());
     time_label.setText(session.get_time_interval());
@@ -66,7 +60,7 @@ public class Session_controller implements Initializable {
 
   @FXML
   void on_delete_button_pressed(ActionEvent event) {
-    session_service.delete_by_id(session.get_id());
+    session_service.delete_by_id(session);
     Router.render_user_template("Profile", null);
   }
 
@@ -74,7 +68,7 @@ public class Session_controller implements Initializable {
   void on_modify_button_pressed(ActionEvent event) {
     Router.render_dialog("Session_input",
         (Session_input_controller controller) -> {
-          controller.hydrate(session, course_name);
+          controller.hydrate(session);
         });
   }
 
