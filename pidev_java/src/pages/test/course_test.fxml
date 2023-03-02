@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.gluonhq.charm.glisten.mvc.View?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<View maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="530.0" prefWidth="790.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pages.test.course_test_controller">
+   <center>
+      <ScrollPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+        <content>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="527.0" prefWidth="787.0" style="-fx-background-color: #EEEEEE;">
+               <children>
+                  <Pane layoutX="223.0" layoutY="14.0" prefHeight="92.0" prefWidth="296.0" style="-fx-background-color: #BBCEFE; -fx-background-radius: 19; -fx-border-radius: 19; -fx-border-color: #000000;">
+                     <children>
+                        <Label layoutX="57.0" layoutY="14.0" text="Test d'évaluation" textFill="#051148">
+                           <font>
+                              <Font name="Roboto" size="24.0" />
+                           </font>
+                        </Label>
+                        <HBox layoutX="36.0" layoutY="53.0" prefHeight="24.0" prefWidth="246.0" spacing="15.0">
+                           <children>
+                              <Label prefHeight="24.0" prefWidth="82.0" text="Cours :">
+                                 <font>
+                                    <Font name="Roboto" size="20.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="nom_cours_label" text="nom_cours">
+                                 <font>
+                                    <Font name="Roboto" size="20.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </HBox>
+                     </children>
+                  </Pane>
+                  <Pane layoutX="103.0" layoutY="140.0" prefHeight="291.0" prefWidth="603.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 19;">
+                     <children>
+                        <Label fx:id="question_label" layoutX="35.0" layoutY="31.0" prefHeight="35.0" prefWidth="560.0" text="question ?">
+                           <font>
+                              <Font name="System Bold" size="20.0" />
+                           </font>
+                        </Label>
+                        <VBox layoutX="61.0" layoutY="94.0" prefHeight="120.0" prefWidth="420.0" spacing="10.0">
+                           <children>
+                              <RadioButton fx:id="optionA_radio_btn" mnemonicParsing="false" prefHeight="23.0" prefWidth="417.0" text="optionA">
+                                 <font>
+                                    <Font name="Roboto" size="18.0" />
+                                 </font></RadioButton>
+                              <RadioButton fx:id="optionB_radio_btn" mnemonicParsing="false" prefHeight="23.0" prefWidth="426.0" text="optionB">
+                                 <font>
+                                    <Font name="Roboto" size="18.0" />
+                                 </font></RadioButton>
+                              <RadioButton fx:id="optionC_radio_btn" mnemonicParsing="false" prefHeight="23.0" prefWidth="437.0" text="optionC">
+                                 <font>
+                                    <Font name="Roboto" size="18.0" />
+                                 </font></RadioButton>
+                              <RadioButton fx:id="optionD_radio_btn" mnemonicParsing="false" prefHeight="23.0" prefWidth="454.0" text="optionD">
+                                 <font>
+                                    <Font name="Roboto" size="18.0" />
+                                 </font></RadioButton>
+                           </children>
+                        </VBox>
+                        <Pane fx:id="résultat_container" layoutX="-17.0" layoutY="-7.0" prefHeight="305.0" prefWidth="633.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 19; -fx-border-radius: 19; -fx-border-color: #97A8F8;">
+                           <children>
+                              <Label fx:id="resultat_test_label" layoutX="227.0" layoutY="25.0" prefHeight="44.0" prefWidth="179.0" text="Résultat test">
+                                 <font>
+                                    <Font name="Roboto" size="30.0" />
+                                 </font>
+                              </Label>
+                              <HBox layoutX="61.0" layoutY="93.0" prefHeight="167.0" prefWidth="334.0" spacing="30.0">
+                                 <children>
+                                    <VBox fx:id="qs_labels_vbox" prefHeight="167.0" prefWidth="198.0" spacing="15.0">
+                                       <children>
+                                          <Label fx:id="total_qs_label" text="Total questions :">
+                                             <font>
+                                                <Font size="20.0" />
+                                             </font>
+                                          </Label>
+                                          <Label fx:id="reponses_correctes_label" text="Réponses correctes :">
+                                             <font>
+                                                <Font size="20.0" />
+                                             </font>
+                                          </Label>
+                                          <Label fx:id="reponses_incorrectes_label" text="Réponses incorrectes :">
+                                             <font>
+                                                <Font size="20.0" />
+                                             </font>
+                                          </Label>
+                                          <Label fx:id="remarque_label" text="Remarque :">
+                                             <font>
+                                                <Font size="20.0" />
+                                             </font>
+                                          </Label>
+                                       </children>
+                                    </VBox>
+                                    <VBox fx:id="qs_valeurs_labels_vbox" spacing="22.0">
+                                       <children>
+                                          <Label fx:id="total_questions_valeur_label" text="x">
+                                             <font>
+                                                <Font name="Roboto" size="20.0" />
+                                             </font>
+                                          </Label>
+                                          <Label fx:id="reponses_correctes_valeur_label" text="x">
+                                             <font>
+                                                <Font name="Roboto" size="20.0" />
+                                             </font>
+                                          </Label>
+                                          <Label fx:id="reponses_incorrectes_valeur_label" text="x">
+                                             <font>
+                                                <Font name="Roboto" size="20.0" />
+                                             </font>
+                                          </Label>
+                                          <Label fx:id="remarque_valeur_label" text="x">
+                                             <font>
+                                                <Font name="Roboto" size="20.0" />
+                                             </font>
+                                          </Label>
+                                       </children>
+                                    </VBox>
+                                 </children>
+                              </HBox>
+                           </children>
+                        </Pane>
+                     </children>
+                  </Pane>
+                  <HBox layoutX="583.0" layoutY="97.0" spacing="5.0">
+                     <children>
+                        <Label text="Temps restant :">
+                           <font>
+                              <Font name="Roboto" size="12.0" />
+                           </font>
+                        </Label>
+                        <HBox>
+                           <children>
+                              <Label fx:id="minutes_label" text="min" />
+                              <Label text=" : " />
+                              <Label fx:id="secondes_label" text="sec" />
+                           </children>
+                        </HBox>
+                     </children>
+                  </HBox>
+                  <Button fx:id="question_suivante_btn" layoutX="548.0" layoutY="457.0" mnemonicParsing="false" onMouseClicked="#question_suivante_btn_action" prefHeight="35.0" prefWidth="169.0" style="-fx-background-color: #CDFBF8; -fx-background-radius: 19; -fx-border-color: #000000; -fx-border-radius: 19;" text="question suivante">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Button>
+                  <Button fx:id="terminer_test_btn" layoutX="579.0" layoutY="457.0" mnemonicParsing="false" onMouseClicked="#terminer_test_btn_action" prefHeight="36.0" prefWidth="107.0" style="-fx-background-color: #EFBBCF; -fx-background-radius: 19; -fx-border-color: #000000; -fx-border-radius: 19;" text="Terminer test">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor></Button>
+                  <Button fx:id="imprimer_resultat_btn" layoutX="579.0" layoutY="457.0" mnemonicParsing="false" onMouseClicked="#imprimer_resultat_btn_action" prefHeight="35.0" prefWidth="107.0" style="-fx-background-color: #97A8F8; -fx-background-radius: 19; -fx-border-radius: 19; -fx-border-color: #000000;" text="Imprimer">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Button>
+               </children>
+            </AnchorPane>
+        </content>
+      </ScrollPane>
+   </center>
+</View>
