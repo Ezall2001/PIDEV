@@ -35,8 +35,8 @@ public class Pair<F, L> {
 
   @Override
   public int hashCode() {
-    final Integer prime = 31;
-    Integer result = 1;
+    final int prime = 31;
+    int result = 1;
     result = prime * result + ((f == null) ? 0 : f.hashCode());
     result = prime * result + ((l == null) ? 0 : l.hashCode());
     return result;

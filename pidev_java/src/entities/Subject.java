@@ -21,11 +21,6 @@ public class Subject {
   public Subject() {
   }
 
-  public Subject(String subject_name) {
-
-    this.subject_name = subject_name;
-  }
-
   public Subject(String subject_name, String description, Level level) {
 
     this.subject_name = subject_name;
@@ -95,7 +90,7 @@ public class Subject {
   @Override
   public String toString() {
     return "Matiere{" + "id=" + id + ",nom_matiere =" + subject_name +
-        ", description=" + description + ",Level=" + get_level_String() + '}';
+        ", description=" + description + ",Level=" + get_niveau() + '}';
   }
 
   public List<Question> get_question() {

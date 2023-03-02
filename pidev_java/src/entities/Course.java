@@ -15,6 +15,14 @@ public class Course {
   private Difficulty difficulty;
   Subject subject;
 
+  public Subject getSubject() {
+    return subject;
+  }
+
+  public void setSubject(Subject subject) {
+    this.subject = subject;
+  }
+
   public Course() {
   }
 
@@ -25,7 +33,6 @@ public class Course {
   }
 
   public Course(String course_name, String description_c, Difficulty difficulty) {
-
     this.course_name = course_name;
     this.description_c = description_c;
     this.difficulty = difficulty;
