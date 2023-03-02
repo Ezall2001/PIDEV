@@ -9,6 +9,7 @@ import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
 import java.security.MessageDigest;
 import utils.Log;
+import utils.String_helpers;
 
 public class User {
   public static enum Type {
@@ -24,6 +25,7 @@ public class User {
   private Integer age, score;
   private String email, password, hashed_password;
   private Type type;
+  private Class_esprit class_esprit;
 
   public User() {
   }
@@ -55,6 +57,7 @@ public class User {
     set_score(score);
     set_bio(bio);
     set_email(email);
+    set_avatar_path(avatar_path);
     set_type(type);
   }
 
@@ -68,6 +71,20 @@ public class User {
     set_email(email);
     set_password(password);
     set_hashed_password();
+    set_score(0);
+    type = Type.STUDENT;
+  }
+
+  public User(String first_name, String last_name, Integer age, String bio, String email,
+      String password, String avatar_path) {
+    set_first_name(first_name);
+    set_last_name(last_name);
+    set_age(age);
+    set_bio(bio);
+    set_email(email);
+    set_password(password);
+    set_hashed_password();
+    set_avatar_path(avatar_path);
     set_score(0);
     type = Type.STUDENT;
   }
@@ -94,6 +111,11 @@ public class User {
 
   public void set_last_name(String last_name) {
     this.last_name = last_name;
+  }
+
+  public String get_full_name() {
+    return String.format("%s %s", String_helpers.capitalize(first_name),
+        String_helpers.capitalize(last_name));
   }
 
   public String get_bio() {
@@ -206,12 +228,25 @@ public class User {
     }
   }
 
+  public Class_esprit get_class_esprit() {
+    return class_esprit;
+  }
+
+  public void set_class_esprit(Class_esprit class_esprit) {
+    this.class_esprit = class_esprit;
+  }
+
   public static Integer compute_level_breakpoint_score(Level level) {
     return compute_level_breakpoint_score(Arrays.asList(Level.values()).indexOf(level));
   }
 
   public static Integer compute_level_breakpoint_score(Integer level_index) {
     return (int) (Math.pow((level_index + 1), 2) * 100);
+  }
+
+  public String get_level() {
+    String level = compute_level().toString();
+    return String_helpers.capitalize(level);
   }
 
   public Level compute_level() {

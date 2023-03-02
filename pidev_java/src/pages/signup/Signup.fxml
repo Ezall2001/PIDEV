@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.gluonhq.charm.glisten.mvc.View?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.BoxBlur?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<View maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="810.0" prefWidth="1440.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pages.signup.Signup_controller">
+   <center>
+      <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <VBox alignment="CENTER" prefHeight="810.0" prefWidth="720.0" style="-fx-background-color: #97A8F8;">
+               <children>
+                  <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Bienvenue à Myalò">
+                     <font>
+                        <Font name="Roboto Bold" size="64.0" />
+                     </font>
+                  </Text>
+                  <ImageView fitHeight="514.0" fitWidth="514.0">
+                     <image>
+                        <Image url="@../../../public/image/login_hero.png" />
+                     </image>
+                  </ImageView>
+               </children>
+               <effect>
+                  <BoxBlur height="0.0" width="0.0" />
+               </effect>
+            </VBox>
+            <VBox alignment="CENTER" prefHeight="810.0" prefWidth="733.0" spacing="50.0">
+               <children>
+                  <Text fill="#051148" strokeType="OUTSIDE" strokeWidth="0.0" text="S'inscrire">
+                     <font>
+                        <Font name="Roboto Bold" size="54.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </Text>
+                  <VBox alignment="CENTER" prefHeight="654.0" prefWidth="727.0" spacing="5.0">
+                     <children>
+                        <Text fill="#051148" strokeType="OUTSIDE" strokeWidth="0.0" text="Nom :">
+                           <VBox.margin>
+                              <Insets right="290.0" />
+                           </VBox.margin>
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font>
+                        </Text>
+                        <TextField fx:id="last_name_input" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="37.0" prefWidth="350.0" promptText="Nom" />
+                        <Label fx:id="last_name_error" text="Label" textFill="RED" />
+                        <Text fill="#051148" strokeType="OUTSIDE" strokeWidth="0.0" text="Prénom : ">
+                           <VBox.margin>
+                              <Insets right="270.0" />
+                           </VBox.margin>
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font>
+                        </Text>
+                        <TextField fx:id="first_name_input" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="37.0" prefWidth="350.0" promptText="Prénom" />
+                        <Label fx:id="first_name_error" text="Label" textFill="RED" />
+                        <Text fill="#051148" strokeType="OUTSIDE" strokeWidth="0.0" text="Email : ">
+                           <VBox.margin>
+                              <Insets right="290.0" />
+                           </VBox.margin>
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font>
+                        </Text>
+                        <TextField fx:id="email_input" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="37.0" prefWidth="350.0" promptText="email.example@esprit.tn" />
+                        <Label fx:id="email_error" text="Label" textFill="RED" />
+                        <Text fill="#051148" strokeType="OUTSIDE" strokeWidth="0.0" text="Mot de passe : ">
+                           <VBox.margin>
+                              <Insets right="240.0" />
+                           </VBox.margin>
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font>
+                        </Text>
+                        <PasswordField fx:id="password_input" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="37.0" prefWidth="350.0" promptText="Mot de passe" />
+                        <Label fx:id="password_error" text="Label" textFill="RED" />
+                        <HBox alignment="CENTER" prefHeight="110.0" prefWidth="727.0" spacing="30.0">
+                           <children>
+                              <VBox spacing="5.0">
+                                 <children>
+                                    <Text fill="#051148" strokeType="OUTSIDE" strokeWidth="0.0" text="Age : ">
+                                       <font>
+                                          <Font name="System Bold" size="14.0" />
+                                       </font>
+                                       <VBox.margin>
+                                          <Insets left="5.0" />
+                                       </VBox.margin>
+                                    </Text>
+                                    <TextField fx:id="age_input" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="37.0" prefWidth="127.0" promptText="Age" />
+                                    <Label fx:id="age_error" text="Label" textFill="RED">
+                                       <VBox.margin>
+                                          <Insets left="5.0" />
+                                       </VBox.margin>
+                                    </Label>
+                                 </children>
+                              </VBox>
+                              <VBox prefHeight="103.0" prefWidth="380.0" spacing="5.0">
+                                 <children>
+                                    <HBox alignment="BOTTOM_LEFT" prefHeight="61.0" prefWidth="255.0" spacing="20.0">
+                                       <children>
+                                          <VBox spacing="5.0">
+                                             <children>
+                                                <Text fill="#051148" strokeType="OUTSIDE" strokeWidth="0.0" text="Photo de Profil : ">
+                                                   <font>
+                                                      <Font name="System Bold" size="14.0" />
+                                                   </font>
+                                                   <VBox.margin>
+                                                      <Insets left="5.0" />
+                                                   </VBox.margin>
+                                                </Text>
+                                                <TextField fx:id="avatar_path_input" minHeight="-Infinity" minWidth="-Infinity" prefHeight="37.0" prefWidth="190.0" promptText="Browse picrture" />
+                                             </children>
+                                          </VBox>
+                                       </children>
+                                    </HBox>
+                                    <Button fx:id="upload_on_button_pressed" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#on_import_button_pressed" prefHeight="32.0" prefWidth="160.0" style="-fx-background-radius: 30; -fx-background-color: #97A8F8;" text="Importez votre image">
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor>
+                                       <effect>
+                                          <DropShadow radius="7.07" width="9.28">
+                                             <color>
+                                                <Color opacity="0.35114502906799316" />
+                                             </color>
+                                          </DropShadow>
+                                       </effect>
+                                       <VBox.margin>
+                                          <Insets />
+                                       </VBox.margin>
+                                    </Button>
+                                 </children>
+                              </VBox>
+                           </children>
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin>
+                           <padding>
+                              <Insets left="190.0" />
+                           </padding>
+                        </HBox>
+                        <Text fill="#051148" strokeType="OUTSIDE" strokeWidth="0.0" text="Bio :">
+                           <VBox.margin>
+                              <Insets right="310.0" />
+                           </VBox.margin>
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font>
+                        </Text>
+                        <TextArea fx:id="bio_input" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="58.0" prefWidth="350.0" promptText="Bio" />
+                        <Label fx:id="bio_error" text="Label" textFill="RED" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" />
+                        <Button fx:id="sign_up_button" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#on_signup_button_pressed" prefHeight="40.0" prefWidth="117.0" style="-fx-background-color: #fee39a; -fx-text-fill: #051148; -fx-background-radius: 30; -fx-font-size: 20;" text="S'inscrire">
+                           <font>
+                              <Font name="Roboto Bold" size="20.0" />
+                           </font>
+                           <effect>
+                              <DropShadow>
+                                 <color>
+                                    <Color opacity="0.49618321657180786" />
+                                 </color>
+                              </DropShadow>
+                           </effect>
+                           <VBox.margin>
+                              <Insets left="500.0" />
+                           </VBox.margin>
+                        </Button>
+                     </children>
+                  </VBox>
+               </children>
+            </VBox>
+         </children>
+      </HBox>
+   </center>
+   <padding>
+      <Insets top="30.0" />
+   </padding>
+</View>

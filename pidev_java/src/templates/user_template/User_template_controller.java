@@ -25,7 +25,7 @@ public class User_template_controller implements Initializable {
   @FXML
   private HBox login_logout_wrapper;
 
-  private static List<String> home_nav_item_activators = Arrays.asList("Profile");
+  private static List<String> home_nav_item_activators = Arrays.asList("Profile", "Login");
   private static List<String> subject_nav_item_activators = Arrays.asList("Subject", "Subjects", "Course", "Session");
   private static List<String> forum_nav_item_activators = Arrays.asList("Forum", "Forum_thread");
 

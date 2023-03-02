@@ -31,7 +31,7 @@
                      <children>
                         <ImageView fitHeight="80.0" fitWidth="300.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../../../public/logo.png" />
+                              <Image url="@../../../public/image/logo.png" />
                            </image>
                            <cursor>
                               <Cursor fx:constant="HAND" />
