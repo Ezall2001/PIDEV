@@ -2,7 +2,8 @@ package entities;
 
 import java.util.ArrayList;
 import java.util.List;
-import utils.Log;
+
+import utils.*;
 
 public class Subject {
 

@@ -31,7 +31,7 @@
                      <children>
                         <ImageView fitHeight="80.0" fitWidth="300.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../../../public/image/logo.png" />
+                              <Image url="@../../../public/logo.png" />
                            </image>
                            <cursor>
                               <Cursor fx:constant="HAND" />
@@ -41,7 +41,7 @@
                   </HBox>
                   <HBox fx:id="nav_wrapper" alignment="CENTER" prefWidth="200.0" spacing="20.0" HBox.hgrow="ALWAYS">
                      <children>
-                        <Label onMouseClicked="#on_profile_nav_button_pressed" text="Profil" textFill="#051148">
+                        <Label text="Acceuil" textFill="#051148">
                            <font>
                               <Font size="18.0" />
                            </font>
@@ -49,7 +49,7 @@
                               <Cursor fx:constant="HAND" />
                            </cursor>
                         </Label>
-                        <Label layoutX="362.0" layoutY="47.0" onMouseClicked="#on_subjects_nav_button_pressed" text="Matières" textFill="#051148">
+                        <Label layoutX="362.0" layoutY="47.0" text="Matières" textFill="#051148">
                            <font>
                               <Font size="18.0" />
                            </font>
@@ -57,7 +57,7 @@
                               <Cursor fx:constant="HAND" />
                            </cursor>
                         </Label>
-                        <Label layoutX="387.0" layoutY="47.0" onMouseClicked="#on_forum_nav_button_pressed" text="Forum" textFill="#051148">
+                        <Label layoutX="387.0" layoutY="47.0" text="Forum" textFill="#051148">
                            <font>
                               <Font size="18.0" />
                            </font>
@@ -69,7 +69,7 @@
                   </HBox>
                   <HBox fx:id="login_logout_wrapper" alignment="CENTER_RIGHT" prefWidth="200.0" HBox.hgrow="ALWAYS">
                      <children>
-                        <Button fx:id="login_button" alignment="CENTER" mnemonicParsing="false" onAction="#on_login_button_pressed" prefWidth="110.0" style="-fx-background-color: #BBCEFE; -fx-background-radius: 20;" text="Login" textAlignment="CENTER" textFill="#051148">
+                        <Button alignment="CENTER" mnemonicParsing="false" prefWidth="110.0" style="-fx-background-color: #BBCEFE; -fx-background-radius: 20;" text="Login" textAlignment="CENTER" textFill="#051148">
                            <font>
                               <Font size="18.0" />
                            </font>
@@ -84,7 +84,7 @@
                               </DropShadow>
                            </effect>
                         </Button>
-                        <Button fx:id="logout_button" alignment="CENTER" layoutX="366.0" layoutY="36.0" mnemonicParsing="false" onAction="#on_logout_button_pressed" prefWidth="110.0" style="-fx-background-color: #BBCEFE; -fx-background-radius: 20;" text="Logout" textAlignment="CENTER" textFill="#051148">
+                        <Button fx:id="logout_button" alignment="CENTER" layoutX="366.0" layoutY="36.0" mnemonicParsing="false" prefWidth="110.0" style="-fx-background-color: #BBCEFE; -fx-background-radius: 20;" text="Logout" textAlignment="CENTER" textFill="#051148">
                            <font>
                               <Font size="18.0" />
                            </font>

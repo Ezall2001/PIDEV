@@ -6,13 +6,6 @@
     "configurations": [
         {
             "type": "java",
-            "name": "test",
-            "request": "launch",
-            "mainClass": "test",
-            "projectName": "PIDEV_ced7cac8"
-        },
-        {
-            "type": "java",
             "name": "Eya_test",
             "request": "launch",
             "mainClass": "tests.Eya_test",

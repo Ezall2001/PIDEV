@@ -1,9 +1,0 @@
-{
-	"java.project.sourcePaths": ["src"],
-	"java.project.outputPath": "bin",
-	"java.format.comments.enabled": false,
-	"java.project.referencedLibraries": [
-		"lib/**/*.jar",
-		"pidev_java/lib/mysql-connector-j-8.0.32.jar"
-	]
-}
