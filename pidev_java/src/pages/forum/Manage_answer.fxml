@@ -21,7 +21,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<View maxHeight="1.7976931348623157E308" minWidth="400.0" prefWidth="1440.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pages.forum.Manage_answer_controller">
+<View maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="810.0" prefWidth="1440.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pages.forum.Manage_answer_controller">
    <center>
       <ScrollPane accessibleRole="PARENT" blendMode="DARKEN" fitToHeight="true" fitToWidth="true" BorderPane.alignment="CENTER">
          <content>

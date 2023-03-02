@@ -24,7 +24,7 @@ public class Najiba_test {
          */
         User_service us = new User_service();
 
-        Question q1 = new Question("ygcdx", "najibaa");
+        Question q1 = new Question(53, "nour's question", "azertyui");
         Answer r1 = new Answer(14, "najiba12345");
         Question_service q = new Question_service();
         Answer_service rs = new Answer_service();
@@ -42,7 +42,7 @@ public class Najiba_test {
 
         /*------------------------get All functions----------------------------- */
 
-        Log.console(q.get_all_qs_user());
+        Log.console(q.get_user(q1));
         // Log.console(rs.get_all());
         //Log.console(q.get_with_answer(4));
         //Log.console(q.get_with_subject(41));

@@ -38,15 +38,16 @@ public class User {
   }
 
   // GET ADMIN
-  public User(Integer id, String first_name, String last_name) {
+  public User(Integer id, String first_name) {
     set_first_name(first_name);
     set_last_name(last_name);
     type = Type.ADMIN;
   }
 
-  public User(Integer id, String first_name) {
+  public User(Integer id, String first_name, String email) {
     set_id(id);
     set_first_name(first_name);
+    set_email(email);
 
   }
 

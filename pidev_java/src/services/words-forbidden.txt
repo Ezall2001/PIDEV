@@ -1,1 +1,1 @@
-(this|word2|word3|wessim|non|Abscd)
+(this|word2|word3|badword|non|Abscd)

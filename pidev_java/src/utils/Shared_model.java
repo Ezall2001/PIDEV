@@ -5,7 +5,7 @@ import entities.Question;
 
 public class Shared_model {
     private static Shared_model instance;
-
+    private Answer answer;
     private Question user;
 
     private Shared_model() {

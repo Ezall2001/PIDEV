@@ -23,8 +23,8 @@ public class Eya_test {
         User_service user_service = new User_service();
         User u1 = new User("eya", "harbi", 21, "many many words here", "eya@esprit.tn", "azerty");
         User u2 = new User("armen", "bakir", 22, "LOVELY KHARYA", "armen@esprit.tn", "azertouta");
-        User u3 = new User("najiba", "rym", 22, "NOURrrrrrrr", "najiba@esprit.tn", "najiba");
-        User u4 = new User("k;", "lmlm", 22, "heyarrr", "ourTeam@eya.tn", "someblapassword");
+        User u3 = new User("najiba", "gragba", 22, "NOURrrrrrrr", "nourelhouda.kchaou@esprit.tn", "nour123");
+        User u4 = new User("nour", "kchaou", 22, "heyarrr", "nourelhouda.kchaou@esprit.tn", "nour123");
         User_session_service user_session_service = new User_session_service();
         /**
          * *USER_SERVICE
@@ -39,7 +39,8 @@ public class Eya_test {
         // user_service.add(u3);
         // Log.console(u3);
         // user_service.add(u2);
-        // user_service.add(u3);
+        user_service.add(u3);
+        //user_service.add(u4);
         // user_service.add(u4);
         /*  
         * update student
@@ -72,7 +73,7 @@ public class Eya_test {
 
         // user_session_service.create_session(u1);
         // user_session_service.create_session(u2);
-        user_session_service.create_session(u3);
+        //user_session_service.create_session(u3);
         /*  
         * * delete session
         */
@@ -94,7 +95,7 @@ public class Eya_test {
         * * delete expired sessions
         */
         // user_session_service.delete_expired_sessions();
-        Log.console(user_session_service.get_all());
+        //Log.console(user_session_service.get_all());
     }
 
     // private static Level valueOf(String string) {

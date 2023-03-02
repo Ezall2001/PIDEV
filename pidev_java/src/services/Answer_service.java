@@ -194,6 +194,7 @@ public class Answer_service {
     }
 
     public int incri(Answer a) {
+
         int nb_vote = 0;
         try {
             String sql = "SELECT * FROM answers WHERE id=?";

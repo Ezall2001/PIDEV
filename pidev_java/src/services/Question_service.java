@@ -397,15 +397,16 @@ public class Question_service {
 
         List<User> answers = new ArrayList<>();
         try {
-            String sql = "SELECT * FROM users LEFT JOIN questions ON users.id = questions.user_id WHERE users.id=?";
+            String sql = "SELECT * FROM questions LEFT JOIN users ON questions.user_id = users.id WHERE questions.id=?";
             PreparedStatement ste = cnx.prepareStatement(sql);
             ste.setInt(1, q.get_id());
             ResultSet rs = ste.executeQuery();
             while (rs.next()) {
                 String first_name = rs.getString("first_name");
+                String email = rs.getString("email");
                 int id_user = rs.getInt(11);
 
-                User r = new User(id_user, first_name);
+                User r = new User(id_user, first_name, email);
                 answers.add(r);
             }
             map.put(q, answers);
