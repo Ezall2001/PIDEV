@@ -1,0 +1,52 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Eya_test",
+            "request": "launch",
+            "mainClass": "tests.Eya_test",
+            "projectName": "pidev_java_cbd222ac"
+        },
+        {
+            "type": "java",
+            "name": "Launch Current File",
+            "request": "launch",
+            "mainClass": "${file}"
+        },
+        {
+            "type": "java",
+            "name": "Launch App",
+            "request": "launch",
+            "mainClass": "App",
+            "projectName": "pidev_java_cbd222ac",
+            "vmArgs": "--module-path \"C:/Users/MSI/Desktop/qraya/JAVA_FX/javafx-sdk-19.0.2.1/lib\" --add-modules javafx.controls,javafx.fxml"
+        },
+        {
+            "type": "java",
+            "name": "Launch Nour_test",
+            "request": "launch",
+            "mainClass": "tests.Nour_test",
+            "projectName": "pidev_java_cbd222ac",
+            "vmArgs": "--module-path \"C:/Users/MSI/Desktop/qraya/JAVA_FX/javafx-sdk-19.0.2.1/lib\" --add-modules javafx.controls,javafx.fxml"
+        },
+        {
+            "type": "java",
+            "name": "Launch Tester",
+            "request": "launch",
+            "mainClass": "tests.Tester",
+            "projectName": "pidev_java_cbd222ac"
+        },
+        {
+            "type": "java",
+            "name": "Launch test",
+            "request": "launch",
+            "mainClass": "test",
+            "projectName": "pidev_java_cbd222ac",
+            "vmArgs": "--module-path \"C:/Users/MSI/Desktop/qraya/JAVA_FX/javafx-sdk-19.0.2.1/lib\" --add-modules javafx.controls,javafx.fxml"
+        }
+    ]
+}
