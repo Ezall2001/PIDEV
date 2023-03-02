@@ -4,7 +4,10 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 
+import entities.Course;
+import entities.Subject;
 import entities.Test;
 import entities.Test_qs;
 import javafx.collections.FXCollections;
@@ -232,6 +235,28 @@ public class Test_service {
         return tests;
     }
 
+    // search by type : cours or matiere
+    public ObservableList<Test> search_test(String type) {
+        ObservableList<Test> tests = FXCollections.observableArrayList();
+        try {
+            String sql = "select * from tests where type like '%" + type + "%' ";
+            PreparedStatement ste = cnx.prepareStatement(sql);
+            ResultSet set = ste.executeQuery(sql);
+            while (set.next()) {
+                Test t = new Test(
+                        Integer.parseInt(set.getString("id")),
+                        Integer.parseInt(set.getString("min_points")),
+                        Integer.parseInt(set.getString("duration")),
+                        set.getString("type"));
+                tests.add(t);
+            }
+
+        } catch (SQLException ex) {
+            Log.console(ex);
+        }
+        return tests;
+    }
+
     // one to many using observableList
     public ObservableList<Test_qs> get_with_questions_list(int id) {
         ObservableList<Test_qs> questions = FXCollections.observableArrayList();
@@ -278,4 +303,80 @@ public class Test_service {
         return questions;
     }
 
+    public Subject get_test_subject(int id) {
+
+        Subject subject = new Subject();
+
+        try {
+            // Retrieve the subject and its test from the database
+            String sql = "SELECT * FROM subject INNER JOIN tests ON subject.id = tests.id_subject where tests.id=?";
+            PreparedStatement ste = cnx.prepareStatement(sql);
+            ste.setInt(1, id);
+            ResultSet set = ste.executeQuery();
+
+            while (set.next()) {
+
+                Test test = new Test(
+                        set.getInt("id"),
+                        set.getInt("min_points"),
+                        set.getInt("duration"),
+                        set.getString("type"));
+
+                test.setSubject(subject);
+
+                subject.set_id(set.getInt("id"));
+                subject.set_subject_name(set.getString("subject_name"));
+                subject.set_description(set.getString("description"));
+                subject.set_level(set.getString("niveau"));
+
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return subject;
+    }
+
+    public Course get_test_course(int id) {
+
+        Course course = new Course();
+
+        try {
+            // Retrieve the subject and its test from the database
+            String sql = "SELECT * FROM courses INNER JOIN tests ON courses.id_c = tests.id_course where tests.id=?";
+            PreparedStatement ste = cnx.prepareStatement(sql);
+            ste.setInt(1, id);
+            ResultSet set = ste.executeQuery();
+
+            while (set.next()) {
+
+                Test test = new Test(
+                        set.getInt("id"),
+                        set.getInt("min_points"),
+                        set.getInt("duration"),
+                        set.getString("type"));
+
+                test.setCourse(course);
+
+                course.set_id_c(set.getInt("id_c"));
+                course.set_course_name(set.getString("course_name"));
+                course.set_description_c(set.getString("description_c"));
+                course.set_difficulty(set.getString("difficulty"));
+
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return course;
+    }
+
+    public List<Test> sort_tests_by_id() {
+        List<Test> tests = new ArrayList<>();
+        tests = get_all();
+        tests = tests.stream().sorted((a, b) -> b.get_min_points() - a.get_min_points())
+                .collect(Collectors.toList());
+        return tests;
+
+    }
 }

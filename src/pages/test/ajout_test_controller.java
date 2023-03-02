@@ -43,6 +43,7 @@ public class ajout_test_controller implements Initializable {
         String type = type_cb.getValue();
 
         Test test = new Test(22, min_points, duree, type);
+
         Test_service service = new Test_service();
 
         if (min_points != 0 && duree != 0 && !type.isEmpty()) {

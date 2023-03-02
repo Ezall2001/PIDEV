@@ -5,6 +5,7 @@ import java.util.StringTokenizer;
 import javax.swing.BorderFactory;
 
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
@@ -54,6 +55,7 @@ public class check {
             return false;
     }
 
+    // make sure the user selects one option
     public static void select_one_option(RadioButton optionA, RadioButton optionB, RadioButton optionC,
             RadioButton optionD) {
         ToggleGroup toggleGroup = new ToggleGroup();
@@ -63,6 +65,7 @@ public class check {
         optionD.setToggleGroup(toggleGroup);
     }
 
+    // clear radiobtns
     public static void clear_options(RadioButton optionA, RadioButton optionB, RadioButton optionC,
             RadioButton optionD) {
         optionA.setSelected(false);
@@ -102,6 +105,20 @@ public class check {
                 ((Labeled) child).setTextFill(Color.rgb(205, 4, 4, 1));
             }
         }
+    }
+
+    // check whether one radio btn is selected or not 
+    public static Boolean check_option_selected(RadioButton optionA, RadioButton optionB, RadioButton optionC,
+            RadioButton optionD) {
+        if (!optionA.isSelected() && !optionB.isSelected() && !optionC.isSelected() && !optionD.isSelected()) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText(null);
+            alert.setContentText("Veuillez sélectionner une réponse ! ");
+            alert.showAndWait();
+            return false;
+        } else
+            return true;
+
     }
 
     // public static void selected_radio_btn(RadioButton optionA, RadioButton optionB, RadioButton optionC,

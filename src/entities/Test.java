@@ -73,7 +73,7 @@ public class Test {
     @Override
     public String toString() {
         String type = getType();
-        return "ID : " + id + " Seuil :" + min_points + " Durée :" + duration + " Type :" + type;
+        return " Seuil :" + min_points + " Durée :" + duration + " Type :" + type;
     }
 
 }

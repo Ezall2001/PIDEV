@@ -18,6 +18,9 @@ public class Nour_test {
         ///////
         Test test = new Test(227, 10, 21, "cours");
         Test_service service = new Test_service();
+        // System.out.println(service.search_test("cours"));
+        // System.out.println(service.get_test_subject(230));
+        // System.out.println(service.get_test_course(2));
         // service.add(test);
         // Log.console(service.get_all2());
         // service.delete(3);
@@ -35,6 +38,7 @@ public class Nour_test {
 
         // !! add subject test
         Subject x = new Subject(101, "zzzzz", "zzzzz", Level.CLASS_A);
+        // System.out.println(x.get_level_String());
         Subject_Service sub_service = new Subject_Service();
         // sub_service.add_subject(x);
         // System.out.println(x.get_id());
@@ -71,6 +75,9 @@ public class Nour_test {
 
         // System.out.println(sub_service.get_subject_test_questions(101));
         // System.out.println(sub_service.count_subject_questions(101));
+
+        // System.out.println(qs_service.sort_qs_by_number());
+        // System.out.println(service.sort_tests_by_id());
 
     }
 }

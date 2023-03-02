@@ -34,7 +34,16 @@
                         </DropShadow>
                      </effect>
                   </Pane>
-                  <VBox layoutX="40.0" layoutY="98.0" spacing="60.0">
+                  <Button fx:id="passer_test_cours_btn" layoutX="87.0" layoutY="392.0" mnemonicParsing="false" onMouseClicked="#passer_test_cours_btn_action" prefHeight="40.0" prefWidth="320.0" style="-fx-background-color: #CDFBF8; -fx-background-radius: 19; -fx-border-radius: 19; -fx-border-color: #000000;" text="Passer le test">
+                     <font>
+                        <Font name="Roboto" size="14.0" />
+                     </font>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Button>
+                  <HBox layoutX="137.0" layoutY="243.0" />
+                  <VBox layoutX="57.0" layoutY="79.0" prefHeight="263.0" prefWidth="330.0" spacing="40.0">
                      <children>
                         <HBox prefHeight="35.0" prefWidth="423.0" spacing="30.0">
                            <children>
@@ -83,16 +92,22 @@
                               </Label>
                            </children>
                         </HBox>
+                        <HBox>
+                           <children>
+                              <Label text="Difficulté : ">
+                                 <font>
+                                    <Font name="Roboto" size="24.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="difficulté_label" text="diff">
+                                 <font>
+                                    <Font name="Roboto" size="24.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </HBox>
                      </children>
                   </VBox>
-                  <Button fx:id="passer_test_cours_btn" layoutX="165.0" layoutY="352.0" mnemonicParsing="false" onMouseClicked="#passer_test_cours_btn_action" prefHeight="40.0" prefWidth="164.0" style="-fx-background-color: #CDFBF8; -fx-background-radius: 19; -fx-border-radius: 19; -fx-border-color: #000000;" text="Passer le test">
-                     <font>
-                        <Font name="Roboto" size="14.0" />
-                     </font>
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor>
-                  </Button>
                </children>
             </Pane>
          </children>

@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<View maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="530.0" prefWidth="790.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pages.test.subject_test_controller">
+<View maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="530.0" prefWidth="790.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pages.test.course_test_controller">
    <center>
       <ScrollPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
         <content>
@@ -148,16 +148,16 @@
                         </HBox>
                      </children>
                   </HBox>
-                  <Button fx:id="question_suivante_btn" layoutX="146.0" layoutY="457.0" mnemonicParsing="false" onMouseClicked="#question_suivante_btn_action" prefHeight="35.0" prefWidth="154.0" style="-fx-background-color: #CDFBF8; -fx-background-radius: 19; -fx-border-color: #000000; -fx-border-radius: 19;" text="question suivante">
+                  <Button fx:id="question_suivante_btn" layoutX="548.0" layoutY="457.0" mnemonicParsing="false" onMouseClicked="#question_suivante_btn_action" prefHeight="35.0" prefWidth="169.0" style="-fx-background-color: #CDFBF8; -fx-background-radius: 19; -fx-border-color: #000000; -fx-border-radius: 19;" text="question suivante">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </Button>
-                  <Button fx:id="terminer_test_btn" layoutX="519.0" layoutY="456.0" mnemonicParsing="false" onMouseClicked="#terminer_test_btn_action" prefHeight="37.0" prefWidth="144.0" style="-fx-background-color: #EFBBCF; -fx-background-radius: 19; -fx-border-color: #000000; -fx-border-radius: 19;" text="Terminer test">
+                  <Button fx:id="terminer_test_btn" layoutX="579.0" layoutY="457.0" mnemonicParsing="false" onMouseClicked="#terminer_test_btn_action" prefHeight="36.0" prefWidth="107.0" style="-fx-background-color: #EFBBCF; -fx-background-radius: 19; -fx-border-color: #000000; -fx-border-radius: 19;" text="Terminer test">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor></Button>
-                  <Button fx:id="imprimer_resultat_btn" layoutX="640.0" layoutY="455.0" mnemonicParsing="false" onMouseClicked="#imprimer_resultat_btn_action" prefHeight="35.0" prefWidth="94.0" style="-fx-background-color: #97A8F8; -fx-background-radius: 19; -fx-border-radius: 19; -fx-border-color: #000000;" text="Imprimer">
+                  <Button fx:id="imprimer_resultat_btn" layoutX="579.0" layoutY="457.0" mnemonicParsing="false" onMouseClicked="#imprimer_resultat_btn_action" prefHeight="35.0" prefWidth="107.0" style="-fx-background-color: #97A8F8; -fx-background-radius: 19; -fx-border-radius: 19; -fx-border-color: #000000;" text="Imprimer">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>

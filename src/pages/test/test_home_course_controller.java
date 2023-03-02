@@ -18,12 +18,16 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import services.Course_Service;
+import services.Test_service;
 import utils.Shared_model_nour;
 
 public class test_home_course_controller implements Initializable {
 
     @FXML
     private Label duree_label;
+
+    @FXML
+    private Label difficulté_label;
 
     @FXML
     private Label nom_cours_label;
@@ -41,6 +45,7 @@ public class test_home_course_controller implements Initializable {
     private Pane title_container;
 
     Course_Service course_service = new Course_Service();
+    Test_service test_service = new Test_service();
     Shared_model_nour model = Shared_model_nour.getInstance();
     Course course_tested;
     Test course_tested_test;
@@ -59,11 +64,12 @@ public class test_home_course_controller implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
 
         // test
-        model.setCourse(course_service.get_by_id_2(79));
+        model.setCourse(test_service.get_test_course(model.get_test().get_id()));
         course_tested_test = course_service.get_course_test(model.getCourse().get_id_c());
 
         // System.out.println(course_service.get_by_id_2(79));
         nom_cours_label.setText(model.getCourse().get_course_name());
+        difficulté_label.setText(model.getCourse().get_difficulty_String());
         duree_label.setText(Integer.toString(course_tested_test.get_duration()));
         seuil_label.setText(Integer.toString(course_tested_test.get_min_points()));
     }

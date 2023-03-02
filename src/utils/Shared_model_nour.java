@@ -72,4 +72,11 @@ public class Shared_model_nour {
         this.test = test;
     }
 
+    public void set_test_subject(Test test, Subject subject) {
+        test.setSubject(subject);
+    }
+
+    public void set_test_course(Test test, Course course) {
+        test.setCourse(course);
+    }
 }

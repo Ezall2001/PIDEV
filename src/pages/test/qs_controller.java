@@ -6,12 +6,18 @@ import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.swing.JOptionPane;
 
 import entities.Test;
 import entities.Test_qs;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableArray;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -19,7 +25,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
@@ -69,7 +77,12 @@ public class qs_controller implements Initializable {
     @FXML
     private Button edit_qs_btn;
 
+    @FXML
+    private Button trier_btn;
+
     Test_qs_service service = new Test_qs_service();
+    Shared_model_nour model = Shared_model_nour.getInstance();
+    Test_service service_test = new Test_service();
 
     @FXML
     void add_qs_btn(MouseEvent event) throws IOException {
@@ -88,14 +101,28 @@ public class qs_controller implements Initializable {
 
     @FXML
     void delete_btn(MouseEvent event) {
-        service.delete(qs_selected.get_id());
-        JOptionPane.showMessageDialog(null, "Question supprimée avec succés");
+
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setHeaderText(null);
+        alert.setContentText("Supprimer cette question ?");
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            service.delete(qs_selected.get_id());
+            JOptionPane.showMessageDialog(null, "Question supprimée avec succés");
+        }
     }
 
     @FXML
     void edit_btn(MouseEvent event) {
-        update(qs_selected);
-        JOptionPane.showMessageDialog(null, "Question modifiée avec succés");
+
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setHeaderText(null);
+        alert.setContentText("Modifier ce test ?");
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            update(qs_selected);
+            JOptionPane.showMessageDialog(null, "Question modifiée avec succés");
+        }
     }
 
     private Test_qs qs_selected;
@@ -119,17 +146,25 @@ public class qs_controller implements Initializable {
         });
     }
 
+    @FXML
+    void trier_btn_action(MouseEvent event) {
+
+        // // System.out.println(list);
+        // System.out.println("------------------------");
+        // ObservableList<Test_qs> x = service.sort_qs_by_number();
+        // System.out.println(x);
+    }
+
     Test test;
     ObservableList<Test_qs> list;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        Test_service service_test = new Test_service();
-        Test_qs_service service_qs = new Test_qs_service();
-        Shared_model_nour model = Shared_model_nour.getInstance();
+
         // list = service.get_all22();
         // liste_qs.setItems(list);
-
+        //! for now
+        trier_btn.setVisible(false);
         test = service_test.get_by_id(model.get_test().get_id());
         // System.out.println(test.toString());
         list = (service_test.get_with_questions_list(test.get_id()));

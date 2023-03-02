@@ -18,6 +18,7 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import services.Subject_Service;
+import services.Test_service;
 import utils.Shared_model_nour;
 
 public class test_home_controller implements Initializable {
@@ -41,15 +42,19 @@ public class test_home_controller implements Initializable {
     private Pane title_container;
 
     Subject_Service subject_service = new Subject_Service();
+    Test_service test_service = new Test_service();
     Shared_model_nour model = Shared_model_nour.getInstance();
-    Subject subject_tested;
+    //-----------------------
+
     Test subject_tested_test;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         // test
-        model.setSubject(subject_service.get_by_id_2(101));
+
+        model.setSubject(test_service.get_test_subject(model.get_test().get_id()));
         subject_tested_test = subject_service.get_subject_test(model.getSubject().get_id());
+        // System.out.println(model.getSubject());
 
         // System.out.println(subject_service.get_by_id_2(101));
         nom_matiere_label.setText(model.getSubject().get_subject_name());

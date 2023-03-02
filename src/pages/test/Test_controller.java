@@ -3,7 +3,8 @@ package pages.test;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.*;
-
+import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 import javax.swing.JOptionPane;
@@ -18,7 +19,9 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
 
@@ -70,6 +73,20 @@ public class Test_controller implements Initializable {
     private Button consulter_test_btn;
 
     @FXML
+    private Button passer_test_btn;
+
+    @FXML
+    private Button tri_btn;
+
+    @FXML
+    private Button chercher_test_btn;
+
+    @FXML
+    private TextField chercher_test_tf;
+
+    Shared_model_nour model = Shared_model_nour.getInstance();
+
+    @FXML
     void add_test_btn(MouseEvent event) throws IOException {
 
         Parent parent = FXMLLoader.load(getClass().getResource("ajout_test.fxml"));
@@ -83,15 +100,85 @@ public class Test_controller implements Initializable {
     Test_service service = new Test_service();
 
     @FXML
+    void passer_test_btn_action(MouseEvent event) throws IOException {
+
+        selected_test = list_id.getSelectionModel().getSelectedItem();
+        model.set_test(selected_test);
+
+        if (selected_test == null) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText(null);
+            alert.setContentText("Veuillez sélectionner un test");
+            alert.showAndWait();
+        }
+
+        System.out.println(selected_test);
+
+        if (model.get_test().getType() == "matiere") {
+            Parent parent = FXMLLoader.load(getClass().getResource("test_home.fxml"));
+            Scene scene = new Scene(parent);
+            Stage stage = new Stage();
+            stage.setScene(scene);
+            stage.initStyle(StageStyle.UTILITY);
+            stage.show();
+
+        } else if (model.get_test().getType() == "cours") {
+            Parent parent = FXMLLoader.load(getClass().getResource("test_home_course.fxml"));
+            Scene scene = new Scene(parent);
+            Stage stage = new Stage();
+            stage.setScene(scene);
+            stage.initStyle(StageStyle.UTILITY);
+            stage.show();
+        }
+
+    }
+
+    @FXML
+    void tri_btn_action(MouseEvent event) {
+        //desc
+        List<Test> x = service.sort_tests_by_id();
+        //* converted list -> observable list */
+        ObservableList<Test> ob_list = FXCollections.observableArrayList(x);
+        // System.out.println(a);
+        list_id.setItems(ob_list);
+
+    }
+
+    ObservableList<Test> test_searched;
+
+    @FXML
+    void chercher_test_btn_action(MouseEvent event) {
+        t = service.get_all2();
+        t.clear();
+        test_searched = service.search_test(chercher_test_tf.getText());
+        list_id.setItems(test_searched);
+    }
+
+    @FXML
     void delete_test_btn(MouseEvent event) {
-        service.delete(selected_test.get_id());
-        JOptionPane.showMessageDialog(null, "Test supprimé avec succés");
+
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setHeaderText(null);
+        alert.setContentText("Supprimer ce test ?");
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            service.delete(model.get_test().get_id());
+            JOptionPane.showMessageDialog(null, "Test supprimé avec succés");
+        }
+
     }
 
     @FXML
     void edit_test_btn(MouseEvent event) {
-        update(selected_test);
-        JOptionPane.showMessageDialog(null, "Test modifié avec succés !");
+
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setHeaderText(null);
+        alert.setContentText("Modifier ce test ?");
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            update(selected_test);
+            JOptionPane.showMessageDialog(null, "Test modifié ");
+        }
     }
 
     //!
@@ -121,7 +208,7 @@ public class Test_controller implements Initializable {
             public void handle(MouseEvent arg0) {
 
                 selected_test = list_id.getSelectionModel().getSelectedItem();
-                id_tf.setText(Integer.toString(selected_test.get_id()));
+                model.set_test(selected_test);
                 duree_tf.setText(Integer.toString(selected_test.get_duration()));
                 seuil_tf.setText(Integer.toString(selected_test.get_min_points()));
                 type_cb.setValue(selected_test.getType());
@@ -135,7 +222,7 @@ public class Test_controller implements Initializable {
     void consulter_test(MouseEvent event) throws IOException {
 
         selected_test = list_id.getSelectionModel().getSelectedItem();
-        Shared_model_nour model = Shared_model_nour.getInstance();
+
         model.set_test(selected_test);
 
         // Log.console(model.get_test().toString());
@@ -157,38 +244,6 @@ public class Test_controller implements Initializable {
         t = service.get_all2();
         list_id.setItems(t);
 
-    }
-
-    // ObservableList<Map.Entry<Test, List<Test_qs>>> qs_items = FXCollections
-    //         .observableArrayList(service.get_with_questions(selected_test.get_id()).entrySet());
-
-    @FXML
-    void show_qs_btn(MouseEvent event) {
-        qs_controller qs = new qs_controller();
-
-        selected_test = list_id.getSelectionModel().getSelectedItem();
-        // service.get_with_questions(selected_test.get_id());
-        show_qs_btn.setOnMouseClicked(new EventHandler<MouseEvent>() {
-
-            @Override
-            public void handle(MouseEvent arg0) {
-                Parent parent;
-                try {
-                    parent = FXMLLoader.load(getClass().getResource("qs.fxml"));
-                    Scene scene = new Scene(parent);
-                    Stage stage = new Stage();
-                    stage.setScene(scene);
-                    stage.initStyle(StageStyle.UTILITY);
-                    stage.show();
-
-                } catch (IOException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
-
-            }
-
-        });
     }
 
     //! needed to retrieve data from textfields

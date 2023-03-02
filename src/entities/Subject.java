@@ -91,7 +91,7 @@ public class Subject {
   @Override
   public String toString() {
     return "Matiere{" + "id=" + id + ",nom_matiere =" + subject_name +
-        ", description=" + description + ",Level=" + get_level_String() + '}';
+        ", description=" + description + ",Level=" + get_niveau() + '}';
   }
 
   public List<Question> get_question() {

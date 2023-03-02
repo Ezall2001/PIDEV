@@ -4,6 +4,8 @@ public class Test_qs {
     private int id, question_number;
     private String question, correct_option, optionA, optionB, optionC, optionD;
     private Test test;
+    private Subject subject;
+    private Course course;
 
     public Test_qs() {
     }
@@ -18,6 +20,22 @@ public class Test_qs {
         this.optionB = optionB;
         this.optionC = optionC;
         this.optionD = optionD;
+    }
+
+    public Subject getSubject() {
+        return subject;
+    }
+
+    public void setSubject(Subject subject) {
+        this.subject = subject;
+    }
+
+    public Course getCourse() {
+        return course;
+    }
+
+    public void setCourse(Course course) {
+        this.course = course;
     }
 
     public Test get_test() {
@@ -94,7 +112,7 @@ public class Test_qs {
 
     @Override
     public String toString() {
-        return "ID :" + id + "   question_number :" + question_number + "   question :" + question
+        return "question_number :" + question_number + "   question :" + question
                 + "  correct_option : " + correct_option + "   optionA :" + optionA + "     optionB :" + optionB
                 + "     optionC :"
                 + optionC + "    optionD :" + optionD;
