@@ -5,22 +5,37 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import entities.Course;
+import entities.User;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import pages.course.Course_controller;
+import services.User_service;
+import services.User_session_service;
 import utils.Log;
+import utils.Router;
 
 public class User_template_controller implements Initializable {
+
+  private static User_session_service user_session_service = new User_session_service();
+  private static User_service user_service = new User_service();
+  User user;
 
   @FXML
   private HBox nav_wrapper;
 
   @FXML
   private Button logout_button;
+
+  @FXML
+  private Button login_button;
 
   @FXML
   private HBox login_logout_wrapper;
@@ -34,12 +49,44 @@ public class User_template_controller implements Initializable {
 
   @Override
   public void initialize(URL location, ResourceBundle resources) {
-    ///TODO: implement a check for user loggged in
-    login_logout_wrapper.getChildren().remove(logout_button);
+    User user = user_session_service.get_user();
+    this.user = user;
+
+    if (user == null)
+      login_logout_wrapper.getChildren().remove(logout_button);
+    else
+      login_logout_wrapper.getChildren().remove(login_button);
+
+  }
+
+  @FXML
+  void on_logout_button_pressed(ActionEvent event) {
+    user_service.logout();
+    Router.render_user_template("Login", null);
+  }
+
+  @FXML
+  void on_login_button_pressed(ActionEvent event) {
+    Router.render_user_template("Login", null);
+  }
+
+  @FXML
+  void on_forum_nav_button_pressed(MouseEvent event) {
+    Router.render_user_template("Forum", null);
+  }
+
+  @FXML
+  void on_profile_nav_button_pressed(MouseEvent event) {
+    Router.render_user_template("Profile", null);
+  }
+
+  ///TODO: replace this
+  @FXML
+  void on_subjects_nav_button_pressed(MouseEvent event) {
+    Router.render_user_template("Course", (Course_controller controller) -> controller.hydrate(new Course(79, "C++")));
   }
 
   public void set_active_nav_item(String page_name) {
-
     Integer active_nav_item_index = 0;
 
     List<List<String>> nav_items_activators = Arrays.asList(home_nav_item_activators, subject_nav_item_activators,

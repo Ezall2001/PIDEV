@@ -77,7 +77,7 @@ public class Session_service {
   public List<Session> find_by_id_course(Course course) {
     List<Session> sessions = new ArrayList<>();
     try {
-      String sql = "select sessions.id,price,date,start_time,end_time,topics,users.first_name as user_first_name,users.last_name as user_last_name from sessions LEFT JOIN users ON users.id = sessions.id_user where id_course=?;";
+      String sql = "select sessions.id,price,date,start_time,end_time,topics,users.id as user_id,users.first_name as user_first_name,users.last_name as user_last_name from sessions LEFT JOIN users ON users.id = sessions.id_user where id_course=?;";
       PreparedStatement stmt = cnx.prepareStatement(sql);
       stmt.setInt(1, course.get_id_c());
       ResultSet result = stmt.executeQuery();
@@ -87,6 +87,7 @@ public class Session_service {
         User user = new User();
         user.set_first_name(result.getString("user_first_name"));
         user.set_last_name(result.getString("user_last_name"));
+        user.set_id(result.getInt("user_id"));
 
         Session session = new Session(
             result.getInt("id"),

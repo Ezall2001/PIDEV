@@ -4,6 +4,7 @@ import java.util.function.Consumer;
 
 import com.gluonhq.charm.glisten.mvc.View;
 
+import dialogs.Base_dialog_controller;
 import entities.User;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -70,7 +71,7 @@ public class Router {
   public static <T> void render_dialog(String dialog_name, Consumer<T> controller_manipulator) {
     try {
       Stage dialog_stage = new Stage();
-      Parent dialog = load_dialog(dialog_name, controller_manipulator);
+      Parent dialog = load_dialog(dialog_name, controller_manipulator, dialog_stage);
       dialog_stage.setScene(new Scene(dialog));
       dialog_stage.setTitle(dialog_name);
       dialog_stage.show();
@@ -98,13 +99,14 @@ public class Router {
 
   }
 
-  private static <T> Parent load_dialog(String dialog_name, Consumer<T> controller_manipulator) {
+  private static <T> Parent load_dialog(String dialog_name, Consumer<T> controller_manipulator, Stage stage) {
     try {
       String dialog_path = String.format("/dialogs/%s/%s.fxml", dialog_name.toLowerCase(), dialog_name);
-
       FXMLLoader dialog_loader = new FXMLLoader(Router.class.getResource(dialog_path));
-
       Parent dialog = dialog_loader.load();
+
+      Base_dialog_controller controller = dialog_loader.getController();
+      controller.set_stage(stage);
 
       if (controller_manipulator != null)
         controller_manipulator.accept(dialog_loader.getController());

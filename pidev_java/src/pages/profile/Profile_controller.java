@@ -2,25 +2,29 @@ package pages.profile;
 
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.net.URL;
+import java.util.ResourceBundle;
 
 import dialogs.profile_input.Profile_input_controller;
 import entities.User;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
-import utils.Log;
+import services.User_session_service;
 import utils.Router;
 import utils.String_helpers;
 
-public class Profile_controller {
-
-  User user;
+public class Profile_controller implements Initializable {
 
   private static Integer max_width_bar = 200;
+  private static User_session_service user_session_service = new User_session_service();
+
+  User user;
 
   @FXML
   private Label age_label;
@@ -52,6 +56,15 @@ public class Profile_controller {
       controller.hydrate(user);
     });
 
+  }
+
+  @Override
+  public void initialize(URL location, ResourceBundle resources) {
+    User user = user_session_service.get_user();
+    if (user == null)
+      return;
+
+    hydrate(user);
   }
 
   public void hydrate(User user) {

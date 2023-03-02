@@ -3,8 +3,6 @@ package entities;
 import java.util.ArrayList;
 import java.util.List;
 
-import javafx.beans.property.SimpleStringProperty;
-
 public class Question {
     int id;
     private String title;

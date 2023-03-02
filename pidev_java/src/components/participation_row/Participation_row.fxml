@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Font?>
+
+
+<HBox alignment="CENTER_LEFT" maxWidth="800.0" prefWidth="800.0" spacing="20.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="components.participation_row.Participation_row_controller">
+   <children>
+      <Label fx:id="full_name_label" HBox.hgrow="NEVER">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <Label fx:id="email_label" layoutX="10.0" layoutY="10.0" HBox.hgrow="NEVER">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <Label fx:id="level_label" layoutX="61.0" layoutY="10.0" HBox.hgrow="NEVER">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <HBox alignment="CENTER_LEFT" HBox.hgrow="ALWAYS">
+         <children>
+            <Label text="Status : ">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <Label fx:id="status_label" layoutX="10.0" layoutY="10.0">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+         </children>
+      </HBox>
+      <HBox spacing="10.0" HBox.hgrow="NEVER">
+         <children>
+            <ImageView fitHeight="30.0" fitWidth="30.0" onMouseClicked="#on_accept_button_pressed" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../public/image/check_tick.png" />
+               </image>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </ImageView>
+            <ImageView fitHeight="30.0" fitWidth="30.0" onMouseClicked="#on_deny_button_pressed" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../public/image/x_mark.png" />
+               </image>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </ImageView>
+         </children>
+      </HBox>
+   </children>
+   <padding>
+      <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+   </padding>
+</HBox>
