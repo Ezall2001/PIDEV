@@ -35,28 +35,22 @@ public class Grid_controller {
     this.breakpoints = new ArrayList<>();
     this.curr_breakpoint_index = 0;
     compute_breakpoints();
+    compute_current_breakpoint_index();
     on_grid_resize();
 
   }
 
   private void on_grid_resize() {
-    grid.heightProperty().addListener(new ChangeListener<Number>() {
-      @Override
-      public void changed(ObservableValue<? extends Number> observable_value, Number prv_height,
-          Number curr_height) {
-        height = curr_height;
-        render_grid();
-      }
-    });
-
     grid.widthProperty().addListener(new ChangeListener<Number>() {
       @Override
       public void changed(ObservableValue<? extends Number> observable_value, Number prv_width,
           Number curr_width) {
-        width = curr_width;
+        width = observable_value.getValue().intValue();
         render_grid();
       }
     });
+
+    grid.setPrefWidth(grid.getWidth());
   }
 
   private void compute_breakpoints() {
@@ -69,15 +63,25 @@ public class Grid_controller {
         breakpoints.add(computed_width);
       n_columns++;
     }
+
   }
 
   private void compute_current_breakpoint_index() {
     if (width.doubleValue() > breakpoints.get(curr_breakpoint_index))
-      while (width.doubleValue() > breakpoints.get(curr_breakpoint_index))
+      while (curr_breakpoint_index != (breakpoints.size() - 2)
+          && width.doubleValue() > breakpoints.get(curr_breakpoint_index + 1))
         curr_breakpoint_index++;
     else
-      while (width.doubleValue() <= breakpoints.get(curr_breakpoint_index))
+      while (curr_breakpoint_index != 0 && width.doubleValue() <= breakpoints.get(curr_breakpoint_index))
         curr_breakpoint_index--;
+  }
+
+  private void compute_grid_height() {
+    Integer n_columns = curr_breakpoint_index + 1;
+    Integer n_components = components.size();
+    Integer n_rows = ((n_components + n_columns - 1) / n_columns) + 1;
+    Integer grid_height = (n_rows * (component_h + v_spacing)) - v_spacing;
+    grid.setPrefHeight(grid_height);
 
   }
 
@@ -106,6 +110,7 @@ public class Grid_controller {
     });
     grid.getRowConstraints().stream().forEach(row -> row.setPrefHeight(component_h));
 
+    compute_grid_height();
   }
 
 }

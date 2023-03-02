@@ -1,10 +1,13 @@
 package pages.course;
 
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import components.grid.Grid_controller;
 import components.session_card.Session_card_controller;
 import dialogs.session_input.Session_input_controller;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
+import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.control.DatePicker;
@@ -12,6 +15,9 @@ import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
+import javafx.scene.input.InputMethodEvent;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.Background;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -22,6 +28,7 @@ import utils.Router;
 import entities.Course;
 import entities.Session;
 import entities.User;
+
 import java.time.LocalDate;
 import java.util.List;
 

@@ -2,26 +2,21 @@
 
 <?import com.gluonhq.charm.glisten.mvc.View?>
 <?import javafx.geometry.Insets?>
-<?import javafx.geometry.Rectangle2D?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.effect.DropShadow?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
 
 <View maxHeight="1.7976931348623157E308" minWidth="400.0" prefWidth="1440.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pages.session.Session_controller">
    <center>
-      <ScrollPane accessibleRole="PARENT" blendMode="DARKEN" fitToHeight="true" fitToWidth="true" maxWidth="1.7976931348623157E308" BorderPane.alignment="CENTER">
+      <ScrollPane accessibleRole="PARENT" blendMode="DARKEN" fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" maxWidth="1.7976931348623157E308" BorderPane.alignment="CENTER">
          <content>
             <VBox spacing="50.0">
                <children>
@@ -36,12 +31,12 @@
                            <children>
                               <HBox>
                                  <children>
-                                    <Label text="Creer par : ">
+                                    <Label text="Créer par : ">
                                        <font>
                                           <Font size="22.0" />
                                        </font>
                                     </Label>
-                                    <Label fx:id="user_label" layoutX="10.0" layoutY="10.0">
+                                    <Label fx:id="user_label" layoutX="10.0" layoutY="10.0" textFill="#00000099">
                                        <font>
                                           <Font name="System Italic" size="22.0" />
                                        </font>
@@ -55,7 +50,7 @@
                                           <Font size="22.0" />
                                        </font>
                                     </Label>
-                                    <Label fx:id="course_label" layoutX="10.0" layoutY="10.0">
+                                    <Label fx:id="course_label" layoutX="10.0" layoutY="10.0" textFill="#00000099">
                                        <font>
                                           <Font name="System Italic" size="22.0" />
                                        </font>
@@ -71,7 +66,7 @@
                                                 <Font size="22.0" />
                                              </font>
                                           </Label>
-                                          <Label fx:id="date_label" layoutX="10.0" layoutY="10.0">
+                                          <Label fx:id="date_label" layoutX="10.0" layoutY="10.0" textFill="#00000099">
                                              <font>
                                                 <Font name="System Italic" size="22.0" />
                                              </font>
@@ -85,7 +80,7 @@
                                                 <Font size="22.0" />
                                              </font>
                                           </Label>
-                                          <Label fx:id="time_label" layoutX="10.0" layoutY="10.0">
+                                          <Label fx:id="time_label" layoutX="10.0" layoutY="10.0" textFill="#00000099">
                                              <font>
                                                 <Font name="System Italic" size="22.0" />
                                              </font>
@@ -101,7 +96,7 @@
                                           <Font size="22.0" />
                                        </font>
                                     </Label>
-                                    <Label fx:id="price_label" layoutX="10.0" layoutY="10.0">
+                                    <Label fx:id="price_label" layoutX="10.0" layoutY="10.0" textFill="#00000099">
                                        <font>
                                           <Font name="System Italic" size="22.0" />
                                        </font>
@@ -115,14 +110,14 @@
                                           <Font size="22.0" />
                                        </font>
                                     </Label>
-                                    <Label fx:id="topics_label" alignment="TOP_LEFT" layoutX="10.0" layoutY="10.0" minHeight="200.0" prefHeight="200.0" wrapText="true" VBox.vgrow="NEVER">
+                                    <Label fx:id="topics_label" alignment="TOP_LEFT" layoutX="10.0" layoutY="10.0" minHeight="200.0" prefHeight="200.0" textFill="#00000099" wrapText="true" VBox.vgrow="NEVER">
                                        <font>
                                           <Font name="System Italic" size="22.0" />
                                        </font>
                                     </Label>
                                  </children>
                               </VBox>
-                              <HBox spacing="20.0">
+                              <HBox fx:id="actions_wrapper" spacing="20.0">
                                  <children>
                                     <Button fx:id="modify_button" contentDisplay="CENTER" mnemonicParsing="false" onAction="#on_modify_button_pressed" style="-fx-background-color: #fee39a; -fx-background-radius: 30;" text="Modifier Information" textFill="#051148" HBox.hgrow="ALWAYS">
                                        <font>
@@ -178,146 +173,126 @@
                                           </DropShadow>
                                        </effect>
                                     </Button>
+                                    <Button fx:id="state_pending_label" contentDisplay="CENTER" layoutX="511.0" layoutY="20.0" mnemonicParsing="false" style="-fx-background-color: #bbcefe; -fx-background-radius: 30;" text="Confirmation En Attente" textFill="#051148">
+                                       <font>
+                                          <Font size="22.0" />
+                                       </font>
+                                       <padding>
+                                          <Insets bottom="6.0" left="18.0" right="18.0" top="6.0" />
+                                       </padding>
+                                       <cursor>
+                                          <Cursor fx:constant="DEFAULT" />
+                                       </cursor>
+                                       <effect>
+                                          <DropShadow offsetY="3.0">
+                                             <color>
+                                                <Color opacity="0.25190839171409607" />
+                                             </color>
+                                          </DropShadow>
+                                       </effect>
+                                    </Button>
+                                    <Button fx:id="state_confirmed_label" contentDisplay="CENTER" layoutX="650.0" layoutY="20.0" mnemonicParsing="false" style="-fx-background-color: #5ce079; -fx-background-radius: 30;" text="Réservation Confirmée" textFill="#051148">
+                                       <font>
+                                          <Font size="22.0" />
+                                       </font>
+                                       <padding>
+                                          <Insets bottom="6.0" left="18.0" right="18.0" top="6.0" />
+                                       </padding>
+                                       <cursor>
+                                          <Cursor fx:constant="DEFAULT" />
+                                       </cursor>
+                                       <effect>
+                                          <DropShadow offsetY="3.0">
+                                             <color>
+                                                <Color opacity="0.25190839171409607" />
+                                             </color>
+                                          </DropShadow>
+                                       </effect>
+                                    </Button>
+                                    <Button fx:id="state_denied_label" contentDisplay="CENTER" layoutX="941.0" layoutY="20.0" mnemonicParsing="false" style="-fx-background-color: #e94f4f; -fx-background-radius: 30;" text="Réservation Refusée" textFill="#051148">
+                                       <font>
+                                          <Font size="22.0" />
+                                       </font>
+                                       <padding>
+                                          <Insets bottom="6.0" left="18.0" right="18.0" top="6.0" />
+                                       </padding>
+                                       <cursor>
+                                          <Cursor fx:constant="DEFAULT" />
+                                       </cursor>
+                                       <effect>
+                                          <DropShadow offsetY="3.0">
+                                             <color>
+                                                <Color opacity="0.25190839171409607" />
+                                             </color>
+                                          </DropShadow>
+                                       </effect>
+                                    </Button>
                                  </children>
+                                 <padding>
+                                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                 </padding>
                               </HBox>
                            </children>
                         </VBox>
                      </children>
                   </VBox>
-                  <VBox spacing="20.0">
+                  <VBox fx:id="resources_wrapper" maxHeight="1.7976931348623157E308" spacing="20.0" VBox.vgrow="ALWAYS">
                      <children>
                         <Label alignment="TOP_LEFT" text="Resources" textFill="#051148">
                            <font>
                               <Font size="60.0" />
                            </font>
                         </Label>
-                        <GridPane prefWidth="1860.0" vgap="30.0">
-                          <columnConstraints>
-                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="1134.0" percentWidth="25.0" />
-                              <ColumnConstraints hgrow="ALWAYS" maxWidth="1134.0" minWidth="-Infinity" percentWidth="25.0" />
-                            <ColumnConstraints hgrow="ALWAYS" maxWidth="1134.0" minWidth="10.0" percentWidth="25.0" prefWidth="989.0" />
-                              <ColumnConstraints hgrow="ALWAYS" maxWidth="1498.0" minWidth="10.0" percentWidth="25.0" prefWidth="901.0" />
-                            <ColumnConstraints hgrow="ALWAYS" maxWidth="1498.0" minWidth="10.0" percentWidth="25.0" prefWidth="901.0" />
-                          </columnConstraints>
-                          <rowConstraints>
-                            <RowConstraints />
-                            <RowConstraints />
-                            <RowConstraints />
-                          </rowConstraints>
+                     </children>
+                  </VBox>
+                  <VBox fx:id="Participation_wrapper" layoutX="10.0" layoutY="702.0" spacing="30.0">
+                     <children>
+                        <Label alignment="TOP_LEFT" text="Réservations" textFill="#051148">
+                           <font>
+                              <Font size="60.0" />
+                           </font>
+                        </Label>
+                        <HBox fx:id="link_wrapper" alignment="CENTER_LEFT" spacing="60.0">
                            <children>
-                              <Button contentDisplay="TOP" mnemonicParsing="false" text="Corriger.pdf" textAlignment="CENTER" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
-                                 <cursor>
-                                    <Cursor fx:constant="HAND" />
-                                 </cursor>
-                                 <graphic>
-                                    <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
-                                       <viewport>
-                                          <Rectangle2D />
-                                       </viewport>
-                                       <image>
-                                          <Image url="@../../../public/pdf_icon.png" />
-                                       </image>
-                                    </ImageView>
-                                 </graphic>
+                              <TextField fx:id="link_input" cacheShape="false" maxWidth="1.7976931348623157E308" prefWidth="300.0" promptText="Lien Meet" style="-fx-border-width: 2px; -fx-border-color: #eee; -fx-border-style: solid inside; -fx-border-radius: 5;">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
-                                 <GridPane.margin>
+                                 <cursor>
+                                    <Cursor fx:constant="TEXT" />
+                                 </cursor>
+                                 <HBox.margin>
                                     <Insets />
-                                 </GridPane.margin>
-                              </Button>
-                              <Button contentDisplay="TOP" layoutX="980.0" layoutY="32.0" mnemonicParsing="false" text="Corriger.pdf" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                                 </HBox.margin>
+                                 <padding>
+                                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                 </padding>
+                              </TextField>
+                              <Button contentDisplay="CENTER" mnemonicParsing="false" onAction="#on_send_link_button_pressed" style="-fx-background-color: #bbcefe; -fx-background-radius: 30;" text="Envoyer" textFill="#051148">
+                                 <font>
+                                    <Font size="22.0" />
+                                 </font>
+                                 <padding>
+                                    <Insets bottom="6.0" left="18.0" right="18.0" top="6.0" />
+                                 </padding>
                                  <cursor>
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
-                                 <font>
-                                    <Font size="18.0" />
-                                 </font>
-                                 <graphic>
-                                    <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
-                                       <viewport>
-                                          <Rectangle2D />
-                                       </viewport>
-                                       <image>
-                                          <Image url="@../../../public/pdf_icon.png" />
-                                       </image>
-                                    </ImageView>
-                                 </graphic>
-                              </Button>
-                              <Button contentDisplay="TOP" layoutX="980.0" layoutY="32.0" mnemonicParsing="false" text="Corriger.pdf" textAlignment="CENTER" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
-                                 <cursor>
-                                    <Cursor fx:constant="HAND" />
-                                 </cursor>
-                                 <font>
-                                    <Font size="18.0" />
-                                 </font>
-                                 <graphic>
-                                    <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
-                                       <viewport>
-                                          <Rectangle2D />
-                                       </viewport>
-                                       <image>
-                                          <Image url="@../../../public/pdf_icon.png" />
-                                       </image>
-                                    </ImageView>
-                                 </graphic>
-                              </Button>
-                              <Button contentDisplay="TOP" layoutX="10.0" layoutY="32.0" mnemonicParsing="false" text="Corriger.pdf" textAlignment="CENTER" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
-                                 <cursor>
-                                    <Cursor fx:constant="HAND" />
-                                 </cursor>
-                                 <font>
-                                    <Font size="18.0" />
-                                 </font>
-                                 <graphic>
-                                    <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
-                                       <viewport>
-                                          <Rectangle2D />
-                                       </viewport>
-                                       <image>
-                                          <Image url="@../../../public/pdf_icon.png" />
-                                       </image>
-                                    </ImageView>
-                                 </graphic>
-                              </Button>
-                              <Button contentDisplay="TOP" layoutX="10.0" layoutY="32.0" mnemonicParsing="false" text="Corriger.pdf" textAlignment="CENTER" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
-                                 <cursor>
-                                    <Cursor fx:constant="HAND" />
-                                 </cursor>
-                                 <font>
-                                    <Font size="18.0" />
-                                 </font>
-                                 <graphic>
-                                    <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
-                                       <viewport>
-                                          <Rectangle2D />
-                                       </viewport>
-                                       <image>
-                                          <Image url="@../../../public/pdf_icon.png" />
-                                       </image>
-                                    </ImageView>
-                                 </graphic>
-                              </Button>
-                              <Button contentDisplay="TOP" layoutX="1550.0" layoutY="32.0" mnemonicParsing="false" text="Corriger.pdf" textAlignment="CENTER" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
-                                 <cursor>
-                                    <Cursor fx:constant="HAND" />
-                                 </cursor>
-                                 <font>
-                                    <Font size="18.0" />
-                                 </font>
-                                 <graphic>
-                                    <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
-                                       <viewport>
-                                          <Rectangle2D />
-                                       </viewport>
-                                       <image>
-                                          <Image url="@../../../public/pdf_icon.png" />
-                                       </image>
-                                    </ImageView>
-                                 </graphic>
+                                 <effect>
+                                    <DropShadow offsetY="3.0">
+                                       <color>
+                                          <Color opacity="0.25190839171409607" />
+                                       </color>
+                                    </DropShadow>
+                                 </effect>
                               </Button>
                            </children>
-                        </GridPane>
+                        </HBox>
+                        <VBox fx:id="participation_list" alignment="TOP_CENTER" VBox.vgrow="ALWAYS">
+                           <VBox.margin>
+                              <Insets bottom="200.0" top="80.0" />
+                           </VBox.margin>
+                        </VBox>
                      </children>
                   </VBox>
                </children>

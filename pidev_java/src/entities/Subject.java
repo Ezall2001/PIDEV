@@ -2,9 +2,6 @@ package entities;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import com.mysql.cj.protocol.a.NativeAuthenticationProvider;
-
 import utils.Log;
 
 public class Subject {

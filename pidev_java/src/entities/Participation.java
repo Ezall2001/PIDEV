@@ -1,16 +1,27 @@
 package entities;
 
-public class Reservation {
+import utils.Log;
+
+public class Participation {
 
   public enum State {
     PENDING, ACCEPTED, DENIED
   }
 
+  private Integer id;
   private Session session;
   private User user;
   private State state;
 
-  public Reservation() {
+  public Participation() {
+  }
+
+  public Integer get_id() {
+    return id;
+  }
+
+  public void set_id(Integer id) {
+    this.id = id;
   }
 
   public Session get_session() {
@@ -33,8 +44,20 @@ public class Reservation {
     return state;
   }
 
+  public String get_state_string() {
+    return state.toString().toLowerCase();
+  }
+
   public void set_state(State state) {
     this.state = state;
+  }
+
+  public void set_state(String state) {
+    try {
+      this.state = State.valueOf(state);
+    } catch (Exception e) {
+      Log.file(e.getMessage());
+    }
   }
 
   @Override

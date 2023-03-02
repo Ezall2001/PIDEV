@@ -5,7 +5,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import pages.session.Session_controller;
-import utils.Log;
 import utils.Router;
 
 public class Session_card_controller {
