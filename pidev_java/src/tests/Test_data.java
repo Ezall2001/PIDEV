@@ -385,25 +385,21 @@ public class Test_data {
                                                 question_5_optionC, question_5_optionD));
                 test_questions.get(4).set_test(tests.get(2));
 
-                Log.file("before 7");
                 test_questions.add(
                                 new Test_qs(2, question_8, question_8_response, question_8_optionA, question_8_optionB,
                                                 question_8_optionC, question_8_optionD));
                 test_questions.get(5).set_test(tests.get(2));
 
-                Log.file("before 8");
                 test_questions.add(
                                 new Test_qs(3, question_9, question_9_response, question_9_optionA, question_9_optionB,
                                                 question_9_optionC, question_9_optionD));
                 test_questions.get(6).set_test(tests.get(2));
 
-                Log.file("before 9");
                 test_questions.add(new Test_qs(4, question_10, question_10_response, question_10_optionA,
                                 question_10_optionB,
                                 question_10_optionC, question_10_optionD));
                 test_questions.get(7).set_test(tests.get(2));
 
-                Log.file("before 10");
                 test_questions.add(new Test_qs(5, question_11, question_11_response, question_11_optionA,
                                 question_11_optionB,
                                 question_11_optionC, question_11_optionD));

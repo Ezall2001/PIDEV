@@ -51,7 +51,7 @@ public class Courses_table_controller implements Initializable {
             return;
 
           course_service.delete(course);
-          Router.render_dialog("Courses_table", null);
+          Router.render_admin_template("Courses_table", null);
         });
 
     List<Course> courses = course_service.get_all();
