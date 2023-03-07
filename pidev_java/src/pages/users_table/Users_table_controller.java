@@ -1,23 +1,23 @@
-// package pages.users_table;
+package pages.users_table;
 
-// import javafx.fxml.FXML;
-// import javafx.fxml.Initializable;
-// import javafx.scene.layout.VBox;
+import java.net.URL;
+import java.util.ResourceBundle;
 
-// import java.util.ResourceBundle;
+import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.scene.layout.VBox;
+import services.User_service;
 
-// import javax.print.DocFlavor.URL;
+public class Users_table_controller implements Initializable {
 
-// import services.User_service;
+    @FXML
+    private VBox table_wrapper;
 
-// public class Users_table_controller implements Initializable {
-//   static private User_service user_service = new User_service();
+    static private User_service user_service = new User_service();
 
-//   @FXML
-//   private VBox table_wrapper;
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
 
-//   @Override
-//   public void initialize(URL location, ResourceBundle resources) {
+    }
 
-//   }
-// }
+}
