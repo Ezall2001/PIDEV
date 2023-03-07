@@ -25,7 +25,7 @@ public class Nour_test {
         User result_user = user_service.find_by_id(u);
         Log.console(result_user.get_score());
 
-        // this is  a test comment 
+        // this is  a test comment xxxxxxxxx
 
     }
 }
