@@ -27,24 +27,24 @@ public class Subjects_table_controller implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         TableView<Subject> table = new TableView<>();
 
-        TableColumn<Subject, String> name_column = new TableColumn<>("Name");
+        TableColumn<Subject, String> name_column = new TableColumn<>("Nom");
         name_column.setCellValueFactory(new PropertyValueFactory<Subject, String>("_name"));
+
+        TableColumn<Subject, String> classes_esprit_column = new TableColumn<>("Classe");
+        classes_esprit_column.setCellValueFactory(new PropertyValueFactory<Subject, String>("_classes_esprit_string"));
 
         TableColumn<Subject, String> description_column = new TableColumn<>("Description");
         description_column.setCellValueFactory(new PropertyValueFactory<Subject, String>("_description"));
         description_column = Table_view_helpers.set_text_wrap_cell(description_column);
         description_column.setMinWidth(500);
 
-        TableColumn<Subject, String> classes_esprit_column = new TableColumn<>("Classe");
-        classes_esprit_column.setCellValueFactory(new PropertyValueFactory<Subject, String>("_classes_esprit_string"));
-
         table.getColumns().add(name_column);
-        table.getColumns().add(description_column);
         table.getColumns().add(classes_esprit_column);
+        table.getColumns().add(description_column);
 
         table = Table_view_helpers.add_action_column(table,
                 (Subject subject) -> {
-                    Router.render_dialog("Course_input",
+                    Router.render_dialog("Subject_input",
                             (Subject_input_controller controller) -> controller.hydrate(subject));
                 },
                 (Subject subject) -> {
