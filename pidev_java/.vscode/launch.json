@@ -6,6 +6,20 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Armen_test",
+            "request": "launch",
+            "mainClass": "tests.Armen_test",
+            "projectName": "pidev_java_18c2d979"
+        },
+        {
+            "type": "java",
+            "name": "Test_data",
+            "request": "launch",
+            "mainClass": "tests.Test_data",
+            "projectName": "pidev_java_18c2d979"
+        },
+        {
+            "type": "java",
             "name": "Current File",
             "request": "launch",
             "mainClass": "${file}"
