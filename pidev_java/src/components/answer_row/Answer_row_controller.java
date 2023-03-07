@@ -3,7 +3,6 @@ package components.answer_row;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.function.Consumer;
-
 import entities.Answer;
 import entities.User;
 import entities.Vote;
@@ -13,10 +12,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
-import services.Answer_service;
 import services.User_session_service;
 import services.Vote_service;
-import utils.Log;
 
 public class Answer_row_controller implements Initializable {
   @FXML

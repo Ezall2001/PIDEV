@@ -22,13 +22,10 @@ import javafx.scene.layout.VBox;
 import javafx.scene.layout.StackPane;
 import services.Session_service;
 import services.User_session_service;
-import utils.Log;
 import utils.Router;
 import entities.Course;
 import entities.Session;
-import entities.Test;
 import entities.User;
-
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.ArrayList;
