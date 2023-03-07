@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.gluonhq.charm.glisten.mvc.View?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
+
+<View maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="810.0" prefWidth="1440.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pages.test_questions_table.Test_questions_table_controller">
+   <center>
+      <VBox fx:id="table_wrapper" BorderPane.alignment="CENTER">
+         <padding>
+            <Insets bottom="50.0" left="20.0" right="20.0" top="50.0" />
+         </padding>
+      </VBox>
+   </center>
+</View>
