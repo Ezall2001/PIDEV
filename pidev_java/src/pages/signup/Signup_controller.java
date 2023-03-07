@@ -10,17 +10,14 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import pages.profile.Profile_controller;
 import services.User_service;
 import services.User_session_service;
 import utils.File_helpers;
-import utils.Log;
 import utils.Router;
 
 public class Signup_controller implements Initializable {

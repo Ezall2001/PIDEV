@@ -1,7 +1,6 @@
 package dialogs.answer_input;
 
 import java.util.function.Consumer;
-
 import dialogs.Base_dialog_controller;
 import entities.Answer;
 import javafx.event.ActionEvent;
@@ -9,7 +8,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextArea;
-import utils.Log;
 import utils.String_helpers;
 
 public class Answer_input_controller extends Base_dialog_controller {

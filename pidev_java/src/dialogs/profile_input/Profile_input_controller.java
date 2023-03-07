@@ -10,11 +10,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
-import pages.profile.Profile_controller;
 import services.User_service;
-import utils.Log;
 import utils.Router;
 
 public class Profile_input_controller extends Base_dialog_controller {

@@ -4,14 +4,9 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.Optional;
 import java.util.function.Consumer;
-
-import dialogs.Base_dialog_controller;
-import entities.Course;
-import javafx.animation.Animation.Status;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Control;
 import javafx.scene.control.TableCell;
