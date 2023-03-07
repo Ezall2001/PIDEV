@@ -2,5 +2,9 @@
 	"java.project.sourcePaths": ["src"],
 	"java.project.outputPath": "bin",
 	"java.format.comments.enabled": false,
-	"java.project.referencedLibraries": ["lib/**/*.jar"]
+	"java.project.referencedLibraries": ["lib/**/*.jar"],
+	"editor.codeActionsOnSave": {
+		"source.organizeImports": false
+	},
+	"editor.codeActionWidget.showHeaders": false
 }

@@ -1,14 +1,22 @@
 package utils;
 
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.util.Arrays;
+import java.util.List;
 import java.util.function.Consumer;
+
+import javax.imageio.ImageIO;
 
 import com.gluonhq.charm.glisten.mvc.View;
 
 import dialogs.Base_dialog_controller;
 import entities.User;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import services.User_session_service;
 import templates.user_template.User_template_controller;
@@ -19,13 +27,15 @@ public class Router {
   private static Integer pref_height = 810;
   private static Stage main_stage;
   private static User_session_service user_session_service = new User_session_service();
+  private static List<String> unprotected_pages = Arrays.asList("Signup", "Login");
 
   public static void init(Stage stage) {
     main_stage = stage;
   }
 
   private static Boolean validate_user(String page_name) {
-    if (page_name.equals("Login"))
+
+    if (unprotected_pages.stream().anyMatch(unprotected_page -> unprotected_page.equals(page_name)))
       return true;
 
     User user = user_session_service.get_user();
@@ -135,8 +145,18 @@ public class Router {
   }
 
   private static void update_scene(Parent view, String page_name) {
-    main_stage.setTitle(String.format("Myalò : %s", page_name));
-    main_stage.setScene(new Scene(view, pref_width, pref_height));
-    main_stage.show();
+    try {
+      BufferedImage buffered_icon = ImageIO.read(new File("public/image/app_icon.png"));
+      Image icon = SwingFXUtils.toFXImage(buffered_icon, null);
+
+      main_stage.setTitle(String.format("Myalò : %s", page_name));
+      main_stage.setScene(new Scene(view, pref_width, pref_height));
+      main_stage.getIcons().add(icon);
+      main_stage.show();
+
+    } catch (Exception e) {
+      Log.file(e.getMessage());
+    }
+
   }
 }

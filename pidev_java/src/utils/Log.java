@@ -8,7 +8,7 @@ public class Log {
 
   private static String get_output(Object obj) {
     if (obj == null)
-      return "NULL";
+      return "NULL is being passed";
 
     try {
       if (obj.getClass().getMethod("toString").getDeclaringClass() != Object.class)
@@ -26,6 +26,7 @@ public class Log {
   }
 
   public static void file(Object obj) {
+
     LocalDateTime timestamp = LocalDateTime.now();
     String message = String.format("%s : %s\n", timestamp, get_output(obj));
 

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.text.Font?>
+
+
+<VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="5.0" style="-fx-background-color: #eee; -fx-background-radius: 20;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="components.question_row.Question_row_controller">
+   <children>
+      <Label fx:id="question_label" layoutX="10.0" layoutY="10.0" text="sdflqfhqfhlssddsuuqqffhhssdqqdllkkujjuffhhqqssddlmlmuujjkkffhhsddsqqllmmfkfkhuhussqdqdffmmllqqssdd">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <HBox spacing="30.0">
+         <children>
+            <HBox>
+               <children>
+                  <Label text="Matiére : ">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="subject_label" layoutX="10.0" layoutY="10.0" text="Math" textFill="#00000080">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+               </children>
+            </HBox>
+            <HBox>
+               <children>
+                  <Label text="Par : ">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="creator_label" layoutX="10.0" layoutY="10.0" text="Armen Bakir" textFill="#00000080">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+               </children>
+            </HBox>
+         </children>
+      </HBox>
+      <HBox alignment="TOP_RIGHT">
+         <children>
+            <Button mnemonicParsing="false" onAction="#on_see_responses_button_pressed" style="-fx-background-color: BBCEFE; -fx-background-radius: 30;" text="Voir Réponses" textFill="#051148">
+               <font>
+                  <Font size="16.0" />
+               </font>
+               <padding>
+                  <Insets bottom="5.0" left="20.0" right="20.0" top="5.0" />
+               </padding>
+               <effect>
+                  <DropShadow offsetY="3.0">
+                     <color>
+                        <Color opacity="0.25" />
+                     </color>
+                  </DropShadow>
+               </effect>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
+         </children>
+      </HBox>
+   </children>
+   <padding>
+      <Insets bottom="10.0" left="30.0" right="30.0" top="10.0" />
+   </padding>
+</VBox>

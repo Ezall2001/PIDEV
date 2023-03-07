@@ -5,6 +5,7 @@
 <?import javafx.geometry.Rectangle2D?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -17,9 +18,9 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<View maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="810.0" prefWidth="1440.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pages.profile.Profile_controller">
+<View maxHeight="810.0" maxWidth="1440.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="810.0" prefWidth="1440.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pages.profile.Profile_controller">
    <center>
-      <HBox BorderPane.alignment="CENTER">
+      <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" BorderPane.alignment="CENTER">
          <children>
               <VBox alignment="TOP_CENTER" minWidth="-Infinity" spacing="30.0">
                   <children>
@@ -40,14 +41,18 @@
                       </Label>
                   <VBox alignment="CENTER" spacing="5.0">
                      <children>
-                        <ImageView fx:id="avatar_image" cache="true" fitHeight="150.0" fitWidth="150.0" pickOnBounds="true" smooth="false">
-                           <image>
-                              <Image url="file:/C:/Users/user/Desktop/esprit/PIDEV/pidev_java/public/image/default_avatar.png" />
-                           </image>
-                           <viewport>
-                              <Rectangle2D />
-                           </viewport>
-                        </ImageView>
+                        <HBox alignment="CENTER" maxHeight="150.0" maxWidth="150.0" prefHeight="150.0" prefWidth="150.0">
+                           <children>
+                              <ImageView fx:id="avatar_image" cache="true" fitHeight="150.0" fitWidth="150.0" pickOnBounds="true">
+                                 <image>
+                                    <Image url="@../../../server/profile_avatars/nour_pic.jpg" />
+                                 </image>
+                                 <viewport>
+                                    <Rectangle2D />
+                                 </viewport>
+                              </ImageView>
+                           </children>
+                        </HBox>
                             <Label fx:id="full_name_label" text="Eya Harbi">
                                 <font>
                                     <Font name="System Bold" size="24.0" />
@@ -115,7 +120,7 @@
                   </VBox>
                   <VBox alignment="CENTER" spacing="10.0">
                      <children>
-                        <Label alignment="TOP_LEFT" text="Bio" textFill="#051148">
+                        <Label alignment="TOP_LEFT" text="Biographie" textFill="#051148">
                            <font>
                               <Font name="Roboto Bold" size="18.0" />
                            </font>
@@ -132,7 +137,23 @@
                   <Insets left="20.0" right="20.0" top="30.0" />
                </padding>
               </VBox>
-            <VBox style="-fx-background-color: #A7A7A7;" HBox.hgrow="ALWAYS" />
+            <ScrollPane blendMode="DARKEN" fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS">
+               <content>
+                  <VBox spacing="40.0" style="-fx-background-color: #eee;">
+                     <children>
+                        <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Historique Des Séances" textFill="#051148">
+                           <font>
+                              <Font size="36.0" />
+                           </font>
+                        </Label>
+                        <VBox fx:id="session_history_wrapper" VBox.vgrow="ALWAYS" />
+                     </children>
+                     <padding>
+                        <Insets bottom="50.0" left="20.0" right="20.0" top="30.0" />
+                     </padding>
+                  </VBox>
+               </content>
+            </ScrollPane>
          </children>
       </HBox>
    </center>

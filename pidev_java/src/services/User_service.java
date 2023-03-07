@@ -8,6 +8,8 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+
+import entities.Test_result;
 import entities.User;
 
 public class User_service {
@@ -19,11 +21,61 @@ public class User_service {
     cnx = Jdbc_connection.getInstance();
   }
 
+  public Boolean check_user_infos(User user) {
+    String email = user.get_email();
+    String first_name = user.get_first_name();
+    String last_name = user.get_last_name();
+    String bio = user.get_bio();
+    Integer age = user.get_age();
+    if ((email.isEmpty()) || (!email.endsWith("@esprit.tn")))
+      return false;
+
+    if ((first_name.isEmpty()) || (!first_name.matches("[a-zA-Z ]+")) || ((first_name.length() < 2)))
+      return false;
+
+    if ((last_name.isEmpty()) || (!last_name.matches("[a-zA-Z ]+")) || (last_name.length() < 2))
+      return false;
+
+    if ((bio.isEmpty()) || (bio.length() < 10))
+      return false;
+
+    if (age == null || age > 100 || age <= 18)
+      return false;
+
+    return true;
+  }
+
+  public User find_by_email(String email) {
+    try {
+      String sql = "select * from users where email=?";
+      PreparedStatement stmt = cnx.prepareStatement(sql);
+      stmt.setString(1, email);
+
+      ResultSet result = stmt.executeQuery();
+
+      if (result.next())
+        return new User(
+            result.getInt("id"),
+            result.getString("first_name"),
+            result.getString("last_name"),
+            result.getString("bio"),
+            result.getInt("age"),
+            result.getInt("score"),
+            result.getString("email"),
+            result.getString("avatar_path"),
+            result.getString("type"));
+
+    } catch (Exception e) {
+      Log.file(e.getMessage());
+    }
+    return null;
+  }
+
   public User add(User user) {
     if ((find_by_email(user.get_email()) != null) || (!check_user_infos(user)))
       return null;
 
-    String sql = "insert into users(first_name,last_name,bio,age,email,password,score) values (?,?,?,?,?,?,?)";
+    String sql = "insert into users(first_name,last_name,bio,age,email,password,score,avatar_path,type) values (?,?,?,?,?,?,?,?,?)";
     try {
       PreparedStatement stmt = cnx.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
       stmt.setString(1, user.get_first_name());
@@ -33,6 +85,8 @@ public class User_service {
       stmt.setString(5, user.get_email());
       stmt.setString(6, user.get_hashed_password());
       stmt.setInt(7, 0);
+      stmt.setObject(8, user.get_avatar_path());
+      stmt.setString(9, user.get_type().toString());
       stmt.executeUpdate();
 
       ResultSet generated_id = stmt.getGeneratedKeys();
@@ -45,11 +99,22 @@ public class User_service {
     }
 
     return null;
+  }
 
+  public void update_score(Test_result test_result) {
+    String sql = "update users set score= score + ? where id=?";
+    try {
+      PreparedStatement stmt = cnx.prepareStatement(sql);
+      stmt.setInt(1, test_result.get_mark() * 20);
+      stmt.setInt(2, test_result.get_user().get_id());
+      stmt.executeUpdate();
+    } catch (Exception e) {
+      Log.file(e);
+    }
   }
 
   public void update(User user) {
-    String sql = "UPDATE users SET first_name=?, last_name=?, age=?, bio=?, avatar_path=? where email=?";
+    String sql = "UPDATE users SET first_name=?, last_name=?, age=?, bio=?, avatar_path=? where id=?";
     try {
       PreparedStatement stmt = cnx.prepareStatement(sql);
       stmt.setString(1, user.get_first_name());
@@ -57,20 +122,21 @@ public class User_service {
       stmt.setInt(3, user.get_age());
       stmt.setString(4, user.get_bio());
       stmt.setString(5, user.get_avatar_path());
-      stmt.setString(6, user.get_email());
+      stmt.setInt(6, user.get_id());
       stmt.executeUpdate();
+
     } catch (Exception e) {
       Log.file(e.getMessage());
     }
+
   }
 
   public void delete(User user) {
-    String sql = "delete from users where email=?";
+    String sql = "delete from users where id=?";
     try {
       PreparedStatement stmt = cnx.prepareStatement(sql);
-      stmt.setString(1, user.get_email());
+      stmt.setInt(1, user.get_id());
       stmt.executeUpdate();
-      Log.console("deleted");
     } catch (Exception e) {
       Log.file(e.getMessage());
     }
@@ -123,65 +189,11 @@ public class User_service {
             result.getString("email"),
             result.getString("avatar_path"),
             result.getString("type"));
-      return null;
 
     } catch (Exception e) {
       Log.file(e.getMessage());
-      return null;
     }
-  }
-
-  public User find_by_email(String email) {
-    try {
-      String sql = "select * from users where email=?";
-      PreparedStatement stmt = cnx.prepareStatement(sql);
-      stmt.setString(1, email);
-
-      ResultSet result = stmt.executeQuery();
-
-      if (result.next())
-        return new User(
-            result.getInt("id"),
-            result.getString("first_name"),
-            result.getString("last_name"),
-            result.getString("bio"),
-            result.getInt("age"),
-            result.getInt("score"),
-            result.getString("email"),
-            result.getString("avatar_path"),
-            result.getString("type"));
-      return null;
-
-    } catch (Exception e) {
-      Log.file(e.getMessage());
-      return null;
-    }
-  }
-
-  public boolean check_user_infos(User user) {
-    String email = user.get_email();
-    String first_name = user.get_first_name();
-    String last_name = user.get_last_name();
-    String bio = user.get_bio();
-    Integer age = user.get_age();
-    if ((email.isEmpty()) || (!email.endsWith("@esprit.tn"))) {
-      return false;
-    }
-    if ((first_name.isEmpty()) || (!first_name.matches("[a-zA-Z]+")) || ((first_name.length() < 2))) {
-      return false;
-    }
-    if ((last_name.isEmpty()) || (!last_name.matches("[a-zA-Z]+")) || (last_name.length() < 2)) {
-      return false;
-    }
-    if ((bio.isEmpty()) || (!bio.matches("^[a-zA-Z0-9,.!?\\s]+$")) || (bio.length() < 10)) //TODO: change bio to 50 
-    {
-      return false;
-    }
-    if ((age.toString().isEmpty()) || (!age.toString().matches("[0-9]+"))) {
-      return false;
-    }
-
-    return true;
+    return null;
   }
 
   public User login(User user) {

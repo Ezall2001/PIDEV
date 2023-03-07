@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
+import entities.Course;
 import entities.Participation;
 import entities.Session;
 import entities.User;
@@ -114,10 +115,54 @@ public class Participation_service {
     return participations;
   }
 
+  ///TODO: test this
   public List<Participation> find_by_id_user(User user) {
     List<Participation> participations = new ArrayList<>();
 
-    ///TODO: complete this
+    String sql = "select first_name,last_name, participations.id as id, sessions.id as id_session,state,date,start_time,end_time,price,topics,id_course,sessions.id_user as id_creator from participations left join sessions on id_session = sessions.id left join users on users.id = sessions.id_user where participations.state=? and participations.id_user = ?";
+
+    try {
+      PreparedStatement stmt = cnx.prepareStatement(sql);
+      stmt.setString(1, Participation.State.ACCEPTED.toString());
+      stmt.setInt(2, user.get_id());
+
+      ResultSet result = stmt.executeQuery();
+
+      while (result.next()) {
+
+        Course course = new Course();
+        course.set_id(result.getInt("id_course"));
+
+        User creator = new User();
+        creator.set_id(result.getInt("id_creator"));
+        creator.set_first_name(result.getString("first_name"));
+        creator.set_last_name(result.getString("last_name"));
+
+        Session session = new Session();
+        session.set_id(result.getInt("id_session"));
+        session.set_date(result.getDate("date"));
+        session.set_start_time(result.getTime("start_time"));
+        session.set_end_time(result.getTime("end_time"));
+        session.set_price(result.getDouble("price"));
+        session.set_topics(result.getString("topics"));
+
+        session.set_course(course);
+        session.set_user(creator);
+
+        Participation participation = new Participation();
+        participation.set_id(result.getInt("id"));
+        participation.set_state(result.getString("state"));
+        participation.set_user(user);
+        participation.set_session(session);
+
+        participations.add(participation);
+
+      }
+
+    } catch (Exception e) {
+      Log.file(e.getMessage());
+    }
+
     return participations;
   }
 

@@ -3,6 +3,7 @@ package pages.session;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import components.grid.Grid_controller;
 import components.participation_row.Participation_row_controller;
@@ -16,7 +17,9 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
@@ -26,7 +29,6 @@ import services.Participation_service;
 import services.Resource_service;
 import services.Session_service;
 import services.User_session_service;
-import utils.Log;
 import utils.Router;
 
 public class Session_controller implements Initializable {
@@ -89,6 +91,7 @@ public class Session_controller implements Initializable {
   private Session session;
   private Participation participation;
   private GridPane resources_grid;
+  private Boolean is_creator;
 
   private static Session_service session_service = new Session_service();
   private static User_session_service user_session_service = new User_session_service();
@@ -102,11 +105,15 @@ public class Session_controller implements Initializable {
       return;
 
     this.user = user;
+    is_creator = false;
   }
 
   public void hydrate(Session session) {
     List<Resource> resources = resource_service.find_by_id_session(session);
     session.set_resources(resources);
+
+    if (session.get_user().get_id().equals(user.get_id()))
+      is_creator = true;
 
     Participation participation = new Participation();
     participation.set_session(session);
@@ -115,23 +122,27 @@ public class Session_controller implements Initializable {
 
     this.session = session;
     user_label.setText(session.get_user().get_full_name());
-    course_label.setText(session.get_course().get_course_name());
+    course_label.setText(session.get_course().get_name());
     date_label.setText(session.get_date_string());
     price_label.setText(session.get_price_string());
     time_label.setText(session.get_time_interval());
     topics_label.setText(session.get_topics());
 
-    if (user.get_id() == session.get_user().get_id())
+    set_controls();
+    set_resources_grid();
+    set_participation();
+    set_participation_list();
+    set_link_wrapper();
+  }
+
+  void set_controls() {
+    if (is_creator)
       actions_wrapper.getChildren().remove(participate_button);
     else {
       actions_wrapper.getChildren().remove(modify_button);
       actions_wrapper.getChildren().remove(delete_button);
       Participation_wrapper.getChildren().remove(0);
     }
-
-    set_resources_grid();
-    set_participation();
-    set_participation_list();
   }
 
   void set_participation() {
@@ -140,25 +151,33 @@ public class Session_controller implements Initializable {
     actions_wrapper.getChildren().remove(state_denied_label);
     actions_wrapper.getChildren().remove(state_pending_label);
 
-    if (user.get_id() == session.get_user().get_id())
+    if (is_creator)
       return;
 
     if (participation == null)
       actions_wrapper.getChildren().add(participate_button);
 
-    else if (participation.get_state() == Participation.State.PENDING)
+    else if (participation.get_state().equals(Participation.State.PENDING))
       actions_wrapper.getChildren().add(state_pending_label);
 
-    else if (participation.get_state() == Participation.State.ACCEPTED)
+    else if (participation.get_state().equals(Participation.State.ACCEPTED))
       actions_wrapper.getChildren().add(state_confirmed_label);
 
-    else if (participation.get_state() == Participation.State.DENIED)
+    else if (participation.get_state().equals(Participation.State.DENIED))
       actions_wrapper.getChildren().add(state_denied_label);
 
   }
 
   @FXML
   void on_delete_button_pressed(ActionEvent event) {
+    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+    alert.setTitle("Confirmer");
+    alert.setContentText("Êtes-vous sûr de votre choix ?");
+    Optional<ButtonType> is_confirmed = alert.showAndWait();
+
+    if (is_confirmed.get() != ButtonType.OK)
+      return;
+
     session_service.delete_by_id(session);
     Router.render_user_template("Profile", null);
   }
@@ -197,7 +216,7 @@ public class Session_controller implements Initializable {
 
   void set_resources_grid() {
     List<Parent> resource_components = new ArrayList<>();
-    Boolean is_creator = user.get_id() == session.get_user().get_id();
+
     if (is_creator)
       resource_components.add(Router.load_component("Resource", (Resource_controller controller) -> {
         controller.hydrate(session, (Resource resource) -> {
@@ -227,7 +246,7 @@ public class Session_controller implements Initializable {
   }
 
   void set_participation_list() {
-    if (user.get_id() != session.get_user().get_id())
+    if (!is_creator)
       return;
 
     List<Participation> participations = participation_service.find_by_id_session(session);
@@ -239,6 +258,12 @@ public class Session_controller implements Initializable {
           });
       participation_list.getChildren().add(participation_row);
     }
+  }
+
+  void set_link_wrapper() {
+    if (is_creator)
+      return;
+    link_wrapper.getChildren().clear();
   }
 
 }

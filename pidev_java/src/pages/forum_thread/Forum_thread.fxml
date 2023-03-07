@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.gluonhq.charm.glisten.mvc.View?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<View maxHeight="810.0" maxWidth="1440.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="810.0" prefWidth="1440.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pages.forum_thread.Forum_thread_controller">
+   <center>
+      <ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" BorderPane.alignment="CENTER">
+         <content>
+            <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
+               <children>
+                  <VBox alignment="TOP_CENTER" style="-fx-background-color: #97A8F8;">
+                     <children>
+                        <Label alignment="CENTER" contentDisplay="CENTER" text="Espace Forum" textFill="WHITE">
+                           <font>
+                              <Font size="36.0" />
+                           </font>
+                        </Label>
+                        <Label alignment="CENTER" text="Bienvenue dans notre forum ! T’as une question? Exprime-toi ici ! " textFill="WHITE">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </Label>
+                        <ImageView fitHeight="171.0" fitWidth="404.0">
+                           <image>
+                              <Image url="@../../../public/image/forum_hero.png" />
+                           </image>
+                           <VBox.margin>
+                              <Insets top="20.0" />
+                           </VBox.margin>
+                        </ImageView>
+                     </children>
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                     <padding>
+                        <Insets bottom="20.0" top="30.0" />
+                     </padding>
+                  </VBox>
+                  <VBox spacing="40.0" style="-fx-background-color: #eee;">
+                     <children>
+                        <VBox spacing="10.0">
+                           <children>
+                              <HBox alignment="BASELINE_LEFT">
+                                 <children>
+                                    <Text fill="#051148" strokeType="OUTSIDE" strokeWidth="0.0" text="Question : ">
+                                       <font>
+                                          <Font size="36.0" />
+                                       </font>
+                                    </Text>
+                                    <Label fx:id="question_label" text="fsdqfqsdfsqdfqsdfsdkhjsdlfqsl fsdqfqsdfsqdfqsdfsdkhjsdlfqsl fsdqfqsdfsqdfqsdfsdkhjsdlfqsl ?" textFill="#051148" wrapText="true">
+                                       <font>
+                                          <Font size="26.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </HBox>
+                              <HBox spacing="5.0">
+                                 <children>
+                                    <Label alignment="TOP_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Par : " textFill="#00000080" wrapText="true">
+                                       <font>
+                                          <Font size="14.0" />
+                                       </font>
+                                    </Label>
+                                    <Label fx:id="question_creator_label" alignment="TOP_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Najiba Gargouba" textFill="#00000080" wrapText="true">
+                                       <font>
+                                          <Font size="14.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                                 <VBox.margin>
+                                    <Insets left="10.0" />
+                                 </VBox.margin>
+                              </HBox>
+                           </children>
+                        </VBox>
+                        <Label fx:id="description_label" alignment="TOP_LEFT" maxHeight="150.0" prefHeight="150.0" text="dshfgqluksdqdklsufhfhqsqsdkdkluuljjffhhggsddsqkqklmlmjjuufgfghhssddqklqklmmjjuggufhfhsddsqqllmmffkkjggjhhssddllaqqkajjkgghhqqsddsllkkjjgghhbbqqssddfkfmjkjdgghhqqsddsmmjjkkgghhqqsddmslmlqdkkjggjhhssqqdldlmkmkqdjjgghhqqsddslljjkggkhhssqqddffgglmlmkkjjhhqqssdd" wrapText="true">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Label>
+                        <HBox fx:id="actions_wrapper" alignment="TOP_RIGHT" spacing="20.0">
+                           <children>
+                              <Button contentDisplay="RIGHT" graphicTextGap="10.0" mnemonicParsing="false" onAction="#on_modify_button_pressed" style="-fx-background-radius: 30; -fx-background-color: #fee39a;" text="Modifier Question" textFill="#051148">
+                                 <HBox.margin>
+                                    <Insets />
+                                 </HBox.margin>
+                                 <padding>
+                                    <Insets bottom="5.0" left="15.0" right="15.0" top="5.0" />
+                                 </padding>
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font>
+                                 <effect>
+                                    <DropShadow offsetY="3.0">
+                                       <color>
+                                          <Color opacity="0.25" />
+                                       </color>
+                                    </DropShadow>
+                                 </effect>
+                                 <graphic>
+                                    <ImageView fitHeight="20.0" fitWidth="20.0">
+                                       <image>
+                                          <Image url="@../../../public/image/modify_icon.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                              </Button>
+                              <Button contentDisplay="RIGHT" graphicTextGap="10.0" mnemonicParsing="false" onAction="#on_delete_button_pressed" style="-fx-background-radius: 30; -fx-background-color: #fe9a9a;" text="Supprimer" textFill="#051148">
+                                 <HBox.margin>
+                                    <Insets />
+                                 </HBox.margin>
+                                 <padding>
+                                    <Insets bottom="5.0" left="15.0" right="15.0" top="5.0" />
+                                 </padding>
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font>
+                                 <effect>
+                                    <DropShadow offsetY="3.0">
+                                       <color>
+                                          <Color opacity="0.25" />
+                                       </color>
+                                    </DropShadow>
+                                 </effect>
+                                 <graphic>
+                                    <ImageView fitHeight="20.0" fitWidth="20.0" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../../../public/image/delete_icon.jpg" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                              </Button>
+                           </children>
+                           <padding>
+                              <Insets right="30.0" />
+                           </padding>
+                        </HBox>
+                     </children>
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                     <padding>
+                        <Insets bottom="20.0" left="20.0" right="20.0" top="30.0" />
+                     </padding>
+                  </VBox>
+                  <VBox spacing="60.0">
+                     <children>
+                        <HBox spacing="20.0" VBox.vgrow="NEVER">
+                           <children>
+                              <Button mnemonicParsing="false" onAction="#on_add_answer_pressed" style="-fx-background-color: #BBCEFE; -fx-background-radius: 30;" text="Ajouter réponse" textFill="#051148" HBox.hgrow="NEVER">
+                                 <HBox.margin>
+                                    <Insets />
+                                 </HBox.margin>
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                                 <padding>
+                                    <Insets bottom="5.0" left="15.0" right="15.0" top="5.0" />
+                                 </padding>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                                 <effect>
+                                    <DropShadow offsetY="3.0">
+                                       <color>
+                                          <Color opacity="0.25" />
+                                       </color>
+                                    </DropShadow>
+                                 </effect>
+                              </Button>
+                              <MenuButton fx:id="sort_by_button" mnemonicParsing="false" style="-fx-background-color: #BBCEFE; -fx-background-radius: 30;" text="Trier Par : " textFill="#051148" HBox.hgrow="NEVER">
+                                <items>
+                                  <MenuItem mnemonicParsing="false" onAction="#on_sort_by_date_button_pressed" text="Date De Publication" />
+                                  <MenuItem mnemonicParsing="false" onAction="#on_sort_by_vote_button_pressed" text="Intéressant" />
+                                </items>
+                                 <HBox.margin>
+                                    <Insets />
+                                 </HBox.margin>
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                                 <padding>
+                                    <Insets left="15.0" right="15.0" />
+                                 </padding>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                                 <effect>
+                                    <DropShadow offsetY="3.0">
+                                       <color>
+                                          <Color opacity="0.25" />
+                                       </color>
+                                    </DropShadow>
+                                 </effect>
+                              </MenuButton>
+                           </children>
+                        </HBox>
+                        <VBox fx:id="answers_list_wrapper" alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" spacing="50.0" VBox.vgrow="ALWAYS" />
+                     </children>
+                     <VBox.margin>
+                        <Insets top="40.0" />
+                     </VBox.margin>
+                     <padding>
+                        <Insets left="20.0" right="20.0" />
+                     </padding>
+                  </VBox>
+               </children>
+               <padding>
+                  <Insets bottom="50.0" />
+               </padding>
+            </VBox>
+         </content>
+      </ScrollPane>
+   </center>
+</View>

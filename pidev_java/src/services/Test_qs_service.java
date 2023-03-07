@@ -14,36 +14,42 @@ public class Test_qs_service {
         cnx = Jdbc_connection.getInstance();
     }
 
-    public void add(Test_qs question) {
+    public Test_qs add(Test_qs question) {
+        String sql = "insert into test_qs (question_number,optionA,optionB,optionC,optionD,correct_option,question,id_test) values (?,?,?,?,?,?,?,?)";
         try {
-            String sql = "insert into test_qs (question_number,optionA,optionB,optionC,optionD,correct_option,question,id_test)"
-                    + "values (?,?,?,?,?,?,?,?)";
-            PreparedStatement ste = cnx.prepareStatement(sql);
-            ste.setInt(1, question.get_question_number());
-            ste.setString(2, question.get_optionA());
-            ste.setString(3, question.get_optionB());
-            ste.setString(4, question.get_optionC());
-            ste.setString(5, question.get_optionD());
-            ste.setString(6, question.get_correct_option());
-            ste.setString(7, question.get_question());
-            ste.setInt(8, question.get_test().get_id());
-            ste.executeUpdate();
-            Log.console("question ajoutée");
-        } catch (SQLException ex) {
-            Log.console(ex.getMessage());
+            PreparedStatement stmt = cnx.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
+            stmt.setInt(1, question.get_question_number());
+            stmt.setString(2, question.get_optionA());
+            stmt.setString(3, question.get_optionB());
+            stmt.setString(4, question.get_optionC());
+            stmt.setString(5, question.get_optionD());
+            stmt.setString(6, question.get_correct_option());
+            stmt.setString(7, question.get_question());
+            stmt.setInt(8, question.get_test().get_id());
+            stmt.executeUpdate();
+
+            ResultSet generated_id = stmt.getGeneratedKeys();
+            if (!generated_id.next())
+                return null;
+
+            question.set_id(generated_id.getInt(1));
+            return question;
+
+        } catch (Exception e) {
+            Log.file(e);
         }
 
+        return null;
     }
 
-    public void delete(int id) {
+    public void delete(Test_qs test_qs) {
         String sql = "delete from test_qs where id=?";
         try {
-            PreparedStatement ste = cnx.prepareStatement(sql);
-            ste.setInt(1, id);
-            ste.executeUpdate();
-            Log.console("question supprimée");
-        } catch (SQLException ex) {
-            Log.console(ex.getMessage());
+            PreparedStatement stmt = cnx.prepareStatement(sql);
+            stmt.setInt(1, test_qs.get_id());
+            stmt.executeUpdate();
+        } catch (Exception e) {
+            Log.file(e.getMessage());
         }
 
     }
@@ -52,68 +58,65 @@ public class Test_qs_service {
         List<Test_qs> test_questions = new ArrayList<>();
         try {
             String sql = "select * from test_qs";
-            Statement ste = cnx.createStatement();
-            ResultSet set = ste.executeQuery(sql);
-            while (set.next()) {
+            Statement stmt = cnx.createStatement();
+            ResultSet result = stmt.executeQuery(sql);
+            while (result.next()) {
                 Test_qs question = new Test_qs(
-                        set.getInt(1),
-                        set.getInt(2),
-                        set.getString("question"),
-                        set.getString("correct_option"),
-                        set.getString("optionA"),
-                        set.getString("optionB"),
-                        set.getString("optionC"),
-                        set.getString("optionD"));
+                        result.getInt(1),
+                        result.getInt(2),
+                        result.getString("question"),
+                        result.getString("correct_option"),
+                        result.getString("optionA"),
+                        result.getString("optionB"),
+                        result.getString("optionC"),
+                        result.getString("optionD"));
                 test_questions.add(question);
             }
-        } catch (SQLException ex) {
-            Log.console(ex.getMessage());
+        } catch (Exception e) {
+            Log.file(e.getMessage());
         }
         return test_questions;
     }
 
-    public void modify(Test_qs question) {
-        String sql = "update test_qs question_number=?, question=?, correct_option=?, optionA=?"
-                +
-                ", optionB=?, optionC=?, optionD=? where id=? ";
+    public void update(Test_qs question) {
+        String sql = "update test_qs set question_number=?, question=?, correct_option=?, optionA=?, optionB=?, optionC=?, optionD=? where id=? ";
         try {
-            PreparedStatement ste = cnx.prepareStatement(sql);
-            ste.setInt(1, question.get_question_number());
-            ste.setString(2, question.get_question());
-            ste.setString(3, question.get_correct_option());
-            ste.setString(4, question.get_optionA());
-            ste.setString(5, question.get_optionB());
-            ste.setString(6, question.get_optionC());
-            ste.setString(7, question.get_optionD());
-            ste.setInt(8, question.get_id());
-            ste.executeUpdate();
-            Log.console("question modifiée");
-        } catch (SQLException ex) {
-            Log.console(ex.getMessage());
+            PreparedStatement stmt = cnx.prepareStatement(sql);
+            stmt.setInt(1, question.get_question_number());
+            stmt.setString(2, question.get_question());
+            stmt.setString(3, question.get_correct_option());
+            stmt.setString(4, question.get_optionA());
+            stmt.setString(5, question.get_optionB());
+            stmt.setString(6, question.get_optionC());
+            stmt.setString(7, question.get_optionD());
+            stmt.setInt(8, question.get_id());
+            stmt.executeUpdate();
+        } catch (Exception e) {
+            Log.file(e.getMessage());
         }
 
     }
 
-    public Test_qs get_by_id(int id) {
+    public Test_qs find_by_id(Test_qs test_qs) {
         Test_qs test_question = new Test_qs();
         try {
             String sql = "select * from test_qs where id=? ";
-            PreparedStatement ste = cnx.prepareStatement(sql);
-            ste.setInt(1, id);
-            ResultSet set = ste.executeQuery();
-            if (set.next()) {
-                test_question.set_id(set.getInt(1));
-                test_question.set_correct_option(set.getString("correct_option"));
-                test_question.set_question(set.getString("question"));
-                test_question.set_question_number(set.getInt(2));
-                test_question.set_optionA(set.getString("optionA"));
-                test_question.set_optionB(set.getString("optionB"));
-                test_question.set_optionC(set.getString("optionC"));
-                test_question.set_optionD(set.getString("optionD"));
+            PreparedStatement stmt = cnx.prepareStatement(sql);
+            stmt.setInt(1, test_qs.get_id());
+            ResultSet result = stmt.executeQuery();
+            if (result.next()) {
+                test_question.set_id(result.getInt("id"));
+                test_question.set_correct_option(result.getString("correct_option"));
+                test_question.set_question(result.getString("question"));
+                test_question.set_question_number(result.getInt("question_number"));
+                test_question.set_optionA(result.getString("optionA"));
+                test_question.set_optionB(result.getString("optionB"));
+                test_question.set_optionC(result.getString("optionC"));
+                test_question.set_optionD(result.getString("optionD"));
             }
 
-        } catch (SQLException ex) {
-            Log.console(ex.getMessage());
+        } catch (Exception e) {
+            Log.file(e.getMessage());
         }
         return test_question;
     }

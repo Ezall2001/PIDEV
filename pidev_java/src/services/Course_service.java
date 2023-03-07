@@ -1,18 +1,14 @@
-
 package services;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import entities.Course;
-import entities.Course.Difficulty;
+import entities.Subject;
+import entities.User;
 import utils.Jdbc_connection;
 import utils.Log;
 
@@ -24,107 +20,63 @@ public class Course_service {
     cnx = Jdbc_connection.getInstance();
   }
 
-  public void add_course(Course course) {
-    try {
-      String sql = "insert into course(id_c,course_name,description_c,difficulty)"
-          + "values (?,?,?,?)";
-      PreparedStatement ste = cnx.prepareStatement(sql);
-      ste.setInt(1, course.get_id_c());
-      ste.setString(2, course.get_course_name());
-      ste.setString(4, course.get_difficulty_String());
-      ste.setString(3, course.get_description_c());
-      ste.executeUpdate();
-      Log.console("Cour ajoutée");
-    } catch (SQLException ex) {
-      Log.file(ex.getMessage());
-    }
-  }
-
-  public void update(int id_c, String course_name) {
-
-    try {
-      String sql = "UPDATE course SET course_name=?  WHERE id_c=?";
-      PreparedStatement statement = cnx.prepareStatement(sql);
-      statement.setInt(2, id_c);
-
-      statement.setString(1, course_name);
-      int x = statement.executeUpdate();
-      statement.close();
-      if (x == 1)
-        Log.console("la  matiere est modifier avec succés");
-
-    } catch (SQLException ex) {
-      Log.file(ex.getMessage());
-    }
-  }
-
   public List<Course> get_all() {
     List<Course> courses = new ArrayList<>();
+
     try {
-      String sql = "select * from course";
-      Statement ste = cnx.createStatement();
-      ResultSet result = ste.executeQuery(sql);
-      Difficulty diff = Difficulty.valueOf(result.getString("difficulty"));
+      String sql = "SELECT courses.id, courses.name, courses.description, courses.difficulty, subjects.id AS id_subject, subjects.name as name_subject, subjects.classes_esprit FROM courses LEFT JOIN subjects ON subjects.id = courses.id_subject";
+      PreparedStatement stmt = cnx.prepareStatement(sql);
+
+      ResultSet result = stmt.executeQuery();
+
       while (result.next()) {
+        Course course = new Course(
+            result.getInt("id"),
+            result.getString("name"),
+            result.getString("description"),
+            result.getString("difficulty"));
 
-        Course new_course = new Course(result.getInt(1), result.getString(2),
-            result.getString(3), diff);
-        courses.add(new_course);
+        Subject subject = new Subject();
+        subject.set_id(result.getInt("id_subject"));
+        subject.set_name(result.getString("name_subject"));
+        subject.set_classes_esprit(result.getString("classes_esprit"));
+
+        course.set_subject(subject);
+        courses.add(course);
 
       }
-    } catch (SQLException ex) {
-      Log.file(ex.getMessage());
+    } catch (Exception e) {
+      Log.file(e.getMessage());
     }
     return courses;
   }
 
-  public void delete_course(Course course) {
-    String sql = "delete from ,course where course_name=?";
+  public Course add(Course course) {
+    String sql = "insert into courses (name, description, difficulty, id_subject) values (?,?,?,?)";
     try {
-      PreparedStatement ste = cnx.prepareStatement(sql);
-      ste.setString(2, course.get_course_name());
+      PreparedStatement stmt = cnx.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
+      stmt.setString(1, course.get_name());
+      stmt.setString(2, course.get_description());
+      stmt.setString(3, course.get_difficulty_string());
+      stmt.setInt(4, course.get_subject().get_id());
+      stmt.executeUpdate();
 
-      ste.executeUpdate();
-
-    } catch (SQLException ex) {
-      Log.file(ex.getMessage());
+      ResultSet generated_id = stmt.getGeneratedKeys();
+      generated_id.next();
+      course.set_id(generated_id.getInt(1));
+      return course;
+    } catch (Exception e) {
+      Log.file(e);
+      return null;
     }
   }
 
-  public List<Course> get_by_id(int id_c) {
-    List<Course> courses = new ArrayList<>();
-    try {
-      String sql = "SELECT * FROM course WHERE id_c=?";
-      PreparedStatement ste = cnx.prepareStatement(sql);
-      ste.setInt(1, id_c);
-      ResultSet rs = ste.executeQuery();
-      while (rs.next()) {
-        Course new_Course = new Course();
+  public void delete(Course course) {
 
-        new_Course.set_course_name(rs.getString("course_name"));
-        new_Course.set_description_c(rs.getString(3));
+  }
 
-        courses.add(new_Course);
-      }
-      rs.close();
-      ste.close();
+  public void update(Course course) {
 
-    } catch (SQLException ex) {
-      Log.file(ex.getMessage());
-    }
-
-    return courses;
-
-  };
-
-  public List<Course> trier() {
-    List<Course> courses = new ArrayList<Course>();
-    courses = get_all();
-    courses = courses.stream()
-        .sorted(Comparator.comparing(Course::get_course_name))
-
-        .collect(Collectors.toList());
-    return courses;
   }
 
 }

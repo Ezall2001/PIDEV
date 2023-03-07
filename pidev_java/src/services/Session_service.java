@@ -31,7 +31,7 @@ public class Session_service {
       stmt.setTime(4, session.get_end_time_sqlTime());
       stmt.setInt(5, session.get_user().get_id());
       stmt.setString(6, session.get_topics());
-      stmt.setInt(7, session.get_course().get_id_c());
+      stmt.setInt(7, session.get_course().get_id());
       stmt.executeUpdate();
 
       ResultSet generated_id = stmt.getGeneratedKeys();
@@ -79,7 +79,7 @@ public class Session_service {
     try {
       String sql = "select sessions.id,price,date,start_time,end_time,topics,users.id as user_id,users.first_name as user_first_name,users.last_name as user_last_name from sessions LEFT JOIN users ON users.id = sessions.id_user where id_course=?;";
       PreparedStatement stmt = cnx.prepareStatement(sql);
-      stmt.setInt(1, course.get_id_c());
+      stmt.setInt(1, course.get_id());
       ResultSet result = stmt.executeQuery();
 
       while (result.next()) {

@@ -5,14 +5,14 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class Jdbc_connection {
-  private static Connection cnx_instance = null;
 
-  String url = "jdbc:mysql://localhost:3306/pidev";
-  String user = "root";
-  String password = "";
+  private static String url = "jdbc:mysql://localhost:3306/pidev";
+  private static String user = "root";
+  private static String password = "";
 
-  private Jdbc_connection() {
+  private static Connection cnx_instance = init_connection();
 
+  private static Connection init_connection() {
     try {
       Class.forName("com.mysql.cj.jdbc.Driver");
     } catch (Exception e) {
@@ -20,21 +20,24 @@ public class Jdbc_connection {
     }
 
     try {
-      cnx_instance = DriverManager.getConnection(url, user, password);
-      Log.file("connection etablis");
+      Connection cnx = DriverManager.getConnection(url, user, password);
+      Log.file("connection established");
+      return cnx;
     } catch (SQLException e) {
       Log.file(e.getMessage());
     }
+
+    return null;
   }
 
   public static Connection getInstance() {
     if (cnx_instance == null)
-      new Jdbc_connection();
+      cnx_instance = init_connection();
+
     return cnx_instance;
   }
 
-  public Connection getCnx() {
-    return cnx_instance;
+  private Jdbc_connection() {
   }
 
 }

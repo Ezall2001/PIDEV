@@ -1,30 +1,29 @@
 package tests;
 
+import java.util.List;
+
 import entities.Test;
 import entities.Test_qs;
+import entities.Test_result;
+import entities.User;
 import services.Test_qs_service;
+import services.Test_result_service;
 import services.Test_service;
+import services.User_service;
 import utils.Log;
 
 public class Nour_test {
     public static void main(String[] args) {
-        Test test = new Test(206, 12, 990, "cours");
-        Test_service service = new Test_service();
-        // service.add(test);
-        // Log.console(service.get_all());
-        // service.delete(3);
-        // Log.console(service.get_by_id(1));
-        // service.modify(test);
-        // Log.console(service.get_with_questions(1));
+        User_service user_service = new User_service();
+        Test_result res1 = new Test_result();
+        res1.set_mark(10);
+        List<User> list = user_service.get_all();
+        User u = list.get(0);
+        res1.set_user(u);
 
-        Test_qs question = new Test_qs(8, 6, "SIMBA", "SIMBA", "MESHMESH", "TAMA",
-                "NONE", "ALL");
-        // question.set_test(test);
-        Test_qs_service qs_service = new Test_qs_service();
-        // qs_service.add(question);
-        // qs_service.delete(9);
-        // Log.console(qs_service.get_all());
-        // qs_service.modify(question);
-        // Log.console(qs_service.get_by_id(7));
+        user_service.update_score(res1);
+        User result_user = user_service.find_by_id(u);
+        Log.console(result_user.get_score());
+
     }
 }

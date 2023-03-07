@@ -236,7 +236,7 @@
                         </VBox>
                      </children>
                   </VBox>
-                  <VBox fx:id="resources_wrapper" maxHeight="1.7976931348623157E308" spacing="20.0" VBox.vgrow="ALWAYS">
+                  <VBox fx:id="resources_wrapper" maxHeight="1.7976931348623157E308" spacing="40.0" VBox.vgrow="ALWAYS">
                      <children>
                         <Label alignment="TOP_LEFT" text="Resources" textFill="#051148">
                            <font>
@@ -252,7 +252,7 @@
                               <Font size="60.0" />
                            </font>
                         </Label>
-                        <HBox fx:id="link_wrapper" alignment="CENTER_LEFT" spacing="60.0">
+                        <HBox fx:id="link_wrapper" alignment="CENTER_RIGHT" spacing="60.0">
                            <children>
                               <TextField fx:id="link_input" cacheShape="false" maxWidth="1.7976931348623157E308" prefWidth="300.0" promptText="Lien Meet" style="-fx-border-width: 2px; -fx-border-color: #eee; -fx-border-style: solid inside; -fx-border-radius: 5;">
                                  <font>

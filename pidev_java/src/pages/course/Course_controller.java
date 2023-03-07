@@ -6,28 +6,53 @@ import components.session_card.Session_card_controller;
 import dialogs.session_input.Session_input_controller;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Label;
+import javafx.scene.shape.Rectangle;
+import pages.test.Test_controller;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.layout.StackPane;
 import services.Session_service;
 import services.User_session_service;
 import utils.Log;
 import utils.Router;
 import entities.Course;
 import entities.Session;
+import entities.Test;
 import entities.User;
-import java.time.LocalDate;
-import java.util.List;
 
-public class Course_controller {
+import java.net.URL;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.ResourceBundle;
+
+public class Course_controller implements Initializable {
   private static Session_service session_service = new Session_service();
   private static User_session_service user_session_service = new User_session_service();
+
+  @FXML
+  private Rectangle base_layer;
+
+  @FXML
+  private Label classes_label;
+
+  @FXML
+  private Label subject_name_label;
+
+  @FXML
+  private Label course_description;
+
+  @FXML
+  private Label course_name_label;
 
   @FXML
   private TextField creator_name_input;
@@ -36,10 +61,28 @@ public class Course_controller {
   private DatePicker date_filter_input;
 
   @FXML
+  private HBox difficullty_meter;
+
+  @FXML
+  private StackPane difficulty_wrapper;
+
+  @FXML
+  private Rectangle easy_difficulty;
+
+  @FXML
   private MenuButton filter_by_button;
 
   @FXML
+  private Rectangle hard_difficulty;
+
+  @FXML
+  private Rectangle medium_difficulty;
+
+  @FXML
   private HBox result_controls_wrapper;
+
+  @FXML
+  private ScrollPane scroll_pane;
 
   @FXML
   private VBox sessions_section_wrapper;
@@ -53,24 +96,61 @@ public class Course_controller {
   @FXML
   private MenuButton sort_selector;
 
-  @FXML
-  private ScrollPane scroll_pane;
-
   Course course;
   List<Session> sessions;
   List<Session> filtered_sessions;
   GridPane sessions_grid;
 
+  @Override
+  public void initialize(URL location, ResourceBundle resources) {
+    Rectangle clip = new Rectangle();
+    clip.setArcWidth(15);
+    clip.setArcHeight(15);
+    clip.setWidth(92);
+    clip.setHeight(17);
+    clip.setLayoutX(1);
+    clip.setLayoutY(0);
+
+    difficulty_wrapper.setClip(clip);
+  }
+
   public void hydrate(Course course) {
     this.course = course;
     this.sessions = session_service.find_by_id_course(course);
-    this.filtered_sessions = sessions;
+    this.filtered_sessions = new ArrayList<>(sessions);
     this.sessions_grid = new GridPane();
 
+    course_description.setText(course.get_description());
+    course_name_label.setText(course.get_name());
+    classes_label.setText(course.get_subject().get_classes_esprit_string());
+    subject_name_label.setText(course.get_subject().get_name());
+
     set_session_grid();
+    set_difficulty_meter();
 
     result_controls_wrapper.getChildren().remove(date_filter_input);
     result_controls_wrapper.getChildren().remove(creator_name_input);
+
+  }
+
+  public void set_difficulty_meter() {
+    difficullty_meter.getChildren().remove(easy_difficulty);
+    difficullty_meter.getChildren().remove(medium_difficulty);
+    difficullty_meter.getChildren().remove(hard_difficulty);
+
+    if (course.get_difficulty() == Course.Difficulty.EASY) {
+      difficullty_meter.getChildren().add(easy_difficulty);
+
+    }
+    if (course.get_difficulty() == Course.Difficulty.MEDIUM) {
+      difficullty_meter.getChildren().add(easy_difficulty);
+      difficullty_meter.getChildren().add(medium_difficulty);
+
+    } else if (course.get_difficulty() == Course.Difficulty.HARD) {
+      difficullty_meter.getChildren().add(easy_difficulty);
+      difficullty_meter.getChildren().add(medium_difficulty);
+      difficullty_meter.getChildren().add(hard_difficulty);
+    }
 
   }
 
@@ -85,6 +165,11 @@ public class Course_controller {
         (Grid_controller controller) -> controller.hydrate(session_cards, 300, 300, 20, 30));
 
     sessions_section_wrapper.getChildren().add(sessions_grid);
+  }
+
+  @FXML
+  void on_take_test_button_pressed(ActionEvent event) {
+    Router.render_user_template("Test", (Test_controller controller) -> controller.hydrate(course));
   }
 
   @FXML
@@ -154,7 +239,6 @@ public class Course_controller {
   @FXML
   void on_date_filter_input_button_pressed(ActionEvent event) {
     LocalDate filter_date = date_filter_input.getValue();
-    Log.console(filter_date);
     filtered_sessions = sessions.stream().filter(session -> session.get_date_localDate().equals(filter_date))
         .collect(Collectors.toList());
     set_session_grid();
@@ -176,6 +260,7 @@ public class Course_controller {
           return;
 
         sessions.add(new_session);
+        filtered_sessions.add(new_session);
         set_session_grid();
       });
     });

@@ -5,7 +5,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
 
-import entities.Course;
 import entities.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -16,7 +15,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
-import pages.course.Course_controller;
 import services.User_service;
 import services.User_session_service;
 import utils.Log;
@@ -40,8 +38,8 @@ public class User_template_controller implements Initializable {
   @FXML
   private HBox login_logout_wrapper;
 
-  private static List<String> home_nav_item_activators = Arrays.asList("Profile", "Login");
-  private static List<String> subject_nav_item_activators = Arrays.asList("Subject", "Subjects", "Course", "Session");
+  private static List<String> home_nav_item_activators = Arrays.asList("Profile", "Login", "Signup");
+  private static List<String> subject_nav_item_activators = Arrays.asList("Courses", "Course", "Session", "Test");
   private static List<String> forum_nav_item_activators = Arrays.asList("Forum", "Forum_thread");
 
   public User_template_controller() {
@@ -80,10 +78,9 @@ public class User_template_controller implements Initializable {
     Router.render_user_template("Profile", null);
   }
 
-  ///TODO: replace this
   @FXML
   void on_subjects_nav_button_pressed(MouseEvent event) {
-    Router.render_user_template("Course", (Course_controller controller) -> controller.hydrate(new Course(79, "C++")));
+    Router.render_user_template("Courses", null);
   }
 
   public void set_active_nav_item(String page_name) {

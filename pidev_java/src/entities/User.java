@@ -19,7 +19,6 @@ public class User {
   private Integer age, score;
   private String email, password, hashed_password;
   private Type type;
-  private Class_esprit class_esprit;
 
   public User() {
   }
@@ -57,7 +56,7 @@ public class User {
 
   // CREATE STUDENT
   public User(String first_name, String last_name, Integer age, String bio, String email,
-      String password) {
+      String password, String avatar_path) {
     set_first_name(first_name);
     set_last_name(last_name);
     set_age(age);
@@ -65,6 +64,7 @@ public class User {
     set_email(email);
     set_password(password);
     set_hashed_password();
+    set_avatar_path(avatar_path);
     type = Type.STUDENT;
   }
 
@@ -187,14 +187,6 @@ public class User {
     } catch (Exception e) {
       Log.file(e.getMessage());
     }
-  }
-
-  public Class_esprit get_class_esprit() {
-    return class_esprit;
-  }
-
-  public void set_class_esprit(Class_esprit class_esprit) {
-    this.class_esprit = class_esprit;
   }
 
   public static Integer compute_level_breakpoint_score(Level level) {

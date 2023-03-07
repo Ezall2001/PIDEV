@@ -5,9 +5,11 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import pages.profile.Profile_controller;
 import services.User_service;
+import utils.Log;
 import utils.Router;
 
 public class Login_controller {
@@ -20,10 +22,7 @@ public class Login_controller {
     private Label error_label;
 
     @FXML
-    private Button login_button;
-
-    @FXML
-    private TextField password_input;
+    private PasswordField password_input;
 
     @FXML
     void on_login_button_pressed(ActionEvent event) {
@@ -42,12 +41,15 @@ public class Login_controller {
         }
 
         if (logged_in_user.get_type() == User.Type.STUDENT)
-            Router.render_user_template("Profile", (Profile_controller controller) -> {
-                controller.hydrate(logged_in_user);
-            });
+            Router.render_user_template("Profile", null);
         else
             Router.render_admin_template("Dashboard", null);
 
+    }
+
+    @FXML
+    void on_sign_up_button_pressed(ActionEvent event) {
+        Router.render_user_template("Signup", null);
     }
 
     private Boolean validate_input() {

@@ -2,12 +2,15 @@ package dialogs.session_input;
 
 import java.time.LocalTime;
 import java.time.format.DateTimeParseException;
+import java.util.Optional;
 import java.util.function.Consumer;
 
 import dialogs.Base_dialog_controller;
 import entities.Session;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
@@ -111,53 +114,47 @@ public class Session_input_controller extends Base_dialog_controller {
     end_time_error_label.setText("");
     price_error_label.setText("");
 
-    try {
-      if (date_input.getValue() == null)
-        throw new NullPointerException();
-    } catch (NullPointerException e) {
-      date_error_label.setText("champ vide");
-      is_valid = false;
+    if (date_input.getValue() == null
+        || start_time_input.getText().isEmpty()
+        || end_time_input.getText().isEmpty()
+        || price_input.getText().isEmpty()) {
+      Alert alert = new Alert(Alert.AlertType.ERROR, "Vous devez remplir tout les champs vides.", ButtonType.OK);
+      alert.showAndWait();
+      return false;
     }
 
     try {
-      if (start_time_input.getText().isEmpty())
-        throw new NullPointerException();
       LocalTime.parse(start_time_input.getText());
-    } catch (NullPointerException e) {
-      start_time_error_label.setText("champ vide");
-      is_valid = false;
-
     } catch (DateTimeParseException e) {
       start_time_error_label.setText("heure doit être de la forme hh:mm");
       is_valid = false;
     }
 
     try {
-      if (end_time_input.getText().isEmpty())
-        throw new NullPointerException();
       LocalTime.parse(end_time_input.getText());
-    } catch (NullPointerException e) {
-      end_time_error_label.setText("champ vide");
-      is_valid = false;
-
     } catch (DateTimeParseException e) {
       end_time_error_label.setText("heure doit être de la forme hh:mm");
       is_valid = false;
     }
 
     try {
-      if (price_input.getText().isEmpty())
-        throw new NullPointerException();
       Double.parseDouble(price_input.getText());
-
-    } catch (NullPointerException e) {
-      price_error_label.setText("champ vide");
-      is_valid = false;
     } catch (NumberFormatException e) {
       price_error_label.setText("champ invalide");
       is_valid = false;
     }
 
-    return is_valid;
+    if (!is_valid)
+      return false;
+
+    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+    alert.setTitle("Confirmer");
+    alert.setContentText("Êtes-vous sûr de votre choix ?");
+    Optional<ButtonType> is_confirmed = alert.showAndWait();
+
+    if (is_confirmed.get() == ButtonType.OK)
+      return true;
+
+    return false;
   }
 }

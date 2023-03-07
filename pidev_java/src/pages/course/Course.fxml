@@ -9,23 +9,126 @@
 <?import javafx.scene.control.MenuButton?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.paint.Color?>
+<?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
 <View maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="810.0" prefWidth="1440.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pages.course.Course_controller">
    <center>
-      <ScrollPane fx:id="scroll_pane" blendMode="DARKEN" fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" maxHeight="1.7976931348623157E308" minWidth="400.0" BorderPane.alignment="CENTER">
+      <ScrollPane fx:id="scroll_pane" blendMode="DARKEN" fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="400.0" BorderPane.alignment="CENTER">
          <padding>
             <Insets left="30.0" right="30.0" top="40.0" />
          </padding>
          <content>
-            <VBox>
+            <VBox spacing="50.0">
                <children>
+                  <VBox spacing="50.0">
+                     <children>
+                        <VBox spacing="20.0" VBox.vgrow="NEVER">
+                           <children>
+                              <HBox alignment="BASELINE_LEFT" spacing="20.0">
+                                 <children>
+                                    <Label fx:id="course_name_label" text="Course Name" textFill="#051148">
+                                       <font>
+                                          <Font size="40.0" />
+                                       </font>
+                                    </Label>
+                                    <Label fx:id="classes_label" text="A1/A2" textFill="#00000080">
+                                       <font>
+                                          <Font size="18.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </HBox>
+                              <HBox spacing="40.0">
+                                 <children>
+                                    <VBox>
+                                       <children>
+                                          <StackPane fx:id="difficulty_wrapper" maxHeight="5.0" maxWidth="90.0" prefHeight="5.0" prefWidth="90.0">
+                                             <children>
+                                                <HBox fx:id="difficullty_meter" alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
+                                                   <children>
+                                                      <Rectangle fx:id="easy_difficulty" fill="#00f19a" height="15.0" stroke="BLACK" strokeLineCap="ROUND" strokeType="INSIDE" strokeWidth="0.0" width="31.0" />
+                                                      <Rectangle fx:id="medium_difficulty" fill="#f1bf00" height="15.0" layoutX="210.0" layoutY="10.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="31.0" />
+                                                      <Rectangle fx:id="hard_difficulty" fill="#fa5252bf" height="15.0" layoutX="210.0" layoutY="10.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="31.0" />
+                                                   </children>
+                                                </HBox>
+                                                <Rectangle fx:id="base_layer" arcHeight="15.0" arcWidth="15.0" fill="#003f7a00" height="15.0" stroke="#00000040" strokeLineCap="ROUND" strokeType="OUTSIDE" width="90.0" />
+                                             </children>
+                                          </StackPane>
+                                          <HBox maxWidth="-Infinity" prefWidth="90.0">
+                                             <children>
+                                                <Label maxWidth="1.7976931348623157E308" text="Easy" textFill="#00000080" HBox.hgrow="ALWAYS" />
+                                                <Label layoutX="10.0" layoutY="10.0" text="Hard" textFill="#00000080" HBox.hgrow="NEVER" />
+                                             </children>
+                                          </HBox>
+                                       </children>
+                                    </VBox>
+                                    <HBox alignment="BASELINE_LEFT" spacing="5.0">
+                                       <children>
+                                          <Label text="Matiére : ">
+                                             <font>
+                                                <Font size="16.0" />
+                                             </font>
+                                          </Label>
+                                          <Label fx:id="subject_name_label">
+                                             <font>
+                                                <Font size="16.0" />
+                                             </font>
+                                          </Label>
+                                       </children>
+                                    </HBox>
+                                 </children>
+                              </HBox>
+                           </children>
+                        </VBox>
+                        <VBox VBox.vgrow="ALWAYS">
+                           <children>
+                              <Label fx:id="course_description" alignment="TOP_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="100.0" wrapText="true">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </VBox>
+                        <HBox alignment="CENTER_RIGHT" VBox.vgrow="NEVER">
+                           <VBox.margin>
+                              <Insets left="20.0" />
+                           </VBox.margin>
+                           <children>
+                              <Button mnemonicParsing="false" onAction="#on_take_test_button_pressed" style="-fx-background-color: #BBCEFE; -fx-background-radius: 30;" text="Passer Test" textFill="#051148">
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font>
+                                 <padding>
+                                    <Insets bottom="4.0" left="20.0" right="20.0" top="4.0" />
+                                 </padding>
+                                 <effect>
+                                    <DropShadow offsetY="3.0">
+                                       <color>
+                                          <Color opacity="0.25" />
+                                       </color>
+                                    </DropShadow>
+                                 </effect>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                                 <HBox.margin>
+                                    <Insets right="50.0" />
+                                 </HBox.margin>
+                              </Button>
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
+                  <Separator maxWidth="1.7976931348623157E308" style="-fx-background-color: #eee; -fx-opacity: 0.5;" />
                   <VBox fx:id="sessions_section_wrapper" spacing="40.0">
                      <children>
                         <Label text="Séances" textFill="#051148">
@@ -124,6 +227,9 @@
                      </children>
                   </VBox>
                </children>
+               <padding>
+                  <Insets bottom="50.0" />
+               </padding>
             </VBox>
          </content>
       </ScrollPane>

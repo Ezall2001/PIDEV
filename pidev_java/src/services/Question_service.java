@@ -3,16 +3,15 @@ package services;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.stream.Collectors;
-import entities.Answer;
 import entities.Question;
+import entities.Subject;
+import entities.User;
 import utils.Jdbc_connection;
 import utils.Log;
+import utils.String_helpers;
 
 public class Question_service {
     Connection cnx;
@@ -21,180 +20,133 @@ public class Question_service {
         cnx = Jdbc_connection.getInstance();
     }
 
-    public void add(Question q) {
+    public Question add(Question question) {
+        String sql = "insert into questions(title,description,subject_id,user_id) values(?,?,?,?)";
 
         try {
-            PreparedStatement pst = cnx.prepareStatement("insert into questions(title,description) values(?,?)");
-            pst.setString(1, q.get_title());
-            pst.setString(2, q.get_description());
+            validate_input(question);
 
-            if (q.get_title() == "" || q.get_description() == "") {
-                throw new Exception("vous devez remplir remplir les champs");
-            } else if (q.get_title().length() > 40) {
+            PreparedStatement stmt = cnx.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
+            stmt.setString(1, question.get_title());
+            stmt.setString(2, question.get_description());
+            stmt.setInt(3, question.get_subject().get_id());
+            stmt.setInt(4, question.get_user().get_id());
 
-                throw new Exception("vous devez minimiser votre question");
-            } else {
-                pst.executeUpdate();
-                pst.close();
-                Log.console("la question est ajoutée avec succés");
-            }
-        } catch (Exception ex) {
-            Log.console(ex.getMessage());
+            stmt.executeUpdate();
+
+            ResultSet generated_id = stmt.getGeneratedKeys();
+            generated_id.next();
+            question.set_id(generated_id.getInt(1));
+
+            stmt.close();
+
+            return question;
+        } catch (Exception e) {
+            Log.file(e.getMessage());
         }
 
+        return null;
     }
 
     public List<Question> get_all() {
         List<Question> questions = new ArrayList<>();
-        Statement ste = null;
-        ResultSet rs = null;
 
         try {
-            String sql = "select * from questions";
-            ste = cnx.createStatement();
-            rs = ste.executeQuery(sql);
-            while (rs.next()) {
-                Question q = new Question();
-                q.set_id(rs.getInt(1));
-                q.set_title(rs.getString("title"));
-                q.set_description(rs.getString(3));
+            String sql = "SELECT questions.id, questions.title, questions.description, users.first_name, users.last_name, users.id as user_id , subjects.id as id_subject, subjects.name as name_subject FROM questions INNER JOIN subjects ON subjects.id = questions.subject_id LEFT JOIN users ON questions.user_id = users.id";
+            Statement stmt = cnx.createStatement();
+            ResultSet result = stmt.executeQuery(sql);
 
-                questions.add(q);
+            while (result.next()) {
+                Question question = new Question();
+                question.set_id(result.getInt("id"));
+                question.set_title(result.getString("title"));
+                question.set_description(result.getString("description"));
+
+                User user = new User();
+                user.set_id(result.getInt("user_id"));
+                user.set_first_name(result.getString("first_name"));
+                user.set_last_name(result.getString("last_name"));
+
+                Subject subject = new Subject();
+                subject.set_id(result.getInt("id_subject"));
+                subject.set_name(result.getString("name_subject"));
+
+                question.set_user(user);
+                question.set_subject(subject);
+
+                questions.add(question);
+
+                // fil get stmt nahi il indexes hothom il kol bil column names
+                //stmt nbadelha chnw ? stmt aamil ctrl + f w mbaad ctrl + h bich tbadalhom il kol mara wahda
+
+                // shhh
+                // :)
             }
 
-        } catch (SQLException e) {
-            Log.console(e.getMessage());
-        }
-        try {
-            rs.close();
-            ste.close();
-        } catch (SQLException e) {
-            Log.console(e.getMessage());
+            result.close();
+            stmt.close();
+
+        } catch (Exception e) {
+            Log.file(e.getMessage());
         }
 
         return questions;
     }
 
-    public void delete(Question qs) {
+    public void delete(Question question) {
         try {
 
             String sql = "DELETE FROM questions WHERE id=?";
-            PreparedStatement statement = cnx.prepareStatement(sql);
-            statement.setInt(1, qs.get_id());
-
-            int x = statement.executeUpdate();
-
-            statement.close();
-            if (x == 1) {
-                Log.console("Question est supprimée");
-                Log.console(get_all());
-            } else {
-                Log.console("question n'exite pas");
-            }
-        } catch (SQLException ex) {
-            Log.console(ex.getMessage());
+            PreparedStatement stmt = cnx.prepareStatement(sql);
+            stmt.setInt(1, question.get_id());
+            stmt.executeUpdate();
+            stmt.close();
+        } catch (Exception e) {
+            Log.file(e.getMessage());
         }
 
     }
 
-    public List<Question> get_by_id(int id) {
-        List<Question> questions = new ArrayList<>();
-        try {
-            String sql = "SELECT * FROM questions WHERE id=?";
-            PreparedStatement ste = cnx.prepareStatement(sql);
-            ste.setInt(1, id);
-            ResultSet rs = ste.executeQuery();
-            while (rs.next()) {
-                Question q = new Question();
-
-                q.set_title(rs.getString("title"));
-                q.set_description(rs.getString(3));
-
-                questions.add(q);
-            }
-            rs.close();
-            ste.close();
-
-        } catch (SQLException ex) {
-            Log.console(ex.getMessage());
-        }
-
-        return questions;
-
-    };
-
-    public void update(int id, String title, String description) {
+    public void update(Question question) {
 
         try {
-            String sql = "UPDATE questions SET title=?, description=? WHERE id=?";
-            PreparedStatement statement = cnx.prepareStatement(sql);
-            if (title == "" || description == "") {
-                throw new Exception("vous devez remplir remplir les champs");
-            } else if (title.length() > 40) {
-                throw new Exception("vous devez minimiser votre question");
-            } else {
-                statement.setString(1, title);
-                statement.setString(2, description);
-                statement.setInt(3, id);
-                int x = statement.executeUpdate();
-                statement.close();
-                if (x == 1)
-                    Log.console("la question est modifier avec succés");
-            }
+            validate_input(question);
 
-        } catch (Exception ex) {
-            Log.console(ex.getMessage());
+            String sql = "UPDATE questions SET title=?, description=?, subject_id=? WHERE id=?";
+            PreparedStatement stmt = cnx.prepareStatement(sql);
+
+            stmt.setString(1, question.get_title());
+            stmt.setString(2, question.get_description());
+            stmt.setInt(3, question.get_subject().get_id());
+            stmt.setInt(4, question.get_id());
+            stmt.executeUpdate();
+            stmt.close();
+
+        } catch (Exception e) {
+            Log.file(e.getMessage());
         }
     }
 
-    public HashMap<Question, List<Answer>> get_with_answer(int id) {
-        HashMap<Question, List<Answer>> map = new HashMap<Question, List<Answer>>();
-        List<Question> q = get_by_id(id);
-        List<Answer> answers = new ArrayList<>();
-        try {
-            String sql = "SELECT * FROM questions LEFT JOIN answers ON questions.id = answers.question_id WHERE questions.id=? ";
-            PreparedStatement ste = cnx.prepareStatement(sql);
-            ste.setInt(1, id);
-            ResultSet rs = ste.executeQuery();
-            while (rs.next()) {
-                String message = rs.getString("message");
-                int id_rep = rs.getInt(4);
-                Answer r = new Answer(id_rep, message);
-                answers.add(r);
-            }
-            map.put(q.get(0), answers);
-            rs.close();
-            ste.close();
+    public void validate_input(Question question) throws Exception {
 
-        } catch (SQLException ex) {
-            Log.console(ex.getMessage());
-        }
+        if (question.get_title().isEmpty() || question.get_description().isEmpty())
+            throw new Exception("vous devez remplir remplir les champs");
 
-        return map;
-    }
+        else if (question.get_title().length() > 200)
+            throw new Exception("vous devez minimiser votre question");
 
-    public List<Question> filter_qs(int choice) {
-        List<Question> questions = new ArrayList<>();
-        questions = get_all();
-        switch (choice) {
-            // filter by subject
+        String bad_word_title = String_helpers.check_bad_word(question.get_title());
+        String bad_word_description = String_helpers.check_bad_word(question.get_description());
 
-            case 1:
+        if (bad_word_title == null)
+            bad_word_title = "";
 
-                //
-                break;
-            // recent
-            case 2:
-                questions = questions.stream()
-                        .sorted((a, b) -> b.get_id() - a.get_id())
-                        .collect(Collectors.toList());
+        if (bad_word_description == null)
+            bad_word_description = "";
 
-                break;
-
-            default:
-                break;
-        }
-        return questions;
+        if (!bad_word_title.isEmpty() || !bad_word_description.isEmpty())
+            throw new Exception("vous n'avez pas le droit d utiliser ce genre des mots" + bad_word_title
+                    + bad_word_description);
 
     }
 

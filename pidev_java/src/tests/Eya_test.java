@@ -1,102 +1,46 @@
 package tests;
 
-import utils.Log;
-import entities.User;
-import entities.User.Level;
+import utils.Jdbc_connection;
 
-import java.io.File;
-import java.sql.SQLException;
 import java.util.List;
-
-import javax.lang.model.util.ElementScanner6;
-
-import utils.Jdbc_connection;
-import services.User_service;
-import services.User_session_service;
+import utils.Log;
+import entities.Test;
+import entities.Test_result;
 import entities.User;
-import utils.Jdbc_connection;
+import services.Test_result_service;
+import services.Test_service;
+import services.User_service;
 
 public class Eya_test {
     public static void main(String[] args) {
-        Jdbc_connection.getInstance();
-        // File picture_path1 = new File("C:/Users/MSI/Pictures/WallPaper/picture.jpg");
+        //method tasnae test result add / 
+        // test result id user w course 
         User_service user_service = new User_service();
-        User u1 = new User("eya", "harbi", 21, "many many words here", "eya@esprit.tn", "azerty");
-        User u2 = new User("armen", "bakir", 22, "LOVELY KHARYA", "armen@esprit.tn", "azertouta");
-        User u3 = new User("najiba", "rym", 22, "NOURrrrrrrr", "ourTeam@eya.tn", "somepassword");
-        User u4 = new User("k;", "lmlm", 22, "heyarrr", "ourTeam@eya.tn", "someblapassword");
-        User_session_service user_session_service = new User_session_service();
-        /**
-         * *USER_SERVICE
-         */
-        // if (((user_service.find_by_email(u2.get_email()) == null)) && (user_service.check_user_infos(u2)))
-        //     System.out.println(" mijoud");
-        // else
-        //     System.out.println(" mch mijoud");
-        /*  
-        * * add student
-        */
-        // user_service.add(u1);
-        // user_service.add(u2);
-        // user_service.add(u3);
-        // user_service.add(u4);
-        /*  
-        * update student
-        */
-        // user_service.update(u2);
-        /*  
-        * delete student
-        */
-        // user_service.delete(u1);
+        Test_service test_service = new Test_service();
+        Test_result_service test_result_service = new Test_result_service();
+        List<User> user_list = user_service.get_all();
+        List<Test> test_list = test_service.get_all();
 
-        // user_service.login("eya@esprit.tn", "azerty");
-        // Log.console(u1.get_level_string());
-        /*  
-        
-        
-        * advanced methods
-        */
-        // Log.console(user_service.get_all());
-        // Log.console(user_service.find_by_id(19));
-        // if (user_service.check_password("azerty", u1.get_hashed_password())) {
-        //     Log.console("nafssou wallah");
-        // } else
-        //     Log.console("nice try ");
-        /**
-         * *USER_SESSION_SERVICE
-         */
-        /*  
-        * * create session
-        */
+        // Log.file(test);
+        // Log.file(user_list);
 
-        // user_session_service.create_session(u1);
-        // user_session_service.create_session(u2);
-        // user_session_service.create_session(u3);
-        /*  
-        * * delete session
-        */
-        // user_session_service.delete_session_by_email(u2.get_email());
+        User user_1 = user_list.get(0);
+        User user_2 = user_list.get(1);
+        Test test_1 = test_list.get(0);
+        Test test_2 = test_list.get(1);
 
-        // Log.console(user_service.login("armen@esprit.tn", "azertouta"));
-        // user_service.logout(u2);
-        // if (user_service.logged_in(u2))
-        //     Log.console("loged in");
-        // else
-        //     Log.console("Logged out");
+        Test_result test_result_1 = new Test_result(20, user_1, test_1);
+        Test_result test_result_2 = new Test_result(10, user_2, test_2);
+        //   ADD METHOD TEST RESULT TEST
+        Log.file(test_result_service.add(test_result_1));
+        Log.file(test_result_service.add(test_result_2));
 
-        /*  
-        
-        * * check if session exists and not expired
-        */
-        // Log.console(user_session_service.get_all());
-        /*  
-        * * delete expired sessions
-        */
-        // user_session_service.delete_expired_sessions();
-        Log.console(user_session_service.get_all());
+        Test_result test_result_3 = new Test_result(15, user_1, test_1);
+        Test_result test_result_4 = new Test_result(16, user_2, test_2);
+        // TEST UPDATE TEST_RESULT
+        Log.file(test_result_service.add(test_result_3).get_mark());
+        Log.file(test_result_service.add(test_result_4).get_mark());
+
     }
 
-    // private static Level valueOf(String string) {
-    //     return null;
-    // }
 }
