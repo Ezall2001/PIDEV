@@ -69,8 +69,9 @@
                   <Font size="16.0" />
                </font>
             </Label>
-            <HBox fx:id="action_wrapper">
+            <HBox fx:id="action_wrapper"  spacing="20.0">
                <children>
+
                   <Button mnemonicParsing="false" onAction="#on_delete_button_pressed" style="-fx-background-color: #fe9a9a; -fx-background-radius: 30;" text="Supprimer" textFill="WHITE">
                      <cursor>
                         <Cursor fx:constant="HAND" />
@@ -86,6 +87,21 @@
                         </DropShadow>
                      </effect>
                   </Button>
+                  <Button  mnemonicParsing="false" onAction="#on_modify_button_pressed" style="-fx-background-radius: 30; -fx-background-color: #fee39a;" text="Modifier" textFill="WHITE">
+                                  <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                     <effect>
+                        <DropShadow offsetY="3.0">
+                           <color>
+                              <Color opacity="0.15000000596046448" />
+                           </color>
+                        </DropShadow>
+                     </effect>
+                              </Button>
                </children>
             </HBox>
          </children>

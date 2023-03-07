@@ -1,8 +1,11 @@
 package components.answer_row;
 
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.function.Consumer;
+
+import dialogs.answer_input.Answer_input_controller;
 import entities.Answer;
 import entities.User;
 import entities.Vote;
@@ -12,8 +15,12 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
+import pages.forum_thread.Forum_thread_controller;
 import services.User_session_service;
 import services.Vote_service;
+import utils.Router;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 
 public class Answer_row_controller implements Initializable {
   @FXML
@@ -58,6 +65,29 @@ public class Answer_row_controller implements Initializable {
 
   }
 
+  public void hydrate(Answer answer) {
+
+    if (answer == null)
+      return;
+
+    if (answer.get_user().get_id().equals(user.get_id()))
+      is_creator = true;
+
+    message_label.setText(answer.get_message());
+
+    creator_label.setText(answer.get_user().get_full_name());
+
+    set_controls();
+
+  }
+
+  private void set_controls() {
+    if (is_creator == true)
+      return;
+
+    action_wrapper.getChildren().clear();
+  }
+
   public void hydrate(Answer answer, Consumer<Answer> delete_callback) {
     this.answer = answer;
     this.delete_callback = delete_callback;
@@ -84,7 +114,22 @@ public class Answer_row_controller implements Initializable {
 
   @FXML
   void on_delete_button_pressed(ActionEvent event) {
+    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+    alert.setTitle("Confirmer");
+    alert.setContentText("Êtes-vous sûr de votre choix ?");
+    Optional<ButtonType> is_confirmed = alert.showAndWait();
+
+    if (is_confirmed.get() != ButtonType.OK)
+      return;
+
     delete_callback.accept(answer);
+
+  }
+
+  @FXML
+  void on_modify_button_pressed(ActionEvent event) {
+    Router.render_dialog("Answer_input", (Answer_input_controller controller) -> controller.hydrate(answer));
+
   }
 
   @FXML
