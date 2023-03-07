@@ -6,6 +6,9 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+
+import entities.Course;
+import entities.Subject;
 import entities.Test;
 import entities.Test_qs;
 import utils.Log;
@@ -54,15 +57,41 @@ public class Test_service {
     public List<Test> get_all() {
         List<Test> tests = new ArrayList<>();
         try {
-            String sql = "select * from tests";
+            String sql = "select tests.id, " +
+                    "tests.duration, " +
+                    "tests.min_points, " +
+                    "tests.id_subject, " +
+                    "tests.id_course, " +
+                    "tests.type, " +
+                    "courses.name as course_name, " +
+                    "subjects.name as subject_name " +
+                    "from tests " +
+                    "LEFT JOIN courses ON  courses.id = tests.id_course " +
+                    "LEFT JOIN subjects ON subjects.id = tests.id_subject;";
+
             Statement stmt = cnx.createStatement();
             ResultSet result = stmt.executeQuery(sql);
             while (result.next()) {
-                Test test = new Test(
-                        result.getInt("id"),
-                        result.getInt("min_points"),
-                        result.getInt("duration"),
-                        result.getString("type"));
+
+                Test test = new Test();
+                test.set_id(result.getInt("id"));
+                test.set_min_points(result.getInt("min_points"));
+                test.set_duration(result.getInt("duration"));
+                test.set_type(result.getString("type"));
+
+                if (test.get_type() == Test.Type.COURSE) {
+                    Course course = new Course();
+                    course.set_id(result.getInt("id_course"));
+                    course.set_name(result.getString("course_name"));
+                    test.set_course(course);
+                    test.set_subject(null);
+                } else {
+                    Subject subject = new Subject();
+                    subject.set_id(result.getInt("id_subject"));
+                    subject.set_name(result.getString("subject_name"));
+                    test.set_subject(subject);
+                    test.set_course(null);
+                }
 
                 tests.add(test);
             }

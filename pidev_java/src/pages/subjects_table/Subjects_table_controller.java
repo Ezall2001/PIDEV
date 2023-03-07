@@ -51,8 +51,8 @@ public class Subjects_table_controller implements Initializable {
                     if (!Table_view_helpers.delete_confirmation())
                         return;
 
-                    subject_service.delete_subject(subject);
-                    Router.render_dialog("Subjects_table", null);
+                    subject_service.delete(subject);
+                    Router.render_admin_template("Subjects_table", null);
                 });
 
         List<Subject> subjects = subject_service.get_all();

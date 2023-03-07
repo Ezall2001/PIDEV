@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import dialogs.course_input.Course_input_controller;
-import dialogs.test_question_input.Test_question_input_controller;
 import entities.Test;
 import entities.Test_qs;
 import javafx.beans.property.ReadOnlyStringWrapper;
@@ -17,7 +16,6 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
 import services.Test_qs_service;
-import utils.Log;
 import utils.Router;
 import utils.Table_view_helpers;
 

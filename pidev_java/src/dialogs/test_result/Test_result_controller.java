@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.ResourceBundle;
-
 import dialogs.Base_dialog_controller;
 import entities.Test_result;
 import utils.Log;

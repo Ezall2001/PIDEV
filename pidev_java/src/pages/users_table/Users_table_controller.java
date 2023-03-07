@@ -3,10 +3,7 @@ package pages.users_table;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
-
-import dialogs.profile_input.Profile_input_controller;
 import entities.User;
 import entities.User.Type;
 import javafx.fxml.FXML;
@@ -65,7 +62,7 @@ public class Users_table_controller implements Initializable {
                         return;
 
                     user_service.delete(user);
-                    Router.render_dialog("Users_table", null);
+                    Router.render_admin_template("Users_table", null);
                 });
 
         List<User> users = user_service
