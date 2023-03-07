@@ -15,7 +15,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
-import pages.forum_thread.Forum_thread_controller;
+import services.Answer_service;
 import services.User_session_service;
 import services.Vote_service;
 import utils.Router;
@@ -49,6 +49,7 @@ public class Answer_row_controller implements Initializable {
 
   private static User_session_service user_session_service = new User_session_service();
   private static Vote_service vote_service = new Vote_service();
+  private static Answer_service answer_service = new Answer_service();
 
   private static String default_up_vote_button_style = "-fx-shape:  'M150 0 L75 200 L225 200 Z'; -fx-border-color: #97A8F8;";
   private static String default_down_vote_button_style = "-fx-shape: 'M0 0 L50 50 L100 0 Z'; -fx-border-color: #97A8F8;";
@@ -128,7 +129,11 @@ public class Answer_row_controller implements Initializable {
 
   @FXML
   void on_modify_button_pressed(ActionEvent event) {
-    Router.render_dialog("Answer_input", (Answer_input_controller controller) -> controller.hydrate(answer));
+    Router.render_dialog("Answer_input",
+        (Answer_input_controller controller) -> controller.hydrate(answer, (Answer answer) -> {
+          answer_service.update(answer);
+          message_label.setText(answer.get_message());
+        }));
 
   }
 

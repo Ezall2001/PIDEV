@@ -24,21 +24,21 @@ import utils.Router;
 import utils.String_helpers;
 
 public class Answer_input_controller extends Base_dialog_controller {
-  private Consumer<Answer> success_callback;
 
   @FXML
   private TextArea answer_input;
 
   @FXML
   private HBox actions_wrapper;
+
   @FXML
   private Button add_button;
-  private Answer answer;
+
   @FXML
   private Button modify_button;
-  private User user;
-  private static Answer_service answer_service = new Answer_service();
-  private static User_session_service user_session_service = new User_session_service();
+
+  private Answer answer;
+  private Consumer<Answer> success_callback;
 
   public void hydrate(Consumer<Answer> success_callback) {
     this.success_callback = success_callback;
@@ -47,19 +47,19 @@ public class Answer_input_controller extends Base_dialog_controller {
     actions_wrapper.getChildren().remove(modify_button);
   }
 
-  public void hydrate(Answer answer) {
+  public void hydrate(Answer answer, Consumer<Answer> success_callback) {
+    this.success_callback = success_callback;
     this.answer = answer;
+
     answer_input.setText(answer.get_message());
     actions_wrapper.getChildren().remove(add_button);
   }
 
   @FXML
   void on_add_answer_button_pressed(ActionEvent event) {
-
     if (!validate_input())
       return;
 
-    Answer answer = new Answer();
     answer.set_message(answer_input.getText());
     success_callback.accept(answer);
     close();
@@ -68,15 +68,11 @@ public class Answer_input_controller extends Base_dialog_controller {
 
   @FXML
   void on_modify_answer_button_pressed(ActionEvent event) {
-
     if (!validate_input())
       return;
 
     answer.set_message(answer_input.getText());
-
-    answer_service.update(answer);
-    Router.render_user_template("Forum_thread", (Forum_thread_controller controller) -> controller.hydrate(answer));
-
+    success_callback.accept(answer);
     close();
   }
 
