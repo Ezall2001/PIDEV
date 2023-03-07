@@ -24,7 +24,6 @@ import javafx.scene.layout.VBox;
 import services.Answer_service;
 import services.Question_service;
 import services.User_session_service;
-import utils.Log;
 import utils.Router;
 import javafx.scene.Parent;
 

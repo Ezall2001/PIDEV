@@ -15,7 +15,6 @@ import entities.Test_result;
 import services.Test_result_service;
 import services.Test_service;
 import services.User_session_service;
-import utils.Log;
 import utils.Router;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -255,16 +254,4 @@ public class Test_controller implements Initializable {
 
   }
 
-  // public static String get_remarque(int note, int total_qs) {
-  //     if (note == total_qs)
-  //         return "Excellent";
-  //     else if (note >= (total_qs / 2) && note != total_qs)
-  //         return "Assez bien";
-  //     else if (note <= (total_qs / 2) && note != 0)
-  //         return "Pas assez";
-  //     else if (note == 0)
-  //         return "Test échoué";
-  //     else
-  //         return "";
-  // }
 }
