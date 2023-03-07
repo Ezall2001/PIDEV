@@ -45,8 +45,8 @@ public class Users_table_controller implements Initializable {
         bio_column = Table_view_helpers.set_text_wrap_cell(bio_column);
         bio_column.setMinWidth(500);
 
-        TableColumn<User, Number> score_column = new TableColumn<>("Niveau");
-        age_column.setCellValueFactory(new PropertyValueFactory<User, Number>("_age"));
+        TableColumn<User, Number> score_column = new TableColumn<>("Score");
+        score_column.setCellValueFactory(new PropertyValueFactory<User, Number>("_score"));
 
         table = Table_view_helpers.add_action_column(table,
                 (User user) -> {
@@ -62,13 +62,10 @@ public class Users_table_controller implements Initializable {
                 });
 
         List<User> users = user_service.get_all();
-        // for (User user : users) {
-        // if (user.get_type() == Type.STUDENT) {
-
-        //     table.getItems().add(user);
-
-        // }
-        table.getItems().addAll(users);
+        users.stream()
+                .filter(user -> user.get_type() == Type.STUDENT)
+                // .forEach(user -> table.getItems().add(user));
+                .forEach(table.getItems()::add);
 
         table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         table = Table_view_helpers.set_style(table);
@@ -76,5 +73,4 @@ public class Users_table_controller implements Initializable {
         table_wrapper.getChildren().add(table);
 
     }
-    // }
 }
