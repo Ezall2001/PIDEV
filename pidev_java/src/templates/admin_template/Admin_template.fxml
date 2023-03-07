@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.gluonhq.charm.glisten.mvc.View?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.effect.BoxBlur?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.text.Font?>
+
+<View minWidth="400.0" prefWidth="1440.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="templates.admin_template.Admin_template_controller">
+   <top>
+      <StackPane BorderPane.alignment="CENTER">
+         <children>
+            <HBox opacity="0.25" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: #000; -fx-background-insets: 0;">
+               <effect>
+                  <BoxBlur height="50.0" />
+               </effect>
+            </HBox>
+            <HBox style="-fx-background-color: #fff;">
+               <children>
+                  <HBox alignment="CENTER_LEFT" prefWidth="200.0" HBox.hgrow="ALWAYS">
+                     <children>
+                        <ImageView fitHeight="80.0" fitWidth="300.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../public/image/logo.png" />
+                           </image>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </ImageView>
+                     </children>
+                  </HBox>
+                  <HBox fx:id="nav_wrapper" alignment="CENTER" spacing="20.0" HBox.hgrow="ALWAYS">
+                     <children>
+                        <Label onMouseClicked="#on_dashboard_nav_button_pressed" text="Dashboard" textFill="#051148">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </Label>
+                        <Label layoutX="362.0" layoutY="47.0" onMouseClicked="#on_students_nav_button_pressed" text="Etudiants" textFill="#051148">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </Label>
+                        <Label layoutX="387.0" layoutY="47.0" onMouseClicked="#on_subjects_nav_button_pressed" text="Matières" textFill="#051148">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </Label>
+                        <Label layoutX="142.0" layoutY="42.0" onMouseClicked="#on_courses_nav_button_pressed" text="Cours" textFill="#051148">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </Label>
+                        <Label layoutX="366.0" layoutY="42.0" onMouseClicked="#on_tests_nav_button_pressed" text="Tests" textFill="#051148">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </Label>
+                        <Label layoutX="401.0" layoutY="42.0" onMouseClicked="#on_questions_nav_button_pressed" text="Question" textFill="#051148">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </Label>
+                     </children>
+                  </HBox>
+                  <HBox fx:id="login_logout_wrapper" alignment="CENTER_RIGHT" prefWidth="200.0" HBox.hgrow="ALWAYS">
+                     <children>
+                        <Button fx:id="login_button" alignment="CENTER" mnemonicParsing="false" onAction="#on_login_button_pressed" prefWidth="110.0" style="-fx-background-color: #BBCEFE; -fx-background-radius: 20;" text="Login" textAlignment="CENTER" textFill="#051148">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                           <effect>
+                              <DropShadow offsetY="2.0" spread="0.45">
+                                 <color>
+                                    <Color opacity="0.25190839171409607" />
+                                 </color>
+                              </DropShadow>
+                           </effect>
+                        </Button>
+                        <Button fx:id="logout_button" alignment="CENTER" layoutX="366.0" layoutY="36.0" mnemonicParsing="false" onAction="#on_logout_button_pressed" prefWidth="110.0" style="-fx-background-color: #BBCEFE; -fx-background-radius: 20;" text="Logout" textAlignment="CENTER" textFill="#051148">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                           <effect>
+                              <DropShadow offsetY="2.0" spread="0.45">
+                                 <color>
+                                    <Color opacity="0.25190839171409607" />
+                                 </color>
+                              </DropShadow>
+                           </effect>
+                        </Button>
+                     </children>
+                  </HBox>
+               </children>
+               <padding>
+                  <Insets bottom="5.0" left="20.0" right="20.0" top="5.0" />
+               </padding>
+            </HBox>
+         </children>
+      </StackPane>
+   </top>
+   <center>
+      <ScrollPane blendMode="DARKEN" focusTraversable="false" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+   </center>
+</View>

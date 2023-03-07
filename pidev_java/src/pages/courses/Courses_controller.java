@@ -8,14 +8,12 @@ import java.util.stream.Collectors;
 import components.course_card.Course_card_controller;
 import components.grid.Grid_controller;
 import entities.Course;
-import entities.Subject;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import services.Course_service;
-import services.Subject_service;
 import utils.Router;
 
 public class Courses_controller implements Initializable {

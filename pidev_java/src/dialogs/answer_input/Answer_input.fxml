@@ -16,7 +16,7 @@
       <Insets bottom="30.0" left="20.0" right="20.0" top="30.0" />
    </padding>
    <children>
-      <Text fill="#051148" strokeType="OUTSIDE" strokeWidth="0.0" text="Ajouter Réponse ">
+      <Text  fill="#051148" strokeType="OUTSIDE" strokeWidth="0.0" text="Réponse ">
          <font>
             <Font name="System Bold" size="36.0" />
          </font>
@@ -33,28 +33,58 @@
                   <TextArea fx:id="answer_input" maxWidth="1.7976931348623157E308" minHeight="150.0" />
                </children>
             </VBox>
-            <HBox>
-               <children>
-                  <Button mnemonicParsing="false" onAction="#on_add_answer_button_pressed" style="-fx-background-color: #fee39a; -fx-background-radius: 30;" text="Ajouter" textFill="#051148">
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor>
-                     <effect>
-                        <DropShadow offsetY="3.0">
-                           <color>
-                              <Color opacity="0.25" />
-                           </color>
-                        </DropShadow>
-                     </effect>
-                     <font>
-                        <Font size="14.0" />
-                     </font>
-                     <padding>
-                        <Insets bottom="5.0" left="15.0" right="15.0" top="5.0" />
-                     </padding>
-                  </Button>
-               </children>
-            </HBox>
+            <HBox fx:id="actions_wrapper" alignment="TOP_RIGHT">
+         <VBox.margin>
+            <Insets top="20.0" />
+         </VBox.margin>
+         <children>
+            <Button fx:id="modify_button" mnemonicParsing="false" onAction="#on_modify_answer_button_pressed" style="-fx-background-color: #fee39a; -fx-background-radius: 30;" text="Modifier" textFill="#051148">
+               <font>
+                  <Font size="18.0" />
+               </font>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin>
+               <padding>
+                  <Insets bottom="5.0" left="20.0" right="20.0" top="5.0" />
+               </padding>
+               <effect>
+                  <DropShadow offsetY="3.0">
+                     <color>
+                        <Color opacity="0.25" />
+                     </color>
+                  </DropShadow>
+               </effect>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
+            <Button fx:id="add_button" layoutX="411.0" layoutY="10.0" mnemonicParsing="false" onAction="#on_add_answer_button_pressed" style="-fx-background-color: #BBCEFE; -fx-background-radius: 30;" text="Ajouter" textFill="#051148">
+               <font>
+                  <Font size="18.0" />
+               </font>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+               <padding>
+                  <Insets bottom="5.0" left="20.0" right="20.0" top="5.0" />
+               </padding>
+               <effect>
+                  <DropShadow offsetY="3.0">
+                     <color>
+                        <Color opacity="0.25" />
+                     </color>
+                  </DropShadow>
+               </effect>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
+         </children>
+      </HBox>
          </children>
          <VBox.margin>
             <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />

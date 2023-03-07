@@ -88,6 +88,12 @@ public class Forum_thread_controller implements Initializable {
     set_answers_list();
   }
 
+  public void hydrate(Answer answer) {
+    Question q = answer.get_question();
+    Log.console(q);
+    hydrate(q);
+  }
+
   @FXML
   void on_add_answer_pressed(ActionEvent event) {
     Router.render_dialog("Answer_input", (Answer_input_controller controller) -> {
@@ -105,6 +111,7 @@ public class Forum_thread_controller implements Initializable {
         set_answers_list();
       });
     });
+
   }
 
   @FXML

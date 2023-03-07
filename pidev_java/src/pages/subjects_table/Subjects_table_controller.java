@@ -36,7 +36,7 @@ public class Subjects_table_controller implements Initializable {
         description_column.setMinWidth(500);
 
         TableColumn<Subject, String> classes_esprit_column = new TableColumn<>("Classe");
-        classes_esprit_column.setCellValueFactory(new PropertyValueFactory<Subject, String>("_classes_esprit"));
+        classes_esprit_column.setCellValueFactory(new PropertyValueFactory<Subject, String>("_classes_esprit_string"));
 
         table.getColumns().add(name_column);
         table.getColumns().add(description_column);
