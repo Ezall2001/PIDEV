@@ -15,7 +15,6 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
-import services.Course_service;
 import services.Test_service;
 import utils.Log;
 import utils.Router;
@@ -57,10 +56,10 @@ public class Tests_table_controller implements Initializable {
           return new ReadOnlyStringWrapper(name);
         });
 
+    table.getColumns().add(test_name_column);
     table.getColumns().add(min_points_column);
     table.getColumns().add(duration_column);
     table.getColumns().add(type_column);
-    table.getColumns().add(test_name_column);
 
     table = Table_view_helpers.add_action_column(table,
         (Test test) -> {
@@ -76,25 +75,10 @@ public class Tests_table_controller implements Initializable {
 
     List<Test> tests = test_service.get_all();
     table.getItems().addAll(tests);
-    for (int i = 0; i < tests.size(); i++)
-
-      Log.console(tests);
     table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
     table = Table_view_helpers.set_style(table);
 
     table_wrapper.getChildren().add(table);
-
-  }
-
-  public void x(Test test) {
-    Subject subject = new Subject();
-    Course course = new Course();
-
-    test = test_service.get_by_course_or_subject_id(test);
-    if (test.get_type() == Test.Type.COURSE)
-      test.set_course(course);
-    else
-      test.set_subject(subject);
 
   }
 

@@ -44,16 +44,18 @@ public class Table_view_helpers {
                   setText(null);
                 } else {
 
-                  edit_button.setOnMouseClicked(event -> {
-                    edit_callback.accept(getTableView().getItems().get(getIndex()));
-                  });
+                  if (edit_callback != null)
+                    edit_button.setOnMouseClicked(event -> {
+                      edit_callback.accept(getTableView().getItems().get(getIndex()));
+                    });
 
                   delete_button.setOnMouseClicked(event -> {
                     delete_callback.accept(getTableView().getItems().get(getIndex()));
                   });
 
                   HBox actions_wrapper = new HBox();
-                  actions_wrapper.getChildren().add(set_edit_button(edit_button));
+                  if (edit_callback != null)
+                    actions_wrapper.getChildren().add(set_edit_button(edit_button));
                   actions_wrapper.getChildren().add(set_delete_button(delete_button));
                   actions_wrapper.setSpacing(20);
                   actions_wrapper.setAlignment(Pos.CENTER);

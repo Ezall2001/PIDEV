@@ -3,6 +3,8 @@ package pages.users_table;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import dialogs.profile_input.Profile_input_controller;
 import entities.User;
@@ -36,6 +38,7 @@ public class Users_table_controller implements Initializable {
 
         TableColumn<User, String> email_column = new TableColumn<>("Email");
         email_column.setCellValueFactory(new PropertyValueFactory<User, String>("_email"));
+        email_column.setMinWidth(100);
 
         TableColumn<User, Integer> age_column = new TableColumn<>("Age");
         age_column.setCellValueFactory(new PropertyValueFactory<User, Integer>("_age"));
@@ -56,10 +59,7 @@ public class Users_table_controller implements Initializable {
         table.getColumns().add(score_column);
 
         table = Table_view_helpers.add_action_column(table,
-                (User user) -> {
-                    Router.render_dialog("Profile_input",
-                            (Profile_input_controller controller) -> controller.hydrate(user));
-                },
+                null,
                 (User user) -> {
                     if (!Table_view_helpers.delete_confirmation())
                         return;
@@ -68,11 +68,13 @@ public class Users_table_controller implements Initializable {
                     Router.render_dialog("Users_table", null);
                 });
 
-        List<User> users = user_service.get_all();
-        users.stream()
+        List<User> users = user_service
+                .get_all()
+                .stream()
                 .filter(user -> user.get_type() == Type.STUDENT)
-                // .forEach(user -> table.getItems().add(user));
-                .forEach(table.getItems()::add);
+                .collect(Collectors.toList());
+
+        table.getItems().addAll(users);
 
         table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         table = Table_view_helpers.set_style(table);
