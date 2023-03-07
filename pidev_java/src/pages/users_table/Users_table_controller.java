@@ -37,16 +37,16 @@ public class Users_table_controller implements Initializable {
         TableColumn<User, String> email_column = new TableColumn<>("Email");
         email_column.setCellValueFactory(new PropertyValueFactory<User, String>("_email"));
 
-        TableColumn<User, Number> age_column = new TableColumn<>("Age");
-        age_column.setCellValueFactory(new PropertyValueFactory<User, Number>("_age"));
+        TableColumn<User, Integer> age_column = new TableColumn<>("Age");
+        age_column.setCellValueFactory(new PropertyValueFactory<User, Integer>("_age"));
 
         TableColumn<User, String> bio_column = new TableColumn<>("Biographie");
         bio_column.setCellValueFactory(new PropertyValueFactory<User, String>("_bio"));
         bio_column = Table_view_helpers.set_text_wrap_cell(bio_column);
         bio_column.setMinWidth(500);
 
-        TableColumn<User, Number> score_column = new TableColumn<>("Score");
-        score_column.setCellValueFactory(new PropertyValueFactory<User, Number>("_score"));
+        TableColumn<User, Integer> score_column = new TableColumn<>("Score");
+        score_column.setCellValueFactory(new PropertyValueFactory<User, Integer>("_score"));
 
         table.getColumns().add(first_name_column);
         table.getColumns().add(last_name_column);

@@ -38,7 +38,7 @@ public class Admin_template_controller implements Initializable {
   private static User_session_service user_session_service = new User_session_service();
   private static User_service user_service = new User_service();
   private static List<String> admin_pages = Arrays
-      .asList("Dashboard", "Students_table", "Subjects_table", "Courses_table", "Tests_table",
+      .asList("Dashboard", "Users_table", "Subjects_table", "Courses_table", "Tests_table",
           "Test_questions_table");
 
   User user;
