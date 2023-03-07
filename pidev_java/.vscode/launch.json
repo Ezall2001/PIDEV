@@ -6,6 +6,13 @@
 	"configurations": [
 		{
 			"type": "java",
+			"name": "Launch Armen_test",
+			"request": "launch",
+			"mainClass": "tests.Armen_test",
+			"projectName": "pidev_java_ce4e41f4"
+		},
+		{
+			"type": "java",
 			"name": "Launch App",
 			"request": "launch",
 			"mainClass": "App",

@@ -2,15 +2,48 @@
 
 <?import com.gluonhq.charm.glisten.mvc.View?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.text.Font?>
 
 <View maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="810.0" prefWidth="1440.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pages.test_questions_table.Test_questions_table_controller">
    <center>
-      <VBox fx:id="table_wrapper" BorderPane.alignment="CENTER">
+      <VBox fx:id="table_wrapper" spacing="20.0" BorderPane.alignment="CENTER">
          <padding>
-            <Insets bottom="50.0" left="20.0" right="20.0" top="50.0" />
+            <Insets bottom="50.0" left="20.0" right="20.0" top="70.0" />
          </padding>
+         <children>
+            <HBox alignment="TOP_RIGHT">
+               <children>
+                  <Button mnemonicParsing="false" onAction="#on_add_button_pressed" style="-fx-background-color: #cdfbf8; -fx-background-radius: 30;" text="Ajouter" textFill="#051148">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <padding>
+                        <Insets bottom="5.0" left="20.0" right="20.0" top="5.0" />
+                     </padding>
+                     <effect>
+                        <DropShadow offsetY="3.0">
+                           <color>
+                              <Color opacity="0.25" />
+                           </color>
+                        </DropShadow>
+                     </effect>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Button>
+               </children>
+               <padding>
+                  <Insets right="20.0" />
+               </padding>
+            </HBox>
+         </children>
       </VBox>
    </center>
 </View>

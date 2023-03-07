@@ -4,6 +4,9 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import entities.Course;
+import entities.Subject;
+import entities.Test;
 import entities.Test_qs;
 import utils.*;
 
@@ -57,19 +60,59 @@ public class Test_qs_service {
     public List<Test_qs> get_all() {
         List<Test_qs> test_questions = new ArrayList<>();
         try {
-            String sql = "select * from test_qs";
+            String sql = "SELECT test_qs.id," +
+                    "test_qs.question_number," +
+                    "test_qs.optionA," +
+                    "test_qs.optionB," +
+                    "test_qs.optionC," +
+                    "test_qs.optionD," +
+                    "test_qs.correct_option," +
+                    "test_qs.question," +
+                    "test_qs.id_test," +
+                    "tests.type," +
+                    "subjects.name as name_subject," +
+                    "subjects.id as id_subject," +
+                    "courses.id as id_course," +
+                    "courses.name as name_course " +
+                    "FROM test_qs " +
+                    "LEFT JOIN tests ON test_qs.id_test = tests.id " +
+                    "LEFT JOIN subjects ON tests.id_subject = subjects.id " +
+                    "LEFT JOIN courses ON tests.id_course = courses.id " +
+                    "WHERE 1;";
+
             Statement stmt = cnx.createStatement();
             ResultSet result = stmt.executeQuery(sql);
             while (result.next()) {
-                Test_qs question = new Test_qs(
-                        result.getInt(1),
-                        result.getInt(2),
-                        result.getString("question"),
-                        result.getString("correct_option"),
-                        result.getString("optionA"),
-                        result.getString("optionB"),
-                        result.getString("optionC"),
-                        result.getString("optionD"));
+
+                Test test = new Test();
+                test.set_id(result.getInt("id_test"));
+                test.set_type(result.getString("type"));
+
+                if (test.get_type() == Test.Type.COURSE) {
+                    Course course = new Course();
+                    course.set_id(result.getInt("id_course"));
+                    course.set_name(result.getString("name_course"));
+                    test.set_course(course);
+                    test.set_subject(null);
+                } else {
+                    Subject subject = new Subject();
+                    subject.set_id(result.getInt("id_subject"));
+                    subject.set_name(result.getString("name_subject"));
+                    test.set_subject(subject);
+                    test.set_course(null);
+                }
+
+                Test_qs question = new Test_qs();
+                question.set_id(result.getInt("id"));
+                question.set_question_number(result.getInt("question_number"));
+                question.set_question(result.getString("question"));
+                question.set_correct_option(result.getString("correct_option"));
+                question.set_optionA(result.getString("optionA"));
+                question.set_optionB(result.getString("optionB"));
+                question.set_optionC(result.getString("optionC"));
+                question.set_optionD(result.getString("optionD"));
+
+                question.set_test(test);
                 test_questions.add(question);
             }
         } catch (Exception e) {
