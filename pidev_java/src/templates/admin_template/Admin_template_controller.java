@@ -1,6 +1,8 @@
 package templates.admin_template;
 
 import java.net.URL;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -35,6 +37,9 @@ public class Admin_template_controller implements Initializable {
 
   private static User_session_service user_session_service = new User_session_service();
   private static User_service user_service = new User_service();
+  private static List<String> admin_pages = Arrays
+      .asList("Dashboard", "Students_table", "Subjects_table", "Courses_table", "Tests_table",
+          "Test_questions_table");
 
   User user;
   Integer active_nav_item_index;
@@ -74,7 +79,7 @@ public class Admin_template_controller implements Initializable {
 
   @FXML
   void on_questions_nav_button_pressed(MouseEvent event) {
-    Router.render_admin_template("Questions_table", null);
+    Router.render_admin_template("Test_questions_table", null);
   }
 
   @FXML
@@ -94,17 +99,14 @@ public class Admin_template_controller implements Initializable {
 
   public void set_active_nav_item(String page_name) {
 
-    Optional<Node> found_nav_item = nav_wrapper.getChildren()
-        .stream()
-        .filter(nav_item -> ((Label) nav_item).getText().equals(page_name))
-        .findFirst();
+    Integer active_page_index = admin_pages.indexOf(page_name);
 
-    if (!found_nav_item.isPresent()) {
+    if (active_page_index == -1) {
       Log.file(String.format("%s don't activate any nav item", page_name));
       return;
     }
 
-    Label active_nav_item = (Label) found_nav_item.get();
+    Label active_nav_item = (Label) nav_wrapper.getChildren().get(active_page_index);
     active_nav_item.setUnderline(true);
     Font nav_item_font = active_nav_item.getFont();
     active_nav_item.setFont(Font.font(nav_item_font.getFamily(), FontWeight.SEMI_BOLD, nav_item_font.getSize()));

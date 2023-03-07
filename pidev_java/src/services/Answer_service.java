@@ -65,6 +65,24 @@ public class Answer_service {
         return question;
     }
 
+    public void update(Answer answer) {
+
+        try {
+            validate_input(answer);
+
+            String sql = "UPDATE answers SET message=? WHERE id=?";
+            PreparedStatement stmt = cnx.prepareStatement(sql);
+
+            stmt.setString(1, answer.get_message());
+            stmt.setInt(2, answer.get_id());
+            stmt.executeUpdate();
+            stmt.close();
+
+        } catch (Exception e) {
+            Log.file(e.getMessage());
+        }
+    }
+
     public Answer add(Answer answer) {
         String sql = "insert into answers(message,question_id,user_id) values(?,?,?)";
 

@@ -1,8 +1,11 @@
 package components.answer_row;
 
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.function.Consumer;
+
+import dialogs.answer_input.Answer_input_controller;
 import entities.Answer;
 import entities.User;
 import entities.Vote;
@@ -12,8 +15,12 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
+import services.Answer_service;
 import services.User_session_service;
 import services.Vote_service;
+import utils.Router;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 
 public class Answer_row_controller implements Initializable {
   @FXML
@@ -42,6 +49,7 @@ public class Answer_row_controller implements Initializable {
 
   private static User_session_service user_session_service = new User_session_service();
   private static Vote_service vote_service = new Vote_service();
+  private static Answer_service answer_service = new Answer_service();
 
   private static String default_up_vote_button_style = "-fx-shape:  'M150 0 L75 200 L225 200 Z'; -fx-border-color: #97A8F8;";
   private static String default_down_vote_button_style = "-fx-shape: 'M0 0 L50 50 L100 0 Z'; -fx-border-color: #97A8F8;";
@@ -56,6 +64,29 @@ public class Answer_row_controller implements Initializable {
     this.user = user;
     is_creator = false;
 
+  }
+
+  public void hydrate(Answer answer) {
+
+    if (answer == null)
+      return;
+
+    if (answer.get_user().get_id().equals(user.get_id()))
+      is_creator = true;
+
+    message_label.setText(answer.get_message());
+
+    creator_label.setText(answer.get_user().get_full_name());
+
+    set_controls();
+
+  }
+
+  private void set_controls() {
+    if (is_creator == true)
+      return;
+
+    action_wrapper.getChildren().clear();
   }
 
   public void hydrate(Answer answer, Consumer<Answer> delete_callback) {
@@ -84,7 +115,26 @@ public class Answer_row_controller implements Initializable {
 
   @FXML
   void on_delete_button_pressed(ActionEvent event) {
+    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+    alert.setTitle("Confirmer");
+    alert.setContentText("Êtes-vous sûr de votre choix ?");
+    Optional<ButtonType> is_confirmed = alert.showAndWait();
+
+    if (is_confirmed.get() != ButtonType.OK)
+      return;
+
     delete_callback.accept(answer);
+
+  }
+
+  @FXML
+  void on_modify_button_pressed(ActionEvent event) {
+    Router.render_dialog("Answer_input",
+        (Answer_input_controller controller) -> controller.hydrate(answer, (Answer answer) -> {
+          answer_service.update(answer);
+          message_label.setText(answer.get_message());
+        }));
+
   }
 
   @FXML

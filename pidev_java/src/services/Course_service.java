@@ -69,12 +69,31 @@ public class Course_service {
     }
   }
 
-  public void delete(Course course) {
-
+  public void delete_by_id(Course course) {
+    String sql = "delete from courses where id=?";
+    try {
+      PreparedStatement stmt = cnx.prepareStatement(sql);
+      stmt.setInt(1, course.get_id());
+      stmt.executeUpdate();
+    } catch (Exception e) {
+      Log.file(e.getMessage());
+    }
   }
 
   public void update(Course course) {
+    String sql = "UPDATE courses SET name=?, description=?, difficulty=?, id_subject=? where id=?";
+    try {
+      PreparedStatement stmt = cnx.prepareStatement(sql);
+      stmt.setString(1, course.get_name());
+      stmt.setString(2, course.get_description());
+      stmt.setString(3, course.get_difficulty_string());
+      stmt.setInt(4, course.get_subject().get_id());
+      stmt.setInt(5, course.get_id());
+      stmt.executeUpdate();
 
+    } catch (Exception e) {
+      Log.file(e.getMessage());
+    }
   }
 
 }
