@@ -19,13 +19,13 @@ public class App extends Application {
         Router.init(main_stage);
 
         if (user == null)
-            Router.render_admin_template("Login", null);
+            Router.render_user_template("Login", null);
 
         else if (user.get_type().equals(User.Type.ADMIN))
             Router.render_admin_template("Dashboard", null);
 
         else
-            Router.render_admin_template("Profile", null);
+            Router.render_user_template("Profile", null);
 
     }
 

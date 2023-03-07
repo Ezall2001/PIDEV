@@ -48,6 +48,13 @@ public class Users_table_controller implements Initializable {
         TableColumn<User, Number> score_column = new TableColumn<>("Score");
         score_column.setCellValueFactory(new PropertyValueFactory<User, Number>("_score"));
 
+        table.getColumns().add(first_name_column);
+        table.getColumns().add(last_name_column);
+        table.getColumns().add(email_column);
+        table.getColumns().add(age_column);
+        table.getColumns().add(bio_column);
+        table.getColumns().add(score_column);
+
         table = Table_view_helpers.add_action_column(table,
                 (User user) -> {
                     Router.render_dialog("Profile_input",

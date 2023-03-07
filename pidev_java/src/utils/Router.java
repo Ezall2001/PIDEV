@@ -19,6 +19,7 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import services.User_session_service;
+import templates.admin_template.Admin_template_controller;
 import templates.user_template.User_template_controller;
 
 public class Router {
@@ -72,6 +73,16 @@ public class Router {
       return;
 
     try {
+
+      String template_path = "/templates/admin_template/Admin_template.fxml";
+      FXMLLoader template_loader = new FXMLLoader(Router.class.getResource(template_path));
+      View template_vue = template_loader.load();
+
+      template_vue.setCenter(load_page(page_name, controller_manipulator).getCenter());
+
+      Admin_template_controller template_controller = template_loader.getController();
+      template_controller.set_active_nav_item(page_name);
+      update_scene(template_vue, page_name);
 
     } catch (Exception e) {
       Log.file(e);

@@ -32,7 +32,8 @@ public class Armen_test extends Application {
   @Override
   public void start(Stage main_stage) {
     Router.init(main_stage);
-    Router.render_user_template("Users_table", null);
+    Router.render_admin_template("Users_table", null);
+    // Router.render_user_template("Profile", null);
   }
 
 }
