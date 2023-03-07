@@ -58,7 +58,8 @@
 			"name": "Nour_test",
 			"request": "launch",
 			"mainClass": "tests.Nour_test",
-			"projectName": "pidev_java_6a4295f1"
+			"projectName": "pidev_java_6a4295f1",
+			"vmArgs": "--module-path \"C:/Users/MSI/Desktop/qraya/JAVA_FX/javafx-sdk-19.0.2.1/lib\" --add-modules javafx.controls,javafx.fxml"
 		},
 		{
 			"type": "java",
