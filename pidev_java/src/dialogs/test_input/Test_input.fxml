@@ -2,9 +2,9 @@
 
 <?import com.gluonhq.charm.glisten.mvc.View?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.MenuButton?>
-<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.layout.BorderPane?>
@@ -14,86 +14,146 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<View prefHeight="550.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dialogs.test_input.test_input_controller">
+<View prefWidth="450.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dialogs.test_input.Test_input_controller">
     <center>
-        <VBox alignment="TOP_CENTER" prefHeight="550.0" prefWidth="625.0" spacing="20.0" BorderPane.alignment="CENTER">
+        <VBox alignment="TOP_CENTER" spacing="20.0" BorderPane.alignment="CENTER">
             <padding>
                 <Insets bottom="50.0" left="20.0" right="20.0" top="20.0" />
             </padding>
             <children>
-                <Text fill="#051148" strokeType="OUTSIDE" strokeWidth="0.0" text="Ajouter Test">
+                <Text fx:id="title_label" fill="#051148" strokeType="OUTSIDE" strokeWidth="0.0" text="Ajouter Test">
                     <font>
                         <Font name="System Bold" size="36.0" />
                     </font>
                 </Text>
-                  <VBox prefHeight="400.0" prefWidth="464.0" spacing="20.0">
+                  <VBox spacing="30.0">
                       <children>
-                          <VBox prefHeight="82.0" prefWidth="311.0" spacing="5.0">
+                          <VBox spacing="5.0">
                               <children>
                                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Durée">
                                       <font>
                                           <Font size="18.0" />
                                       </font>
                                   </Text>
-                                  <TextField fx:id="duration" cache="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="350.0">
+                                  <TextField fx:id="duration_input" cache="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="350.0" promptText="min">
                                       <opaqueInsets>
                                           <Insets bottom="4.0" left="7.0" right="7.0" top="4.0" />
                                       </opaqueInsets>
                                   </TextField>
                               </children>
                           </VBox>
-                          <VBox prefHeight="200.0" prefWidth="100.0" spacing="5.0">
+                          <VBox spacing="5.0">
                               <children>
                                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Seuil">
                                       <font>
                                           <Font size="18.0" />
                                       </font>
                                   </Text>
-                        <TextField fx:id="min_points" cache="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="350.0">
+                        <TextField fx:id="min_points_input" cache="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="350.0" promptText="Nombre Points">
                            <opaqueInsets>
                               <Insets bottom="4.0" left="7.0" right="7.0" top="4.0" />
                            </opaqueInsets>
                         </TextField>
                               </children>
                           </VBox>
-                  <VBox prefHeight="200.0" prefWidth="100.0">
+                  <VBox>
                      <children>
-                        <MenuButton fx:id="type" alignment="CENTER" mnemonicParsing="false" prefHeight="28.0" prefWidth="107.0" style="-fx-background-color: #fee39a; -fx-background-radius: 30; -fx-text-fill: #051148;" text="Type" textFill="#051148">
-                          <items>
-                            <MenuItem mnemonicParsing="false" text="Action 1" />
-                            <MenuItem mnemonicParsing="false" text="Action 2" />
-                          </items>
-                           <effect>
-                              <DropShadow offsetY="3.0">
-                                 <color>
-                                    <Color opacity="0.25" />
-                                 </color>
-                              </DropShadow>
-                           </effect>
-                        </MenuButton>
+                        <HBox spacing="40.0">
+                           <children>
+                              <VBox>
+                                 <children>
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Cours : ">
+                                       <font>
+                                          <Font size="18.0" />
+                                       </font>
+                                    </Text>
+                                    <ChoiceBox fx:id="course_name_choice_box" style="-fx-background-color: #fee39a; -fx-background-radius: 30;">
+                                       <padding>
+                                          <Insets bottom="3.0" left="20.0" right="20.0" top="3.0" />
+                                       </padding>
+                                       <effect>
+                                          <DropShadow offsetY="3.0">
+                                             <color>
+                                                <Color opacity="0.25" />
+                                             </color>
+                                          </DropShadow>
+                                       </effect>
+                                    </ChoiceBox>
+                                 </children>
+                              </VBox>
+                              <VBox layoutX="10.0" layoutY="10.0">
+                                 <children>
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Matiére : ">
+                                       <font>
+                                          <Font size="18.0" />
+                                       </font>
+                                    </Text>
+                                    <ChoiceBox fx:id="subject_name_choice_box" style="-fx-background-color: #fee39a; -fx-background-radius: 30;">
+                                       <padding>
+                                          <Insets bottom="3.0" left="20.0" right="20.0" top="3.0" />
+                                       </padding>
+                                       <effect>
+                                          <DropShadow offsetY="3.0">
+                                             <color>
+                                                <Color opacity="0.25" />
+                                             </color>
+                                          </DropShadow>
+                                       </effect>
+                                    </ChoiceBox>
+                                 </children>
+                              </VBox>
+                           </children>
+                        </HBox>
                      </children>
+                     <VBox.margin>
+                        <Insets top="20.0" />
+                     </VBox.margin>
                   </VBox>
-                  <HBox nodeOrientation="RIGHT_TO_LEFT" prefHeight="200.0" prefWidth="200.0">
-                     <children>
-                        <Button fx:id="add_btn" alignment="CENTER" mnemonicParsing="false" prefHeight="28.0" prefWidth="81.0" style="-fx-background-color: #BBCEFE; -fx-background-radius: 30; -fx-text-fill: #051148;" text="Ajouter" textFill="#051148">
-                           <effect>
-                              <DropShadow offsetY="3.0">
-                                 <color>
-                                    <Color opacity="0.25" />
-                                 </color>
-                              </DropShadow>
-                           </effect>
-                           <font>
-                              <Font size="14.0" />
-                           </font>
-                        </Button>
-                     </children>
-                  </HBox>
                       </children>
                <VBox.margin>
                   <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
                </VBox.margin>
                   </VBox>
+            <HBox fx:id="actions_wrapper" nodeOrientation="RIGHT_TO_LEFT">
+               <children>
+                  <Button fx:id="add_button" alignment="CENTER" mnemonicParsing="false" onAction="#on_add_button_pressed" style="-fx-background-color: #BBCEFE; -fx-background-radius: 30;" text="Ajouter" textFill="#051148">
+                     <effect>
+                        <DropShadow offsetY="3.0">
+                           <color>
+                              <Color opacity="0.25" />
+                           </color>
+                        </DropShadow>
+                     </effect>
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <padding>
+                        <Insets bottom="6.0" left="20.0" right="20.0" top="6.0" />
+                     </padding>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Button>
+                  <Button fx:id="modify_button" alignment="CENTER" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#on_modify_button_pressed" style="-fx-background-color: #fee39a; -fx-background-radius: 30;" text="Modifier" textFill="#051148">
+                     <effect>
+                        <DropShadow offsetY="3.0">
+                           <color>
+                              <Color opacity="0.25" />
+                           </color>
+                        </DropShadow>
+                     </effect>
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <padding>
+                        <Insets bottom="6.0" left="20.0" right="20.0" top="6.0" />
+                     </padding>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Button>
+               </children>
+            </HBox>
             </children>
         </VBox>
     </center>

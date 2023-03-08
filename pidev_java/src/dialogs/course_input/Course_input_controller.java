@@ -158,7 +158,6 @@ public class Course_input_controller extends Base_dialog_controller implements I
   }
 
   private Boolean validate_input() {
-
     if (name_input.getText().isEmpty() || description_input.getText().isEmpty()) {
       Alert alert = new Alert(Alert.AlertType.ERROR, "Vous devez remplir tout les champs vides.", ButtonType.OK);
       alert.showAndWait();
@@ -184,7 +183,6 @@ public class Course_input_controller extends Base_dialog_controller implements I
     course.set_description(description_input.getText());
     course.set_difficulty(selected_difficulty);
     course.set_subject(selected_subject);
-
   }
 
 }

@@ -103,13 +103,22 @@ public class Test_service {
     }
 
     public void update(Test test) {
-        String sql = "update tests set type=? ,min_points=?, duration=?  where id=? ";
+        Integer id_course = null, id_subject = null;
+
+        if (test.get_type() == Test.Type.SUBJECT)
+            id_subject = test.get_subject().get_id();
+        else if (test.get_type() == Test.Type.COURSE)
+            id_course = test.get_course().get_id();
+
+        String sql = "update tests set type=? ,min_points=?, duration=?, id_subject=? , id_course=?  where id=? ";
         try {
             PreparedStatement stmt = cnx.prepareStatement(sql);
-            stmt.setString(1, test.get_type_string());
+            stmt.setString(1, test.get_type().toString());
             stmt.setInt(2, test.get_min_points());
             stmt.setInt(3, test.get_duration());
-            stmt.setInt(4, test.get_id());
+            stmt.setObject(4, id_subject);
+            stmt.setObject(5, id_course);
+            stmt.setInt(6, test.get_id());
             stmt.executeUpdate();
         } catch (Exception e) {
             Log.file(e.getMessage());
