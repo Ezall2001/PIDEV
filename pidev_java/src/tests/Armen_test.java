@@ -7,6 +7,7 @@ import java.util.List;
 
 import javax.imageio.ImageIO;
 
+import entities.Test;
 import entities.Test_qs;
 import javafx.application.Application;
 import javafx.scene.image.Image;
@@ -31,15 +32,17 @@ public class Armen_test extends Application {
 
   public static void main(String[] args) {
 
-    List<Test_qs> questions = test_qs_service.get_all();
-    questions.forEach(Log::file);
+    List<Test> tests = test_service.get_all();
+    // tests.forEach(Log::file);
 
     launch(args);
   }
 
   @Override
   public void start(Stage main_stage) {
-    // Router.init(main_stage);
+    Router.init(main_stage);
+    Router.render_admin_template("Users_table", null);
+    // Router.render_user_template("Profile", null);
     // Router.render_user_template("Courses_table", null);
   }
 

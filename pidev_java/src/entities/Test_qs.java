@@ -67,6 +67,37 @@ public class Test_qs {
         return correct_option;
     }
 
+    public void set_correct_option(Integer index) {
+        if (index.equals(0))
+            correct_option = optionA;
+
+        if (index.equals(1))
+            correct_option = optionB;
+
+        if (index.equals(2))
+            correct_option = optionC;
+
+        if (index.equals(3))
+            correct_option = optionD;
+
+    }
+
+    public Integer get_correct_option_index() {
+        if (correct_option.equals(optionA))
+            return 0;
+
+        if (correct_option.equals(optionB))
+            return 1;
+
+        if (correct_option.equals(optionC))
+            return 2;
+
+        if (correct_option.equals(optionD))
+            return 3;
+
+        return -1;
+    }
+
     public void set_correct_option(String correct_option) {
         this.correct_option = correct_option;
     }

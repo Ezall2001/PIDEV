@@ -75,7 +75,11 @@ public class Subject_service {
     return subjects;
   }
 
+<<<<<<< HEAD
   public void delete_subject(Subject subject) {
+=======
+  public void delete(Subject subject) {
+>>>>>>> 47b630485add8c2826892acc45df6e6a9cedfb94
     String sql = "delete from subjects where id=?";
     try {
       PreparedStatement stmt = cnx.prepareStatement(sql);

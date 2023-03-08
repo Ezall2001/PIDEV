@@ -3,14 +3,11 @@ package templates.admin_template;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 import java.util.ResourceBundle;
-
 import entities.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
@@ -38,7 +35,7 @@ public class Admin_template_controller implements Initializable {
   private static User_session_service user_session_service = new User_session_service();
   private static User_service user_service = new User_service();
   private static List<String> admin_pages = Arrays
-      .asList("Dashboard", "Students_table", "Subjects_table", "Courses_table", "Tests_table",
+      .asList("Dashboard", "Users_table", "Subjects_table", "Courses_table", "Tests_table",
           "Test_questions_table");
 
   User user;
@@ -84,7 +81,7 @@ public class Admin_template_controller implements Initializable {
 
   @FXML
   void on_students_nav_button_pressed(MouseEvent event) {
-    Router.render_admin_template("Students_table", null);
+    Router.render_admin_template("Users_table", null);
   }
 
   @FXML

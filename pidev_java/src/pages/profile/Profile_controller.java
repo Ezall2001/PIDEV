@@ -98,6 +98,7 @@ public class Profile_controller implements Initializable {
     set_image();
     set_score_bar();
     set_sessions_history_grid();
+
   }
 
   void set_image() {

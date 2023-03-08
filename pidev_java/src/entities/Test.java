@@ -121,6 +121,12 @@ public class Test {
         return new Pair<Integer, Integer>(ciritical_minutes, ciritical_seconds);
     }
 
+    public String get_name() {
+        if (type.equals(Type.COURSE))
+            return course.get_name();
+        return subject.get_name();
+    }
+
     @Override
     public String toString() {
         return "Test [id=" + id + ", min_points=" + min_points + ", duration=" + duration + ", type=" + type

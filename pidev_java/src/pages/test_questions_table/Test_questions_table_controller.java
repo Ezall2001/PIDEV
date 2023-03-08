@@ -17,7 +17,6 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
 import services.Test_qs_service;
-import utils.Log;
 import utils.Router;
 import utils.Table_view_helpers;
 
@@ -91,8 +90,8 @@ public class Test_questions_table_controller implements Initializable {
 
     table = Table_view_helpers.add_action_column(table,
         (Test_qs test_qs) -> {
-          // Router.render_dialog("Test_question_input",
-          //     (Test_question_input_controller controller) -> controller.hydrate(test_qs));
+          Router.render_dialog("Test_question_input",
+              (Test_question_input_controller controller) -> controller.hydrate(test_qs));
         },
         (Test_qs test_qs) -> {
           if (!Table_view_helpers.delete_confirmation())
@@ -114,6 +113,6 @@ public class Test_questions_table_controller implements Initializable {
 
   @FXML
   void on_add_button_pressed(ActionEvent event) {
-    Router.render_dialog("Test_question_input", (Course_input_controller controller) -> controller.hydrate());
+    Router.render_dialog("Test_question_input", (Test_question_input_controller controller) -> controller.hydrate());
   }
 }

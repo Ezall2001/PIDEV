@@ -1,5 +1,2 @@
-logs/*
 bin
-server/user_requests_headers
 .vscode/launch.json
-server/user_requests_headers/session_id.txt
