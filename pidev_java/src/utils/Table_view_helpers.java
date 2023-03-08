@@ -6,6 +6,7 @@ import java.util.Optional;
 import java.util.function.Consumer;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Control;
@@ -100,9 +101,12 @@ public class Table_view_helpers {
   }
 
   public static <E> TableView<E> set_style(TableView<E> table) {
+    String style = ".table-cell {-fx-padding: 10px;-fx-font-size: 14px;-fx-text-fill: #333333; -fx-font-weight: bold  } , .table-view .column-header .label {-fx-text-fill: rgb(165, 79, 215);-fx-font-weight: bold;-fx-alignment: CENTER_LEFT; }, .table-view .focused {-fx-focus-color: transparent; -fx-faint-focus-color: transparent; } ,.table-view .column-header-background {-fx-background-color: #4b4b4b;},.table-row-cell:odd {-fx-background-color: #f1f1f1;}, .table-view {-fx-background-color: #e9e9e9;-fx-padding: 10px;},.table-row-cell:hover {-fx-background-color: #d8d8d8; }, .table-view .column-resize-line {-fx-stroke: #0077be;} ,.table-view:focused -fx-focus-color: transparent;-fx-faint-focus-color: transparent;}";
     ///TODO: najiba
-    table
-        .setStyle(".table-row-cell: highlighted { -fx-background-color: #81c483; -fx-background-radius: 15px; }");
+    table.setStyle(style);
+
+    // Scene scene = table.getScene();
+    // scene.getStylesheets().add("public/css/styling.css");
 
     table.setCenterShape(true);
     table.setFixedCellSize(70);

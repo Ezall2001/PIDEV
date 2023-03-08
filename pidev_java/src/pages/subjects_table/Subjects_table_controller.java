@@ -4,8 +4,10 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import dialogs.course_input.Course_input_controller;
 import dialogs.subject_input.Subject_input_controller;
 import entities.Subject;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TableColumn;
@@ -63,6 +65,11 @@ public class Subjects_table_controller implements Initializable {
 
         table_wrapper.getChildren().add(table);
 
+    }
+
+    @FXML
+    void on_add_button_pressed(ActionEvent event) {
+        Router.render_dialog("Subject_input", (Subject_input_controller controller) -> controller.hydrate());
     }
 
 }
