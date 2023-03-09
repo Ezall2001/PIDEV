@@ -86,7 +86,7 @@ public class User_service {
       stmt.setString(6, user.get_hashed_password());
       stmt.setInt(7, 0);
       stmt.setObject(8, user.get_avatar_path());
-      stmt.setString(9, user.get_type().toString());
+      stmt.setObject(9, user.get_type().toString());
       stmt.executeUpdate();
 
       ResultSet generated_id = stmt.getGeneratedKeys();

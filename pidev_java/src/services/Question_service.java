@@ -6,6 +6,8 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+
+import entities.Answer;
 import entities.Question;
 import entities.Subject;
 import entities.User;
@@ -91,6 +93,46 @@ public class Question_service {
         }
 
         return questions;
+    }
+
+    public Question find_by_id(Question question) {
+
+        try {
+            String sql = "SELECT questions.title, questions.description, questions.id as question_id, answers.id as answer_id, answers.message, answers.vote_nb, users.first_name, users.last_name, users.id as user_id FROM questions LEFT JOIN users ON questions.user_id = users.id LEFT JOIN answers ON answers.question_id = questions.id where questions.id=?";
+
+            PreparedStatement stmt = cnx.prepareStatement(sql);
+            stmt.setInt(1, question.get_id());
+
+            ResultSet result = stmt.executeQuery();
+
+            while (result.next()) {
+                question.set_id(result.getInt("question_id"));
+                question.set_title(result.getString("title"));
+                question.set_description(result.getString("description"));
+                Answer answer = new Answer();
+                answer.set_id(result.getInt("id"));
+                answer.set_message(result.getString("message"));
+                answer.set_vote_nb(result.getInt("vote_nb"));
+
+                User user = new User();
+                user.set_id(result.getInt("user_id"));
+                user.set_first_name(result.getString("first_name"));
+                user.set_last_name(result.getString("last_name"));
+
+                answer.set_user(user);
+
+                question.get_answers().add(answer);
+
+            }
+
+            result.close();
+            stmt.close();
+
+        } catch (Exception e) {
+            Log.file(e.getMessage());
+        }
+
+        return question;
     }
 
     public void delete(Question question) {

@@ -5,6 +5,9 @@ import utils.Log;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 import entities.Test;
 import entities.Test_result;
@@ -101,5 +104,31 @@ public class Test_result_service {
     } catch (Exception e) {
       Log.file(e);
     }
+  }
+
+  public List<Test_result> get_all() {
+    List<Test_result> test_results = new ArrayList<>();
+
+    try {
+      String sql = "SELECT * FROM test_results";
+      Statement stmt = cnx.createStatement();
+      ResultSet result = stmt.executeQuery(sql);
+      while (result.next()) {
+        Test_result test_result = new Test_result();
+        Test test = new Test();
+        test.set_id(result.getInt("id_test"));
+
+        User user = new User();
+        user.set_id(result.getInt("id_user"));
+        test_result.set_mark(result.getInt("mark"));
+        test_result.set_user(user);
+        test_result.set_test(test);
+        test_results.add(test_result);
+      }
+    } catch (Exception e) {
+      Log.file(e.getMessage());
+    }
+
+    return test_results;
   }
 }

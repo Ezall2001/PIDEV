@@ -49,7 +49,7 @@
                               <Cursor fx:constant="HAND" />
                            </cursor>
                         </Label>
-                        <Label layoutX="362.0" layoutY="47.0" onMouseClicked="#on_subjects_nav_button_pressed" text="Matières" textFill="#051148">
+                        <Label layoutX="362.0" layoutY="47.0" onMouseClicked="#on_subjects_nav_button_pressed" text="Cours" textFill="#051148">
                            <font>
                               <Font size="18.0" />
                            </font>

@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 import components.answer_row.Answer_row_controller;
 import dialogs.answer_input.Answer_input_controller;
@@ -21,6 +22,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import pages.search.Search_controller;
 import services.Answer_service;
 import services.Question_service;
 import services.User_session_service;
@@ -92,6 +94,12 @@ public class Forum_thread_controller implements Initializable {
     Question q = answer.get_question();
     Log.console(q);
     hydrate(q);
+  }
+
+  @FXML
+  public void on_search_web_view_button_pressed(ActionEvent event) {
+    Router.render_user_template("Search",
+        (Search_controller controller) -> controller.hydrate(question));
   }
 
   @FXML

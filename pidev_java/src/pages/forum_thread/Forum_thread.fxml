@@ -24,7 +24,7 @@
          <content>
             <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
                <children>
-                  <VBox alignment="TOP_CENTER" style="-fx-background-color: #97A8F8;">
+                  <VBox alignment="TOP_CENTER" prefWidth="786.0" style="-fx-background-color: #97A8F8;">
                      <children>
                         <Label alignment="CENTER" contentDisplay="CENTER" text="Espace Forum" textFill="WHITE">
                            <font>
@@ -54,11 +54,11 @@
                   </VBox>
                   <VBox spacing="40.0" style="-fx-background-color: #eee;">
                      <children>
-                        <VBox spacing="10.0">
+                        <VBox prefHeight="60.0" prefWidth="746.0" spacing="10.0">
                            <children>
                               <HBox alignment="BASELINE_LEFT">
                                  <children>
-                                    <Text fill="#051148" strokeType="OUTSIDE" strokeWidth="0.0" text="Question : ">
+                                    <Text fill="#051148" strokeType="OUTSIDE" strokeWidth="0.0" text="Question : " wrappingWidth="171.52734375">
                                        <font>
                                           <Font size="36.0" />
                                        </font>
@@ -69,6 +69,9 @@
                                        </font>
                                     </Label>
                                  </children>
+                                 <padding>
+                                    <Insets top="10.0" />
+                                 </padding>
                               </HBox>
                               <HBox spacing="5.0">
                                  <children>
@@ -167,56 +170,94 @@
                   </VBox>
                   <VBox spacing="60.0">
                      <children>
-                        <HBox spacing="20.0" VBox.vgrow="NEVER">
+                        <VBox spacing="20.0">
                            <children>
-                              <Button mnemonicParsing="false" onAction="#on_add_answer_pressed" style="-fx-background-color: #BBCEFE; -fx-background-radius: 30;" text="Ajouter réponse" textFill="#051148" HBox.hgrow="NEVER">
-                                 <HBox.margin>
-                                    <Insets />
-                                 </HBox.margin>
-                                 <font>
-                                    <Font size="14.0" />
-                                 </font>
-                                 <padding>
-                                    <Insets bottom="5.0" left="15.0" right="15.0" top="5.0" />
-                                 </padding>
-                                 <cursor>
-                                    <Cursor fx:constant="HAND" />
-                                 </cursor>
-                                 <effect>
-                                    <DropShadow offsetY="3.0">
-                                       <color>
-                                          <Color opacity="0.25" />
-                                       </color>
-                                    </DropShadow>
-                                 </effect>
-                              </Button>
-                              <MenuButton fx:id="sort_by_button" mnemonicParsing="false" style="-fx-background-color: #BBCEFE; -fx-background-radius: 30;" text="Trier Par : " textFill="#051148" HBox.hgrow="NEVER">
-                                <items>
-                                  <MenuItem mnemonicParsing="false" onAction="#on_sort_by_date_button_pressed" text="Date De Publication" />
-                                  <MenuItem mnemonicParsing="false" onAction="#on_sort_by_vote_button_pressed" text="Intéressant" />
-                                </items>
-                                 <HBox.margin>
-                                    <Insets />
-                                 </HBox.margin>
-                                 <font>
-                                    <Font size="14.0" />
-                                 </font>
-                                 <padding>
-                                    <Insets left="15.0" right="15.0" />
-                                 </padding>
-                                 <cursor>
-                                    <Cursor fx:constant="HAND" />
-                                 </cursor>
-                                 <effect>
-                                    <DropShadow offsetY="3.0">
-                                       <color>
-                                          <Color opacity="0.25" />
-                                       </color>
-                                    </DropShadow>
-                                 </effect>
-                              </MenuButton>
+                              <HBox alignment="CENTER_LEFT" spacing="20.0">
+                                 <children>
+                                    <Button alignment="BOTTOM_RIGHT" contentDisplay="RIGHT" graphicTextGap="10.0" mnemonicParsing="false" onAction="#on_search_web_view_button_pressed" style="-fx-background-radius: 30; -fx-background-color: #fee39a;" text="Chercher" textFill="#051148">
+                                       <padding>
+                                          <Insets bottom="2.0" left="15.0" right="15.0" top="2.0" />
+                                       </padding>
+                                       <font>
+                                          <Font size="16.0" />
+                                       </font>
+                                       <effect>
+                                          <DropShadow offsetY="3.0">
+                                             <color>
+                                                <Color opacity="0.25" />
+                                             </color>
+                                          </DropShadow>
+                                       </effect>
+                                       <graphic>
+                                          <ImageView fitHeight="20.0" fitWidth="20.0">
+                                             <image>
+                                                <Image url="@../../../public/image/search_icon.png" />
+                                             </image>
+                                          </ImageView>
+                                       </graphic>
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor>
+                                    </Button>
+                                    <Label text="Insatisfait ? Essayer de chercher plus de réponses sur stackoverflow.">
+                                       <font>
+                                          <Font size="16.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </HBox>
+                              <HBox spacing="20.0">
+                                 <children>
+                                    <Button mnemonicParsing="false" onAction="#on_add_answer_pressed" style="-fx-background-color: #BBCEFE; -fx-background-radius: 30;" text="Ajouter réponse" textFill="#051148" HBox.hgrow="NEVER">
+                                       <HBox.margin>
+                                          <Insets />
+                                       </HBox.margin>
+                                       <font>
+                                          <Font size="14.0" />
+                                       </font>
+                                       <padding>
+                                          <Insets bottom="5.0" left="15.0" right="15.0" top="5.0" />
+                                       </padding>
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor>
+                                       <effect>
+                                          <DropShadow offsetY="3.0">
+                                             <color>
+                                                <Color opacity="0.25" />
+                                             </color>
+                                          </DropShadow>
+                                       </effect>
+                                    </Button>
+                                    <MenuButton fx:id="sort_by_button" mnemonicParsing="false" style="-fx-background-color: #BBCEFE; -fx-background-radius: 30;" text="Trier Par : " textFill="#051148" HBox.hgrow="NEVER">
+                                      <items>
+                                        <MenuItem mnemonicParsing="false" onAction="#on_sort_by_date_button_pressed" text="Date De Publication" />
+                                        <MenuItem mnemonicParsing="false" onAction="#on_sort_by_vote_button_pressed" text="Intéressant" />
+                                      </items>
+                                       <HBox.margin>
+                                          <Insets />
+                                       </HBox.margin>
+                                       <font>
+                                          <Font size="14.0" />
+                                       </font>
+                                       <padding>
+                                          <Insets left="15.0" right="15.0" />
+                                       </padding>
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor>
+                                       <effect>
+                                          <DropShadow offsetY="3.0">
+                                             <color>
+                                                <Color opacity="0.25" />
+                                             </color>
+                                          </DropShadow>
+                                       </effect>
+                                    </MenuButton>
+                                 </children>
+                              </HBox>
                            </children>
-                        </HBox>
+                        </VBox>
                         <VBox fx:id="answers_list_wrapper" alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" spacing="50.0" VBox.vgrow="ALWAYS" />
                      </children>
                      <VBox.margin>

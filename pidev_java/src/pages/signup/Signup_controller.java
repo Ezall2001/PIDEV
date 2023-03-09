@@ -100,6 +100,7 @@ public class Signup_controller implements Initializable {
             user.set_email(email);
             user.set_password(password);
             user.set_hashed_password();
+            user.set_type(User.Type.STUDENT.toString());
 
             user_service.add(user);
             user_session_service.create_session(user);
@@ -116,12 +117,11 @@ public class Signup_controller implements Initializable {
         String email = email_input.getText();
         String password = password_input.getText();
         String age = age_input.getText();
-        String avatar_path = avatar_path_input.getText();
         String bio = bio_input.getText();
         Boolean is_error = false;
 
         if (first_name.isEmpty() || last_name.isEmpty() || email.isEmpty() || password.isEmpty() || age.isEmpty()
-                || avatar_path.isEmpty() || bio.isEmpty()) {
+                || bio.isEmpty()) {
             Alert alert = new Alert(Alert.AlertType.ERROR, "Vous devez remplir tout les champs vide.", ButtonType.OK);
             alert.showAndWait();
             return true;

@@ -9,7 +9,12 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.itextpdf.text.pdf.PdfStructTreeController.returnType;
+
+import api.Google_meet;
+import api.Mailing;
 import entities.Course;
+import entities.Participation;
 import entities.Session;
 import entities.User;
 
@@ -131,6 +136,44 @@ public class Session_service {
     }
 
     return null;
+  }
+
+  public void send_meet_link(Session session, String link) {
+
+    session = find_by_id(session);
+
+    List<String> emails = new ArrayList<>();
+
+    try {
+      String sql = "SELECT " +
+          "sessions.id_user, " +
+          "participations.id," +
+          "participations.id_user," +
+          "participations.id_session," +
+          "participations.state," +
+          "users.id, " +
+          "users.first_name, " +
+          "users.email " +
+          "FROM sessions LEFT JOIN participations ON participations.id_session = sessions.id LEFT JOIN users ON participations.id_user = users.id  where sessions.id=?  and participations.state=?";
+
+      PreparedStatement stmt = cnx.prepareStatement(sql);
+      stmt.setInt(1, session.get_id());
+      stmt.setString(2, Participation.State.ACCEPTED.toString());
+
+      ResultSet result = stmt.executeQuery();
+
+      if (result.next())
+        emails.add(result.getString("email"));
+
+      for (String email : emails)
+        Mailing.send_mail(email, link, "voici votre lien meet pour votre prochaine séance");
+
+      Google_meet.create_meet_event(session, emails, link);
+
+    } catch (Exception e) {
+      Log.file(e.getMessage());
+    }
+
   }
 
 }
