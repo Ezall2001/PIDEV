@@ -130,6 +130,36 @@ public class User_service {
       return null;
     }
   }
+  
+    //@MoezT overloaded find_by_id to accept int parameter because Ticket_service accessing User entity class is against best practices
+    public User find_by_id(int id) {
+    try {
+      String sql = "select * from users where id=?";
+      PreparedStatement stmt = cnx.prepareStatement(sql);
+      stmt.setInt(1, id);
+
+      ResultSet result = stmt.executeQuery();
+
+      if (result.next())
+        return new User(
+            result.getInt("id"),
+            result.getString("first_name"),
+            result.getString("last_name"),
+            result.getString("bio"),
+            result.getInt("age"),
+            result.getInt("score"),
+            result.getString("email"),
+            result.getString("avatar_path"),
+            result.getString("type"));
+      return null;
+
+    } catch (Exception e) {
+      Log.file(e.getMessage());
+      return null;
+    }
+  }
+  
+  
 
   public User find_by_email(String email) {
     try {

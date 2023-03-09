@@ -2,8 +2,11 @@ package entities;
 
 import java.util.Arrays;
 import java.security.MessageDigest;
+import java.util.ArrayList;
+import java.util.Iterator;
 import utils.Log;
 import utils.String_helpers;
+import java.util.List;
 
 public class User {
   public static enum Type {
@@ -20,6 +23,12 @@ public class User {
   private String email, password, hashed_password;
   private Type type;
   private Class_esprit class_esprit;
+  
+
+// @author moezt
+  private List<Ticket> tickets = new ArrayList<>();
+// @author moezt
+  
 
   public User() {
   }
@@ -231,6 +240,27 @@ public class User {
     return current_level_score;
 
   }
+  
+  
+  //**********@author moezt**********
+    public List<Ticket> get_tickets() {
+        return tickets;
+    }
+    //initializing association for each ticket using addTicket()
+    public void set_tickets(List<Ticket> tickets) {
+        Iterator<Ticket> iterator = tickets.iterator();
+        while (iterator.hasNext()) {
+            Ticket t = iterator.next();
+            addTicket(t);
+    }
+    }
+    
+    public void addTicket(Ticket ticket) {
+        ticket.setUser(this);
+        tickets.add(ticket);
+    }
+  //**********@author moezt**********
+  
 
   @Override
   public String toString() {

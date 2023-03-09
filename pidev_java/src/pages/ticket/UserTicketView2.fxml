@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.gluonhq.charm.glisten.mvc.View?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+
+<View maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="810.0" prefWidth="1440.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pages.ticket.UserTicketView2_controller">
+   <center>
+      <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+         <children>
+            <ImageView fx:id="checkmarkImg" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@pngwing.com.png" />
+               </image></ImageView>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Votre requête a été envoyé avec succès! Nous nous efforçons de revenir vers vous dans les plus brefs délais." />
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <Button fx:id="returnTicketBtn" mnemonicParsing="false" onAction="#on_returnTicketBtn_clicked" text="Page du support" />
+                  <Button fx:id="returnHomeBtn" mnemonicParsing="false" onAction="#on_returnHomeBtn_clicked" text="Acceuil" />
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </center>
+</View>

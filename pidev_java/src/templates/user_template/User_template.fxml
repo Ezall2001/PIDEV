@@ -65,6 +65,11 @@
                               <Cursor fx:constant="HAND" />
                            </cursor>
                         </Label>
+                        <Label fx:id="ticketLbl" onMouseClicked="#on_tickets_nav_button_pressed" text="Réclamations" textFill="#051148">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Label>
                      </children>
                   </HBox>
                   <HBox fx:id="login_logout_wrapper" alignment="CENTER_RIGHT" prefWidth="200.0" HBox.hgrow="ALWAYS">

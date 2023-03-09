@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.gluonhq.charm.glisten.mvc.View?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<View maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="810.0" prefWidth="1440.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pages.ticket.UserTicketView3_controller">
+   <center>
+      <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+         <children>
+            <Text fill="#051148" strokeType="OUTSIDE" strokeWidth="0.0" text="VOTRE DERNIERE REQUETE">
+               <font>
+                  <Font name="System Bold" size="36.0" />
+               </font>
+            </Text>
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <Label text="Catégorie:" />
+                  <TextField fx:id="categoryTF" editable="false" />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <Label text="Sujet:" />
+                  <TextField fx:id="titleTF" editable="false" />
+               </children>
+            </HBox>
+            <ScrollPane fx:id="scrollPane" prefHeight="216.0" prefWidth="1440.0">
+               <content>
+                  <VBox fx:id="messagesWrapper" alignment="CENTER" prefHeight="541.0" prefWidth="1426.0" />
+               </content>
+            </ScrollPane>
+            <VBox prefHeight="200.0" prefWidth="100.0">
+               <children>
+                  <Label text="  Nouveau message:" />
+                  <TextArea fx:id="contentTA" prefHeight="200.0" prefWidth="200.0" />
+                  <Label fx:id="contentCtrlLbl" text="/300" />
+               </children>
+            </VBox>
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <Button fx:id="sendBtn" mnemonicParsing="false" onAction="#saveMessage" text="Envoyer" />
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </center>
+</View>

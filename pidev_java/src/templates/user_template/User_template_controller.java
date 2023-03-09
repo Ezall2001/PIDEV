@@ -43,6 +43,9 @@ public class User_template_controller implements Initializable {
   private static List<String> home_nav_item_activators = Arrays.asList("Profile", "Login");
   private static List<String> subject_nav_item_activators = Arrays.asList("Subject", "Subjects", "Course", "Session");
   private static List<String> forum_nav_item_activators = Arrays.asList("Forum", "Forum_thread");
+  private static List<String> ticket_nav_item_activators = Arrays.asList("Ticket");
+    @FXML
+    private Label ticketLbl;
 
   public User_template_controller() {
   }
@@ -90,7 +93,7 @@ public class User_template_controller implements Initializable {
     Integer active_nav_item_index = 0;
 
     List<List<String>> nav_items_activators = Arrays.asList(home_nav_item_activators, subject_nav_item_activators,
-        forum_nav_item_activators);
+        forum_nav_item_activators, ticket_nav_item_activators);
 
     for (List<String> nav_item_activators : nav_items_activators) {
       if (nav_item_activators.stream().anyMatch(activator -> activator.equals(page_name)))
@@ -112,5 +115,10 @@ public class User_template_controller implements Initializable {
     }
 
   }
+
+    @FXML
+    private void on_tickets_nav_button_pressed(MouseEvent event) {
+        Router.render_user_template("Login", null);
+    }
 
 }

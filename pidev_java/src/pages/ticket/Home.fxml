@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.gluonhq.charm.glisten.mvc.View?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.text.Font?>
+
+
+<View maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pages.ticket.HomeController">
+   <center>
+      <Label text="Ceci est la page d'acceuil!!" textFill="#051148" BorderPane.alignment="CENTER">
+         <font>
+            <Font size="43.0" />
+         </font>
+      </Label>
+   </center>
+</View>
