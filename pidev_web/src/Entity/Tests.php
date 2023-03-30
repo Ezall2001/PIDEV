@@ -40,7 +40,7 @@ class Tests
     #[ORM\JoinColumn(name: "id_test", referencedColumnName: "id", nullable: false)]
     public ?TestResults $result;
 
-    #[ORM\OneToMany(targetEntity: TestQs::class, inversedBy: 'tests')]
+    #[ORM\OneToMany(targetEntity: TestQs::class, mappedBy: 'tests')]
     public Collection $questions;
 
     public function getQuestions(): Collection

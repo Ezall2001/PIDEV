@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: UsersRapository::class)]
@@ -44,35 +45,22 @@ class Users
     #[ORM\Column]
     private ?int $warnings = 0;
 
-
-
     #[ORM\OneToOne(targetEntity: TestResults::class, inversedBy: 'users')]
     #[ORM\JoinColumn(name: "id_user", referencedColumnName: "id", nullable: false)]
     public ?TestResults $result;
 
-    #[ORM\OneToMany(targetEntity: Sessions::class, inversedBy: 'users')]
-    #[ORM\JoinColumn(name: "id_user", referencedColumnName: "id", nullable: true)]
-    public ?Sessions $session = null;
 
-    #[ORM\OneToMany(targetEntity: Questions::class, inversedBy: 'users')]
-    #[ORM\JoinColumn(name: "id_user", referencedColumnName: "id", nullable: true)]
-    public ?Questions $question = null;
+    #[ORM\OneToMany(targetEntity: Sessions::class,  mappedBy: "users")]
+    public ?Collection $session = null;
 
-    #[ORM\OneToMany(targetEntity: Answers::class, inversedBy: 'users')]
-    #[ORM\JoinColumn(name: "id_user", referencedColumnName: "id", nullable: true)]
-    public ?Answers $answer = null;
+    #[ORM\OneToMany(targetEntity: Questions::class, mappedBy: 'users')]
+    public ?Collection $question = null;
 
-    #[ORM\OneToMany(targetEntity: Votes::class, inversedBy: 'users')]
-    #[ORM\JoinColumn(name: "id_user", referencedColumnName: "id", nullable: true)]
-    public ?Votes $vote = null;
+    #[ORM\OneToMany(targetEntity: Answers::class, mappedBy: 'users')]
+    public ?Collection $answer = null;
 
-
-
-
-
-
-
-
+    #[ORM\OneToMany(targetEntity: Votes::class, mappedBy: 'users')]
+    public ?Collection $vote = null;
 
 
     public function getId(): ?int
@@ -198,5 +186,22 @@ class Users
         $this->warnings = $warnings;
 
         return $this;
+    }
+
+    public function getSessions(): Collection
+    {
+        return $this->session;
+    }
+    public function getAnswer(): Collection
+    {
+        return $this->answer;
+    }
+    public function getQuestion(): Collection
+    {
+        return $this->question;
+    }
+    public function getVote(): Collection
+    {
+        return $this->vote;
     }
 }

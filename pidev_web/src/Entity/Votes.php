@@ -16,11 +16,7 @@ class Votes
 
 
     #[ORM\Column]
-    private ?bool $voteType = null;
-
-
-
-
+    private ?int $voteType = null;
 
     #[ORM\ManyToOne(targetEntity: Answers::class, inversedBy: 'votes')]
     #[ORM\JoinColumn(name: 'answer_id', referencedColumnName: 'id', nullable: true)]
@@ -36,12 +32,12 @@ class Votes
         return $this->id;
     }
 
-    public function isVoteType(): ?bool
+    public function isVoteType(): ?int
     {
         return $this->voteType;
     }
 
-    public function setVoteType(?bool $voteType): self
+    public function setVoteType(?int $voteType): self
     {
         $this->voteType = $voteType;
 
