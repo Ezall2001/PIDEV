@@ -27,7 +27,7 @@ class Courses
 
     #[ORM\ManyToOne(targetEntity: Subjects::class, inversedBy: 'courses')]
     #[ORM\JoinColumn(name: '$idSubject', referencedColumnName: 'id', nullable: true)]
-    private ?Subjects $idSubject;
+    private ?Subjects $subject;
 
 
 
@@ -86,12 +86,12 @@ class Courses
 
     public function getSubject(): ?Subjects
     {
-        return $this->idSubject;
+        return $this->subject;
     }
 
-    public function setSubject(?Subjects $idSubject): self
+    public function setSubject(?Subjects $subject): self
     {
-        $this->idSubject = $idSubject;
+        $this->subject = $subject;
 
         return $this;
     }

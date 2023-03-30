@@ -180,4 +180,15 @@ class Subjects
 
         return $this;
     }
+
+    public function getCourses(): Collection
+    {
+        return $this->courses;
+    }
+
+
+    public function getQuestions(): Collection
+    {
+        return $this->questions;
+    }
 }
