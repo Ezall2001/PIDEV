@@ -7,6 +7,7 @@ use Symfony\Component\Validator\Constraints\Date;
 use Symfony\Component\Validator\Constraints\Time;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use App\Repository\SessionsRepository;
 
 #[ORM\Entity(repositoryClass: SessionsRepository::class)]
 class Sessions
@@ -198,6 +199,27 @@ class Sessions
     public function setResources(?Collection $resources): self
     {
         $this->resources = $resources;
+        return $this;
+    }
+
+    public function addResource(Resources $resource): self
+    {
+        if (!$this->resources->contains($resource)) {
+            $this->resources->add($resource);
+            $resource->setSession($this);
+        }
+
+        return $this;
+    }
+
+    public function removeResource(Resources $resource): self
+    {
+        if ($this->resources->removeElement($resource)) {
+            if ($resource->getSession() === $this) {
+                $resource->setSession(null);
+            }
+        }
+
         return $this;
     }
 }

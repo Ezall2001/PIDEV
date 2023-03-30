@@ -9,8 +9,9 @@ use Symfony\Component\Validator\Constraints\Date;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Validator\Constraints as Assert;
+use App\Repository\QuestionsRepository;
 
-#[ORM\Entity(repositoryClass: QuestionRepository::class)]
+#[ORM\Entity(repositoryClass: QuestionsRepository::class)]
 class Questions
 {
     #[ORM\Id]

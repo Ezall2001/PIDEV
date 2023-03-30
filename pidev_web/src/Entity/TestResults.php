@@ -49,4 +49,18 @@ class TestResults
 
         return $this;
     }
+
+    public function setTest(?Tests $test): self
+    {
+        $this->test = $test;
+
+        return $this;
+    }
+
+    public function setUser(?Users $user): self
+    {
+        $this->user = $user;
+
+        return $this;
+    }
 }

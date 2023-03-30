@@ -84,14 +84,21 @@ class Courses
         return $this;
     }
 
-    public function getIdSubject(): ?Subjects
+    public function getSubject(): ?Subjects
     {
         return $this->idSubject;
     }
 
-    public function setIdSubject(?Subjects $idSubject): self
+    public function setSubject(?Subjects $idSubject): self
     {
         $this->idSubject = $idSubject;
+
+        return $this;
+    }
+
+    public function setTests(?Tests $tests): self
+    {
+        $this->tests = $tests;
 
         return $this;
     }

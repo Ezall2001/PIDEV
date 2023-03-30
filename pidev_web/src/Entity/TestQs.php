@@ -141,4 +141,16 @@ class TestQs
 
         return $this;
     }
+
+    public function getTest(): ?Tests
+    {
+        return $this->test;
+    }
+
+    public function setTest(?Tests $test): self
+    {
+        $this->test = $test;
+
+        return $this;
+    }
 }

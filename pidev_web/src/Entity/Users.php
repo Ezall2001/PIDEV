@@ -2,8 +2,10 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\CoursesRepository;
 
 #[ORM\Entity(repositoryClass: UsersRapository::class)]
 class Users
@@ -61,6 +63,14 @@ class Users
 
     #[ORM\OneToMany(targetEntity: Votes::class, mappedBy: 'users')]
     public ?Collection $vote = null;
+
+    public function __construct()
+    {
+        $this->session = new ArrayCollection();
+        $this->question = new ArrayCollection();
+        $this->answer = new ArrayCollection();
+        $this->vote = new ArrayCollection();
+    }
 
 
     public function getId(): ?int
@@ -203,5 +213,113 @@ class Users
     public function getVote(): Collection
     {
         return $this->vote;
+    }
+
+    public function getResult(): ?TestResults
+    {
+        return $this->result;
+    }
+
+    public function setResult(TestResults $result): self
+    {
+        $this->result = $result;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Sessions>
+     */
+    public function getSession(): Collection
+    {
+        return $this->session;
+    }
+
+    public function addSession(Sessions $session): self
+    {
+        if (!$this->session->contains($session)) {
+            $this->session->add($session);
+            $session->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSession(Sessions $session): self
+    {
+        if ($this->session->removeElement($session)) {
+            // set the owning side to null (unless already changed)
+            if ($session->getUser() === $this) {
+                $session->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function addQuestion(Questions $question): self
+    {
+        if (!$this->question->contains($question)) {
+            $this->question->add($question);
+            $question->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeQuestion(Questions $question): self
+    {
+        if ($this->question->removeElement($question)) {
+            // set the owning side to null (unless already changed)
+            if ($question->getUser() === $this) {
+                $question->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function addAnswer(Answers $answer): self
+    {
+        if (!$this->answer->contains($answer)) {
+            $this->answer->add($answer);
+            $answer->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAnswer(Answers $answer): self
+    {
+        if ($this->answer->removeElement($answer)) {
+            // set the owning side to null (unless already changed)
+            if ($answer->getUser() === $this) {
+                $answer->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function addVote(Votes $vote): self
+    {
+        if (!$this->vote->contains($vote)) {
+            $this->vote->add($vote);
+            $vote->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeVote(Votes $vote): self
+    {
+        if ($this->vote->removeElement($vote)) {
+            // set the owning side to null (unless already changed)
+            if ($vote->getUser() === $this) {
+                $vote->setUser(null);
+            }
+        }
+
+        return $this;
     }
 }

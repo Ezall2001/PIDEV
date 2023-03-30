@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Validator\Constraints as Assert;
+use App\Repository\SubjectsRepository;
 
 #[ORM\Entity(repositoryClass: SubjectsRepository::class)]
 
@@ -29,13 +30,20 @@ class Subjects
     private ?string $classes_esprit = null;
 
     #[ORM\OneToMany(targetEntity: Courses::class, mappedBy: "subjects")]
-    private  ?Courses $courses;
+    private ?Collection $courses;
 
     #[ORM\OneToMany(targetEntity: Questions::class, mappedBy: "subjects")]
-    private ?Questions $questions;
+    private ?Collection $questions;
 
     #[ORM\OneToMany(targetEntity: Tests::class, mappedBy: "subjects")]
-    private Collection $tests;
+    private ?Collection $tests;
+
+    public function __construct()
+    {
+        $this->courses = new ArrayCollection();
+        $this->questions = new ArrayCollection();
+        $this->tests = new ArrayCollection();
+    }
 
     public function getTests(): Collection
     {
@@ -85,25 +93,91 @@ class Subjects
         return $this;
     }
 
-    public function getCourses(): ?Collection
+    public function getCourse(): ?Collection
     {
         return $this->courses;
     }
 
-    public function setCourses(?Collection $courses): self
+    public function setCourse(?Collection $courses): self
     {
         $this->courses = $courses;
         return $this;
     }
 
-    public function getQuestions(): ?Collection
+    public function getQuestion(): ?Collection
     {
         return $this->questions;
     }
 
-    public function setQuestions(?Collection $questions): self
+    public function setQuestion(?Collection $questions): self
     {
         $this->questions = $questions;
+        return $this;
+    }
+
+    public function addCourse(Courses $course): self
+    {
+        if (!$this->courses->contains($course)) {
+            $this->courses->add($course);
+            $course->setSubject($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCourse(Courses $course): self
+    {
+        if ($this->courses->removeElement($course)) {
+            // set the owning side to null (unless already changed)
+            if ($course->getSubject() === $this) {
+                $course->setSubject(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function addQuestion(Questions $question): self
+    {
+        if (!$this->questions->contains($question)) {
+            $this->questions->add($question);
+            $question->setSubject($this);
+        }
+
+        return $this;
+    }
+
+    public function removeQuestion(Questions $question): self
+    {
+        if ($this->questions->removeElement($question)) {
+            // set the owning side to null (unless already changed)
+            if ($question->getSubject() === $this) {
+                $question->setSubject(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function addTest(Tests $test): self
+    {
+        if (!$this->tests->contains($test)) {
+            $this->tests->add($test);
+            $test->setSubject($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTest(Tests $test): self
+    {
+        if ($this->tests->removeElement($test)) {
+            // set the owning side to null (unless already changed)
+            if ($test->getSubject() === $this) {
+                $test->setSubject(null);
+            }
+        }
+
         return $this;
     }
 }

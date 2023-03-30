@@ -10,8 +10,9 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Form\FormTypeInterface;
+use App\Repository\AnswersRepository;
 
-#[ORM\Entity(repositoryClass: AnswerRepository::class)]
+#[ORM\Entity(repositoryClass: AnswersRepository::class)]
 class Answers
 {
 

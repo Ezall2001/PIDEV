@@ -9,7 +9,7 @@ use App\Repository\TestsRepository;
 use Doctrine\ORM\Mapping as ORM;
 use PHPUnit\Framework\TestResult;
 
-#[ORM\Entity(repositoryClass: TestRepository::class)]
+#[ORM\Entity(repositoryClass: TestsRepository::class)]
 
 class Tests
 {
@@ -42,6 +42,11 @@ class Tests
 
     #[ORM\OneToMany(targetEntity: TestQs::class, mappedBy: 'tests')]
     public Collection $questions;
+
+    public function __construct()
+    {
+        $this->questions = new ArrayCollection();
+    }
 
     public function getQuestions(): Collection
     {
@@ -110,6 +115,40 @@ class Tests
     public function setCourse(?Courses $course): self
     {
         $this->course = $course;
+
+        return $this;
+    }
+
+    public function getResult(): ?TestResults
+    {
+        return $this->result;
+    }
+
+    public function setResult(?TestResults $result): self
+    {
+        $this->result = $result;
+
+        return $this;
+    }
+
+    public function addQuestion(TestQs $question): self
+    {
+        if (!$this->questions->contains($question)) {
+            $this->questions->add($question);
+            $question->setTest($this);
+        }
+
+        return $this;
+    }
+
+    public function removeQuestion(TestQs $question): self
+    {
+        if ($this->questions->removeElement($question)) {
+            // set the owning side to null (unless already changed)
+            if ($question->getTest() === $this) {
+                $question->setTest(null);
+            }
+        }
 
         return $this;
     }

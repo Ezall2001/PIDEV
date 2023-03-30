@@ -4,9 +4,10 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use App\Entity\Answers;
+use App\Repository\VotesRepository;
 
 
-#[ORM\Entity(repositoryClass: VoteRepository::class)]
+#[ORM\Entity(repositoryClass: VotesRepository::class)]
 class Votes
 {
     #[ORM\Id]
@@ -66,5 +67,10 @@ class Votes
         $this->user = $user;
 
         return $this;
+    }
+
+    public function getVoteType(): ?string
+    {
+        return $this->voteType;
     }
 }
