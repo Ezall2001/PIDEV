@@ -102,7 +102,7 @@ class Questions
 
         return $this;
     }
-    #[ORM\OneToMany(targetEntity: Answer::class, mappedBy: "question")]
+    #[ORM\OneToMany(targetEntity: Answers::class, mappedBy: "question")]
     private Collection $answers;
 
     public function __construct()

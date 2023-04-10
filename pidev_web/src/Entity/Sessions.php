@@ -2,12 +2,12 @@
 
 namespace App\Entity;
 
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints\Date;
-use Symfony\Component\Validator\Constraints\Time;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use App\Repository\SessionsRepository;
+use Doctrine\DBAL\Types\DateType;
 
 #[ORM\Entity(repositoryClass: SessionsRepository::class)]
 class Sessions
@@ -22,24 +22,27 @@ class Sessions
     private float $price;
 
 
-    #[ORM\Column]
-    private Date $date;
+    #[ORM\Column(type: "date")]
+    private \DateTime $date;
 
 
-    #[ORM\Column]
-    private Time $startTime;
+    #[ORM\Column(type: "time")]
+    private \DateTime $startTime;
 
 
-    #[ORM\Column]
-    private Time $endTime;
+    #[ORM\Column(type: "time")]
+    private \DateTime $endTime;
 
 
     #[ORM\Column(length: 3000)]
     private string $topics;
 
+    #[ORM\Column]
+    private ?int $places = 0;
 
     #[ORM\Column]
-    private ?int $places = null;
+    private ?int $maxPlaces = null;
+
 
     #[ORM\Column(length: 500)]
     private ?string $meetLink = null;
@@ -82,36 +85,36 @@ class Sessions
         return $this;
     }
 
-    public function getDate(): Date
+    public function getDate(): \DateTime
     {
         return $this->date;
     }
 
-    public function setDate(Date $date): self
+    public function setDate(\DateTime $date): self
     {
         $this->date = $date;
 
         return $this;
     }
 
-    public function getStartTime(): Time
+    public function getStartTime(): \DateTime
     {
         return $this->startTime;
     }
 
-    public function setStartTime(Time $startTime): self
+    public function setStartTime(\DateTime $startTime): self
     {
         $this->startTime = $startTime;
 
         return $this;
     }
 
-    public function getEndTime(): Time
+    public function getEndTime(): \DateTime
     {
         return $this->endTime;
     }
 
-    public function setEndTime(Time $endTime): self
+    public function setEndTime(\DateTime $endTime): self
     {
         $this->endTime = $endTime;
 
@@ -219,6 +222,18 @@ class Sessions
                 $resource->setSession(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getMaxPlaces(): ?int
+    {
+        return $this->maxPlaces;
+    }
+
+    public function setMaxPlaces(int $maxPlaces): self
+    {
+        $this->maxPlaces = $maxPlaces;
 
         return $this;
     }

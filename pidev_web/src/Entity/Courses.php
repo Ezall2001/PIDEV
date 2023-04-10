@@ -32,7 +32,7 @@ class Courses
 
 
 
-    #[ORM\ManyToOne(targetEntity: Testes::class, inversedBy: 'courses')]
+    #[ORM\ManyToOne(targetEntity: Tests::class, inversedBy: 'courses')]
     #[ORM\JoinColumn(name: '$id_test', referencedColumnName: 'id', nullable: true)]
     private Collection $tests;
 
