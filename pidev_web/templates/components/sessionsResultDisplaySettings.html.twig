@@ -1,0 +1,61 @@
+<div class="display-settings">
+	<div class="left">
+
+		<div class="sort-by">
+			<label class="me-1" for="sort-by-select">Trier par :</label>
+			<select id="sort-by-select" class="form-select me-1">
+				<option value="price" selected>Prix</option>
+				<option value="date">Date</option>
+				<option value="places">Places Restantes</option>
+			</select>
+			<button type="button" class="btn btn-outline-primary waves-effect waves-light sort-btn">
+				<i class="fas fa-sort-amount-down sort-desc"></i>
+				<i class="fas fa-sort-amount-up sort-asc"></i>
+			</button>
+		</div>
+
+	</div>
+
+	<div class="center">
+
+		<ul class="pagination m-0">
+			<li class="page-item">
+				<a class="page-link" href="javascript: void(0);" aria-label="Previous">
+					<span aria-hidden="true">&laquo;</span>
+				</a>
+			</li>
+			<li class="page-item">
+				<a class="page-link" href="javascript: void(0);">1</a>
+			</li>
+			<li class="page-item">
+				<a class="page-link" href="javascript: void(0);" aria-label="Next">
+					<span aria-hidden="true">&raquo;</span>
+				</a>
+			</li>
+		</ul>
+
+	</div>
+
+	<div class="right">
+
+		<div class="show-n me-3">
+			<label class="me-1" for="show-n-select">Afficher :</label>
+			<select id="show-n-select" class="form-select">
+				<option value="10" selected>10</option>
+				<option value="20">20</option>
+				<option value="50">50</option>
+			</select>
+
+		</div>
+
+
+		<button type="button" class="btn btn-outline-primary waves-effect waves-light grid-view-btn me-1">
+			<i class="fas fa-th-large"></i>
+		</button>
+
+		<button type="button" class="btn btn-outline-primary waves-effect waves-light list-view-btn">
+			<i class="fas fa-th-list"></i>
+		</button>
+
+	</div>
+</div>

@@ -1,0 +1,14 @@
+/** @format */
+
+.label-seperator {
+	width: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.label-seperator .half-seperator {
+	height: 1px;
+	width: 100%;
+	background-color: #e2e2e2;
+}
