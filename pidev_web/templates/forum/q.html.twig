@@ -1,0 +1,278 @@
+{%extends 'test.html.twig'%}
+{%block body%}
+
+<div class="content-page" >
+    <div class="content">
+
+        <!-- Start Content-->
+        <div class="container-fluid" > 
+
+            <div class="row>
+                <div class="col-lg-12">
+                    <div class="card">
+                    <div class="bg-picture card-body">
+                        <div class="d-flex align-items-top">
+                            <img src="../assets/images/users/profile.jpg"
+                                    class="flex-shrink-0 rounded-circle avatar-xl img-thumbnail float-start me-3" alt="profile-image">
+
+                            <div class="flex-grow-1 overflow-hidden">
+                             
+                               
+
+                                <div class="m-0" style="font-weight: bold;">{{ question.getTitle() }}</div>
+                                <br/>
+                                <div class="card-header">{{ question.getDescription() }}</div>
+
+
+
+                                <ul class="social-list list-inline mt-3 mb-0">
+                                    <li class="list-inline-item">
+                                               
+                                        <a href="{{ path('delete_question', {'id': question.getId()}) }}" class="social-list-item border-danger text-danger"><i class="fe-trash-2"></i></a>
+
+                                    </li>
+                                 
+                              
+                                    
+                                        <li class="list-inline-item">
+                                            <a   class="social-list-item border-purple text-purple" data-bs-toggle="modal" data-bs-target="#editQuestionModal{{question.getId() }}"><i class="fe-edit"></i></a>
+                                        </li>
+                                    </ul>
+
+                                            <!-- Signup modal content -->
+                                            <div id="editQuestionModal{{ question.getId() }}" class="modal fade" tabindex="-1" role="dialog"  data-backdrop="static" aria-hidden="true">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                            
+                                                        <div class="modal-body">
+                                                            <div class="text-center mt-2 mb-4">
+                                                                <div class="auth-logo">
+                                                                    <div class="logo logo-light">
+                                                                        <span class="logo-lg">
+                                                                            <img src="../assets/images/logo-light.png" alt="" height="22">
+                                                                        </span>
+                                                                    </div>
+                                                
+                                                                    <div class="logo logo-dark">
+                                                                        <span class="logo-lg">
+                                                                            <img src="../assets/images/logo-dark.png" alt="" height="22">
+                                                                        </span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                          
+
+                                                      
+                                                    
+                                                            <form class="px-3" action="{{ path('editQuestionModal', {id: question.getId()}) }}" method="POST">
+                                                                <div class="form-group">
+                                                                    {{ form_start(f, {attr: {novalidate: 'novalidate'} }) }}
+                           
+                                                            
+                
+                                                            
+                                                                    <div class="row">
+                                                                        <div class="row">
+                                                                            <label class="mb-1 fw-medium text-muted">Titre</label>
+                                                                            {{ form_widget(f.title, {attr: {class: 'form-control'} }) }}
+                                                                        </div>
+                                                                        <p class="error-message">{{ form_errors(f.title, {attr: {class: 'text-danger'} }) }}</p>
+                                                                        <br/>                         
+                                                            
+                                                                        <div class="row">
+                                                                            <label class="mb-1fw-medium text-muted">Description</label>
+                                                                            {{ form_widget(f.description, {attr: {class: 'form-control'} }) }}
+                                                                        </div>
+                                                                        <p class="error-message">{{ form_errors(f.description, {attr: {class: 'text-danger'} }) }}</p>
+                                                                        <br/>                        
+                                                            
+                                                                        <div class="row">
+                                                                            <label class="mb-1 fw-medium text-muted">Matiere</label>
+                                                                            {{ form_widget(f.subject, {attr: {class: 'form-control'} }) }}
+                                                                        </div>
+                                                            
+                                                                        <br>
+                                                            
+                                                                        <div class="row">
+                                                                            <label class="mb-1 fw-medium text-muted">Utlisateur</label>
+                                                                            {{ form_widget(f.user, {attr: {class: 'form-control'} }) }}
+                                                                        </div>
+                                                                        <p class="error-message">{{ form_errors(f.subject, {attr: {class: 'text-danger'} }) }}</p>
+                                                                        <br/>                          
+                                                            
+                                                                        <div class="text-right">
+                                                                            {{ form_widget(f.ajouter, { attr: { class: 'btn btn-primary', 'data-bs-toggle': 'modal', 'data-bs-target': '#warning' } }) }}
+                                                                        </div>
+                                                                        {% if invalidData%}
+                                                                        <script>
+                                                                            $(document).ready(function() {
+                                                                                $('#warning').modal('show');
+                                                                               
+                                                                            });
+                                                                        </script>
+                                                                        {%endif%}
+                                                                        {{ form_end(f) }}
+                                                                    </div>
+                                                            
+                                                                </div>
+                                                            </form>
+                                                            
+                                                        
+                                                            
+                                                        </div>
+                                                    </div><!-- /.modal-content -->
+                                            
+                                                    <div id="warning" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+                                                        <div class="modal-dialog modal-sm">
+                                                            <div class="modal-content">
+                                                                <div class="modal-body">
+                                                                    <div class="text-center">
+                                                                        <i class="dripicons-warning h1 text-warning"></i>
+                                                                        <h4 class="mt-2">Incorrect Information</h4>
+                                                                  
+                                                                        <button type="button" class="btn btn-warning my-2" data-bs-dismiss="modal">Continue</button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                           
+                                      
+                                                    </div>
+                                                  
+                                      
+                                   
+                               
+                                                </div>
+                            </div>
+                        </div>
+
+                          
+                        </div>
+                    </div>
+
+                </div>
+
+                
+                <div class="card">
+                    <form method="post" class="card-body" action="{{ path('question', {'id': question.getId()}) }}">
+                        {{ form_start(answerForm, {attr: {novalidate: 'novalidate'} }) }}
+                        <span class="input-icon icon-end">
+                            {{ form_widget(answerForm.message, {'attr': {'class': 'form-control', 'placeholder': 'ici vous pouvez ajouter votre réponse' } }) }}
+                            <br/>
+                            {{ form_errors(answerForm.message,{'attr':{'class':'text-danger'} }) }}
+                            <br/>
+                            {{ form_widget(answerForm.ajouter, {'attr': {'class': 'btn btn-primary'}, 'label': 'Ajouter'}) }}
+                            {{ form_end(answerForm) }}
+                        <ul class="nav nav-pills profile-pills mt-1">
+                            <li>
+                                <a href="#"><i class="far fa-smile"></i></a>
+                            </li>
+                        </ul>
+                    </form>
+                    
+                    
+                    
+                </div>
+
+                    <!--/ meta -->
+                 
+                    <form id="sortForm" method="get" action="{{ path('trier', {'id': question.getId()})  }}" class="d-flex flex-wrap align-items-center justify-content-sm-end">
+                        <label for="status-select" class="me-2">Filtrer par</label>
+                        <div class="me-sm-2">
+                            <select name="sortOrder" onchange="document.getElementById('sortForm').submit();" class="form-select my-1 my-md-0" id="status-select">
+                                <option value="2" {% if sortOrder is defined and sortOrder == 2 %}selected{% endif %}>Tous</option>
+                                <option value="1" {% if sortOrder is defined and sortOrder == 1 %}selected{% endif %}>Récent</option>
+                                <option>Interessant</option>
+                                
+                            </select>
+                        </div>
+                      
+                    </form>
+              <br/>
+
+                    <div class="card">
+                        <div class="card-body">
+                            {% for answer in answers %}
+                            <div class="card">
+                                <div class="d-flex align-items-top mb-3">
+                                    <img src="../assets/images/users/user-6.jpg" alt="" class="flex-shrink-0 comment-avatar avatar-sm rounded me-2">
+                               
+                                    <div class="flex-grow-1">
+                                        
+                                        <h5 class="mt-0"><a href="#" class="text-dark">John Smith</a><small class="ms-1 text-muted">{{ answer.getCreatedAt().format('Y-m-d H:i:s') }}</small></h5>
+                                        <p>{{ answer.getMessage() }}</p>
+                                        <input type="hidden" name="answer_id" value="{{ answer.id }}">
+        
+                                        <div class="comment-footer d-flex justify-content-between">
+                                            <div class="d-flex align-items-center">
+                                                <button class="vote-up"><i class="fas fa-thumbs-up"></i></button>
+                                                <div class="ms-2 me-2"><h7 class="mt-0" style="font-size: 24px;">5</h7></div>
+                                                <button class="vote-down"><i class="fas fa-thumbs-down"></i></button>
+                                            </div>
+                                        </div>
+                                   
+                                        
+                                  
+                                          
+                                          
+                                    </div>
+                                   
+                                    </div>
+                                    <!-- /.modal -->
+                                    <div class="flex-grow-2">
+                                        <ul class="social-list list-inline mt-3 mb-0">
+                                            <li class="list-inline-item">
+                                                       
+                                                <a href="{{ path('delete_answer', {'id': answer.getId()}) }}" class="social-list-item border-danger text-danger"><i class="fe-trash-2"></i></a>
+        
+                                            </li>
+                                            
+                                          
+                                       
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            <!--  media -->
+    
+
+                        
+                        
+                                
+                                
+                          
+                            
+                            
+                         
+                              
+                              
+                        
+    
+                        </div>
+                    </div>
+                </div>
+
+              
+            </div>    
+        </div> <!-- container -->
+
+    </div> <!-- content -->
+
+  
+
+
+</div>
+{% block javascripts %}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.2/js/bootstrap.min.js"></script>
+   
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-fRRX0aPtMjKUz0eD1l/bcW+oUwAvkKISB6L7B9q1xOZvzIYsE+xZNQMZyUlI8q3GGiSO+F0PLfiFJL14vK8X2Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.4.0/js/bootstrap.min.js" integrity="sha512-S5e/axilSCdpkNcQK1fN7iX5Zag6nYef6UzP6Rw8ivQzjKdDcsk82srFuyi3m/RnRG6Fj+6efKVU6PwU0arW2A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+
+ 
+    
+  {% endblock %}
+
+{%endblock%}
+

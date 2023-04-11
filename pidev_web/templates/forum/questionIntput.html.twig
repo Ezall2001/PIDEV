@@ -1,0 +1,87 @@
+{%extends 'test.html.twig'%}
+{%block body%}
+
+<!-- Begin page -->
+    <div class="content-page" >
+        <div class="content">
+
+            <!-- Start Content-->
+            <div class="container-fluid" > 
+                   
+           
+                    <div class="col-lg-12">
+                        
+                        <div class="card" >
+                            <div class="card-body">
+                                <h4 class="header-title">Vous pouvez ajouter votre question</h4>   
+                                {{ form_start(f, {attr: {novalidate: 'novalidate'} }) }}
+                                <div class="row">
+                                    <label class="mb-1 fw-medium text-muted">Titre</label>
+                                    {{ form_widget(f.title, {attr: {class: 'form-control'} }) }}
+                                </div>
+                                {{ form_errors(f.title, {attr: {class: 'text-danger'} }) }}
+                                                            
+                                <div class="row">
+                                    <label class="mb-1 mt-4 fw-medium text-muted">Description</label>
+                                    {{ form_widget(f.description, {attr: {class: 'form-control'} }) }}
+                                </div>
+                                {{ form_errors(f.description, {attr: {class: 'text-danger'} }) }}
+                                                            
+                                <div class="row">
+                                    <label class="mb-1 fw-medium text-muted">Matiere</label>
+                                  
+                                
+                                    {{ form_widget(f.subject, {attr: {class: 'form-control'} }) }}
+                                    {{ form_errors(f.subject, {attr: {class: 'text-danger'} }) }}
+                                   
+                                 
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <label class="mb-1 fw-medium text-muted">Utlisateur</label>
+                                  
+                                
+                                    {{ form_widget(f.user, {attr: {class: 'form-control'} }) }}
+                                    {{ form_errors(f.user, {attr: {class: 'text-danger'} }) }}
+                                 
+                                </div>
+                                  <br/>                          
+                                <div class="text-right">
+                                    {{ form_widget(f.ajouter, {attr: {class: 'btn btn-primary'} }) }}
+                                </div>
+                                                            
+                            {{ form_end(f) }}
+                            
+                                
+                                <!-- end row -->
+                            </div> <!-- end card-body -->
+                        </div> <!-- end card -->
+                    </div> <!-- end col -->
+                </div>
+                <!-- end row -->
+
+
+              
+
+               
+                <!-- end row -->
+
+            </div> <!-- container -->
+
+        </div> <!-- content -->
+
+
+    </div>
+
+    <!-- ============================================================== -->
+    <!-- End Page content -->
+    <!-- ============================================================== -->
+
+
+</div>
+<!-- END wrapper -->
+
+   
+
+
+{%endblock%}

@@ -1,0 +1,17 @@
+.vote-buttons {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.vote-buttons button {
+    background: none;
+    border: none;
+    color: #999;
+    font-size: 1.2rem;
+}
+
+.vote-buttons button:hover {
+    color: #333;
+    cursor: pointer;
+}
