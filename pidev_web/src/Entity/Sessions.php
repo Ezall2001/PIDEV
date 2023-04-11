@@ -34,8 +34,8 @@ class Sessions
     private \DateTime $endTime;
 
 
-    #[ORM\Column(length: 3000)]
-    private string $topics;
+    #[ORM\Column(length: 500)]
+    private string $topics = "";
 
     #[ORM\Column]
     private ?int $places = 0;

@@ -5,9 +5,9 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use App\Repository\UsersRapository;
+use App\Repository\UsersRepository;
 
-#[ORM\Entity(repositoryClass: UsersRapository::class)]
+#[ORM\Entity(repositoryClass: UsersRepository::class)]
 class Users
 {
     #[ORM\Id]
@@ -47,9 +47,9 @@ class Users
     #[ORM\Column]
     private ?int $warnings = 0;
 
-    #[ORM\OneToOne(targetEntity: TestResults::class, inversedBy: 'users')]
-    #[ORM\JoinColumn(name: "id_user", referencedColumnName: "id", nullable: false)]
-    public ?TestResults $result;
+    // #[ORM\OneToOne(targetEntity: TestResults::class, inversedBy: 'users')]
+    // #[ORM\JoinColumn(name: "id_user", referencedColumnName: "id", nullable: true)]
+    // public ?TestResults $result;
 
 
     #[ORM\OneToMany(targetEntity: Sessions::class,  mappedBy: "users")]
@@ -215,17 +215,17 @@ class Users
         return $this->vote;
     }
 
-    public function getResult(): ?TestResults
-    {
-        return $this->result;
-    }
+    // public function getResult(): ?TestResults
+    // {
+    //     return $this->result;
+    // }
 
-    public function setResult(TestResults $result): self
-    {
-        $this->result = $result;
+    // public function setResult(TestResults $result): self
+    // {
+    //     $this->result = $result;
 
-        return $this;
-    }
+    //     return $this;
+    // }
 
     /**
      * @return Collection<int, Sessions>

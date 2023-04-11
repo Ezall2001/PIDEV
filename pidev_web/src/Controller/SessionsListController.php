@@ -2,9 +2,9 @@
 
 namespace App\Controller;
 
-
-use App\Entity\Users;
+use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\SessionsRepository;
+use App\Helpers\SessionHelpers;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
@@ -14,9 +14,13 @@ use Symfony\Component\Routing\Annotation\Route;
 class SessionsListController extends AbstractController
 {
   private SessionsRepository $sessionsRepository;
+  private EntityManagerInterface $entityManager;
+  private int $tmpUserId = 529;
 
-  public function __construct(SessionsRepository $sessionsRepository)
+
+  public function __construct(SessionsRepository $sessionsRepository, EntityManagerInterface $entityManager)
   {
+    $this->entityManager = $entityManager;
     $this->sessionsRepository = $sessionsRepository;
   }
 
@@ -31,13 +35,12 @@ class SessionsListController extends AbstractController
     return $filterObject;
   }
 
+
   #[Route('/sessionsList', name: 'sessions_list')]
   public function sessionsList(Request $request): Response
   {
 
-    $tmpUser = new Users();
-
-    $filterObject = $this->buildFilterObject($request->query, 529);
+    $filterObject = $this->buildFilterObject($request->query, $this->tmpUserId);
     $sessions = $this->sessionsRepository->findBy($filterObject);
 
     $totalFoundSessions = sizeof($sessions);
@@ -47,5 +50,18 @@ class SessionsListController extends AbstractController
       'totalFoundSessions' => $totalFoundSessions,
       'filters' => $filterObject
     ]);
+  }
+
+  #[Route('/sessionsList/addSession', name: 'sessions_list_add_session', methods: ['POST'])]
+  public function addSession(Request $request): Response
+  {
+
+    $sessions = SessionHelpers::buildSessions($_POST, $this->tmpUserId, $this->entityManager);
+    foreach ($sessions as $session)
+      $this->getDoctrine()->getManager()->persist($session);
+
+    $this->getDoctrine()->getManager()->flush();
+
+    return $this->redirectToRoute('sessions_list');
   }
 }

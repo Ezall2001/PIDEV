@@ -29,14 +29,15 @@ class Subjects
     #[Assert\Choice(choices: ['A3', 'B3', 'B2', 'A2', 'A1', 'B1'], message: 'Choose a valid classe_esprit.')]
     private ?string $classes_esprit = null;
 
-    #[ORM\OneToMany(targetEntity: Courses::class, mappedBy: "subjects")]
+    #[ORM\OneToMany(targetEntity: Courses::class, mappedBy: "subject")]
     private ?Collection $courses;
 
-    #[ORM\OneToMany(targetEntity: Questions::class, mappedBy: "subjects")]
+    #[ORM\OneToMany(targetEntity: Questions::class, mappedBy: "subject")]
     private ?Collection $questions;
 
-    #[ORM\OneToMany(targetEntity: Tests::class, mappedBy: "subjects")]
+    #[ORM\OneToMany(targetEntity: Tests::class, mappedBy: "subject")]
     private ?Collection $tests;
+
 
     public function __construct()
     {

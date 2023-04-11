@@ -29,11 +29,11 @@ class Tests
 
 
     #[ORM\ManyToOne(targetEntity: Subjects::class, inversedBy: 'tests')]
-    #[ORM\JoinColumn(name: "subject_id", referencedColumnName: "id", nullable: false)]
+    #[ORM\JoinColumn(name: "id_subject", referencedColumnName: "id", nullable: false)]
     public ?Subjects $subject;
 
     #[ORM\ManyToOne(targetEntity: Courses::class, inversedBy: 'tests')]
-    #[ORM\JoinColumn(name: "course_id", referencedColumnName: "id", nullable: false)]
+    #[ORM\JoinColumn(name: "id_course", referencedColumnName: "id", nullable: false)]
     public ?Courses $course;
 
     #[ORM\ManyToOne(targetEntity: TestResults::class, inversedBy: 'tests')]

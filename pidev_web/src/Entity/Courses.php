@@ -26,15 +26,18 @@ class Courses
     private ?string $difficulty = null;
 
     #[ORM\ManyToOne(targetEntity: Subjects::class, inversedBy: 'courses')]
-    #[ORM\JoinColumn(name: '$idSubject', referencedColumnName: 'id', nullable: true)]
+    #[ORM\JoinColumn(name: 'id_subject', referencedColumnName: 'id', nullable: true)]
     private ?Subjects $subject;
 
 
-
-
-    #[ORM\ManyToOne(targetEntity: Tests::class, inversedBy: 'courses')]
-    #[ORM\JoinColumn(name: '$id_test', referencedColumnName: 'id', nullable: true)]
+    #[ORM\OneToMany(targetEntity: Tests::class, mappedBy: 'course')]
     private Collection $tests;
+
+    #[ORM\OneToMany(targetEntity: Sessions::class, mappedBy: 'course')]
+    private Collection $sessions;
+
+
+
 
     public function getTests(): Collection
     {
@@ -96,7 +99,7 @@ class Courses
         return $this;
     }
 
-    public function setTests(?Tests $tests): self
+    public function setTests(?Collection $tests): self
     {
         $this->tests = $tests;
 

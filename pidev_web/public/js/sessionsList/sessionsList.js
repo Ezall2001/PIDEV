@@ -1,9 +1,11 @@
 /** @format */
 
 import {initFilters} from './filters.js'
+import {initSessionForm} from './sessionForm.js'
 
 const sessionsListInit = () => {
 	initFilters()
+	initSessionForm()
 
 	$('.creator-filter select').selectize({
 		maxItems: null,

@@ -6,16 +6,27 @@
 
 {% block stylesheets %}
 	<link href="{{asset('templateAssets/libs/selectize/css/selectize.bootstrap3.css')}}" rel="stylesheet" type="text/css"/>
+	<link href="{{asset('templateAssets/libs/flatpickr/flatpickr.min.css')}}" rel="stylesheet" type="text/css"/>
+	<link href="{{asset('templateAssets/libs/dropzone/min/dropzone.min.css')}}" rel="stylesheet" type="text/css"/>
+	<link href="{{asset('templateAssets/libs/ion-rangeslider/css/ion.rangeSlider.min.css')}}" rel="stylesheet" type="text/css"/>
+
 
 	<link rel="stylesheet" type="text/css" href="{{asset('css/sessionsList.css')}}"/>
 	<link rel="stylesheet" type="text/css" href="{{asset('css/sessionsResultDisplaySettings.css')}}"/>
 	<link rel="stylesheet" type="text/css" href="{{asset('css/sessionCard.css')}}"/>
 	<link rel="stylesheet" type="text/css" href="{{asset('css/sessionsFilter.css')}}"/>
+	<link rel="stylesheet" type="text/css" href="{{asset('css/sessionForm.css')}}"/>
 
 {% endblock %}
 
 {% block javascripts %}
+	<script src="{{asset('templateAssets/libs/flatpickr/flatpickr.min.js')}}" defer></script>
+	<script src="{{asset('templateAssets/libs/ion-rangeslider/js/ion.rangeSlider.min.js')}}" defer></script>
 	<script src="{{asset('templateAssets/libs/selectize/js/standalone/selectize.min.js')}}" defer></script>
+	<script src="{{asset('templateAssets/libs/bootstrap-maxlength/bootstrap-maxlength.min.js')}}" defer></script>
+	<script src="{{asset('templateAssets/libs/dropzone/min/dropzone.min.js')}}" defer></script>
+
+
 	<script src="{{asset('js/sessionsList/sessionsList.js')}}" type="module" defer></script>
 {% endblock %}
 
@@ -29,6 +40,9 @@
 			{{component('sessionsFilter')}}
 		</div>
 	</div>
+
+	{{component('sessionForm')}}
+
 
 	<div class="header">
 		<h1 class="display-5 my-3">Catalogue Des Séances</h1>
@@ -51,14 +65,14 @@
 			</button>
 
 
-			<button class="create-session-btn btn btn-primary waves-effect waves-light">
+			<button class="create-session-btn btn btn-primary waves-effect waves-light" data-bs-toggle="modal" data-bs-target="#session-form-modal">
 				<span class="btn-label">
 					<i class="fas fa-plus-square fs-5"></i>
 				</span>
 				Creer Séance
 			</button>
 
-			<button class="mobile-btn create-session-btn btn btn-primary waves-effect waves-light">
+			<button class="mobile-btn create-session-btn btn btn-primary waves-effect waves-light" data-bs-toggle="modal" data-bs-target="#session-form-modal">
 				<i class="fas fa-plus-square fs-5"></i>
 			</button>
 
