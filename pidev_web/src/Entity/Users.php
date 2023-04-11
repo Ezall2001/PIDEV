@@ -2,8 +2,12 @@
 
 namespace App\Entity;
 
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\UsersRapository;
 
@@ -13,20 +17,20 @@ class Users
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    private ?int $id = null;
 
-    private ?int $id;
-
-    #[ORM\Column(length: 100)]
+    #[ORM\Column]
 
     private ?string $firstName = null;
 
-    #[ORM\Column(length: 100)]
+    #[ORM\Column]
     private ?string $lastName = null;
 
-    #[ORM\Column(length: 500)]
+    #[ORM\Column]
+
     private ?string $bio = null;
 
-    #[ORM\Column(length: 300)]
+    #[ORM\Column]
     private ?string $avatarPath = null;
 
     #[ORM\Column]
@@ -35,21 +39,21 @@ class Users
     #[ORM\Column]
     private ?int $score = 0;
 
-    #[ORM\Column(length: 200)]
+    #[ORM\Column]
     private ?string $email = null;
 
-    #[ORM\Column(length: 1000)]
+    #[ORM\Column]
     private ?string $password = null;
 
-    #[ORM\Column(length: 50)]
+    #[ORM\Column]
     private ?string $type = 'STUDENT';
 
     #[ORM\Column]
     private ?int $warnings = 0;
 
-    #[ORM\OneToOne(targetEntity: TestResults::class, inversedBy: 'users')]
-    #[ORM\JoinColumn(name: "id_user", referencedColumnName: "id", nullable: false)]
-    public ?TestResults $result;
+    // #[ORM\OneToOne(targetEntity: TestResults::class, inversedBy: 'users')]
+    // #[ORM\JoinColumn(name: "id_user", referencedColumnName: "id", nullable: false)]
+    // public ?TestResults $result;
 
 
     #[ORM\OneToMany(targetEntity: Sessions::class,  mappedBy: "users")]
@@ -215,17 +219,17 @@ class Users
         return $this->vote;
     }
 
-    public function getResult(): ?TestResults
-    {
-        return $this->result;
-    }
+    // public function getResult(): ?TestResults
+    // {
+    //     return $this->result;
+    // }
 
-    public function setResult(TestResults $result): self
-    {
-        $this->result = $result;
+    // public function setResult(TestResults $result): self
+    // {
+    //     $this->result = $result;
 
-        return $this;
-    }
+    //     return $this;
+    // }
 
     /**
      * @return Collection<int, Sessions>

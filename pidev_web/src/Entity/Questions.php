@@ -4,7 +4,7 @@ namespace App\Entity;
 
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use App\Entity\Answer;
+use App\Entity\Answers;
 use Symfony\Component\Validator\Constraints\Date;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -102,7 +102,7 @@ class Questions
 
         return $this;
     }
-    #[ORM\OneToMany(targetEntity: Answer::class, mappedBy: "question")]
+    #[ORM\OneToMany(targetEntity: Answers::class, mappedBy: "question")]
     private Collection $answers;
 
     public function __construct()

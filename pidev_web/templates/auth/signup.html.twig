@@ -1,0 +1,129 @@
+{% extends 'layouts/user.html.twig' %}
+{% block title %}Sign Up{% endblock %}
+
+{# {% block body %}
+<h1>Sign Up</h1>
+
+{{ form_start(form) }}
+{{ form_row(form.firstName) }}
+{{ form_row(form.lastName) }}
+{{ form_row(form.bio) }}
+{{ form_row(form.avatarPath) }}
+{{ form_row(form.age) }}
+{{ form_row(form.email) }}
+{{ form_row(form.password) }}
+{{ form_widget(form.submit, {'label': 'Submit'}) }}
+{{ form_end(form) }}
+
+{% endblock %} #}
+
+{% block body %}
+
+<body class="loading authentication-bg authentication-bg-pattern">
+
+    <div class="account-pages mt-5 mb-5">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-8 col-lg-6 col-xl-4">
+                    <div class="text-center">
+                        <a href="index.html">
+                            <img src="{{asset('templateAssets/images/logo-dark.png')}}" alt="" height="22"
+                                class="mx-auto">
+                        </a>
+                    </div>
+                    <div class="card">
+
+                        <div class="card-body p-4">
+
+                            <div class="text-center mb-4">
+                                <h4 class="text-uppercase mt-0">Register</h4>
+                            </div>
+
+                            {{ form_start(form) }}
+
+                            <div class="mb-3">
+                                {{ form_row(form.firstName, {'attr': {'class': 'form-control', 'placeholder': 'Enter your first name'}})
+                                }}
+                                <!-- Render validation errors for firstName field -->
+                                {% if form.firstName.vars.errors|length > 0 %}
+                                <div class="text-danger">
+                                    {{ form_errors(form.firstName) }}
+                                </div>
+                                {% endif %}
+                            </div>
+                            <div class="mb-3">
+                                {{ form_row(form.lastName, {'attr': {'class': 'form-control', 'placeholder': 'Enter your last name'}})
+                                }}
+                                <!-- Render validation errors for lastName field -->
+                                {% if form.lastName.vars.errors|length > 0 %}
+                                <div class="text-danger">
+                                    {{ form_errors(form.lastName) }}
+                                </div>
+                                {% endif %}
+                            </div>
+                            <div class="mb-3">
+                                {{ form_row(form.bio, {'attr': {'class': 'form-control', 'placeholder': 'Enter your bio'}})
+                                }}
+                                <!-- Render validation errors for bio field -->
+                                {% if form.bio.vars.errors|length > 0 %}
+                                <div class="text-danger">
+                                    {{ form_errors(form.bio) }}
+                                </div>
+                                {% endif %}
+                            </div>
+                            <div class="mb-3">
+                                {{ form_row(form.avatarPath, {'attr': {'class': 'form-control', 'placeholder': 'Enter your avatar path'}})
+                                }}
+                                <!-- Render validation errors for avatarPath field -->
+                                {% if form.avatarPath.vars.errors|length > 0 %}
+                                <div class="text-danger">
+                                    {{ form_errors(form.avatarPath) }}
+                                </div>
+                                {% endif %}
+                            </div>
+                            <div class="mb-3">
+                                {{ form_row(form.age, {'attr': {'class': 'form-control', 'placeholder': 'Enter your age'}})
+                                }}
+                                <!-- Render validation errors for age field -->
+                                {% if form.age.vars.errors|length > 0 %}
+                                <div class="text-danger">
+                                    {{ form_errors(form.age) }}
+                                </div>
+                                {% endif %}
+                            </div>
+                            <div class="mb-3">
+                                {{ form_row(form.email, {'attr': {'class': 'form-control', 'placeholder': 'Enter your email'}})
+                                }}
+                                <!-- Render validation errors for email field -->
+                                {% if form.email.vars.errors|length > 0 %}
+                                <div class="text-danger">
+                                    {{ form_errors(form.email) }}
+                                </div>
+                                {% endif %}
+                            </div>
+                            <div class="mb-3">
+                                {{ form_row(form.password, {'attr': {'class': 'form-control', 'placeholder': 'Enter your password', 'type':'password'}})
+                                }}
+                            </div>
+                            <div class="mb-3 text-center d-grid">
+                                {{ form_widget(form.submit, {'label': ' Sign Up', 'attr': {'class': 'btn btn-primary'}})
+                                }}
+                            </div>
+
+                            {{ form_end(form) }}
+
+                        </div> <!-- end card-body -->
+                    </div>
+                    <!-- end card -->
+
+                </div> <!-- end col -->
+            </div>
+            <!-- end row -->
+        </div>
+        <!-- end container -->
+    </div>
+    <!-- end page -->
+
+
+</body>
+{% endblock %}
