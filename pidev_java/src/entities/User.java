@@ -1,6 +1,9 @@
 package entities;
 
 import java.util.Arrays;
+
+import org.mindrot.jbcrypt.BCrypt;
+
 import java.security.MessageDigest;
 import utils.Log;
 import utils.String_helpers;
@@ -159,22 +162,27 @@ public class User {
 
   public String hash_password() {
     try {
-      MessageDigest message_digest = MessageDigest.getInstance("SHA-256");
-      message_digest.update(password.getBytes());
-      byte[] bytes = message_digest.digest();
-      StringBuilder string_builder = new StringBuilder();
-      for (byte b : bytes) {
-        string_builder.append(Integer.toString((b & 0xff) + 0x100, 16).substring(1));
-      }
-      return string_builder.toString();
+      Integer strength = 12;
+      String salt = BCrypt.gensalt(strength);
+      String hashed_password = BCrypt.hashpw(password, salt);
+      return hashed_password;
     } catch (Exception e) {
       Log.file(e.getMessage());
       return null;
     }
   }
 
-  public Boolean equals_to_user(User user) {
-    return hashed_password.equals(user.get_hashed_password()) && email.equals(user.get_email());
+  public boolean equals_to_user(User user) {
+    try {
+      if (!email.equals(user.get_email()))
+        return false;
+
+      return BCrypt.checkpw(password, user.get_hashed_password());
+
+    } catch (Exception e) {
+      Log.file(e.getMessage());
+      return false;
+    }
   }
 
   public Type get_type() {

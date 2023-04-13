@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+		<link rel="shortcut icon" href="{{asset('images/favicon.ico')}}">
+
+		<link rel="stylesheet" type="text/css" href="{{asset('templateAssets/css/bootstrap.min.css')}}" id="bs-default-stylesheet">
+		<link rel="stylesheet" type="text/css" href="{{asset('templateAssets/css/app.min.css')}}" id="app-default-stylesheet"/>
+
+
+		<link href="{{asset('templateAssets/css/bootstrap-dark.min.css')}}" rel="stylesheet" type="text/css" id="bs-dark-stylesheet" disabled="disabled"/>
+		<link href="{{asset('templateAssets/css/app-dark.min.css')}}" rel="stylesheet" type="text/css" id="app-dark-stylesheet" disabled="disabled"/>
+
+
+		<link rel="stylesheet" type="text/css" href="{{asset('templateAssets/css/icons.min.css')}}"/>
+		<link rel="stylesheet" type="text/css" href="{{asset('templateAssets/css/materialdesignicons.min.css')}}"/>
+		<link rel="stylesheet" type="text/css" href="{{asset('templateAssets/css/pe-icon-7-stroke.css')}}"/>
+		<link rel="stylesheet" type="text/css" href="{{asset('templateAssets/css/style.min.css')}}"/>
+
+		<link rel="stylesheet" type="text/css" href="{{asset('css/reset.css')}}"/>
+		<link rel="stylesheet" type="text/css" href="{{asset('css/seperator.css')}}"/>
+
+		<script src="{{asset('templateAssets/js/vendor.min.js')}}" defer></script>
+		<script src="{{asset('templateAssets/js/app.min.js')}}" defer></script>
+
+		<title>
+			{% block title %}
+				Myalô
+			{% endblock %}
+		</title>
+
+		{% block stylesheets %}{% endblock %}
+
+		{% block javascripts %}{% endblock %}
+
+	</head>
+	<body class="loading" data-layout-mode="horizontal" data-layout='{"mode": "light", "width": "fluid", "menuPosition": "fixed", "topbar": {"color": "dark"}, "showRightSidebarOnPageLoad": true}'></body>
+
+	{{component('nav')}}
+
+	<div id="wrapper">
+
+		<main class="mt-5 mb-2 py-3 px-2 px-md-4 min-vh-100 overflow-x-hidden"> {% block main %}{% endblock %}
+
+			</main>
+
+		</div>
+		{{component('backToTop')}}
+
+	</html>
+</body></html>

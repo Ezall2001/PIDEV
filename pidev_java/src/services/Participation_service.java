@@ -115,7 +115,6 @@ public class Participation_service {
     return participations;
   }
 
-  ///TODO: test this
   public List<Participation> find_by_id_user(User user) {
     List<Participation> participations = new ArrayList<>();
 

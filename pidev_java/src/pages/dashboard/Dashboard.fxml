@@ -1,11 +1,111 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.gluonhq.charm.glisten.mvc.View?>
-<?import javafx.scene.control.ScrollPane?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.chart.AreaChart?>
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.chart.PieChart?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
-
-<View maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="810.0" prefWidth="1440.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
-   <center>
-      <ScrollPane blendMode="DARKEN" fitToHeight="true" fitToWidth="true" />
-   </center>
+<View maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="810.0" prefWidth="1440.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pages.dashboard.Dashboard_controller">
+    <center>
+        <VBox prefHeight="563.0" prefWidth="1440.0" spacing="20.0" BorderPane.alignment="CENTER">
+            <children>
+                <HBox alignment="CENTER" prefHeight="216.0" prefWidth="1316.0" style="-fx-background-color: #F3F1F5; -fx-background-radius: 30;">
+                    <children>
+                        <VBox alignment="CENTER" prefHeight="280.0" prefWidth="360.0" spacing="20.0">
+                            <children>
+                                <Text fill="#97a8f8" strokeType="OUTSIDE" strokeWidth="0.0" text="Utilisateurs">
+                                    <font>
+                                        <Font name="System Bold" size="31.0" />
+                                    </font>
+                                </Text>
+                                <Label fx:id="total_users_label" text="400">
+                                    <font>
+                                        <Font name="System Bold" size="31.0" />
+                                    </font>
+                                </Label>
+                            </children>
+                        </VBox>
+                        <VBox alignment="CENTER" prefHeight="276.0" prefWidth="360.0" spacing="20.0">
+                            <children>
+                                <Text fill="#d3e4cd" strokeType="OUTSIDE" strokeWidth="0.0" text="Test">
+                                    <font>
+                                        <Font name="System Bold" size="31.0" />
+                                    </font>
+                                </Text>
+                                <Label fx:id="total_tests_label" text="20">
+                                    <font>
+                                        <Font name="System Bold" size="31.0" />
+                                    </font>
+                                </Label>
+                            </children>
+                        </VBox>
+                        <VBox alignment="CENTER" prefHeight="276.0" prefWidth="360.0" spacing="20.0">
+                            <children>
+                                <Text fill="#efbbcf" strokeType="OUTSIDE" strokeWidth="0.0" text="Matières" wrappingWidth="139.1197738647461">
+                                    <font>
+                                        <Font name="System Bold" size="31.0" />
+                                    </font>
+                                </Text>
+                                <Label fx:id="total_subjects_label" text="200">
+                                    <font>
+                                        <Font name="System Bold" size="31.0" />
+                                    </font>
+                                </Label>
+                            </children>
+                        </VBox>
+                        <VBox alignment="CENTER" prefHeight="276.0" prefWidth="360.0" spacing="20.0">
+                            <children>
+                                <Text fill="#ccdfe3" strokeType="OUTSIDE" strokeWidth="0.0" text="Cours" textAlignment="CENTER" wrappingWidth="139.1197738647461">
+                                    <font>
+                                        <Font name="System Bold" size="31.0" />
+                                    </font>
+                                </Text>
+                                <Label fx:id="total_courses_label" text="1000">
+                                    <font>
+                                        <Font name="System Bold" size="31.0" />
+                                    </font>
+                                </Label>
+                            </children>
+                        </VBox>
+                    </children>
+                    <VBox.margin>
+                        <Insets left="20.0" right="20.0" top="20.0" />
+                    </VBox.margin>
+                </HBox>
+                <HBox alignment="CENTER" spacing="50.0">
+                    <VBox.margin>
+                        <Insets left="15.0" right="15.0" />
+                    </VBox.margin>
+                    <children>
+                  <AreaChart fx:id="area_chart" style="-fx-legend-visible: hidden;" title="La courbe de densité des notes">
+                    <xAxis>
+                      <CategoryAxis side="BOTTOM" />
+                    </xAxis>
+                    <yAxis>
+                      <NumberAxis side="LEFT" />
+                    </yAxis>
+                  </AreaChart>
+                        <BarChart fx:id="bar_chart" barGap="0.0" categoryGap="30.0" style="-fx-legend-visible: hidden;" title="Niveaux Etudiants">
+                            <xAxis>
+                                <CategoryAxis side="BOTTOM" />
+                            </xAxis>
+                            <yAxis>
+                                <NumberAxis side="LEFT" />
+                            </yAxis>
+                        </BarChart>
+                        <PieChart fx:id="pie_chart" title="Nombre de séances créees par matière" />
+                    </children>
+                </HBox>
+            </children>
+        </VBox>
+    </center>
 </View>

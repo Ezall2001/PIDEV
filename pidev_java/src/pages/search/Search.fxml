@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.gluonhq.charm.glisten.mvc.View?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.web.WebView?>
+
+<View maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="810.0" prefWidth="1440.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pages.search.Search_controller">
+   <center>
+      <ScrollPane blendMode="DARKEN" fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" BorderPane.alignment="CENTER">
+         <content>
+            <VBox>
+               <children>
+                  <VBox alignment="TOP_CENTER" style="-fx-background-color: #97A8F8;">
+                     <children>
+                        <HBox alignment="CENTER">
+                           <children>
+                              <ImageView fitHeight="150.0" fitWidth="220.0" nodeOrientation="INHERIT" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../../public/image/forum_hero.png" />
+                                 </image>
+                              </ImageView>
+                              <Label alignment="CENTER" text="Faites Vos Recherches" textFill="WHITE">
+                                 <font>
+                                    <Font size="36.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </HBox>
+                     </children>
+                     <padding>
+                        <Insets bottom="40.0" top="30.0" />
+                     </padding>
+                  </VBox>
+                  <VBox spacing="20.0" style="-fx-background-color: #eee;">
+                     <padding>
+                        <Insets bottom="10.0" left="40.0" right="40.0" top="10.0" />
+                     </padding>
+                     <children>
+                        <Button fx:id="return_button" mnemonicParsing="false" onAction="#on_return_button_pressed" style="-fx-shape: &quot;M 0 25 L 50 0 L 50 50 Z&quot;; -fx-background-color: #97A8F8;">
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                           <effect>
+                              <DropShadow>
+                                 <color>
+                                    <Color opacity="0.15000000596046448" />
+                                 </color>
+                              </DropShadow>
+                           </effect></Button>
+                     </children>
+                  </VBox>
+                  <WebView fx:id="web_view" minHeight="-1.0" minWidth="-1.0" prefHeight="800.0" prefWidth="-1.0" />
+               </children>
+               <padding>
+                  <Insets bottom="50.0" />
+               </padding>
+               
+            </VBox>
+         </content>
+      </ScrollPane>
+   </center>
+</View>

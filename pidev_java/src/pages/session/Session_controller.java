@@ -210,7 +210,7 @@ public class Session_controller implements Initializable {
   @FXML
   void on_send_link_button_pressed(ActionEvent event) {
     String link = link_input.getText();
-    ///TODO: send mails
+    session_service.send_meet_link(session, link);
 
   }
 

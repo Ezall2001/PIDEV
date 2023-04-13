@@ -39,8 +39,8 @@ public class User_template_controller implements Initializable {
   private HBox login_logout_wrapper;
 
   private static List<String> home_nav_item_activators = Arrays.asList("Profile", "Login", "Signup");
-  private static List<String> subject_nav_item_activators = Arrays.asList("Courses", "Course", "Session", "Test");
-  private static List<String> forum_nav_item_activators = Arrays.asList("Forum", "Forum_thread");
+  private static List<String> courses_nav_item_activators = Arrays.asList("Courses", "Course", "Session", "Test");
+  private static List<String> forum_nav_item_activators = Arrays.asList("Forum", "Forum_thread", "Search");
 
   public User_template_controller() {
   }
@@ -86,7 +86,7 @@ public class User_template_controller implements Initializable {
   public void set_active_nav_item(String page_name) {
     Integer active_nav_item_index = 0;
 
-    List<List<String>> nav_items_activators = Arrays.asList(home_nav_item_activators, subject_nav_item_activators,
+    List<List<String>> nav_items_activators = Arrays.asList(home_nav_item_activators, courses_nav_item_activators,
         forum_nav_item_activators);
 
     for (List<String> nav_item_activators : nav_items_activators) {

@@ -291,8 +291,8 @@ public class Test_data {
         public static List<Session> insert_sessions(List<Course> courses, List<User> users) {
                 List<Session> sessions = new ArrayList<>();
 
-                LocalDate date_1 = LocalDate.of(2023, 2, 23);
-                LocalDate date_2 = LocalDate.of(2023, 2, 24);
+                LocalDate date_1 = LocalDate.of(2023, 3, 10);
+                LocalDate date_2 = LocalDate.of(2023, 3, 10);
                 LocalTime time_1 = LocalTime.of(12, 00, 00);
                 LocalTime time_2 = LocalTime.of(13, 00, 00);
                 LocalTime time_3 = LocalTime.of(17, 30, 00);

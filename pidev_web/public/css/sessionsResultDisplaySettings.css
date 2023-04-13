@@ -1,0 +1,44 @@
+/** @format */
+
+.display-settings {
+	display: flex;
+	width: 100%;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.display-settings .left {
+	display: flex;
+	align-items: center;
+	justify-content: flex-start;
+}
+
+.display-settings .right {
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+}
+
+.display-settings .center {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.sort-by,
+.show-n {
+	display: flex;
+	align-items: center;
+	justify-content: flex-start;
+}
+
+.sort-by label {
+	min-width: 4rem;
+}
+
+.show-n label {
+	min-width: 4rem;
+}
+.sort-asc {
+	display: none !important;
+}

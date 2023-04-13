@@ -1,5 +1,8 @@
 package entities;
 
+import java.util.Arrays;
+import java.util.List;
+
 import utils.Log;
 
 public class Course {
@@ -94,6 +97,13 @@ public class Course {
 
   public void set_subject(Subject subject) {
     this.subject = subject;
+  }
+
+  public Integer compare_difficulty(Difficulty other_difficulty) {
+    List<Difficulty> difficulties = Arrays.asList(Difficulty.values());
+    Integer difficulty_index = difficulties.indexOf(difficulty);
+    Integer other_difficulty_index = difficulties.indexOf(other_difficulty);
+    return difficulty_index - other_difficulty_index;
   }
 
   @Override
