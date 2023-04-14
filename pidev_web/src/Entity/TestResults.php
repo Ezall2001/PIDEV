@@ -17,7 +17,7 @@ class TestResults
     #[ORM\Column]
     private ?int $mark = null;
 
-    #[ORM\OneToOne(targetEntity: Tests::class, inversedBy: 'testResults')]
+    #[ORM\OneToOne(targetEntity: Tests::class, mappedBy: 'testResults')]
     private ?Tests $test = null;
 
     public function getTest(): ?Tests
@@ -25,7 +25,7 @@ class TestResults
         return $this->test;
     }
 
-    #[ORM\OneToOne(targetEntity: Users::class, inversedBy: 'testResults')]
+    #[ORM\OneToOne(targetEntity: Users::class, mappedBy: 'testResults')]
     private ?Users $user = null;
 
     public function getUser(): ?Users

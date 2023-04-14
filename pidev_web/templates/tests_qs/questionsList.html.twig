@@ -1,0 +1,103 @@
+{% extends 'adminBase.html.twig' %}
+{% block pageTitle %}
+	<li>
+		<h4 class="page-title-main">Liste des questions</h4>
+	</li>
+{% endblock %}
+{% block body %}
+	<style>
+		th,
+		td {
+			width: 10%; /* set a fixed width for each th element */
+			padding: 30px; /* adjust the padding as needed */
+			text-align: left; /* center the text within each th element */
+		}
+		.btn-container {
+			text-align: right;
+			margin: 20px 40px 20px 0;
+		}
+	</style>
+	<div class="content-page">
+		<div class="content">
+
+			<!-- Start Content-->
+
+			<!--button-->
+				<div class="btn-container"> <a href="{{path('addQuestion')}}" class="btn btn-primary">
+					<i class="fas fa-plus"></i>
+					Ajouter une question</a>
+				<br>
+				<br>
+				<form class="input-group mb-3" method="post" action="findQuestion">
+					<input type="search" class="form-control rounded" id="name" placeholder="Nom cours" name="name"/>
+					<button class="btn btn-primary" type="submit" value="search">
+						<i class="fas fa-search"></i>
+						Chercher
+					</button>
+
+
+				</form>
+			</div>
+
+
+			<div class="container-fluid">
+
+				<div class="row">
+					<div class="col-sm-12">
+						<div class="table-responsive">
+							<table>
+								<div class="row">
+									<div class="col-12">
+										<div class="table-responsive">
+											<table class="table table-left" id="btn-editable">
+												<thead>
+													<tr>
+														<th>Numéro Question</th>
+														<th>Option A</th>
+														<th>Option B</th>
+														<th>Option C</th>
+														<th>Option D</th>
+														<th>Réponse</th>
+														<th>Question</th>
+														<th>Actions</th>
+													</tr>
+												</thead>
+												<tbody>
+													{% for i in questions %}
+														<tr>
+															<td>{{i.questionNumber}}</td>
+															<td>{{i.optiona}}</td>
+															<td>{{i.optionb}}</td>
+															<td>{{i.optionc}}</td>
+															<td>{{i.optiond}}</td>
+															<td>{{i.correctOption}}</td>
+															<td>{{i.question}}</td>
+															<td>
+																<a href="{{path('updateQuestion',{'id':i.id})}}" class="btn btn-success">
+																	<i class="fas fa-edit"></i>
+																</a>
+																<a href="{{path('deleteQuestion',{'id':i.id})}}" class="btn btn-danger">
+																	<i class="far fa-trash-alt"></i>
+																</a>
+															</td>
+														</tr>
+													{% endfor %}
+												</tbody>
+											</table>
+										</div>
+										<!-- end .table-responsive-->
+									</div>
+									<!-- end col -->
+								</div>
+								<!-- end row -->
+							</div>
+						</div>
+						<!-- end row -->
+					</div>
+					<!-- container -->
+
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}

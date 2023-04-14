@@ -1,0 +1,123 @@
+{% extends 'adminBase.html.twig' %}
+{% block body %}
+	<style>
+		.card {
+			width: 70%;
+			height: 70%;
+			margin: 40px 0 0;
+		}
+	</style>
+	<div class="content-page">
+		<div
+			class="content">
+
+			<!-- Start Content-->
+			<div class="container-fluid">
+
+
+				<div class="h-100 d-flex align-items-center justify-content-center">
+					<div class="card">
+						<div class="card-body">
+							{% block header_title %}
+								<h4 class="header-title">Ajouter une question !</h4>
+								<br><br>
+							{% endblock %}
+
+							{{ form_start(form,{'attr': {'novalidate': 'novalidate'}}) }}
+							<!-- element -->
+							<div class="row mb-3">
+								<label for="inputEmail3" class="col-4 col-form-label">
+									{{ form_label(form.questionNumber) }}<span class="text-danger">*</span>
+								</label>
+								<div class="col-7">
+									{{ form_widget(form.questionNumber) }}
+									{{ form_errors(form.questionNumber) }}
+								</div>
+							</div>
+							<!-- -->
+							<div class="row mb-3">
+								<label for="hori-pass1" class="col-4 col-form-label">{{ form_label(form.optiona) }}<span class="text-danger">*</span>
+								</label>
+								<div class="col-7">
+									{{ form_widget(form.optiona) }}
+									{{ form_errors(form.optiona) }}
+								</div>
+							</div>
+							<div class="row mb-3">
+								<label for="hori-pass2" class="col-4 col-form-label">{{ form_label(form.optionb) }}
+									<span class="text-danger">*</span>
+								</label>
+								<div class="col-7">
+									{{ form_widget(form.optionb) }}
+									{{ form_errors(form.optionb) }}
+								</div>
+							</div>
+							<div class="row mb-3">
+								<label for="inputEmail3" class="col-4 col-form-label">
+									{{ form_label(form.optionc) }}<span class="text-danger">*</span>
+								</label>
+								<div class="col-7">
+									{{ form_widget(form.optionc) }}
+									{{ form_errors(form.optionc) }}
+								</div>
+							</div>
+							<div class="row mb-3">
+								<label for="inputEmail3" class="col-4 col-form-label">
+									{{ form_label(form.optiond) }}<span class="text-danger">*</span>
+								</label>
+								<div class="col-7">
+									{{ form_widget(form.optiond) }}
+									{{ form_errors(form.optiond) }}
+								</div>
+							</div>
+							<div class="row mb-3">
+								<label for="inputEmail3" class="col-4 col-form-label">
+									{{ form_label(form.correctOption) }}<span class="text-danger">*</span>
+								</label>
+								<div class="col-7">
+									{{ form_widget(form.correctOption) }}
+									{{ form_errors(form.correctOption) }}
+								</div>
+							</div>
+							<div class="row mb-3">
+								<label for="inputEmail3" class="col-4 col-form-label">
+									{{ form_label(form.question) }}<span class="text-danger">*</span>
+								</label>
+								<div class="col-7">
+									{{ form_widget(form.question) }}
+									{{ form_errors(form.question) }}
+								</div>
+							</div>
+							<div class="row mb-3">
+								<label for="inputEmail3" class="col-4 col-form-label">
+									{{ form_label(form.test) }}<span class="text-danger">*</span>
+								</label>
+								<div class="col-7">
+									{{ form_widget(form.test) }}
+									{{ form_errors(form.test) }}
+								</div>
+							</div>
+							<div class="row mb-3">
+								<div class="col-8 offset-4">
+									{% block btn %}
+										<input type="submit" class="btn btn-primary waves-effect waves-light" value="Ajouter">
+									{% endblock %}
+									<a href="{{path('getTestQuestions')}}">
+										<input type="button" class="btn btn-secondary waves-effect" value="Annuler">
+									</a>
+								</div>
+							</div>
+							{{ form_end(form) }}
+						</div>
+					</div>
+					<!-- end card -->
+
+				</div>
+				<!-- end col -->
+
+
+			</div>
+			<!-- container -->
+
+		</div>
+	{% endblock %}

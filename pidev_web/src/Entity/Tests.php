@@ -5,7 +5,7 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use App\Repository\TestsRepository;
-
+use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 use PHPUnit\Framework\TestResult;
 
@@ -18,13 +18,18 @@ class Tests
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 150)]
+    #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message:"Veuillez choisir le type.")]
     private ?string $type = null;
 
     #[ORM\Column]
+    #[Assert\NotBlank(message:"Veuillez saisir le seuil.")]
+    #[Assert\Positive(message:"le seuil ne doit pas etre négatif ou null.")]
     private ?int $minPoints = null;
 
     #[ORM\Column]
+    #[Assert\NotBlank(message:"Veuillez saisir la durée.")]
+    #[Assert\Positive(message:"la durée ne doit pas etre négative ou nulle.")]
     private ?int $duration = null;
 
 
@@ -41,7 +46,7 @@ class Tests
     public ?TestResults $result;
 
     #[ORM\OneToMany(targetEntity: TestQs::class, mappedBy: 'tests')]
-    public Collection $questions;
+    public Collection $testQs;
 
     public function __construct()
     {

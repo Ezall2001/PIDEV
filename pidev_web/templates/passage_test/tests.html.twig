@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+	<div data-bs-spy="scroll" data-bs-target=".navbar" data-bs-offset="58" class="scrollspy-example ">
+
+		<section class="section bg-home bg-gradient" id="services">
+			<div class="container-fluid">
+				<div class="row justify-content-center">
+					<div class="col-lg-6">
+						<div
+							class="title text-center">
+							<!--	<h6 class="text-primary small-title">Mes testes</h6> -->
+							<h2>Mes testes</h2>
+							<p class="text-muted">Notre équipe vous souhaite beaucoup de succès :)</p>
+						</div>
+					</div>
+				</div>
+				{% for i in user_tests %}
+					<div class="row">
+						<div class="">
+							<div class="services-box p-4 bg-white mt-4">
+								<div class="services-img float-start me-4">
+									<img src="images/icons/education.png" alt="">
+								</div>
+								<h5>
+									Teste n°
+									{{loop.index}}</h5>
+								<div class="overflow-hidden">
+									<div class="badge text-wrap" style="width: 6rem; background-color:#97A8F8;">
+										Durée :
+										{{i.duration}}
+									</div>
+									<div class="badge text-wrap" style="width: 6rem;background-color:#EFBBCF;">
+										Seuil :
+										{{i.minPoints}}
+									</div>
+									<br>
+									<br>
+									<p class="text-muted fs-5">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quidem illum quis voluptatibus vel iste a expedita vero quisquam necessitatibus recusandae tempore qui fuga, consectetur ullam inventore doloribus quia rem sapiente?.</p>
+									<a href="{{ path('getTest',{id:i.id}) }}" class="text-custom"><input class="btn btn-light fw-semibold" type="button" value="Passer le test"></a>
+								</div>
+							</div>
+						</div>
+					</div>
+				{% endfor %}
+				<!-- end row -->
+			</div>
+			<!-- end container-fluid -->
+		</section>
+		<!-- services end -->
+	</div>
+{% endblock %}
