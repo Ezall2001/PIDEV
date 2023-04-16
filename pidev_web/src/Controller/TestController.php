@@ -184,4 +184,26 @@ public function update(ManagerRegistry $mr, Request $req, $id): Response
 
     }
 
+    #[Route('/check/{id}', name: 'check', methods: "POST")]
+    public function action(TestQsRepository $repo,Request $request,$id,TestsRepository $rep): Response
+    {
+
+        $jsonContent = $request->getContent();
+        $data = json_decode($jsonContent, true);
+        $responses = $data['responses'];
+
+            $nbCorrectOption = sizeof($responses);
+            for($i=0 ; $i<sizeof($responses) ;$i++){
+                $testQuestion = $repo->find($responses[$i]["id"]);
+                
+                    if($responses[$i]["value"]!=$testQuestion->getCorrectOption()){
+                        $nbCorrectOption--;
+                    }
+            }
+        
+        
+        return $this->json(['nbCorrectOption'=>$nbCorrectOption],200);
+    }
+
+
 }

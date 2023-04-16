@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
@@ -11,6 +12,7 @@ class TestQs
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+   
     private ?int $id = null;
 
     #[ORM\Column]
@@ -20,6 +22,7 @@ class TestQs
     )]
     #[Assert\Positive(message:"le numéro de la question ne doit pas etre négatif ou nul.")]
     #[Assert\NotBlank(message:"Veuillez saisir le numéro de la question.")]
+   
     private ?int $questionNumber =null;
 
     #[ORM\Column(length: 255)]
@@ -30,6 +33,7 @@ class TestQs
         maxMessage: "l'option ne doit pas dépasser {{ limit }} caractères.",
     )]
     #[Assert\NotBlank(message:"Veuillez saisir l'option A.")]
+   
     private ?string $optiona = null;
 
     #[ORM\Column(length: 255)]
@@ -40,6 +44,7 @@ class TestQs
         maxMessage: "l'option ne doit pas dépasser {{ limit }} caractères.",
     )]
     #[Assert\NotBlank(message:"Veuillez saisir l'option B.")]
+    
     private ?string $optionb = null;
 
     
@@ -61,6 +66,7 @@ class TestQs
         maxMessage: "l'option ne doit pas dépasser {{ limit }} caractères.",
     )]
     #[Assert\NotBlank(message:"Veuillez saisir l'option D.")]
+   
     private ?string $optiond = null;
 
     #[ORM\Column(length: 255)]
@@ -72,6 +78,7 @@ class TestQs
     )]
 
     #[Assert\NotBlank(message:"Veuillez saisir l'option correcte.")]
+   
     private ?string $correctOption = null;
 
     #[ORM\Column(length: 255)]
@@ -82,10 +89,11 @@ class TestQs
         maxMessage: "la question ne doit pas dépasser {{ limit }} caractères.",
     )]
     #[Assert\NotBlank(message:"Veuillez saisir la question.")]
+   
     private ?string $question = null;
 
-    #[ORM\ManyToOne(targetEntity: Tests::class, inversedBy:'testQs')]
-    #[ORM\JoinColumn(name:"id_test" , referencedColumnName:"id", nullable: false)]
+    #[ORM\ManyToOne(targetEntity: Tests::class, inversedBy: 'testQs', fetch:'LAZY')]
+    #[ORM\JoinColumn(name:'id_test' , referencedColumnName:'id', nullable: false)]
     public $test;
 
     public function getId(): ?int
@@ -200,5 +208,6 @@ class TestQs
 
         return $this;
     }
+
 
 }

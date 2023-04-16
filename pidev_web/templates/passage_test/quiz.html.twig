@@ -18,6 +18,7 @@
 							<div class="timer">Temps restant :
 								<li class="fs-3 text-danger" style="list-style-type: none;" id="countdown" value={{test.duration}}>{{test.duration}}:00</li>
 							</div>
+							<input hidden type="text" id="testId" value={{test.id}}>
 							<br>
 						</div>
 						{% for i in 0..q|length-1 %}
@@ -29,19 +30,19 @@
 										<br>
 
 										<div class="radio list-group-item">
-											<input class="form-check-input" type="radio" name="question{{i}}" value="{{q[i].optiona}}">
+											<input id="{{q[i].id}}" class="form-check-input" type="radio" name="question{{i}}" value="{{q[i].optiona}}">
 											<label class="form-check-label">{{q[i].optiona}}</label>
 										</div>
 										<div class="radio list-group-item">
-											<input class="form-check-input" type="radio" name="question{{i}}" value="{{q[i].optionb}}">
+											<input id="{{q[i].id}}" class="form-check-input" type="radio" name="question{{i}}" value="{{q[i].optionb}}">
 											<label class="form-check-label">{{q[i].optionb}}</label>
 										</div>
 										<div class="radio list-group-item">
-											<input class="form-check-input" type="radio" name="question{{i}}" value="{{q[i].optionc}}">
+											<input id="{{q[i].id}}" class="form-check-input" type="radio" name="question{{i}}" value="{{q[i].optionc}}">
 											<label class="form-check-label">{{q[i].optionc}}</label>
 										</div>
 										<div class="radio list-group-item">
-											<input class="form-check-input" type="radio" name="question{{i}}" value="{{q[i].optiond}}">
+											<input id="{{q[i].id}}" class="form-check-input" type="radio" name="question{{i}}" value="{{q[i].optiond}}">
 											<label class="form-check-label">{{q[i].optiond}}</label>
 										</div>
 										<div class="radio">
@@ -75,8 +76,10 @@
 						<p>Félicitations pour avoir terminé le test !</p>
 					</div>
 					<div class="modal-footer">
-						<button type="button" class="btn btn-danger  col-6 mx-auto" data-bs-dismiss="modal" onclick="redirect()">Quitter</button>
-						<button type="button" class="btn btn-primary col-6 mx-auto ">Imprimer</button>
+						<button type="button" class="btn btn-danger" data-bs-dismiss="modal" onclick="redirect()">Quitter</button>
+						<a href="{{path('resultDownload')}}">
+							<button type="button" class="btn btn-primary ">Imprimer</button>
+						</a>
 					</div>
 				</div>
 			</div>
@@ -161,42 +164,48 @@ score = limit;
 
 }
 
-if (selectedValues.length === nbQuestions) {
-finishBtn.setAttribute('data-bs-toggle', 'modal');
-finishBtn.setAttribute('data-bs-target', '#staticBackdrop');
-modal.toggle();
+
+let responses = [];
+for (let i = 0; i < selectedValuesArray.length; i++) {
+console.log(selectedValuesArray[i].id)
+responses[i] = {
+id: selectedValuesArray[i].id,
+value: selectedValuesArray[i].value
+}
 }
 
-
-/*
-selectedValues.forEach(selectedValue => {
-correctOptions.forEach(option => { 
-if (selectedValue.value.toString() === option.value.toString()) 
-score++;
+// console.log(document.getElementById('testId').value)
+console.log(responses)
 
 
+if (selectedValues.length === nbQuestions) {
 
-if (score > limit) 
-score = limit;
-
-
-
-})
-
+$.ajax({
+url: '/check/' + document.getElementById('testId').value,
+type: 'POST',
+contentType: 'application/json',
+data: JSON.stringify(
+{responses: responses}
+),
+success: function (data) {
+resultText = `Vous avez obtenu une note de ${
+data.nbCorrectOption
+}  sur ${nbQuestions}`;
+document.getElementById('nb_questions').innerHTML = resultText;
+modal.toggle();
+}
 });
 
-*/
+}
 
-
-console.log('nb selected values' + selectedValues.length)
-console.log(nbQuestions)
-console.log('score' + score);
+/*
+console.log(selectedValues)
 
 
 // affichage message résultat
 var resultText = `Vous avez obtenu une note de ${score}  sur ${nbQuestions}`
 document.getElementById('nb_questions').innerHTML = resultText;
-
+*/
 
 }
 
