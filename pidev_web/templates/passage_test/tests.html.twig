@@ -2,14 +2,14 @@
 {% block body %}
 	<div data-bs-spy="scroll" data-bs-target=".navbar" data-bs-offset="58" class="scrollspy-example ">
 
-		<section class="section bg-home bg-gradient" id="services">
+		<section class="section bg-home bg-light" id="services">
 			<div class="container-fluid">
 				<div class="row justify-content-center">
 					<div class="col-lg-6">
 						<div
-							class="title text-center">
+							class="title text-center ">
 							<!--	<h6 class="text-primary small-title">Mes testes</h6> -->
-							<h2>Mes testes</h2>
+							<h2 class="text-primary ">Mes testes</h2>
 							<p class="text-muted">Notre équipe vous souhaite beaucoup de succès :)</p>
 						</div>
 					</div>
@@ -35,8 +35,8 @@
 									</div>
 									<br>
 									<br>
-									<p class="text-muted fs-5">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quidem illum quis voluptatibus vel iste a expedita vero quisquam necessitatibus recusandae tempore qui fuga, consectetur ullam inventore doloribus quia rem sapiente?.</p>
-									<a href="{{ path('getTest',{id:i.id}) }}" class="text-custom"><input class="btn btn-light fw-semibold" type="button" value="Passer le test"></a>
+									<p class="text-muted fs-5">{{i.getCourse().getDescription()}}</p>
+									<a href="{{ path('getTest',{id:i.id}) }}" class="text-custom"><input class="btn btn-primary fw-semibold" type="button" value="Passer le test"></a>
 								</div>
 							</div>
 						</div>

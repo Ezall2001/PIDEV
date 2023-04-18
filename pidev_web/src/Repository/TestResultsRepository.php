@@ -64,17 +64,18 @@ class TestResultsRepository extends ServiceEntityRepository
 //        ;
 //    }
 
- 
-public function getUserResult($userId,$testId): array
-{ 
-    $entityManager = $this->getEntityManager();
+    public function getUserResult($userId,$testId): array
+    { 
+        $entityManager = $this->getEntityManager();
 
-    $query = $entityManager
-    ->createQuery('SELECT r FROM App\Entity\TestResults r  
-    WHERE r.users = :userId AND  r.tests = :testId ')
-    ->setParameter('userId', $userId)
-    ->setParameter('testId', $testId);
+        $query = $entityManager
+        ->createQuery('SELECT r FROM App\Entity\TestResults r  
+        WHERE r.users = :userId AND  r.tests = :testId ')
+        ->setParameter('userId', $userId)
+        ->setParameter('testId', $testId);
 
-    return $query->getResult();
-}
+        return $query->getResult();
+    }
+
+
 }

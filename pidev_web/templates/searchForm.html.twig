@@ -1,0 +1,8 @@
+{% block search %}
+	{{ form_start(form, {'attr': {'method': 'POST'}})}}
+	{{ dump(questions) }}
+	{{ form_widget(form.name) }}
+	<button class="btn btn-primary" type="submit" value="search">
+		{{ form_end(form) }}
+
+	{% endblock %}

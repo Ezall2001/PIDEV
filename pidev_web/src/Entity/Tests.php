@@ -39,16 +39,16 @@ class Tests
     
     public Collection $testQs;
 
-    #[ORM\ManyToOne(targetEntity: Subjects::class, inversedBy: 'tests')]
+    #[ORM\ManyToOne(targetEntity: Subjects::class, inversedBy: 'tests', fetch:'EAGER')]
     #[ORM\JoinColumn(name: 'id_subject', referencedColumnName: 'id', nullable: true)]
     
     private ?Subjects $subject;
 
-    #[ORM\OneToOne(targetEntity: TestResults::class, mappedBy: 'tests')]
+    #[ORM\OneToOne(targetEntity: TestResults::class, mappedBy: 'tests', fetch:'EAGER')]
     
     private ?TestResults $result = null;
 
-    #[ORM\ManyToOne(targetEntity: Courses::class, inversedBy: 'tests')]
+    #[ORM\ManyToOne(targetEntity: Courses::class, inversedBy: 'tests', fetch:'EAGER')]
     
     #[ORM\JoinColumn(name: 'id_course', referencedColumnName: 'id', nullable: true)]
     private ?Courses $course;
@@ -134,6 +134,18 @@ class Tests
     public function setDuration(int $duration): self
     {
         $this->duration = $duration;
+
+        return $this;
+    }
+
+    public function getCourse(): ?Courses
+    {
+        return $this->course;
+    }
+
+    public function setCourse(Courses $course): self
+    {
+        $this->course = $course;
 
         return $this;
     }

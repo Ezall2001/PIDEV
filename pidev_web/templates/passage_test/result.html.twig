@@ -11,7 +11,10 @@
 			}
 			.container {
 				max-width: 800px;
-				margin: 0 auto;
+				margin: 30px auto 0;
+				background-color: #fff;
+				border: 2px solid #000;
+				padding: 50px;
 			}
 			.certificate {
 				background-color: #fff;
@@ -25,76 +28,80 @@
 				margin-bottom: 30px;
 			}
 			.certificate p {
-				font-size: 16pt;
-				margin-bottom: 20px;
-				text-align: justify;
+				font-size: 12pt;
+				text-align: center;
 			}
 			.signature {
-				margin-top: 100px;
-				text-align: right;
+				margin-top: 10px;
 			}
 			.signature img {
 				max-width: 200px;
+			}
+
+			.title {
+				font-size: 60pt;
+				text-align: center;
+
+			}
+			.name {
+				font-size: 30pt;
+				text-transform: capitalize;
+			}
+
+			.team {
+
+				font-size: 12pt;
+				text-align: left;
+			}
+			.certif-body {
+				text-align: center;
+			}
+			.date {
+				text-align: center;
 			}
 		</style>
 	</head>
 	<body>
 		<div class="container">
-			<div class="certificate">
-				<h1>Certificate of Completion</h1>
-				<p>Fièrement décerné à</p>
-				<h2>{{result[0].users.firstName}}
-					<span>{{result[0].users.lastName}}</span>
-				</h2>
-				<p>Présenté en :</p>
-				<h2 id="system-date"></h2>
+			<div class="">
+				<h1 class="title">Certificat</h1>
 				<br>
-				<h6>Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis, unde? At, numquam ea, eaque tempora ipsa error assumenda inventore in a esse deserunt praesentium repellendus. Magnam laboriosam sunt eum nostrum!
-				</h6>
-				<div class="signature">
-					<img src="signature.png" alt="Signature">
-					<p>Bug Diggers<br>Developpeurs de Myalo</p>
+				<div class="certif-body">
+					<h3>Ce certificat est fièrement décerné à</h3>
+					<h2 class="name">{{result[0].getUser().getFirstName()}}
+						<span>{{result[0].getUser().getLastName()}}</span>
+					</h2>
+					<br>
+					<h3>Pour avoir terminé le quiz de</h3>
+					<h2>
+						{{result[0].getTest().getCourse().getName()}}</h2>
+					<br>
+					<p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Tenetur, sint ratione necessitatibus odio praesentium atque amet earum modi, quae minima similique totam quibusdam ipsam enim ut voluptate! Neque, maiores tenetur?
+					</p>
+				</div>
+				<p class="date">Présenté en :</p>
+				<h2 id="system-date"></h2>
+				<div
+					class="signature">
+					{# <img src="images/signature.png" alt="Signature"> #}
+					<p class="team">Bug Diggers</p>
+					<p>Developpeurs de Myalo</p>
 				</div>
 			</div>
 		</div>
+
+
 		<script>
 			function updateSystemDate() {
 var dateElement = document.getElementById("system-date");
-var currentDate = new Date();
-var options = {
-year: 'numeric',
-month: 'long',
-day: 'numeric'
-};
 var formattedDate = currentDate.toLocaleDateString('fr-FR', options);
-dateElement.innerHTML = formattedDate;
-}
-window.onload = function () {
-updateSystemDate();
+const options = {
+day: '2-digit',
+month: '2-digit',
+year: 'numeric'
 };
+dateElement.innerHTML = `${formattedDate}`;
+}
 		</script>
 	</body>
 </html>
-
-
-<table class="table">
-
-	<thead>
-		<tr>
-			<th>Mark</th>
-			<th></th>
-			<th></th>
-		</tr>
-	</thead>
-	<tbody>
-		<tr>
-			<td scope="row"></td>
-			<td>{{result[0].mark}}</td>
-			<td></td>
-		</tr>
-	</tbody>
-
-</table>
-
-
-{{ dump(result) }}

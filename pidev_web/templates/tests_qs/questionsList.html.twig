@@ -28,15 +28,16 @@
 					Ajouter une question</a>
 				<br>
 				<br>
-				<form class="input-group mb-3" method="post" action="findQuestion">
-					<input type="search" class="form-control rounded" id="name" placeholder="Nom cours" name="name"/>
-					<button class="btn btn-primary" type="submit" value="search">
-						<i class="fas fa-search"></i>
-						Chercher
-					</button>
 
+				{{ form_start(form, {'attr': {'method': 'POST', 'novalidate': 'novalidate'}})}}
+				{{ form_widget(form.name) }}
+				<br>
+				<button class="btn btn-primary" type="submit" value="search">
+					<i class="fas fa-search"></i>
+					Trier
+				</button>
+				{{ form_end(form) }}
 
-				</form>
 			</div>
 
 

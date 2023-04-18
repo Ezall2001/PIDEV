@@ -47,10 +47,8 @@ class Users
     #[ORM\Column]
     private ?int $warnings = 0;
 
-    // #[ORM\OneToOne(targetEntity: TestResults::class, inversedBy: 'users')]
-    // #[ORM\JoinColumn(name: "id_user", referencedColumnName: "id", nullable: true)]
-    // public ?TestResults $result;
-
+    #[ORM\OneToOne(targetEntity: TestResults::class, mappedBy: 'users')]
+    private ?TestResults $result = null;
 
     #[ORM\OneToMany(targetEntity: Sessions::class,  mappedBy: "users")]
     public ?Collection $session = null;
@@ -76,6 +74,11 @@ class Users
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function setId(int $id): self
+    {
+        $this->id=$id;
     }
 
     public function getFirstName(): ?string
@@ -215,17 +218,17 @@ class Users
         return $this->vote;
     }
 
-    // public function getResult(): ?TestResults
-    // {
-    //     return $this->result;
-    // }
+    public function getResult(): ?TestResults
+    {
+        return $this->result;
+    }
 
-    // public function setResult(TestResults $result): self
-    // {
-    //     $this->result = $result;
+    public function setResult(TestResults $result): self
+    {
+        $this->result = $result;
 
-    //     return $this;
-    // }
+        return $this;
+    }
 
     /**
      * @return Collection<int, Sessions>
