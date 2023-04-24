@@ -7,6 +7,8 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use App\Form\SubjectType;
 
+
+
 class SubjectsTableController extends AbstractController
 {
     #[Route('/subjects', name: 'app_subjects')]
