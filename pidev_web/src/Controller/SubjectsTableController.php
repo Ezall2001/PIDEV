@@ -25,6 +25,7 @@ class SubjectsTableController extends AbstractController
         $subjects = $this->getDoctrine()->getManager()->getRepository(Subjects::class)->findAll();
         
 
+        
         return $this->render('admin/subjectsTable.html.twig', [
             'bla'=> $subjects,
             

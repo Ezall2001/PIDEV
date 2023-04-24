@@ -21,6 +21,7 @@ class CoursesListController extends AbstractController
     {
         $subject = $subjectRepository->find($subjectId);
         if (!$subject) {
+            
             throw $this->createNotFoundException('The subject does not exist');
         }
 
