@@ -40,6 +40,14 @@ class UsersRapository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
+    public function findById($id): ?Users
+    {
+        return $this->createQueryBuilder('q')
+            ->andWhere('q.id = :id')
+            ->setParameter('id', $id)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
 
 //    /**
 //     * @return Users[] Returns an array of Users objects

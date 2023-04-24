@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Answers;
+use App\Entity\Votes;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -46,6 +47,7 @@ class AnswersRepository extends ServiceEntityRepository
             ->getQuery()
             ->getOneOrNullResult();
     }
+
 
 //    /**
 //     * @return Answers[] Returns an array of Answers objects

@@ -38,6 +38,14 @@ class SubjectsRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
+    public function findByName($name): ?Subjects
+    {
+        return $this->createQueryBuilder('q')
+            ->andWhere('q.name = :name')
+            ->setParameter('name', $name)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
 
 //    /**
 //     * @return Subjects[] Returns an array of Subjects objects

@@ -46,6 +46,9 @@ class Users
 
     #[ORM\Column]
     private ?int $warnings = 0;
+    
+    #[ORM\Column]
+    private ?int $blocked= 0 ;
 
     // #[ORM\OneToOne(targetEntity: TestResults::class, inversedBy: 'users')]
     // #[ORM\JoinColumn(name: "id_user", referencedColumnName: "id", nullable: false)]
@@ -63,6 +66,20 @@ class Users
 
     #[ORM\OneToMany(targetEntity: Votes::class, mappedBy: 'users')]
     public ?Collection $vote = null;
+    #[ORM\Column(name: "blockedUntil", type: "datetime")]
+    private ?\DateTimeInterface $blockedUntil = null;
+    
+    public function getBlockedUntil(): ?\DateTimeInterface
+    {
+        return $this->blockedUntil;
+    }
+
+    public function setBlockedUntil(string $blockedUntil): self
+    {
+        $this->blockedUntil = new \DateTime($blockedUntil);
+        return $this;
+    }
+    
 
     public function __construct()
     {
@@ -197,6 +214,17 @@ class Users
 
         return $this;
     }
+    public function getBlocked(): ?int
+    {
+        return $this->blocked;
+    }
+
+    public function setBlocked(?int $blocked): self
+    {
+        $this->blocked = $blocked;;
+
+        return $this;
+    }
 
     public function getSessions(): Collection
     {
@@ -326,4 +354,20 @@ class Users
     {
         return $this->firstName;
     }
+    public function isBlocked(): bool
+    {
+        if (!$this->blocked) {
+            // L'utilisateur n'est pas bloqué
+            return false;
+        }
+    
+        if (!$this->blockedUntil instanceof \DateTimeInterface) {
+            // L'utilisateur est bloqué indéfiniment 
+            return true;
+        }
+    
+        // Vérifier si l'utilisateur est bloqué jusqu'à une date et une heure ultérieures
+        return $this->blockedUntil > new \DateTime();
+    }
+    
 }

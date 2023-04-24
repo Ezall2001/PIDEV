@@ -3,6 +3,8 @@
 {% block title %}Hello QuestionController!{% endblock %}
 
 {% block body %}
+
+
 <!-- Begin page -->
     <div class="content-page" >
         <div class="content">
@@ -22,7 +24,9 @@
                                     </div>
                                 </div><!-- end col-->
                                 <div class="col-md-8">
-                                    <form   action="{{ path('app_search_question') }}" method="get">
+                                    <form action="{{ path('app_search_question') }}" method="get">
+                                        <!-- Champ caché pour stocker l'identifiant de matière -->
+                                        <input type="hidden" name="subject" value="{{ app.request.query.get('subject') }}">
                                         <div class="input-group">
                                             <input type="text" class="form-control" name="keywords" placeholder="Rechercher...">
                                             <span class="input-group-btn">
@@ -31,30 +35,46 @@
                                         </div>
                                     </form>
                                     <br/>
-                                    <form id="sortForm" method="get" action="{{ path('trie') }}" class="d-flex flex-wrap align-items-center justify-content-sm-end">
-                                        <label for="status-select" class="me-2">Filtrer par</label>
-                                        <div class="me-sm-2">
-                                            <select name="sortOrder" onchange="document.getElementById('sortForm').submit();" class="form-select my-1 my-md-0" id="status-select">
-                                                <option value="2" {% if sortOrder is defined and sortOrder == 2 %}selected{% endif %}>Tous</option>
-                                                <option value="1" {% if sortOrder is defined and sortOrder == 1 %}selected{% endif %}>Récent</option>
-                                                <option>Matière</option>
-                                                
-                                            </select>
-                                        </div>
+                                    <div class="d-flex flex-wrap align-items-center justify-content-sm-end">
+
+                                        <form id="sortForm" method="get" action="{{ path('trie')  }}" class="d-flex flex-wrap align-items-center justify-content-sm-end">
+                                            <label for="status-select" class="me-2">Trier par</label>
+                                            <div class="me-sm-2">
+                                                <select name="sortOrder" onchange="document.getElementById('sortForm').submit();" class="form-select my-1 my-md-0" id="status-select">
+                                                    <option value="2" {% if sortOrder is defined and sortOrder == 2 %}selected{% endif %}>Tous</option>
+                                                    <option value="1" {% if sortOrder is defined and sortOrder == 1 %}selected{% endif %}>Récent</option>
+                                                   
+                                                    
+                                                </select>
+                                            </div>
+                                          
+                                        </form>
                                       
-                                    </form>
-                                
-                                  
-                                </div>
+                                   
+                                        <form id="sortForm2" method="get" action="{{ path('filter') }}" class="d-flex flex-wrap align-items-center justify-content-sm-end">
+                                            <label for="status-select2" class="me-2">Filtrer par</label>
+                                            <div class="me-sm-2">
+                                                <select name="subject" onchange="if(this.value=='Matiere') $('#warning').modal('show'); else document.getElementById('sortForm2').submit();" class="form-select my-1 my-md-0" id="status-select2">
+                                                    <option value="">Toutes les matières</option>
+                                                    {% for subject in subjects %}
+                                                        <option value="{{ subject.id }}">{{ subject.name }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                        </form>
+                                        
+                                        
+                                      
+                                        
                               
                                 
                             </div> <!-- end row -->
                         </div>
-                        {%for question in questions %}
+                        {%for question in pagination %}
                         <div class="card">
                             <div class="bg-picture card-body">
                                 <div class="d-flex align-items-top">
-                                    <img src="../assets/images/users/profile.jpg" class="flex-shrink-0 rounded-circle avatar-xl img-thumbnail float-start me-3" alt="profile-image">
+                                    <img src="{{question.getUser().getAvatarPath() }}" class="flex-shrink-0 rounded-circle avatar-xl img-thumbnail float-start me-3" alt="profile-image"></img>
 
                                     <div class="flex-grow-1 overflow-hidden">
                                         <h4 class="m-0">{{ question.getUser().getFirstName() }}</h4>
@@ -77,6 +97,10 @@
                             </div>
                         </div>
                         {%endfor%}
+                        {{ knp_pagination_render(pagination) }}
+                        
+                                
+                     
                     
                     </div> <!-- end col -->
                 </div>

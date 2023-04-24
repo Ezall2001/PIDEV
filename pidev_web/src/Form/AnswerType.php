@@ -9,6 +9,8 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use App\Entity\Users;
 
 class AnswerType extends AbstractType
 {
@@ -37,6 +39,15 @@ class AnswerType extends AbstractType
                 ])
 
 
+                ->add('user', EntityType::class, [
+                    'class' => Users::class,
+                    'label' => 'User',
+                    'attr' => [
+                        'class' => 'form-control'
+                    ],
+                    'required' => true,
+                    'placeholder' => 'choisir utilisateur',
+                ])
 
             ->add('ajouter',SubmitType::class)  
 

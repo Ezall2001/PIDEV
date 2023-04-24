@@ -2,6 +2,8 @@
 
 namespace App\Repository;
 
+use App\Entity\Answers;
+use App\Entity\Users;
 use App\Entity\Votes;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -38,6 +40,52 @@ class VotesRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
+    // public function findByUserIdAndAnswerId(int $userId, int $answerId): ?Votes
+    // {
+    //     $qb = $this->createQueryBuilder('vote')
+    //         ->where('vote.getUser().getId() = :userId')
+    //         ->andWhere('vote.getAnswer().getId() = :answerId')
+    //         ->setParameter('userId', $userId)
+    //         ->setParameter('answerId', $answerId);
+    
+    //     return $qb->getQuery()->getOneOrNullResult();
+    // }
+//     public function findByUserAndAnswer(Users $user, Answers $answer): ?Votes
+// {
+//     $query = $this->createQueryBuilder('v')
+//         ->join('v.user', 'u')
+//         ->join('v.answer', 'a')
+//         ->andWhere('u.id = :userId')
+//         ->andWhere('a.id = :answerId')
+//         ->setParameter('userId', $user->getId())
+//         ->setParameter('answerId', $answer->getId())
+//         ->getQuery();
+
+//     return $query->getOneOrNullResult();
+// }
+// public function findByUserAndAnswer(Users $user, Answers $answer): ?Votes
+// {
+//     return $this->createQueryBuilder('v')
+//         ->andWhere('v.user = :user')
+//         ->andWhere('v.answer = :answer')
+//         ->setParameter('user', $user)
+//         ->setParameter('answer', $answer)
+//         ->getQuery()
+//         ->getOneOrNullResult();
+// }
+public function findOneByUserAndAnswer(Users $user, Answers $answer): ?Votes
+{
+    return $this->createQueryBuilder('v')
+        ->andWhere('v.user = :user')
+        ->andWhere('v.answer = :answer')
+        ->setParameter('user', $user)
+        ->setParameter('answer', $answer)
+        ->getQuery()
+        ->getOneOrNullResult();
+}
+
+
+    
 
 //    /**
 //     * @return Votes[] Returns an array of Votes objects

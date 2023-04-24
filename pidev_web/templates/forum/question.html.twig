@@ -18,8 +18,8 @@
                         <div class="card">
                             <div class="bg-picture card-body">
                                 <div class="d-flex align-items-top">
-                                    <img src="../assets/images/users/profile.jpg"
-                                            class="flex-shrink-0 rounded-circle avatar-xl img-thumbnail float-start me-3" alt="profile-image">
+                                    <img src="{{ question.getUser().getAvatarPath() }}" class="flex-shrink-0 rounded-circle avatar-xl img-thumbnail float-start me-3" alt="profile-image"></img>
+
         
                                     <div class="flex-grow-1 overflow-hidden">
                                      
@@ -33,150 +33,176 @@
         
                                         <ul class="social-list list-inline mt-3 mb-0">
                                             <li class="list-inline-item">
-                                                       
-                                                <a href="{{ path('delete_question', {'id': question.getId()}) }}" class="social-list-item border-danger text-danger"><i class="fe-trash-2"></i></a>
-        
+                                              <a href="#" class="social-list-item border-danger text-danger" onclick="confirmDelete(event, '{{ path('delete_question', {'id': question.getId()}) }}')"><i class="fe-trash-2"></i></a>
                                             </li>
-                                         
-                                      
+
+                                          
+                                            <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+                                            <script>
+                                              function confirmDelete(event, url) {
+                                                event.preventDefault(); // Empêcher le lien de se soumettre
+                                                Swal.fire({
+                                                  title: 'Êtes-vous sûr de vouloir supprimer cette question ?',
+                                                  showCancelButton: true,
+                                                  confirmButtonText: 'Oui, supprimer',
+                                                  cancelButtonText: 'Annuler',
+                                                  icon: 'warning',
+                                                }).then((result) => {
+                                                  if (result.isConfirmed) {
+                                                    window.location.href = url; // Rediriger vers l'URL de suppression si l'utilisateur confirme
+                                                  }
+                                                });
+                                              }
+                                            </script>
                                             
-                                                <li class="list-inline-item">
-                                                    <a   class="social-list-item border-purple text-purple" data-bs-toggle="modal" data-bs-target="#editQuestionModal{{question.getId() }}"><i class="fe-edit"></i></a>
-                                                </li>
-                                            </ul>
-        
-                                     
-
-
-
-
-
-                                            <div id="warning" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
-                                                <div class="modal-dialog modal-sm">
-                                                    <div class="modal-content">
-                                                        <div class="modal-body">
-                                                            <div class="text-center">
-                                                                <i class="dripicons-warning h1 text-warning"></i>
-                                                                <h4 class="mt-2">Incorrect Information</h4>
-                                                          
-                                                                <button type="button" class="btn btn-warning my-2" data-bs-dismiss="modal">Continue</button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                   
-                              
-                                            </div>
-                                                    <!-- Signup modal content -->
-                                                    <div id="editQuestionModal{{ question.getId() }}" class="modal fade" tabindex="-1" role="dialog"  data-backdrop="static" aria-hidden="true">
-                                                        <div class="modal-dialog">
-                                                            <div class="modal-content">
-                                                    
-                                                                <div class="modal-body">
-                                                                    <div class="text-center mt-2 mb-4">
-                                                                        <div class="auth-logo">
-                                                                            <div class="logo logo-light">
-                                                                                <span class="logo-lg">
-                                                                                    <img src="../assets/images/logo-light.png" alt="" height="22">
-                                                                                </span>
-                                                                            </div>
+                                            
+                                          
+                                            <li class="list-inline-item">
+                                              <a class="social-list-item border-purple text-purple" data-bs-toggle="modal" data-bs-target="#editQuestionModal{{ question.getId() }}"><i class="fe-edit"></i></a>
+                                            </li>
+                                           
+                                          </ul>
+                                          
+                                          <!-- Signup modal content -->
+                                          <div id="editQuestionModal{{ question.getId() }}" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+                                            <div class="modal-dialog">
+                                              <div class="modal-content">
+                                                <div class="modal-body">
+                                                  <div class="text-center mt-2 mb-4">
+                                                    <div class="auth-logo">
+                                                      <div class="logo logo-light">
+                                                        <span class="logo-lg">
+                                                          <img src="../assets/images/logo-light.png" alt="" height="22">
+                                                        </span>
+                                                      </div>
+                                          
+                                                      <div class="logo logo-dark">
+                                                        <span class="logo-lg">
+                                                          <img src="../assets/images/logo-dark.png" alt="" height="22">
+                                                        </span>
                                                         
-                                                                            <div class="logo logo-dark">
-                                                                                <span class="logo-lg">
-                                                                                    <img src="../assets/images/logo-dark.png" alt="" height="22">
-                                                                                </span>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                  
-        
-                                                              
-                                                            
-                                                                    <form class="px-3" action="{{ path('editQuestionModal', {id: question.getId()}) }}" method="POST">
-                                                                        <div class="form-group">
-                                                                            {{ form_start(f, {attr: {novalidate: 'novalidate'} }) }}
-                                   
-                                                                   
-                        
-                                                                    
-                                                                            <div class="row">
-                                                                                <div class="row">
-                                                                                    <label class="mb-1 fw-medium text-muted">Titre</label>
-                                                                                    {{ form_widget(f.title, {attr: {class: 'form-control'} }) }}
-                                                                                </div>
-                                                                                <p class="error-message">{{ form_errors(f.title, {attr: {class: 'text-danger'} }) }}</p>
-                                                                                <br/>                         
-                                                                    
-                                                                                <div class="row">
-                                                                                    <label class="mb-1fw-medium text-muted">Description</label>
-                                                                                    {{ form_widget(f.description, {attr: {class: 'form-control'} }) }}
-                                                                                </div>
-                                                                                <p class="error-message">{{ form_errors(f.description, {attr: {class: 'text-danger'} }) }}</p>
-                                                                                <br/>                        
-                                                                    
-                                                                                <div class="row">
-                                                                                    <label class="mb-1 fw-medium text-muted">Matiere</label>
-                                                                                    {{ form_widget(f.subject, {attr: {class: 'form-control'} }) }}
-                                                                                </div>
-                                                                    
-                                                                                <br>
-                                                                    
-                                                                                <div class="row">
-                                                                                    <label class="mb-1 fw-medium text-muted">Utlisateur</label>
-                                                                                    {{ form_widget(f.user, {attr: {class: 'form-control'} }) }}
-                                                                                </div>
-                                                                                <p class="error-message">{{ form_errors(f.subject, {attr: {class: 'text-danger'} }) }}</p>
-                                                                                <br/>                          
-                                                                    
-                                                                                <div class="text-right">
-                                                                                  
-                                                                                    {{ form_widget(f.ajouter, { attr: { class: 'btn btn-primary' } }) }}
-                                                                                 
-                                                                              
-                                                                                </div>                                                                                
-                                                                               
-                                                                                {{ form_end(f) }}
-                                                                            </div>
-                                                                    
-                                                                        </div>
-                                                                    </form>
-                                                                    
-                                                                
-                                                                    
-                                                                </div>
-                                                            </div><!-- /.modal-content -->
+                                                      </div>
+                                                    
+                                                    </div>
+                                                   
+                                                  </div>
+                                                
+                                          
+                                                  <form id="f" class="px-3 question-form" method="POST" data-parsley-validate>
+                                                    {% if app.request.get('containsP') is not null  %}
+                                                    <div class="alert alert-danger">
+                                                        La chaîne contient un mot interdit
+                                                    </div>
+                                                {% endif %}
+                                                
+                                                    <div class="form-group">
+                                                      {{ form_start(f, {attr: {novalidate: 'novalidate'} }) }}
+                                                      <div class="row">
+                                                        <label class="mb-1 fw-medium text-muted">Titre</label>
+                                                        {{ form_widget(f.title, {attr: {class: 'form-control'}, id: 'title' }) }}
+                                                       
+                                                      </div>
+                                                      {{ form_errors(f.title, {attr: {class: 'text-danger'} }) }}
+                                                      <br/>
+                                                      <div class="row">
+                                                        <label class="mb-1 fw-medium text-muted">Description</label>
+                                                        {{ form_widget(f.description, {attr: {class: 'form-control'}, id: 'description' }) }}
+                                                      
+                                                      </div>
+                                                      {{ form_errors(f.description, {attr: {class: 'text-danger'} }) }}
+                                                      <br/>
+                                                      <div class="row">
+                                                        <label class="mb-1 fw-medium text-muted">Matiere</label>
+                                                        {{ form_widget(f.subject, {attr: {class: 'form-control'} , id: 'subject'}) }}
+                                                      </div>
+                                                      {{ form_errors(f.subject, {attr: {class: 'text-danger'} }) }}
+                                                      <br>
+                                                      <div class="row">
+                                                        <label class="mb-1 fw-medium text-muted">Utlisateur</label>
+                                                        {{ form_widget(f.user, {attr: {class: 'form-control'} }) }}
+                                                      </div>
+                                                      <br/>
+                                                      <div class="text-right">
+                                                        {{ form_widget(f.ajouter, {attr: {class: 'btn btn-primary', onclick: 'validateDescription(event)'} }) }}
+
+                                                      </div>
+                                                      {% if app.request.get('contains') %}
+                                                      <div class="alert alert-danger">
+                                                          y a une erreur de controle de saisie 
+                                                        
+                                                         {{ form_errors(f) }}
                                                           
                                                           
-                                                            <script>
-                                                                $(function() {
-                                                                    // When the form is submitted
-                                                                    $('#editQuestionModal{{ question.getId() }}').on('submit', function(e) {
-                                                                        e.preventDefault(); // Prevent the default form submission
-                                                            console.log("najibaaaaaaaaaaaaaaaaaaaaaaa")
-                                                                        // Send an Ajax request to submit the form data
-                                                                        $.ajax({
-                                                                            url: $(this).attr('action'),
-                                                                            method: $(this).attr('method'),
-                                                                            data: $(this).serialize(),
-                                                                            dataType: 'json',
-                                                                            success: function(response) {
-                                                            // If the response contains errors
-                                                                                if (response.errors) {
-                                                                                    // Display the errors in the form
-                                                                                    $('#form_errors').html('<div class="alert alert-danger">'+response.errors.join('<br>')+'</div>');
-                                                                                } else {
-                                                                                    // Otherwise, close the modal
-                                                                                    $('.modal').modal('hide');
-                                                            }
-                                                                            },
-                                                                            error: function(xhr, status, error) {
-                                                                                // Handle the error here
-                                                                            }
-                                                                        });
-                                                                    });
-                                                                });
-                                                                </script>
+                                                      {% endif %}
+                                                      {{ form_end(f) }}
+                                                    </div>
+                                                <br/>
                                               
+                                                </div>
+                                                
+                                           
+                                            
+                                                  </form>
+                                                </div>
+                                              </div
+                                          ><!-- /.modal-content -->
+                                                </div><!-- /.modal-dialog -->
+                                            </div><!-- /.modal -->
+                                            <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+                                                <script>
+                                                    $(document).ready(function() {
+                                                        const queryParams = new URLSearchParams(window.location.search);
+                                                        const containsParam = queryParams.get('contains');
+                                                        if (containsParam == '1') {
+                                                            $('.fe-edit').click();
+                                                        }
+                                                    });
+                                                    </script>
+                                                    <script>
+                                                        $(document).ready(function() {
+                                                            const queryParams = new URLSearchParams(window.location.search);
+                                                            const containsParam = queryParams.get('containsP');
+                                                            if (containsParam == '1') {
+                                                                $('.fe-edit').click();
+                                                            }
+                                                        });
+                                                        </script>
+                                                        <script>
+                                                          function validateDescription(event) {
+                                                            var descriptionField = document.getElementById('description');
+                                                            var descriptionValue = descriptionField.value;
+                                                            var titleField = document.getElementById('title');
+                                                            var titleValue = titleField.value;
+                                                            var subjectField = document.getElementById('subject');
+                                                            var subjectValue = subjectField.value;
+                                                        
+                                                            if (descriptionValue.trim() === '' || titleValue.trim() === '' || subjectValue.trim() === '') {
+                                                              var alertDiv = document.createElement('div');
+                                                              alertDiv.classList.add('alert', 'alert-danger');
+                                                              alertDiv.setAttribute('role', 'alert');
+                                                              alertDiv.innerHTML = 'Tous les champs sont obligatoires et ne doivent pas être vides.';
+                                                              
+                                                              var modalBody = document.querySelector('.modal-body');
+                                                              modalBody.insertBefore(alertDiv, modalBody.firstChild);
+                                                              
+                                                              event.preventDefault(); // Empêcher le formulaire de se soumettre
+                                                            }
+                                                          }
+                                                        </script>
+                                                        
+                                            
+                                                    
+                                                      
+                                                      
+                                                          
+                                                
+                                                  
+                                           
+                                                
+                                            
+                                                                                                  
+                                          
                                            
                                        
                                                         </div>
@@ -198,7 +224,21 @@
                                     <br/>
                                     {{ form_errors(answerForm.message,{'attr':{'class':'text-danger'} }) }}
                                     <br/>
+                                    <div class="row">
+                                        <label class="mb-1 fw-medium text-muted">Utlisateur</label>
+                                      
+                                    
+                                        {{ form_widget(answerForm.user, {attr: {class: 'form-control'} }) }}
+                                    
+                                     
+                                    </div>
                                     {{ form_widget(answerForm.ajouter, {'attr': {'class': 'btn btn-primary'}, 'label': 'Ajouter'}) }}
+                                     {% if app.request.get('containsProfanity') %}
+                                <div class="alert alert-danger">
+                                    La chaîne contient un mot interdit
+                                </div>
+                                {% endif %}   
+                                 
                                     {{ form_end(answerForm) }}
                                 <ul class="nav nav-pills profile-pills mt-1">
                                     <li>
@@ -232,24 +272,158 @@
                                     {% for answer in answers %}
                                     <div class="card">
                                         <div class="d-flex align-items-top mb-3">
-                                            <img src="../assets/images/users/user-6.jpg" alt="" class="flex-shrink-0 comment-avatar avatar-sm rounded me-2">
+                                            <img src="{{answer.getUser().getAvatarPath() }}" alt="" class="flex-shrink-0 comment-avatar avatar-sm rounded me-2"></img>
+                                            
                                        
                                             <div class="flex-grow-1">
                                                 
-                                                <h5 class="mt-0"><a href="#" class="text-dark">John Smith</a><small class="ms-1 text-muted">{{ answer.getCreatedAt().format('Y-m-d H:i:s') }}</small></h5>
+                                                <h5 class="mt-0"><a href="#" class="text-dark">{{ answer.user }}</a><small class="ms-1 text-muted">{{ answer.getCreatedAt().format('Y-m-d H:i:s') }}</small></h5>
                                                 <p>{{ answer.getMessage() }}</p>
+                                    
                                                 <input type="hidden" name="answer_id" value="{{ answer.id }}">
-                
+                                             
                                                 <div class="comment-footer d-flex justify-content-between">
                                                     <div class="d-flex align-items-center">
-                                                        <button class="vote-up"><i class="fas fa-thumbs-up"></i></button>
-                                                        <div class="ms-2 me-2"><h7 class="mt-0" style="font-size: 24px;">5</h7></div>
-                                                        <button class="vote-down"><i class="fas fa-thumbs-down"></i></button>
+                                                       
+                                                        <button class="vote-button vote-up" data-vote="up" data-answer-id="{{ answer.id }}" onclick="voteUp({{ answer.id }}, 531)">
+                                                            <i class="fas fa-thumbs-up"></i> Vote up
+                                                        </button>
+                                                       
+                                                        <div id="vote-count-{{ answer.id }}" style="font-size: 24px; margin-left: 10px; margin-right: 10px;">
+                                                            <h7 class="vote-count">{{ answer.getVoteNb() }}</h7>
+                                                        </div>
+                                                        
+                                                        <button class="vote-button vote-down"  data-vote="down" data-answer-id="{{ answer.id }}" onclick="voteDown({{ answer.id }}, 531)">
+                                                            <i class="fas fa-thumbs-down"></i> Vote down
+                                                        </button>
+
                                                     </div>
                                                 </div>
-                                           
-                                                
                                           
+                                                <style>
+                                                    .vote-button i {
+                                                        color: #999; /* couleur par défaut de l'icône de vote inactif */
+                                                      }
+                                                      
+                                                      .vote-button i.active {
+                                                        color: blue; /* couleur de l'icône de vote actif */
+                                                      }
+                                            
+                                                </style>
+                                                
+                                                <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+                                                <script>
+                                                    $(document).ready(function() {
+                                                        // Récupérer l'état de vote précédent à partir du stockage local
+                                                        var previousVotes = JSON.parse(localStorage.getItem('votes')) || {};
+                                                      
+                                                        // Parcourir tous les boutons de vote
+                                                        $(".vote-up, .vote-down").each(function() {
+                                                          var answerId = $(this).data("answer-id");
+                                                          var voteType = $(this).data("vote");
+                                                      
+                                                          // Si l'utilisateur a déjà voté pour cette réponse, mettre à jour l'état de l'icône
+                                                          if (previousVotes[answerId] === voteType) {
+                                                            $(this).find("i").addClass("active");
+                                                          }
+                                                      
+                                                          // Ajouter un gestionnaire d'événements pour enregistrer le vote dans le stockage local
+                                                          $(this).on("click", function() {
+                                                            var vote = $(this).data("vote");
+                                                            var previousVote = previousVotes[answerId];
+                                                            previousVotes[answerId] = vote;
+                                                            localStorage.setItem('votes', JSON.stringify(previousVotes));
+                                                      
+                                                            // Supprimer la classe "active" de toutes les icônes de vote de la réponse correspondante si le vote actuel est différent du vote précédent
+                                                            if (previousVote === vote) {
+                                                              $(this).find("i").removeClass("active");
+                                                              previousVotes[answerId] = null;
+                                                              localStorage.setItem('votes', JSON.stringify(previousVotes));
+                                                            } else {
+                                                              $(this).siblings(".vote-up, .vote-down").find("i").removeClass("active");
+                                                              $(this).find("i").addClass("active");
+                                                            }
+                                                      
+                                                           
+                                                          });
+                                                        });
+                                                      });
+                                                    
+                                                      
+                                                      
+                                                </script>
+                                                <script>
+                                                    function voteUp(answerId, userId) {
+                                                        $.ajax({
+                                                            type: "POST",
+                                                            url: '/vote/' + answerId + '/' + userId,
+                                                            success: function(data) {
+                                                                // mettre à jour le nombre de votes sur la page
+                                                                $("#vote-count-" + answerId).html(data.count);
+                                                                // mettre à jour l'icône de vote pour indiquer qu'il a été sélectionné
+                                                              
+                                                           
+                                                                // ajouter la classe active au bouton de vote correspondant pour maintenir la coloration
+                                                                $(".vote-button[data-answer-id=" + answerId + "][data-vote-value=1]").addClass("active");
+                                                                
+                                                             
+                                                               
+                                                                // mettre à jour le nombre de votes automatiquement
+                                                                updateVoteCount(answerId);
+                                                            },
+                                                            error: function(data) {
+                                                                alert("Une erreur est survenue lors du vote.");
+                                                            }
+                                                        });
+                                                    }
+                                                   
+                                                    function voteDown(answerId, userId) {
+                                                        $.ajax({
+                                                            type: "POST",
+                                                            url: '/voted/' + answerId + '/' + userId,
+                                                            success: function(data) {
+                                                                // mettre à jour le nombre de votes sur la page
+                                                                $("#vote-count-" + answerId).html(data.count);
+                                                                // mettre à jour l'icône de vote pour indiquer qu'il a été sélectionné
+                                                             
+                                                                // ajouter la classe active au bouton de vote correspondant pour maintenir la coloration
+            $(".vote-button[data-answer-id=" + answerId + "][data-vote-value=-1]").addClass("active");
+            
+                                                               
+                                                                // mettre à jour le nombre de votes automatiquement
+                                                                updateVoteCount(answerId);
+                                                            },
+                                                            error: function(data) {
+                                                                alert("Une erreur est survenue lors du vote.");
+                                                            }
+                                                        });
+                                                    }
+                                                   
+                                                    function updateVoteCount(answerId) {
+                                                        var url = '/get-vote-count/' + answerId + '?t=' + Date.now();
+                                                
+                                                
+                                                        $.ajax({
+                                                          type: "GET",
+                                                          url: url,
+                                                          success: function(data) {
+                                                            $("#vote-count-" + answerId).html(data.count);
+                                                            console.log(data.count)
+                                                          },
+                                                          error: function(data) {
+                                                            alert("Une erreur est survenue lors de la mise à jour du nombre de votes.");
+                                                       
+                                                          }
+                                                        });
+                                                      }
+                                                   
+                                                   
+                                                   
+                                                </script>
+                                                
+                                            
+                                          
+                                                
                                                   
                                                   
                                             </div>
@@ -260,9 +434,37 @@
                                                 <ul class="social-list list-inline mt-3 mb-0">
                                                     <li class="list-inline-item">
                                                                
-                                                        <a href="{{ path('delete_answer', {'id': answer.getId()}) }}" class="social-list-item border-danger text-danger"><i class="fe-trash-2"></i></a>
+                                                      <a href="#" class="social-list-item border-danger text-danger" onclick="confirmDelete(event, '{{ path('delete_answer', {'id': answer.getId()}) }}')"><i class="fe-trash-2"></i></a>
                 
                                                     </li>
+                                                    
+                                                  
+                                                    
+                                                    <script>
+                                                      function confirmDelete(event, url) {
+                                                        event.preventDefault(); // Empêcher le lien de se soumettre
+                                                        const swalWithBootstrapButtons = Swal.mixin({
+                                                          customClass: {
+                                                            confirmButton: 'btn btn-success mx-2',
+                                                            cancelButton: 'btn btn-danger mx-2'
+                                                          },
+                                                          buttonsStyling: false
+                                                        })
+                                                    
+                                                        swalWithBootstrapButtons.fire({
+                                                          title: 'Êtes-vous sûr de vouloir supprimer cette réponse ?',
+                                                          icon: 'warning',
+                                                          showCancelButton: true,
+                                                          confirmButtonText: 'Oui, supprimer!',
+                                                          cancelButtonText: 'Non, annuler!',
+                                                          reverseButtons: true
+                                                        }).then((result) => {
+                                                          if (result.isConfirmed) {
+                                                            window.location.href = url; // Rediriger vers l'URL de suppression si l'utilisateur confirme
+                                                          }
+                                                        })
+                                                      }
+                                                    </script>
                                                     
                                                   
                                                
@@ -322,8 +524,7 @@
 
 
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.4.0/js/bootstrap.min.js" integrity="sha512-S5e/axilSCdpkNcQK1fN7iX5Zag6nYef6UzP6Rw8ivQzjKdDcsk82srFuyi3m/RnRG6Fj+6efKVU6PwU0arW2A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
 
 
 

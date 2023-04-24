@@ -13,20 +13,30 @@
                         
                         <div class="card" >
                             <div class="card-body">
-                                <h4 class="header-title">Vous pouvez ajouter votre question</h4>   
+                                <h4 class="header-title">Vous pouvez ajouter votre question</h4> 
+                                {% if app.request.get('block') %}
+                                <div class="alert alert-danger">
+                                   vous etes bloquer pour le moment  car votre contenu n'est pas acceptable
+                                </div>
+                                {% endif %}    
                                 {{ form_start(f, {attr: {novalidate: 'novalidate'} }) }}
+
                                 <div class="row">
                                     <label class="mb-1 fw-medium text-muted">Titre</label>
                                     {{ form_widget(f.title, {attr: {class: 'form-control'} }) }}
+                                    
                                 </div>
                                 {{ form_errors(f.title, {attr: {class: 'text-danger'} }) }}
                                                             
                                 <div class="row">
                                     <label class="mb-1 mt-4 fw-medium text-muted">Description</label>
                                     {{ form_widget(f.description, {attr: {class: 'form-control'} }) }}
+                                   
+                             
+                                              
                                 </div>
                                 {{ form_errors(f.description, {attr: {class: 'text-danger'} }) }}
-                                                            
+                                              
                                 <div class="row">
                                     <label class="mb-1 fw-medium text-muted">Matiere</label>
                                   
@@ -49,7 +59,11 @@
                                 <div class="text-right">
                                     {{ form_widget(f.ajouter, {attr: {class: 'btn btn-primary'} }) }}
                                 </div>
-                                                            
+                                {% if app.request.get('containsProfanity') %}
+                                <div class="alert alert-danger">
+                                    La chaîne contient un mot interdit
+                                </div>
+                                {% endif %}                      
                             {{ form_end(f) }}
                             
                                 

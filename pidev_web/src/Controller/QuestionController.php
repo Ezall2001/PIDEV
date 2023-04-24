@@ -2,23 +2,26 @@
 
 namespace App\Controller;
 
+use App\Entity\Votes;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Form\AnswerType;
 use App\Form\QuestionType;
-use App\Form\SessionsInputType;
-use App\Repository\AnswerRepository;
 use App\Entity\Answers;
+use App\Entity\Users;
 use App\Entity\Questions;
+use ConsoleTVs\Profanity\Facades\Profanity;
+
 
 class QuestionController extends AbstractController
 
 {
     #[Route('/deleteAnswer/{id}]', name: 'delete_answer')]
-    public function deleteAnswer(Answers $answer,Request $request): Response
-    {   
+    public function deleteAnswer(int $id,Request $request): Response
+    {  $answer= $this->getDoctrine()->getManager()->getRepository(Answers::class)->find($id);
        $question = $answer->getQuestion();
         $em= $this->getDoctrine()->getManager();
         $em->remove($answer);
@@ -42,14 +45,49 @@ class QuestionController extends AbstractController
         $form = $this->createForm(AnswerType::class, $answer);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            $hasProfanity = $this->containsProfanity2($answer );
+    
+            if ($hasProfanity) {
+                // la chaîne contient un mot interdit
+                //return new JsonResponse(['message' => 'La chaîne contient un mot interdit']);
+              
+                return $this->redirectToRoute('question', ['id'=>$id, 'containsProfanity' => $hasProfanity]);
+        
+        
+            }
             $em = $this->getDoctrine()->getManager();
             $em->persist($answer);
             $em->flush(); //mise a jour
         }
     
         // Création du formulaire pour la question
+    
         $formm = $this->createForm(QuestionType::class, $question);
         $formm->handleRequest($request);
+        if ($formm->isSubmitted() && !$formm->isValid()) {
+            $invalidData = true;
+        
+          
+            return $this->redirectToRoute('question', ['id'=>$id,'contains' => true]);
+        }
+    
+        
+          
+        if ($formm->isSubmitted() && $formm->isValid()) {
+            $hasProfanity = $this->containsProfanity($question );
+    
+            if ($hasProfanity) {
+                // la chaîne contient un mot interdit
+                //return new JsonResponse(['message' => 'La chaîne contient un mot interdit']);
+              
+                return $this->redirectToRoute('question', ['id'=>$id, 'containsP' => $hasProfanity]);
+        
+        
+            }
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($question);
+            $em->flush(); //mise a jour
+        }
     
         return $this->render('forum/question.html.twig', [
             'answers' => $answers,
@@ -62,36 +100,28 @@ class QuestionController extends AbstractController
         ]);
     }
     
+    public function containsProfanity2(Answers $answer)
+    {
+       
+        $words = $answer->getMessage(); // or any other property that contains the text to check for profanity
+        $clean_words = \ConsoleTVs\Profanity\Builder::blocker($words)->filter();
+       
+      
 
-    #[Route('/editAnswerModal/{id}', name: 'editAnswerModal')]
-    public function editAnswerModal(Request $request, $id): Response
-    { 
-     
-        $answerRepository = $this->getDoctrine()->getRepository(Answers::class);
-        $answer = $answerRepository->find($id);
-        $question = $answer->getQuestion();
-         $answerForms = $this->createForm(AnswerType::class,$answer);
-         $answerForms->handleRequest($request);
-        if( $answerForms->isSubmitted() &&  $answerForms->isValid()){
-          $em  = $this->getDoctrine()->getManager();
-          $em->flush(); //mise a jour 
-        
-
-          return $this->redirectToRoute('question', ['id' => $question->getId()]);
-
-        }        
- // Création du formulaire pour la réponse
- $answerForm = $this->createForm(AnswerType::class, $answer);
- $answerForm->handleRequest($request);
-         // $answer = $question->getAnswers();
-        
-      //pour l'envoyer l form et l 'afficher
-      return $this->render('forum/question.html.twig',[ 'answer' => $answer, 
-      'answers' => $answer ,
-      'question' => $question, 
-        'answerForms' => $answerForms->createView(),
-        'answerForm' => $answerForm->createView(),
-        ]);
+        return $clean_words !== $words   ;
     }
+    public function containsProfanity(Questions $question)
+    {
+        $words1 = $question->getTitle();
+        $words = $question->getDescription(); // or any other property that contains the text to check for profanity
+        $clean_words = \ConsoleTVs\Profanity\Builder::blocker($words)->filter();
+        $clean_words1 = \ConsoleTVs\Profanity\Builder::blocker($words1)->filter();
+      
+
+        return $clean_words !== $words || $clean_words1 !== $words1  ;
+    }
+
+    
+
    
 }

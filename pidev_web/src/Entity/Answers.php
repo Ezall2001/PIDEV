@@ -11,6 +11,7 @@ use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Form\FormTypeInterface;
 use App\Repository\AnswersRepository;
 use App\Entity\Questions;
+use App\Entity\Votes;
 use Symfony\Component\Validator\Constraints as Assert;
 
 
@@ -42,6 +43,9 @@ class Answers
     #[ORM\JoinColumn(name: 'user_id', referencedColumnName: 'id', nullable: true)]
     private ?Users $user = null;
 
+    #[ORM\OneToMany(targetEntity: Votes::class, mappedBy: "answers")]
+ 
+    private Collection $votes;
 
 
     #[ORM\ManyToOne(targetEntity: Questions::class, inversedBy: 'answers')]
@@ -88,9 +92,10 @@ class Answers
     }
 
 
-    public function getVoteNb(): ?int
+    public function getVoteNb() :?int
     {
-        return $this->voteNb;
+      
+        return $this->voteNb ;
     }
 
     public function setVoteNb(?int $voteNb): self
@@ -143,5 +148,43 @@ class Answers
     {
         $this->question = $question;
         return $this;
+    }
+    public function getVotes(): Collection
+    {
+        return $this->votes;
+    }
+  
+    public function addVotes(Votes $vote): self
+    {
+        if (!$this->votes->contains($vote)) {
+            $this->votes[] = $vote;
+            $vote->setAnswer($this);
+        }
+
+        return $this;
+    }
+    // public function getVoteNb() :?int
+    // {
+    //     $voteNb = 0;
+    //     foreach ($this->votes as $vote) {
+    //         $voteNb += $vote->getVoteType();
+    //     }
+    //     return $voteNb;
+    // }
+    public function __toString(): string
+    {
+        return $this->getContent(); // ou une autre propriété que vous voulez afficher
+    }
+
+    
+
+    public function hasUserVoted($user)
+    {
+        foreach ($this->votes as $vote) {
+            if ($vote->getUser() === $user) {
+                return true;
+            }
+        }
+        return false;
     }
 }

@@ -22,6 +22,10 @@ class QuestionType extends AbstractType
         $builder
         
         ->add('title', TextType::class, [
+            'attr' => [
+                'class' => 'form-control',
+                'placeholder' => 'Ici vous pouvez ajouter votre titre',
+            ],
             'constraints' => [
                 new NotBlank([
                     'message' => 'Le titre ne peut pas être vide',
@@ -37,7 +41,7 @@ class QuestionType extends AbstractType
             'required' => false,
             'attr' => [
                 'class' => 'form-control',
-                'placeholder' => 'Ici vous pouvez ajouter votre réponse',
+                'placeholder' => 'Ici vous pouvez ajouter votre déscription',
             ],
             'constraints' => [
                 new NotBlank([
@@ -48,16 +52,24 @@ class QuestionType extends AbstractType
                     'minMessage' => 'la decrip doit etre au minimum 20 char',
                 ]),
             ]])
-                ->add('subject', EntityType::class, [
-                    'class' => Subjects::class,
-                    'label' => 'Subject',
-                    'attr' => [
-                        'class' => 'form-control'
-                    ],
-                    'required' => true,
-                    'placeholder' => 'choisir matiére',
-                ])
-
+            ->add('subject', EntityType::class, [
+                'class' => Subjects::class,
+                'label' => 'Subject',
+                'attr' => [
+                    'class' => 'form-control'
+                ],
+                'required' => true,
+                'placeholder' => 'choisir matière',
+                'choice_attr' => [
+                    'choisir matière' => ['disabled' => 'disabled']
+                ],
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'vous devez ajouter une matière',
+                    ])
+                ]
+            ])
+            
             
 
 
