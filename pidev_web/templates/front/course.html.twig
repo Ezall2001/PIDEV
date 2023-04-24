@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Courses List{% endblock %}
+
+{% block body %}
+    <h1>Courses List - {{ subject.name }}</h1>
+    {% if courses|length > 0 %}
+        <ul>
+        {% for course in courses %}
+            <li>{{ course.name }}</li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>No courses found for this subject.</p>
+    {% endif %}
+
+
+                                    {% endblock %}
