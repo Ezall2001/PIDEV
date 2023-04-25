@@ -71,7 +71,7 @@ class QuestionsListController extends AbstractController
             // 10 // nombre d'éléments par page
             $questionRepositoy->paginationQuery(),
             $request->query->get('page',1),
-            5
+            3
         );
        
         return $this->render('admin/QuestionsForumTable.html.twig', [
@@ -205,7 +205,7 @@ $user->setBlockedUntil($blockedUntil->format('Y-m-d H:i:s')); // Stocke la date 
         $pagination = $paginator->paginate(
             $qb->getQuery(),
             $request->query->get('page', 1), // Numéro de la page par défaut
-            5 // Nombre d'éléments par page
+            3 // Nombre d'éléments par page
         );
     
         return $this->render('forum/questionsList.html.twig', [
@@ -256,7 +256,7 @@ public function trie(Request $request, PaginatorInterface $paginator): Response
     $pagination = $paginator->paginate(
         $query,
         $request->query->getInt('page', 1), // numéro de la page par défaut
-        5 // nombre d'éléments par page
+        3 // nombre d'éléments par page
     );
 
     return $this->render('forum/questionsList.html.twig', [
@@ -800,7 +800,7 @@ public function filter(Request $request, PaginatorInterface $paginator): Respons
     $pagination = $paginator->paginate(
         $qb, // Requête à paginer
         $request->query->getInt('page', 1), // Numéro de la page par défaut
-        10 // Nombre d'éléments par page
+        3 // Nombre d'éléments par page
     );
 
     return $this->render('forum/questionsList.html.twig', [

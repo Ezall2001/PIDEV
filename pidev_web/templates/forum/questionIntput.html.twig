@@ -59,6 +59,7 @@
                                 <div class="text-right">
                                     {{ form_widget(f.ajouter, {attr: {class: 'btn btn-primary'} }) }}
                                 </div>
+                               <br> 
                                 {% if app.request.get('containsProfanity') %}
                                 <div class="alert alert-danger">
                                     La chaîne contient un mot interdit
