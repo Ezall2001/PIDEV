@@ -1,34 +1,83 @@
 /** @format */
 
-const parseQueryParams = () => {
-	const queryParams = Object.fromEntries(
-		new URLSearchParams(window.location.search).entries(),
-	)
+import {
+	ownedFilterButton,
+	baughtFilterButton,
+	resetFilterButton,
+	creatorFiterSelect,
+	priceFilterInput,
+	courseFilterInput,
+	dateFilterInput,
+} from './dom.js'
 
-	return queryParams
-}
+import {parseQueryParams, encodeQueryParams} from '../utils/urlParams.js'
 
-const encodeQueryParams = (base, queryParams) => {
-	const href = base.concat(
-		'?',
-		Object.entries(queryParams)
-			.map(kv => kv.map(encodeURIComponent).join('='))
-			.join('&'),
-	)
-
-	return href
-}
+const generatePriceValues = () =>
+	new Array(11).fill(0).map((val, index) => index * 10)
 
 export const initFilters = () => {
-	const queryParams = parseQueryParams()
+	let queryParams = parseQueryParams()
+	const base = window.location.pathname
 
-	$('.creator-filter a').on('click', e => {
-		e.preventDefault()
-		const base = window.location.pathname
-
-		queryParams['owner'] = 1
+	const applyFilters = () => {
 		const href = encodeQueryParams(base, queryParams)
-
 		window.location.assign(href)
+	}
+
+	ownedFilterButton.on('click', e => {
+		e.preventDefault()
+		queryParams = {owner: 1}
+		applyFilters()
+	})
+
+	baughtFilterButton.on('click', e => {
+		e.preventDefault()
+		queryParams = {baught: 1}
+		applyFilters()
+	})
+
+	resetFilterButton.on('click', e => {
+		e.preventDefault()
+		queryParams = {}
+		applyFilters()
+	})
+
+	creatorFiterSelect.selectize({
+		maxItems: 1,
+		create: false,
+		onChange: value => {
+			queryParams['creator'] = value === 'all' ? null : value
+			applyFilters()
+		},
+	})
+
+	priceFilterInput.ionRangeSlider({
+		grid: true,
+		from: +priceFilterInput.attr('data-default') / 10,
+		values: generatePriceValues(),
+		postfix: ' DT',
+		max_postfix: '+',
+		onFinish: ({from_value}) => {
+			queryParams['priceLimit'] = from_value
+			applyFilters()
+		},
+	})
+
+	courseFilterInput.selectize({
+		maxItems: 1,
+		create: false,
+		onChange: value => {
+			queryParams['course'] = value === 'all' ? null : value
+			applyFilters()
+		},
+	})
+
+	dateFilterInput.flatpickr({
+		dateFormat: 'Y-m-d',
+		onChange: (dates, dateStr) => {
+			if (dateStr) queryParams['date'] = dateStr
+			else queryParams['date'] = null
+			applyFilters()
+		},
 	})
 }

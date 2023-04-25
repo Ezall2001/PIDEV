@@ -21,46 +21,15 @@ class ParticipationsRepository extends ServiceEntityRepository
         parent::__construct($registry, Participations::class);
     }
 
-    public function save(Participations $entity, bool $flush = false): void
+    public function getParticipation($sessionId, $userId): ?Participations
     {
-        $this->getEntityManager()->persist($entity);
-
-        if ($flush) {
-            $this->getEntityManager()->flush();
-        }
+        return $this->createQueryBuilder('p')
+            ->select('p', 's', 'u')
+            ->leftJoin('p.session', 's')
+            ->leftJoin('p.user', 'u')
+            ->andWhere('p.session = ' . $sessionId)
+            ->andWhere('p.user = ' . $userId)
+            ->getQuery()
+            ->getOneOrNullResult();
     }
-
-    public function remove(Participations $entity, bool $flush = false): void
-    {
-        $this->getEntityManager()->remove($entity);
-
-        if ($flush) {
-            $this->getEntityManager()->flush();
-        }
-    }
-
-//    /**
-//     * @return Participations[] Returns an array of Participations objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('p')
-//            ->andWhere('p.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('p.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
-
-//    public function findOneBySomeField($value): ?Participations
-//    {
-//        return $this->createQueryBuilder('p')
-//            ->andWhere('p.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
 }

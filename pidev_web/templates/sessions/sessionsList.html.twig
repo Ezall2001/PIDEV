@@ -7,7 +7,7 @@
 {% block stylesheets %}
 	<link href="{{asset('templateAssets/libs/selectize/css/selectize.bootstrap3.css')}}" rel="stylesheet" type="text/css"/>
 	<link href="{{asset('templateAssets/libs/flatpickr/flatpickr.min.css')}}" rel="stylesheet" type="text/css"/>
-	<link href="{{asset('templateAssets/libs/dropzone/min/dropzone.min.css')}}" rel="stylesheet" type="text/css"/>
+	<link href="{{asset('templateAssets/libs/dropify/css/dropify.min.css')}}" rel="stylesheet" type="text/css"/>
 	<link href="{{asset('templateAssets/libs/ion-rangeslider/css/ion.rangeSlider.min.css')}}" rel="stylesheet" type="text/css"/>
 
 
@@ -24,8 +24,7 @@
 	<script src="{{asset('templateAssets/libs/ion-rangeslider/js/ion.rangeSlider.min.js')}}" defer></script>
 	<script src="{{asset('templateAssets/libs/selectize/js/standalone/selectize.min.js')}}" defer></script>
 	<script src="{{asset('templateAssets/libs/bootstrap-maxlength/bootstrap-maxlength.min.js')}}" defer></script>
-	<script src="{{asset('templateAssets/libs/dropzone/min/dropzone.min.js')}}" defer></script>
-
+	<script src="{{asset('templateAssets/libs/dropify/js/dropify.min.js')}}" defer></script>
 
 	<script src="{{asset('js/sessionsList/sessionsList.js')}}" type="module" defer></script>
 {% endblock %}
@@ -37,12 +36,17 @@
 			<button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
 		</div>
 		<div class="offcanvas-body">
-			{{component('sessionsFilter')}}
+			{{component('sessionsFilter',{"filterObject":filters,"creators":creators,"courses":courses,"isAdmin":false})}}
 		</div>
 	</div>
 
-	{{component('sessionForm')}}
 
+	{% if alert.show %}
+		{{component('alertModal',{'isSuccess':alert.state})}}
+	{% endif %}
+
+	{{component('confirmDeleteModal')}}
+	{{component('sessionForm',{"courses":courses})}}
 
 	<div class="header">
 		<h1 class="display-5 my-3">Catalogue Des Séances</h1>
@@ -53,14 +57,14 @@
 					<i class="fas fa-filter fs-6"></i>
 				</span>
 				Filtres Actifs (
-				{{filters|length}}
+				{{filters.activeFilters}}
 				)
 			</button>
 
 			<button class="mobile-btn filter-toggle-btn btn btn-dark waves-effect waves-light" data-bs-toggle="offcanvas" data-bs-target="#mobile-sessions-filter">
 				<i class="fas fa-filter fs-6 me-1"></i>
 				(
-				{{filters|length}}
+				{{filters.activeFilters}}
 				)
 			</button>
 
@@ -83,7 +87,7 @@
 	<div class="section p-0 mt-3">
 
 		<div class="aside filter-wrapper bg-light p-3">
-			{{component('sessionsFilter')}}
+			{{component('sessionsFilter',{"filterObject":filters,"creators":creators,"courses":courses,"isAdmin":false})}}
 		</div>
 
 		<div class="main bg-light p-3">
@@ -92,27 +96,31 @@
 				Seances Trouvées :</h4>
 
 			<div class="results-wrapper mt-3">
-				{{component('sessionsResultDisplaySettings')}}
+				{{component('sessionsResultDisplaySettings',{'paginationObj':paginationUI,'sortObj':sortObj,"isAdmin":false})}}
 				<hr/>
 
 				<div class="results container-fluid">
 					{% if totalFoundSessions == 0 %}
 						<h3 class="no-result h3 mt-5 text-secondary">Aucune Résultat</h3>
+
 					{% else %}
-						<div class="row g-3">
+						<div class="results-container results-cards-container row g-3 active">
 							{% for session in sessions %}
-								{{component('sessionCard',{"session" : session})}}
+								{{component('sessionCard',{"session" : session,"userId":userId})}}
+							{% endfor %}
+						</div>
+
+						<div class="results-container results-list-container">
+							{% for session in sessions %}
+								{{component('sessionListItem',{"session" : session,"userId":userId})}}
 							{% endfor %}
 						</div>
 					{% endif %}
+
 				</div>
 
 				<hr/>
-				{{component('sessionsResultDisplaySettings')}}
-			</div>
-
+				{{component('sessionsResultDisplaySettings',{'paginationObj':paginationUI,'sortObj':sortObj,"isAdmin":false})}}</div>
 		</div>
 	</div>
-
-
 {% endblock %}

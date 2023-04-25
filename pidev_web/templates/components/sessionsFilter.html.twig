@@ -1,15 +1,53 @@
 <h4>Filtrer Par :</h4>
+
+
 <ul class="filters p-2 mt-3">
 
-	<li class="creator-filter">
-		<h5>Créateur</h5>
-		<a href="#">Voir mes séances</a>
-		{{component('seperator',{label:'ou'})}}
-		<select type="text" placeholder="Nom Créateur"></select>
+	{% if not isAdmin %}
+		<div class="tags">
+			<a class="owned-sessions-filter fs-4 mb-2" href="#">Propres séances</a>
+			<a class="baught-sessions-filter fs-4 mb-2" href="#">Séances achetées</a>
+			<a class="reset-filter fs-4 mb-2" href="#">Tout les Séances</a>
+		</div>
+
+		<hr>
+	{% endif %}
+
+	<li class="creator-filter mb-4">
+		<h5 class="mb-2">Créateur</h5>
+		<select type="text" placeholder="Nom Créateur">
+			<option value="" selected disabled hidden></option>
+			<option value="all">Tout les créateurs</option>
+			{% for creator in creators %}
+				<option value="{{creator.id}}" {{filterObject.user == creator.id ? 'selected' :''}}>{{creator.firstName}}
+					{{creator.lastName}}</option>
+			{% endfor %}
+		</select>
 	</li>
 </li>
-<li class="availability-filter"></li>
-<li class="price-filter"></li>
-<li class="course-filter"></li>
-<li class="dateTime-filter"></li>
-<li class="keyword-filter"></li></ul>
+<li class="price-filter mb-4">
+	<h5 class="mb-2">Prix limite</h5>
+	<input type="text" class="bg-primary" data-default="{{filterObject.priceLimit}}">
+</li>
+
+<li class="course-filter mb-4">
+	<h5 class="mb-2">Cours</h5>
+	<select type="text" placeholder="Nom du cours">
+		<option value="" selected disabled hidden></option>
+		<option value="all">Tout les cours</option>
+		{% for course in courses %}
+			<option value="{{course.id}}" {{filterObject.course == course.id ? 'selected' :''}}>{{course.name}}</option>
+		{% endfor %}
+	</select>
+</li>
+
+
+<li class="date-filter mb-4">
+	<h5 class="mb-2">Date</h5>
+	<input type="text" class="form-control flatpickr-input" value="{{filterObject.date}}" placeholder="Filtrer par date" readonly required>
+</li>
+
+{{component('seperator',{label:'ou'})}}
+
+
+<a class="reset-filter fs-5 mb-2 text-danger" href="#">Réinitialiser le filtre</a></ul>

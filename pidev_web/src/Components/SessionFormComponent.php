@@ -8,11 +8,10 @@ use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
 #[AsTwigComponent('sessionForm')]
 class SessionFormComponent
 {
-  public bool $isModify;
-  public ?Sessions $session = null;
+  public array $courses;
 
-  public function mount(Sessions $session = null)
+  public function mount(array $courses)
   {
-    $this->session = $session;
+    $this->courses = $courses;
   }
 }

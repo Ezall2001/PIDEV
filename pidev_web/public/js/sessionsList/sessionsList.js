@@ -1,30 +1,15 @@
 /** @format */
 
 import {initFilters} from './filters.js'
-import {initSessionForm} from './sessionForm.js'
+import {initSessionForm} from '../sessionForm/sessionForm.js'
+import {initDisplaySettings} from './displaySettings.js'
 
-const sessionsListInit = () => {
-	initFilters()
+$(document).on('ready', () => (Dropzone.autoDiscover = false))
+
+const initSessionsList = () => {
 	initSessionForm()
-
-	$('.creator-filter select').selectize({
-		maxItems: null,
-		valueField: 'id',
-		labelField: 'name',
-		searchField: 'name',
-		options: [
-			{id: 1, name: 'test'},
-			{id: 2, name: 'test2'},
-			{id: 3, name: 'test2'},
-			{id: 4, name: 'test2'},
-			{id: 5, name: 'test2'},
-			{id: 6, name: 'test2'},
-			{id: 7, name: 'test2'},
-			{id: 8, name: 'test2'},
-			{id: 9, name: 'test2'},
-		],
-		create: false,
-	})
+	initDisplaySettings()
+	initFilters()
 }
 
-sessionsListInit()
+initSessionsList()

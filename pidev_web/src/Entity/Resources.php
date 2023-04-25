@@ -4,7 +4,7 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\ResourcesRepository;
-
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: ResourcesRepository::class)]
 class Resources
@@ -12,17 +12,20 @@ class Resources
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups("sessionFrom")]
     private int $id;
 
 
     #[ORM\Column(length: 250)]
+    #[Groups("sessionFrom")]
     private string $name;
 
     #[ORM\Column(length: 1000)]
+    #[Groups("sessionFrom")]
     private string $filePath;
 
     #[ORM\ManyToOne(targetEntity: Sessions::class, inversedBy: 'resources')]
-    #[ORM\JoinColumn(name: 'session_id', referencedColumnName: 'id', nullable: true)]
+    #[ORM\JoinColumn(name: 'id_session', referencedColumnName: 'id', nullable: true)]
     private ?Sessions $session = null;
 
 

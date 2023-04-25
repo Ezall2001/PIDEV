@@ -39,6 +39,32 @@
 .show-n label {
 	min-width: 4rem;
 }
-.sort-asc {
-	display: none !important;
+
+.show-n select {
+	min-width: 5rem;
+}
+
+@media screen and (max-width: 992px) {
+	.display-settings {
+		flex-wrap: wrap;
+		gap: 2rem;
+	}
+
+	.center {
+		order: 3;
+		width: 100%;
+		justify-content: center;
+	}
+	.right {
+		order: 2;
+	}
+}
+
+@media screen and (max-width: 576px) {
+	.right {
+		gap: 0.5rem;
+		justify-content: flex-start !important;
+		align-items: center;
+		flex-wrap: wrap;
+	}
 }

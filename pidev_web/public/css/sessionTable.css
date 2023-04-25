@@ -1,0 +1,22 @@
+/** @format */
+
+.session-table td {
+	text-transform: capitalize;
+}
+
+.session-table tr:hover {
+	background-color: #eee;
+}
+
+.session-table tr button.btn-outline-danger {
+	opacity: 0;
+	transition: opacity 0.1s ease-in-out;
+}
+
+.session-table tr:hover button.btn-outline-danger {
+	opacity: 1;
+}
+
+.session-table button i {
+	pointer-events: none;
+}

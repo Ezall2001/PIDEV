@@ -1,0 +1,12 @@
+/** @format */
+
+nav {
+	background-color: #38414a;
+	display: block;
+	width: 100vw;
+	padding: 0.8rem 2rem;
+}
+
+nav .logo img {
+	width: 4rem;
+}

@@ -1,0 +1,9 @@
+grid-items-(shadow,course,creator)
+list-items
+hover drop-items for creator
+form js
+form files uploads
+form auto open on error
+form fill on modify
+confirm on delete
+success modal

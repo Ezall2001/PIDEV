@@ -28,3 +28,16 @@ ul {
 body {
 	background-color: #ebeff2;
 }
+
+.irs-bar,
+.irs-to,
+.irs-from,
+.irs-single {
+	background: #71b6f9 !important;
+}
+
+.irs-to::before,
+.irs-from::before,
+.irs-single::before {
+	border-top-color: #71b6f9 !important;
+}

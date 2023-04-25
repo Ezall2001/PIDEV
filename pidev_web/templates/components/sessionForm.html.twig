@@ -1,10 +1,10 @@
 <div id="session-form-modal" class="modal fade overflow-hidden" tabindex="-1" role="dialog">
-	<div class="modal-dialog modal-lg">
+	<div class="modal-dialog modal-dialog-scrollable modal-lg">
 		<div class="modal-content">
 
 			<div class="modal-header">
 				<div class="w-100 d-flex align-items-start justify-content-between">
-					<h4 class="modal-title display-5" id="standard-modalLabel">Créer Séance</h4>
+					<h4 class="modal-title display-5">Créer Séance</h4>
 					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
 			</div>
@@ -14,13 +14,15 @@
 
 				<div class="session-form container">
 
-					<div class="row mb-4">
+					<div class="row">
 
-						<div class="col-4">
+						<div class="col-12 col-md-4 mb-4">
 							<label for="course-select" class="form-label">Cours</label>
 							<div class="input-group">
 								<select id="course-select" name="course" class="form-select">
-									<option value="503">test</option>
+									{% for course in courses %}
+										<option value="{{course.id}}">{{course.name}}</option>
+									{% endfor %}
 								</select>
 								<span class="input-group-text">
 									<i class="fas fa-book"></i>
@@ -34,7 +36,7 @@
 						</div>
 
 
-						<div class="col-4">
+						<div class="col-12 col-sm-6 col-md-4 mb-4">
 							<label for="price-input" class="form-label">Prix</label>
 							<div class="input-group">
 								<input type="number" name="price" min="0" step="5" value="5" id="price-input" class="form-control"/>
@@ -42,7 +44,7 @@
 							</div>
 						</div>
 
-						<div class="col-4">
+						<div class="col-12 col-sm-6 col-md-4 mb-4">
 							<label for="max-places-input" class="form-label">Nombre de places</label>
 							<div class="input-group">
 								<input type="number" name="maxPlaces" min="1" max="20" value="5" id="max-places-input" class="form-control" required/>
@@ -57,13 +59,12 @@
 					</div>
 
 
-					<div class="row mb-4">
+					<div class="row">
 
-						<div class="col-4">
+						<div class="col-md-6 col-lg-4 mb-4">
 							<label for="dates-input" class="form-label">Dates</label>
 							<div class="input-group">
 								<input type="text" name="dates" id="dates-input" class="form-control flatpickr-input" placeholder="Dates des seances" readonly required>
-
 								<span class="input-group-text">
 									<i class="fas fa-calendar"></i>
 								</span>
@@ -79,7 +80,7 @@
 						</div>
 
 
-						<div class="col-8">
+						<div class="col-12 col-lg-8 mb-4">
 							<label for="time-input" class="form-label">Horaire
 								<small class="text-muted">( 30 min minimum )</small>
 							</label>
@@ -90,63 +91,32 @@
 
 					</div>
 
-					<div class="row mb-4">
+					<div class="row">
 
-						<div class="col-6">
+						<div class="col-12 col-md-6 mb-4">
 							<label for="topics-input" class="form-label">Déscription</label>
 							<textarea class="form-control" name="topics" id="topics-input" rows="4" maxlength="500" style="resize: none;"></textarea>
 						</div>
 
-						<div class="col-6 d-none">
-							<label for="dates-input" class="form-label">Image de Couverture</label>
-							<form action="/" method="post" class="dropzone" id="myAwesomeDropzone" data-plugin="dropzone" data-previews-container="#file-previews" data-upload-preview-template="#uploadPreviewTemplate">
-								<div class="fallback">
-									<input name="file" type="file"/>
-								</div>
-
-								<div class="dz-message needsclick">
-									<i class="h1 text-muted dripicons-cloud-upload"></i>
-									<h3>Drop files here or click to upload.</h3>
-									<span class="text-muted font-13">(This is just a demo dropzone. Selected files are
-										<strong>not</strong>
-										actually uploaded.)</span>
-								</div>
-							</form>
-
-							<!-- Preview -->
-							<div class="dropzone-previews mt-3" id="file-previews"></div>
-
-							<div class="d-none" id="uploadPreviewTemplate">
-								<div class="card mt-1 mb-0 shadow-none border">
-									<div class="p-2">
-										<div class="row align-items-center">
-											<div class="col-auto">
-												<img data-dz-thumbnail src="#" class="avatar-sm rounded bg-light" alt="">
-											</div>
-											<div class="col ps-0">
-												<a href="javascript:void(0);" class="text-muted fw-bold" data-dz-name></a>
-												<p class="mb-0" data-dz-size></p>
-											</div>
-											<div
-												class="col-auto">
-												<!-- Button -->
-												<a href="" class="btn btn-link btn-lg text-muted" data-dz-remove>
-													<i class="dripicons-cross"></i>
-												</a>
-											</div>
-										</div>
-									</div>
-								</div>
+						<div class="col-12 col-md-6 mb-4">
+							<label for="image-input" class="form-label">Image de Couverture</label>
+							<div class="image-input-wrapper">
+								<input id="image-input" name="image" type="file" data-height="90" data-max-file-size="1M" data-allowed-file-extensions="png jpg jpeg" accept=".png, .jpg, .jpeg"/>
 							</div>
-
-
 						</div>
-
 
 					</div>
 
-				</div>
+					<div class="row mb-4">
+						<div class="col-12">
+							<label class="form-label">Resources</label>
+							<div class="resources-inputs"></div>
+						</div>
 
+					</div>
+
+
+				</div>
 
 			</div>
 
@@ -156,5 +126,6 @@
 			</div>
 
 		</div>
+
 	</div>
 </div>

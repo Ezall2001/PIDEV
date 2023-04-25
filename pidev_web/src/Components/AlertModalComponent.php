@@ -4,7 +4,8 @@ namespace App\Components;
 
 use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
 
-#[AsTwigComponent('backToTop')]
-class BackToTopComponent
+#[AsTwigComponent('alertModal')]
+class AlertModalComponent
 {
+  public string $isSuccess;
 }

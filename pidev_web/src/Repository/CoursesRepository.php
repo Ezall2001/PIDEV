@@ -21,46 +21,14 @@ class CoursesRepository extends ServiceEntityRepository
         parent::__construct($registry, Courses::class);
     }
 
-    public function save(Courses $entity, bool $flush = false): void
+    public function getCourseNames()
     {
-        $this->getEntityManager()->persist($entity);
+        $result = $this->createQueryBuilder('c')
+            ->select('c.id', 'c.name')
+            ->groupBy('c.id')
+            ->getQuery()
+            ->getResult();
 
-        if ($flush) {
-            $this->getEntityManager()->flush();
-        }
+        return $result;
     }
-
-    public function remove(Courses $entity, bool $flush = false): void
-    {
-        $this->getEntityManager()->remove($entity);
-
-        if ($flush) {
-            $this->getEntityManager()->flush();
-        }
-    }
-
-//    /**
-//     * @return Courses[] Returns an array of Courses objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('c')
-//            ->andWhere('c.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('c.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
-
-//    public function findOneBySomeField($value): ?Courses
-//    {
-//        return $this->createQueryBuilder('c')
-//            ->andWhere('c.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
 }

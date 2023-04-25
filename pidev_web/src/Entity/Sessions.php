@@ -7,7 +7,8 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use App\Repository\SessionsRepository;
-use Doctrine\DBAL\Types\DateType;
+use phpDocumentor\Reflection\Types\Boolean;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: SessionsRepository::class)]
 class Sessions
@@ -15,32 +16,39 @@ class Sessions
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups("sessionFrom")]
     private int $id;
 
 
     #[ORM\Column]
+    #[Groups("sessionFrom")]
     private float $price;
 
 
     #[ORM\Column(type: "date")]
+    #[Groups("sessionFrom")]
     private \DateTime $date;
 
 
     #[ORM\Column(type: "time")]
+    #[Groups("sessionFrom")]
     private \DateTime $startTime;
 
 
     #[ORM\Column(type: "time")]
+    #[Groups("sessionFrom")]
     private \DateTime $endTime;
 
 
     #[ORM\Column(length: 500)]
+    #[Groups("sessionFrom")]
     private string $topics = "";
 
     #[ORM\Column]
     private ?int $places = 0;
 
     #[ORM\Column]
+    #[Groups("sessionFrom")]
     private ?int $maxPlaces = null;
 
 
@@ -49,23 +57,36 @@ class Sessions
 
 
     #[ORM\Column(length: 500)]
+    #[Groups("sessionFrom")]
     private ?string $imageLink = null;
 
+    #[ORM\Column]
+    private ?bool $blocked = false;
+
+    #[ORM\Column]
+    private ?string $eventId;
 
     #[ORM\ManyToOne(targetEntity: Courses::class, inversedBy: 'sessions')]
     #[ORM\JoinColumn(name: 'id_course', referencedColumnName: 'id', nullable: true)]
+    #[Groups("sessionFrom")]
     private ?Courses $course = null;
 
-    #[ORM\OneToMany(targetEntity: Resources::class, mappedBy: "sessions")]
-    private ?Collection $resources;
+    #[ORM\OneToMany(targetEntity: Resources::class, mappedBy: "session", cascade: ["persist"])]
+    #[Groups("sessionFrom")]
+    private ?Collection $resources = null;
+
+    #[ORM\OneToMany(targetEntity: Participations::class, mappedBy: "session")]
+    private ?Collection $participations = null;
 
     #[ORM\ManyToOne(targetEntity: Users::class, inversedBy: 'sessions')]
     #[ORM\JoinColumn(name: 'id_user', referencedColumnName: 'id', nullable: true)]
     private ?Users $user = null;
 
+
     public function __construct()
     {
         $this->resources = new ArrayCollection();
+        $this->participations = new ArrayCollection();
     }
 
     public function getId(): int
@@ -234,6 +255,62 @@ class Sessions
     public function setMaxPlaces(int $maxPlaces): self
     {
         $this->maxPlaces = $maxPlaces;
+
+        return $this;
+    }
+
+
+    public function getParticipations(): ?Collection
+    {
+        return $this->participations;
+    }
+
+    public function addParticipation(Participations $participation): self
+    {
+        if (!$this->participations->contains($participation)) {
+            $this->participations->add($participation);
+            $participation->setSession($this);
+        }
+
+        return $this;
+    }
+
+    public function removeParticipation(Participations $participation): self
+    {
+        if ($this->participations->removeElement($participation)) {
+            if ($participation->getSession() === $this) {
+                $participation->setSession(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getBlocked(): ?bool
+    {
+        return $this->blocked;
+    }
+
+    public function setBlocked(bool $blocked): self
+    {
+        $this->blocked = $blocked;
+
+        return $this;
+    }
+
+    public function isBlocked(): ?bool
+    {
+        return $this->blocked;
+    }
+
+    public function getEventId(): ?string
+    {
+        return $this->eventId;
+    }
+
+    public function setEventId(string $eventId): self
+    {
+        $this->eventId = $eventId;
 
         return $this;
     }

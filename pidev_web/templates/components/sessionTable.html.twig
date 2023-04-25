@@ -1,0 +1,36 @@
+<div class="table-responsive">
+	<table class="session-table table mb-0">
+		<thead class="table-dark">
+			<tr>
+				<th>#</th>
+				<th>Créateur</th>
+				<th>Cours</th>
+				<th>Prix</th>
+				<th>Date</th>
+				<th>Heure Debut</th>
+				<th>Heure Fin</th>
+				<th>Blocké</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for session in sessions %}
+				<tr>
+					<th scope="row">{{loop.index  + (limit * (page - 1))}}</th>
+					<td>{{session.user.firstName}}
+						{{session.user.lastName}}</td>
+					<td>{{session.course.name}}</td>
+					<td>{{session.price}}
+						DT</td>
+					<td>{{session.date|date('Y-m-d')}}</td>
+					<td>{{session.startTime|date('H:i')}}</td>
+					<td>{{session.endTime|date('H:i')}}</td>
+					<td>
+						<button data-id="{{session.id}}" data-is-blocked="{{session.blocked ? 1 : 0}}" class="block-btn btn btn{{session.blocked ? '' : '-outline'}}-danger waves-effect waves-dark">
+							<i class="fas fa-ban fs-6"></i>
+						</button>
+					</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+</div>

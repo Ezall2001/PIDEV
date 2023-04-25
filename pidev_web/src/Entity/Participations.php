@@ -17,13 +17,13 @@ class Participations
     #[ORM\Column(length: 20)]
     private string $state;
 
-    #[ORM\ManyToOne(targetEntity: Users::class, inversedBy: 'users')]
+    #[ORM\ManyToOne(targetEntity: Users::class, inversedBy: 'participations')]
     #[ORM\JoinColumn(name: 'id_user', referencedColumnName: 'id', nullable: true)]
-    private $user;
+    private ?Users $user = null;
 
-    #[ORM\ManyToOne(targetEntity: Sessions::class, inversedBy: 'sessions')]
+    #[ORM\ManyToOne(targetEntity: Sessions::class, inversedBy: 'participations')]
     #[ORM\JoinColumn(name: 'id_session', referencedColumnName: 'id', nullable: true)]
-    private $session;
+    private ?Sessions $session = null;
 
     public function getId(): int
     {

@@ -17,7 +17,6 @@ class Users
     private ?int $id;
 
     #[ORM\Column(length: 100)]
-
     private ?string $firstName = null;
 
     #[ORM\Column(length: 100)]
@@ -47,29 +46,35 @@ class Users
     #[ORM\Column]
     private ?int $warnings = 0;
 
+    #[ORM\Column]
+    private ?string $walletId;
+
     // #[ORM\OneToOne(targetEntity: TestResults::class, inversedBy: 'users')]
     // #[ORM\JoinColumn(name: "id_user", referencedColumnName: "id", nullable: true)]
     // public ?TestResults $result;
 
 
-    #[ORM\OneToMany(targetEntity: Sessions::class,  mappedBy: "users")]
-    public ?Collection $session = null;
+    #[ORM\OneToMany(targetEntity: Sessions::class,  mappedBy: "user")]
+    private ?Collection $sessions = null;
 
-    #[ORM\OneToMany(targetEntity: Questions::class, mappedBy: 'users')]
-    public ?Collection $question = null;
+    #[ORM\OneToMany(targetEntity: Participations::class,  mappedBy: "user")]
+    private ?Collection $participations = null;
 
-    #[ORM\OneToMany(targetEntity: Answers::class, mappedBy: 'users')]
-    public ?Collection $answer = null;
+    // #[ORM\OneToMany(targetEntity: Questions::class, mappedBy: 'users')]
+    // public ?Collection $question = null;
 
-    #[ORM\OneToMany(targetEntity: Votes::class, mappedBy: 'users')]
-    public ?Collection $vote = null;
+    // #[ORM\OneToMany(targetEntity: Answers::class, mappedBy: 'users')]
+    // public ?Collection $answer = null;
+
+    // #[ORM\OneToMany(targetEntity: Votes::class, mappedBy: 'users')]
+    // public ?Collection $vote = null;
 
     public function __construct()
     {
-        $this->session = new ArrayCollection();
-        $this->question = new ArrayCollection();
-        $this->answer = new ArrayCollection();
-        $this->vote = new ArrayCollection();
+        $this->sessions = new ArrayCollection();
+        // $this->question = new ArrayCollection();
+        // $this->answer = new ArrayCollection();
+        // $this->vote = new ArrayCollection();
     }
 
 
@@ -86,6 +91,18 @@ class Users
     public function setFirstName(string $firstName): self
     {
         $this->firstName = $firstName;
+
+        return $this;
+    }
+
+    public function getWalledId(): ?string
+    {
+        return $this->walletId;
+    }
+
+    public function setWalledId(string $walletId): self
+    {
+        $this->walletId = $walletId;
 
         return $this;
     }
@@ -200,20 +217,20 @@ class Users
 
     public function getSessions(): Collection
     {
-        return $this->session;
+        return $this->sessions;
     }
-    public function getAnswer(): Collection
-    {
-        return $this->answer;
-    }
-    public function getQuestion(): Collection
-    {
-        return $this->question;
-    }
-    public function getVote(): Collection
-    {
-        return $this->vote;
-    }
+    // public function getAnswer(): Collection
+    // {
+    //     return $this->answer;
+    // }
+    // public function getQuestion(): Collection
+    // {
+    //     return $this->question;
+    // }
+    // public function getVote(): Collection
+    // {
+    //     return $this->vote;
+    // }
 
     // public function getResult(): ?TestResults
     // {
@@ -232,94 +249,94 @@ class Users
      */
     public function getSession(): Collection
     {
-        return $this->session;
+        return $this->sessions;
     }
 
-    public function addSession(Sessions $session): self
+    public function addSession(Sessions $sessions): self
     {
-        if (!$this->session->contains($session)) {
-            $this->session->add($session);
-            $session->setUser($this);
+        if (!$this->sessions->contains($sessions)) {
+            $this->sessions->add($sessions);
+            $sessions->setUser($this);
         }
 
         return $this;
     }
 
-    public function removeSession(Sessions $session): self
+    public function removeSession(Sessions $sessions): self
     {
-        if ($this->session->removeElement($session)) {
+        if ($this->sessions->removeElement($sessions)) {
             // set the owning side to null (unless already changed)
-            if ($session->getUser() === $this) {
-                $session->setUser(null);
+            if ($sessions->getUser() === $this) {
+                $sessions->setUser(null);
             }
         }
 
         return $this;
     }
 
-    public function addQuestion(Questions $question): self
-    {
-        if (!$this->question->contains($question)) {
-            $this->question->add($question);
-            $question->setUser($this);
-        }
+    // public function addQuestion(Questions $question): self
+    // {
+    //     if (!$this->question->contains($question)) {
+    //         $this->question->add($question);
+    //         $question->setUser($this);
+    //     }
 
-        return $this;
-    }
+    //     return $this;
+    // }
 
-    public function removeQuestion(Questions $question): self
-    {
-        if ($this->question->removeElement($question)) {
-            // set the owning side to null (unless already changed)
-            if ($question->getUser() === $this) {
-                $question->setUser(null);
-            }
-        }
+    // public function removeQuestion(Questions $question): self
+    // {
+    //     if ($this->question->removeElement($question)) {
+    //         // set the owning side to null (unless already changed)
+    //         if ($question->getUser() === $this) {
+    //             $question->setUser(null);
+    //         }
+    //     }
 
-        return $this;
-    }
+    //     return $this;
+    // }
 
-    public function addAnswer(Answers $answer): self
-    {
-        if (!$this->answer->contains($answer)) {
-            $this->answer->add($answer);
-            $answer->setUser($this);
-        }
+    // public function addAnswer(Answers $answer): self
+    // {
+    //     if (!$this->answer->contains($answer)) {
+    //         $this->answer->add($answer);
+    //         $answer->setUser($this);
+    //     }
 
-        return $this;
-    }
+    //     return $this;
+    // }
 
-    public function removeAnswer(Answers $answer): self
-    {
-        if ($this->answer->removeElement($answer)) {
-            // set the owning side to null (unless already changed)
-            if ($answer->getUser() === $this) {
-                $answer->setUser(null);
-            }
-        }
+    // public function removeAnswer(Answers $answer): self
+    // {
+    //     if ($this->answer->removeElement($answer)) {
+    //         // set the owning side to null (unless already changed)
+    //         if ($answer->getUser() === $this) {
+    //             $answer->setUser(null);
+    //         }
+    //     }
 
-        return $this;
-    }
+    //     return $this;
+    // }
 
-    public function addVote(Votes $vote): self
-    {
-        if (!$this->vote->contains($vote)) {
-            $this->vote->add($vote);
-            $vote->setUser($this);
-        }
+    // public function addVote(Votes $vote): self
+    // {
+    //     if (!$this->vote->contains($vote)) {
+    //         $this->vote->add($vote);
+    //         $vote->setUser($this);
+    //     }
 
-        return $this;
-    }
+    //     return $this;
+    // }
 
-    public function removeVote(Votes $vote): self
-    {
-        if ($this->vote->removeElement($vote)) {
-            // set the owning side to null (unless already changed)
-            if ($vote->getUser() === $this) {
-                $vote->setUser(null);
-            }
-        }
+    // public function removeVote(Votes $vote): self
+    // {
+    //     if ($this->vote->removeElement($vote)) {
+    //         // set the owning side to null (unless already changed)
+    //         if ($vote->getUser() === $this) {
+    //             $vote->setUser(null);
+    //         }
+    //     }
 
-        return $this;
-    }
+    //     return $this;
+    // }
 }

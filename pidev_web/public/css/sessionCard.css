@@ -1,17 +1,21 @@
 /** @format */
 
 .session-card {
+	width: 23rem !important;
+	min-width: 23rem !important;
 	height: 25rem;
 	background-color: white;
 	pointer-events: none;
 	position: relative;
 	z-index: 1;
 	transition: transform 0.3s ease-out;
+	box-shadow: 3px 3px 8px #ccc;
 }
 
 .session-card img {
 	min-height: 8rem;
 	height: 8rem;
+	object-fit: cover;
 }
 
 .session-card .card-body {
@@ -35,13 +39,15 @@
 	align-items: flex-end;
 	justify-content: space-between;
 	width: 100%;
+	flex-wrap: wrap;
+	gap: 0.5rem;
 }
 
 .card-actions .mobile-btn {
 	display: none;
 }
 
-.card-actions button.participate-action {
+.card-actions button:not(.mobile-btn) {
 	padding-top: 0.2rem !important;
 	padding-bottom: 0.2rem !important;
 }
@@ -94,8 +100,13 @@
 	transform: scale(1.18);
 }
 
+.card-actions .participate-action * {
+	pointer-events: none;
+}
+
 @media screen and (max-width: 575px) {
-	.card-actions button:not(.mobile-btn) {
+	.card-actions > button:not(.mobile-btn),
+	.card-actions .dropdown > button:not(.mobile-btn) {
 		display: none;
 	}
 

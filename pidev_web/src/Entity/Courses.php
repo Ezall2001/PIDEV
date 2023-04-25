@@ -2,10 +2,13 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Repository\CoursesRepository;
+use Symfony\Component\Serializer\Annotation\Groups;
+
 
 #[ORM\Entity(repositoryClass: CoursesRepository::class)]
 class Courses
@@ -13,6 +16,7 @@ class Courses
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups("sessionFrom")]
     private ?int $id = null;
 
     #[ORM\Column(type: 'string', length: 500)]
@@ -25,24 +29,28 @@ class Courses
     #[Assert\Choice(choices: ['EASY', 'MEDIUM', 'HARD'], message: 'Choose a valid difficulty')]
     private ?string $difficulty = null;
 
-    #[ORM\ManyToOne(targetEntity: Subjects::class, inversedBy: 'courses')]
-    #[ORM\JoinColumn(name: 'id_subject', referencedColumnName: 'id', nullable: true)]
-    private ?Subjects $subject;
+    // #[ORM\ManyToOne(targetEntity: Subjects::class, inversedBy: 'courses')]
+    // #[ORM\JoinColumn(name: 'id_subject', referencedColumnName: 'id', nullable: true)]
+    // private ?Subjects $subject;
 
-
-    #[ORM\OneToMany(targetEntity: Tests::class, mappedBy: 'course')]
-    private Collection $tests;
+    // #[ORM\OneToMany(targetEntity: Tests::class, mappedBy: 'course')]
+    // private Collection $tests;
 
     #[ORM\OneToMany(targetEntity: Sessions::class, mappedBy: 'course')]
     private Collection $sessions;
 
-
-
-
-    public function getTests(): Collection
+    public function __construct()
     {
-        return $this->tests;
+        $this->sessions = new ArrayCollection();
     }
+
+
+
+
+    // public function getTests(): Collection
+    // {
+    //     return $this->tests;
+    // }
 
 
 
@@ -87,21 +95,51 @@ class Courses
         return $this;
     }
 
-    public function getSubject(): ?Subjects
+    // public function getSubject(): ?Subjects
+    // {
+    //     return $this->subject;
+    // }
+
+    // public function setSubject(?Subjects $subject): self
+    // {
+    //     $this->subject = $subject;
+
+    //     return $this;
+    // }
+
+    // public function setTests(?Collection $tests): self
+    // {
+    //     $this->tests = $tests;
+
+    //     return $this;
+    // }
+
+    /**
+     * @return Collection<int, Sessions>
+     */
+    public function getSessions(): Collection
     {
-        return $this->subject;
+        return $this->sessions;
     }
 
-    public function setSubject(?Subjects $subject): self
+    public function addSession(Sessions $session): self
     {
-        $this->subject = $subject;
+        if (!$this->sessions->contains($session)) {
+            $this->sessions->add($session);
+            $session->setCourse($this);
+        }
 
         return $this;
     }
 
-    public function setTests(?Collection $tests): self
+    public function removeSession(Sessions $session): self
     {
-        $this->tests = $tests;
+        if ($this->sessions->removeElement($session)) {
+            // set the owning side to null (unless already changed)
+            if ($session->getCourse() === $this) {
+                $session->setCourse(null);
+            }
+        }
 
         return $this;
     }

@@ -1,0 +1,93 @@
+{% extends 'layouts/user.html.twig' %}
+
+{% block title %}
+	Table des Séances
+{% endblock %}
+
+{% block stylesheets %}
+	<link href="{{asset('templateAssets/libs/selectize/css/selectize.bootstrap3.css')}}" rel="stylesheet" type="text/css"/>
+	<link href="{{asset('templateAssets/libs/flatpickr/flatpickr.min.css')}}" rel="stylesheet" type="text/css"/>
+	<link href="{{asset('templateAssets/libs/ion-rangeslider/css/ion.rangeSlider.min.css')}}" rel="stylesheet" type="text/css"/>
+
+
+	<link rel="stylesheet" type="text/css" href="{{asset('css/sessionTable.css')}}"/>
+	<link rel="stylesheet" type="text/css" href="{{asset('css/sessionsList.css')}}"/>
+	<link rel="stylesheet" type="text/css" href="{{asset('css/sessionsResultDisplaySettings.css')}}"/>
+	<link rel="stylesheet" type="text/css" href="{{asset('css/sessionsFilter.css')}}"/>
+
+{% endblock %}
+
+{% block javascripts %}
+	<script src="{{asset('templateAssets/libs/flatpickr/flatpickr.min.js')}}" defer></script>
+	<script src="{{asset('templateAssets/libs/ion-rangeslider/js/ion.rangeSlider.min.js')}}" defer></script>
+	<script src="{{asset('templateAssets/libs/selectize/js/standalone/selectize.min.js')}}" defer></script>
+
+	<script src="{{asset('js/sessionsList/adminSessionsList.js')}}" type="module" defer></script>
+{% endblock %}
+
+
+{% block main %}
+	<div class="aside-mobile filter-wrapper offcanvas offcanvas-start" id="mobile-sessions-filter" tabindex="-1">
+		<div class="offcanvas-header">
+			<button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+		</div>
+		<div class="offcanvas-body">
+			{{component('sessionsFilter',{"filterObject":filters,"creators":creators,"courses":courses ,"isAdmin":true})}}
+		</div>
+	</div>
+
+
+	<div class="header">
+		<h1 class="display-5 my-3">Table Des Séances</h1>
+
+		<div class="actions">
+			<button class="filter-toggle-btn btn btn-dark waves-effect waves-light" data-bs-toggle="offcanvas" data-bs-target="#mobile-sessions-filter">
+				<span class="btn-label">
+					<i class="fas fa-filter fs-6"></i>
+				</span>
+				Filtres Actifs (
+				{{filters.activeFilters}}
+				)
+			</button>
+
+			<button class="mobile-btn filter-toggle-btn btn btn-dark waves-effect waves-light" data-bs-toggle="offcanvas" data-bs-target="#mobile-sessions-filter">
+				<i class="fas fa-filter fs-6 me-1"></i>
+				(
+				{{filters.activeFilters}}
+				)
+			</button>
+
+		</div>
+
+	</div>
+
+	<div class="section p-0 mt-3">
+
+		<div class="aside filter-wrapper bg-light p-3">
+			{{component('sessionsFilter',{"filterObject":filters,"creators":creators,"courses":courses,"isAdmin":true})}}
+		</div>
+
+		<div class="main bg-light p-3">
+
+			<h4>{{totalFoundSessions}}
+				Seances Trouvées :</h4>
+
+			<div class="results-wrapper mt-3">
+				{{component('sessionsResultDisplaySettings',{'paginationObj':paginationUI,'sortObj':sortObj,"isAdmin":true})}}
+				<hr/>
+
+				<div class="results">
+					{% if totalFoundSessions == 0 %}
+						<h3 class="no-result h3 mt-5 text-secondary">Aucune Résultat</h3>
+
+					{% else %}
+						{{component('sessionTable',{'sessions':sessions,'limit':paginationUI.limit , 'page':paginationUI.currentPage})}}
+					{% endif %}
+
+				</div>
+
+				<hr/>
+				{{component('sessionsResultDisplaySettings',{'paginationObj':paginationUI,'sortObj':sortObj,"isAdmin":true})}}</div>
+		</div>
+	</div>
+{% endblock %}
