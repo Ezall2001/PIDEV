@@ -41,11 +41,22 @@
                             </div>
 
                             {{ form_start(form, {'attr': {'method': 'POST', 'action': '/login'}}) }}
-                            {{ form_label(form.email, 'Email address') }}
-                            {{ form_widget(form.email, {'attr': {'class': 'form-control'}}) }}
-                            {{ form_label(form.password, 'Password') }}
-                            {{ form_widget(form.password, {'attr': {'class': 'form-control'}}) }}
-                            {{ form_row(form.submit, { 'attr': {'class': 'btn btn-primary'} }) }}
+                            <div class="mb-3">
+                                {{ form_label(form.email, 'Adresse Email') }}
+                                {{ form_widget(form.email, {'attr': {'class': 'form-control'}}) }}
+                                <div style="color:brown; font-size: 14px">
+                                    {{ form_errors(form.email) }}
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                {{ form_label(form.password, 'Mot de Passe') }}
+                                {{ form_widget(form.password, {'attr': {'class': 'form-control'}}) }}
+                                <div style="color:brown; font-size: 14px">
+                                    {{ form_errors(form.password) }}
+                                </div>
+                            </div>
+
+                            {{ form_row(form.submit, { 'attr': {'class': 'btn btn-danger'} }) }}
                             {{ form_end(form) }}
 
                         </div> <!-- end card-body -->

@@ -3,7 +3,24 @@
 #    controller: App\Controller\DefaultController::index
 api_login_check:
     path: /api/login_check
+
+api_login:
+    path: /api/login
+    methods: [POST]
 login:
     path: /login
     controller: App\Controller\UserController::login
     methods: [GET, POST]
+profile_update:
+    path: /profile/{id}/update
+    methods: [POST]
+    controller: App\Controller\UsersController::updateProfile
+profil:
+    path: /profil
+    controller: App\Controller\UserController::profil
+    methods: [GET, POST]
+user_delete:
+    path: '/users/{id}/delete'
+    controller: App\Controller\UsersController::deleteUser
+    methods: ['POST']
+

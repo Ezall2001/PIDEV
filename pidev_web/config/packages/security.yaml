@@ -10,6 +10,10 @@ security:
             entity:
                 class: App\Entity\Users
                 property: email
+    encoders:
+            App\Entity\Users:
+                algorithm: bcrypt
+
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
@@ -18,7 +22,9 @@ security:
             lazy: true
             # provider: users_in_memory
             provider: app_user_provider
-
+            custom_authenticator: App\Security\UsersAuthAuthenticator
+            logout:
+                path: app_logout
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#the-firewall
 
@@ -33,20 +39,21 @@ security:
                 failure_handler: lexik_jwt_authentication.handler.authentication_failure
 
         api:
-            pattern:   ^/api
-            stateless: true
-            guard:
-                authenticators:
-                    - lexik_jwt_authentication.jwt_token_authenticator
-
+            # pattern:   ^/api
+            # stateless: true
+            # jwt: ~
+            # custom_authenticator: App\Security\UsersAuthAuthenticator
+            # logout:
+            #     path: app_logout
+                # where to redirect after logout
+                # target: app_any_route
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        #  - { path: ^/admin, roles: ROLE_ADMIN }
-        #  - { path: ^/profile, roles: ROLE_USER }
-        - { path: ^/api/login, roles: PUBLIC_ACCESS }
-        - { path: ^/api,       roles: IS_AUTHENTICATED_FULLY }
-
+         - { path: ^/admin, roles: ROLE_ADMIN }
+         - { path: ^/profil, roles: ROLE_USER }
+        # - { path: ^/api/login, roles: PUBLIC_ACCESS }
+        # - { path: ^/api,       roles: IS_AUTHENTICATED_FULLY }
 
 when@test:
     security:

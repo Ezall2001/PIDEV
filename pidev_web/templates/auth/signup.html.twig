@@ -34,79 +34,71 @@
                     <div class="card">
 
                         <div class="card-body p-4">
-
-                            <div class="text-center mb-4">
-                                <h4 class="text-uppercase mt-0">Register</h4>
-                            </div>
-
+                            <header>
+                                <div class="text-center mb-4">
+                                    <h4 class="text-bold mt-0">Devenir un membre Myalò</h4>
+                                </div>
+                            </header>
                             {{ form_start(form) }}
 
                             <div class="mb-3">
-                                {{ form_row(form.firstName, {'attr': {'class': 'form-control', 'placeholder': 'Enter your first name'}})
+                                {{ form_label(form.firstName, 'Prénom') }}
+                                {{ form_widget(form.firstName, {'attr': {'class': 'form-control'}})
                                 }}
-                                <!-- Render validation errors for firstName field -->
-                                {% if form.firstName.vars.errors|length > 0 %}
-                                <div class="text-danger">
+                                <div style="color:brown; font-size: 14px">
                                     {{ form_errors(form.firstName) }}
                                 </div>
-                                {% endif %}
                             </div>
                             <div class="mb-3">
-                                {{ form_row(form.lastName, {'attr': {'class': 'form-control', 'placeholder': 'Enter your last name'}})
+                                {{ form_label(form.lastName, 'Nom') }}
+                                {{ form_widget(form.lastName, {'attr': {'class': 'form-control'}})
                                 }}
-                                <!-- Render validation errors for lastName field -->
-                                {% if form.lastName.vars.errors|length > 0 %}
-                                <div class="text-danger">
+                                <div style="color:brown; font-size: 14px">
                                     {{ form_errors(form.lastName) }}
                                 </div>
-                                {% endif %}
                             </div>
                             <div class="mb-3">
-                                {{ form_row(form.bio, {'attr': {'class': 'form-control', 'placeholder': 'Enter your bio'}})
+                                {{ form_label(form.bio, 'Bio') }}
+                                {{ form_widget(form.bio, {'attr': {'class': 'form-control'}})
                                 }}
-                                <!-- Render validation errors for bio field -->
-                                {% if form.bio.vars.errors|length > 0 %}
-                                <div class="text-danger">
+                                <div style="color:brown; font-size: 14px">
                                     {{ form_errors(form.bio) }}
                                 </div>
-                                {% endif %}
                             </div>
                             <div class="mb-3">
-                                {{ form_row(form.avatarPath, {'attr': {'class': 'form-control', 'placeholder': 'Enter your avatar path'}})
+                                {{ form_label(form.avatarPath, 'Choisi une photo de Profil') }}
+                                {{ form_widget(form.avatarPath, {'attr': {'class': 'form-control'}})
                                 }}
-                                <!-- Render validation errors for avatarPath field -->
-                                {% if form.avatarPath.vars.errors|length > 0 %}
-                                <div class="text-danger">
+                                <div style="color:brown; font-size: 14px">
                                     {{ form_errors(form.avatarPath) }}
                                 </div>
-                                {% endif %}
                             </div>
                             <div class="mb-3">
-                                {{ form_row(form.age, {'attr': {'class': 'form-control', 'placeholder': 'Enter your age'}})
+                                {{ form_label(form.age, 'Age') }}
+                                {{ form_widget(form.age, {'attr': {'class': 'form-control'}})
                                 }}
-                                <!-- Render validation errors for age field -->
-                                {% if form.age.vars.errors|length > 0 %}
-                                <div class="text-danger">
+                                <div style="color:brown; font-size: 14px">
                                     {{ form_errors(form.age) }}
                                 </div>
-                                {% endif %}
                             </div>
                             <div class="mb-3">
-                                {{ form_row(form.email, {'attr': {'class': 'form-control', 'placeholder': 'Enter your email'}})
+                                {{ form_label(form.email, 'Email') }}
+                                {{ form_widget(form.email, {'attr': {'class': 'form-control'}})
                                 }}
-                                <!-- Render validation errors for email field -->
-                                {% if form.email.vars.errors|length > 0 %}
-                                <div class="text-danger">
+                                <div style="color:brown; font-size: 14px">
                                     {{ form_errors(form.email) }}
                                 </div>
-                                {% endif %}
                             </div>
                             <div class="mb-3">
-                                {{ form_row(form.password, {'attr': {'class': 'form-control', 'placeholder': 'Enter your password', 'type':'password'}})
+                                {{ form_label(form.password, 'Mot de passe') }}
+                                {{ form_widget(form.password, {'attr': {'class': 'form-control'}})
                                 }}
+                                <div style="color:brown; font-size: 14px">
+                                    {{ form_errors(form.password) }}
+                                </div>
                             </div>
                             <div class="mb-3 text-center d-grid">
-                                {{ form_widget(form.submit, {'label': ' Sign Up', 'attr': {'class': 'btn btn-primary'}})
+                                {{ form_widget(form.submit, {'label': ' Sign Up', 'attr': {'class': 'btn btn-danger'}})
                                 }}
                             </div>
 

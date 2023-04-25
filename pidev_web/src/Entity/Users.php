@@ -10,17 +10,21 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\UsersRapository;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Lexik\Bundle\JWTAuthenticationBundle\Security\User\JWTUserInterface;
 
 #[ORM\Entity(repositoryClass: UsersRapository::class)]
-class Users
+#[UniqueEntity(fields: ['email'], message: 'Un compte existe déjà avec cette adresse e-mail')]
+class Users implements UserInterface
 {
+
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
     #[ORM\Column]
-
     private ?string $firstName = null;
 
     #[ORM\Column]
@@ -30,7 +34,7 @@ class Users
 
     private ?string $bio = null;
 
-    #[ORM\Column]
+    #[ORM\Column(type: 'string')]
     private ?string $avatarPath = null;
 
     #[ORM\Column]
@@ -47,6 +51,15 @@ class Users
 
     #[ORM\Column]
     private ?string $type = 'STUDENT';
+
+    #[ORM\Column(type: 'json')]
+    private $roles = [];
+
+    #[ORM\Column(type: 'string', length: 100, nullable: true)]
+    private $resetToken;
+
+    // #[ORM\Column(type: 'boolean')]
+    // private $is_verified = false;
 
     #[ORM\Column]
     private ?int $warnings = 0;
@@ -166,17 +179,17 @@ class Users
         return $this;
     }
 
-    public function getPassword(): ?string
-    {
-        return $this->password;
-    }
+    // public function getPassword(): ?string
+    // {
+    //     return $this->password;
+    // }
 
-    public function setPassword(string $password): self
-    {
-        $this->password = $password;
+    // public function setPassword(string $password): self
+    // {
+    //     $this->password = $password;
 
-        return $this;
-    }
+    //     return $this;
+    // }
 
     public function getType(): ?string
     {
@@ -238,6 +251,7 @@ class Users
     {
         return $this->session;
     }
+
 
     public function addSession(Sessions $session): self
     {
@@ -318,12 +332,142 @@ class Users
     public function removeVote(Votes $vote): self
     {
         if ($this->vote->removeElement($vote)) {
-            // set the owning side to null (unless already changed)
+
             if ($vote->getUser() === $this) {
                 $vote->setUser(null);
             }
         }
 
         return $this;
+    }
+
+    public function getUserIdentifier(): string
+    {
+        return (string) $this->email;
+    }
+
+    public function getUsername(): string
+    {
+        return (string) $this->email;
+    }
+
+    public function getRoles(): array
+    {
+        $roles = $this->roles;
+        $roles[] = 'ROLE_USER';
+
+        return array_unique($roles);
+    }
+
+    public function setRoles(array $roles): self
+    {
+        $this->roles = $roles;
+
+        return $this;
+    }
+    // public function getIsVerified(): ?bool
+    // {
+    //     return $this->is_verified;
+    // }
+
+    // public function setIsVerified(bool $is_verified): self
+    // {
+    //     $this->is_verified = $is_verified;
+
+    //     return $this;
+    // }
+
+    public function getPassword(): string
+    {
+        return $this->password;
+    }
+
+    public function setPassword(string $password): self
+    {
+        $this->password = $password;
+
+        return $this;
+    }
+
+    public function getSalt(): ?string
+    {
+        return null;
+    }
+
+    public function eraseCredentials()
+    {
+        // If you store any temporary, sensitive data on the user, clear it here
+        // $this->plainPassword = null;
+    }
+    public static function createFromPayload($username, array $payload)
+    {
+        $user = new self();
+
+        // set user properties from the payload
+
+        return $user;
+    }
+    public function getResetToken(): ?string
+    {
+        return $this->resetToken;
+    }
+
+    public function setResetToken(?string $resetToken): self
+    {
+        $this->resetToken = $resetToken;
+
+        return $this;
+    }
+
+    private static $levels = ['NEWCOMER', 'BEGINNER', 'COMPETENT', 'PROFICIENT', 'EXPERT'];
+    public static function computeLevelBreakpointScore($levelIndex)
+    {
+        $levelIndex = (int) $levelIndex;
+        return pow(($levelIndex + 1), 2) * 100;
+    }
+
+    public function getLevel()
+    {
+        $level = $this->computeLevel();
+        return ucfirst(strtolower($level));
+    }
+
+    public function computeLevel()
+    {
+        $levelIndex = 0;
+        while ($this->score > self::computeLevelBreakpointScore($levelIndex)) {
+            $levelIndex++;
+        }
+        return self::$levels[$levelIndex];
+    }
+
+    public function computeCurrentLevelScore()
+    {
+        $levelIndex = 0;
+        $levelBreakpointScore = self::computeLevelBreakpointScore($levelIndex);
+        $currentLevelScore = $this->score;
+
+        while ($currentLevelScore > $levelBreakpointScore) {
+            $currentLevelScore -= $levelBreakpointScore;
+            $levelIndex++;
+            $levelBreakpointScore = self::computeLevelBreakpointScore($levelIndex);
+        }
+
+        return $currentLevelScore;
+    }
+
+    public static function computeLevelBreakpointScoreForLevel($levelName)
+    {
+        $levelIndex = array_search(strtoupper($levelName), self::$levels);
+        return pow(($levelIndex + 1), 2) * 100;
+    }
+
+    public function setScoreBar()
+    {
+        $currentScore = $this->computeCurrentLevelScore();
+        $currentBreakpointScore = self::computeLevelBreakpointScoreForLevel($this->computeLevel());
+        $barWidth = ($currentScore / $currentBreakpointScore) * 100;
+
+        return $barWidth;
     }
 }

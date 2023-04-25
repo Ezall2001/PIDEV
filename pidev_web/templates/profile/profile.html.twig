@@ -20,203 +20,276 @@
     <h4>{{user.bio}}</h4>
 </div> #}
 {% extends 'layouts/user.html.twig' %}
+{# <div class="container-fluid">
+    <div class="row">
+        <div class="col-xl-3 col-md-6">
+            <div class="text-center card-body">
+                <div>
+                    <h5 class="text-primary font-weight-bold mb-4"
+                        style="font-size: 2.5rem; color: #1e3c72; text-shadow: 2px 2px #c7d8ed;">ESPACE PROFILE</h5>
+                    <img src="{{ asset('avatarProfilePic/' ~ user.avatarPath) }}"
+                        class="rounded-circle avatar-xl img-thumbnail mb-3" alt="profile-image">
+                    <h3 class="card-title text-black font-weight-bold" style="font-size: 1.5rem;">{{user.firstName}}
+                        {{user.lastName}}</h3>
 
-{% block body %}
+                    <div class="text-start">
+                        <div class="tab-pane fade show active profile-overview" id="profile-overview">
 
-
-<body>
-
-
-
-    <main id="main" class="main">
-
-        <div class="pagetitle">
-            <h1>Profile</h1>
-        </div><!-- End Page Title -->
-
-        <section class="section profile">
-            <div class="row">
-                <div class="col-xl-4">
-
-                    <div class="card">
-                        <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
-
-                            <img src="assets/img/profile-img.jpg" alt="Profile" class="rounded-circle">
-                            <h2>{{ user.firstName ~ ' ' ~ user.lastName }}</h2>
-                            <h4>{{user.age}} ans</h4>
-
-                        </div>
-                    </div>
-
-                </div>
-
-                <div class="col-xl-8">
-
-                    <div class="card">
-                        <div class="card-body pt-3">
-                            <!-- Bordered Tabs -->
-                            <ul class="nav nav-tabs nav-tabs-bordered">
-
-                                <li class="nav-item">
-                                    <button class="nav-link active" data-bs-toggle="tab"
-                                        data-bs-target="#profile-overview">Overview</button>
-                                </li>
-
-                                <li class="nav-item">
-                                    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-edit">Edit
-                                        Profile</button>
-                                </li>
-
-                                <li class="nav-item">
-                                    <button class="nav-link" data-bs-toggle="tab"
-                                        data-bs-target="#profile-settings">Sessions</button>
-                                </li>
-
-                                <li class="nav-item">
-                                    <button class="nav-link" data-bs-toggle="tab"
-                                        data-bs-target="#profile-change-password">Change Password</button>
-                                </li>
-
-                            </ul>
-                            <div class="tab-content pt-2">
-
-                                <div class="tab-pane fade show active profile-overview" id="profile-overview">
-                                    <h5 class="card-title">Bio</h5>
-                                    <p class="small fst-italic">{{user.bio}}</p>
-
-                                    <h5 class="card-title">Profile Details</h5>
-
-                                    <div class="row">
-                                        <div class="col-lg-3 col-md-4 label ">Nom</div>
-                                        <div class="col-lg-9 col-md-8">{{user.lastName}}</div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-lg-3 col-md-4 label ">Prenom</div>
-                                        <div class="col-lg-9 col-md-8">{{user.firstName}}</div>
-                                    </div>
-
-                                    <div class="row">
-                                        <div class="col-lg-3 col-md-4 label">Email</div>
-                                        <div class="col-lg-9 col-md-8">{{user.email}}</div>
-                                    </div>
-
+                            <div class="row">
+                                <div class="col-12 text-muted text-center small" style="font-size: 1rem;">
+                                    Age: {{user.age}}
                                 </div>
-                                <div class="tab-pane fade profile-edit pt-3" id="profile-edit">
-                                    <!-- Profile Edit Form -->
-                                    <form method="post" action="{{ path('profile', {'id': user.id}) }}">
-                                        {{ form_start(form) }}
-                                        <div class="row mb-3">
-                                            {# <label for="{{ form.avatarPath.vars.id }}" #}
-                                            <label class="col-md-4 col-lg-3 col-form-label">Profile Image</label>
-                                            <div class="col-md-8 col-lg-9">
-                                                <img src="assets/img/profile-img.jpg" alt="Profile">
-                                                <div class="pt-2">
-                                                    <a href="#" class="btn btn-primary btn-sm"
-                                                        title="Upload new profile image"><i
-                                                            class="bi bi-upload"></i></a>
-                                                    <a href="#" class="btn btn-danger btn-sm"
-                                                        title="Remove my profile image"><i class="bi bi-trash"></i></a>
+                            </div>
+
+                            <div class="row mt-2">
+                                <div class="col-12 text-center">
+
+                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                        data-bs-target="#updateProfileModal">
+                                        Modifier Profil
+                                    </button>
+
+                                    <!-- Update Profile -->
+                                    <div class="modal fade" id="updateProfileModal" tabindex="-1" role="dialog"
+                                        aria-labelledby="updateProfileModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog modal-dialog-centered" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="updateProfileModalLabel">Update Profile
+                                                    </h5>
+                                                    <button type="button" class="close" data-dismiss="modal"
+                                                        aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <!-- Profile Edit Form -->
+                                                    <form method="post" action="{{ path('profile', {'id': user.id}) }}">
+                                                        {{ form_start(form) }}
+                                                        <div class="row mb-3">
+                                                            <label for="{{ form.firstName.vars.id }}"
+                                                                class="col-md-4 col-lg-3 col-form-label">First
+                                                                Name</label>
+                                                            <div class="col-md-8 col-lg-9">
+                                                                {{ form_widget(form.firstName, {'attr': {'class': 'form-control', 'id': form.firstName.vars.id}})
+                                                                }}
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="row mb-3">
+                                                            <label for="{{ form.lastName.vars.id }}"
+                                                                class="col-md-4 col-lg-3 col-form-label">Last
+                                                                Name</label>
+                                                            <div class="col-md-8 col-lg-9">
+                                                                {{ form_widget(form.lastName, {'attr': {'class': 'form-control', 'id': form.lastName.vars.id}})
+                                                                }}
+                                                            </div>
+                                                        </div>
+
+
+                                                        <div class="row mb-3">
+                                                            <label for="{{ form.age.vars.id }}"
+                                                                class="col-md-4 col-lg-3 col-form-label">Age</label>
+                                                            <div class="col-md-8 col-lg-9">
+                                                                {{ form_widget(form.age, {'attr': {'class': 'form-control', 'id': form.age.vars.id}})
+                                                                }}
+                                                            </div>
+                                                        </div>
+                                                        <div class="row mb-3">
+                                                            <label for="{{ form.bio.vars.id }}"
+                                                                class="col-md-4 col-lg-3 col-form-label">Bio</label>
+                                                            <div class="col-md-8 col-lg-9">
+                                                                {{ form_widget(form.bio, {'attr': {'class': 'form-control', 'id': form.bio.vars.id, 'style': 'height: 100px'}})
+                                                                }}
+                                                                <div style="color:brown; font-size: 14px">
+                                                                    {{ form_errors(form.bio) }}
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="text-center">
+                                                            <button type="submit" class="btn btn-primary">Save
+                                                                Changes</button>
+                                                        </div>
+                                                        {{ form_end(form) }}
+                                                    </form><!-- End Profile Edit Form -->
                                                 </div>
                                             </div>
                                         </div>
-
-                                        <div class="row mb-3">
-                                            <label for="{{ form.firstName.vars.id }}"
-                                                class="col-md-4 col-lg-3 col-form-label">First Name</label>
-                                            <div class="col-md-8 col-lg-9">
-                                                {{ form_widget(form.firstName, {'attr': {'class': 'form-control', 'id': form.firstName.vars.id}})
-                                                }}
-                                            </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <h5 class="card-title text-primary font-weight-bold mt-4" style="font-size: 1.5rem;">
+                                Niveau:{{ user.getLevel() }} </h5>
+                            <div class="row text-center">
+                                <div class="col-12">
+                                    <div class="progress">
+                                        <div class="progress-bar" role="progressbar"
+                                            aria-valuenow="{{ user.computeCurrentLevelScore() }}" aria-valuemin="0"
+                                            aria-valuemax="{{ user.computeLevelBreakpointScore(user.computeLevel()) }}"
+                                            style="width: {{ user.setScoreBar() }}%">
                                         </div>
 
-                                        <div class="row mb-3">
-                                            <label for="{{ form.lastName.vars.id }}"
-                                                class="col-md-4 col-lg-3 col-form-label">Last Name</label>
-                                            <div class="col-md-8 col-lg-9">
-                                                {{ form_widget(form.lastName, {'attr': {'class': 'form-control', 'id': form.lastName.vars.id}})
-                                                }}
-                                            </div>
-                                        </div>
+                                    </div>
+                                    Points: {{ user.computeCurrentLevelScore() }} /
+                                    {{ user.computeLevelBreakpointScoreForLevel(user.computeLevel()) }}
 
-                                        <div class="row mb-3">
-                                            <label for="{{ form.age.vars.id }}"
-                                                class="col-md-4 col-lg-3 col-form-label">Age</label>
-                                            <div class="col-md-8 col-lg-9">
-                                                {{ form_widget(form.age, {'attr': {'class': 'form-control', 'id': form.age.vars.id}})
-                                                }}
-                                            </div>
-                                        </div>
-                                        <div class="row mb-3">
-                                            <label for="{{ form.bio.vars.id }}"
-                                                class="col-md-4 col-lg-3 col-form-label">Bio</label>
-                                            <div class="col-md-8 col-lg-9">
-                                                {{ form_widget(form.bio, {'attr': {'class': 'form-control', 'id': form.bio.vars.id, 'style': 'height: 100px'}})
-                                                }}
-                                            </div>
-                                        </div>
 
-                                        <div class="text-center">
-                                            <button type="submit" class="btn btn-primary">Save Changes</button>
-                                        </div>
-                                        {{ form_end(form) }}
-                                    </form><!-- End Profile Edit Form -->
                                 </div>
 
 
+                            </div>
 
 
 
-                                <!-- Change Password Form -->
-                                <div class="tab-pane fade pt-3" id="profile-change-password">
-                                    <form>
 
-                                        <div class="row mb-3">
-                                            <label for="currentPassword"
-                                                class="col-md-4 col-lg-3 col-form-label">Current Password</label>
-                                            <div class="col-md-8 col-lg-9">
-                                                <input name="password" type="password" class="form-control"
-                                                    id="currentPassword">
-                                            </div>
-                                        </div>
 
-                                        <div class="row mb-3">
-                                            <label for="newPassword" class="col-md-4 col-lg-3 col-form-label">New
-                                                Password</label>
-                                            <div class="col-md-8 col-lg-9">
-                                                <input name="newpassword" type="password" class="form-control"
-                                                    id="newPassword">
-                                            </div>
-                                        </div>
+                            <h5 class="card-title text-primary font-weight-bold mt-4" style="font-size: 1.5rem;">Bio
+                            </h5>
+                            <p>{{ user.bio }}</p>
 
-                                        <div class="row mb-3">
-                                            <label for="renewPassword" class="col-md-4 col-lg-3 col-form-label">Re-enter
-                                                New Password</label>
-                                            <div class="col-md-8 col-lg-9">
-                                                <input name="renewpassword" type="password" class="form-control"
-                                                    id="renewPassword">
-                                            </div>
-                                        </div>
 
-                                        <div class="text-center">
-                                            <button type="submit" class="btn btn-primary">Change Password</button>
-                                        </div>
-                                    </form><!-- End Change Password Form -->
+                        </div>
 
+
+
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> #}
+
+{% block body %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-sm-3" style="background-color: white; ">
+            <div class="card">
+                <div class="text-center">
+                    <img src="{{ asset('avatarProfilePic/' ~ user.avatarPath) }}"
+                        class="rounded-circle avatar-xl img-thumbnail mb-3" alt="profile-image">
+
+                    <div class=" row text-center">
+                        <h3 class="card-title text-primary font-weight-bold mt-4">
+                            Niveau:
+                            {{ user.getLevel() }} </h3>
+                        <div class="col-12">
+                            <div class="progress">
+                                <div class="progress-bar" role="progressbar"
+                                    aria-valuenow="{{ user.computeCurrentLevelScore() }}" aria-valuemin="0"
+                                    aria-valuemax="{{ user.computeLevelBreakpointScore(user.computeLevel()) }}"
+                                    style="width: {{ user.setScoreBar() }}%">
+                                </div>
+                            </div>
+                            <br>
+                            Points: {{ user.computeCurrentLevelScore() }} /
+                            {{ user.computeLevelBreakpointScoreForLevel(user.computeLevel()) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-8">
+            <div class="card">
+                <div class="card-body">
+                    <ul class="nav nav-tabs nav-bordered nav-justified">
+                        <li class="nav-item">
+                            <a href="#update-profil" data-bs-toggle="tab" aria-expanded="false" class="nav-link active">
+                                Modifier Profile
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#profile-b2" data-bs-toggle="tab" aria-expanded="true" class="nav-link">
+                                Certificats
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#messages-b2" data-bs-toggle="tab" aria-expanded="false" class="nav-link">
+                                Séances Créers
+                            </a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="update-profil">
+                            <!-- Profile Edit Form -->
+                            <form method="post" action="{{ path('profil') }}">
+                                {{ form_start(form) }}
+                                <div class="mb-3">
+                                    <label for="{{ form.firstName.vars.id }}"><strong>Prénom</strong></label>
+                                    {{ form_widget(form.firstName, {'attr': {'class': 'form-control'}}) }}
+                                    <div style="color:brown; font-size: 14px">
+                                        {{ form_errors(form.firstName) }}
+                                    </div>
                                 </div>
 
-                            </div><!-- End Bordered Tabs -->
+                                <div class="mb-3">
+                                    <label for="{{ form.lastName.vars.id }}"><strong>Nom</strong></label>
+                                    {{ form_widget(form.lastName, {'attr': {'class': 'form-control'}}) }}
+                                    <div style="color:brown; font-size: 14px">
+                                        {{ form_errors(form.lastName) }}
+                                    </div>
+                                </div>
+                                {# <div class="mb-3">
+                                    {{form_row(form.ImageFile)}}
+                                </div> #}
 
+                                <div class="mb-3">
+                                    <label for="{{ form.age.vars.id }}"><strong>Age</strong></label>
+                                    {{ form_widget(form.age, {'attr': {'class': 'form-control'}}) }}
+                                    <div style="color:brown; font-size: 14px">
+                                        {{ form_errors(form.age) }}
+                                    </div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="{{ form.bio.vars.id }}"><strong>Bio</strong></label>
+                                    {{ form_widget(form.bio, {'attr': {'class': 'form-control', 'rows': 5}})
+                                    }}
+                                    <div style="color:brown; font-size: 14px">
+                                        {{ form_errors(form.bio) }}
+                                    </div>
+                                </div>
+
+                                <div class="text-center">
+                                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                                </div>
+                                {{ form_end(form) }}
+                            </form>
+                            <!-- End Profile Edit Form -->
+
+                        </div>
+                        <div class="tab-pane" id="profile-b2">
+                            <p>Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim
+                                justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis
+                                eu pede mollis pretium. Integer tincidunt.Cras dapibus. Vivamus elementum
+                                semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor
+                                eu, consequat vitae, eleifend ac, enim.</p>
+                            <p class="mb-0">Vakal text here dolor sit amet, consectetuer adipiscing elit.
+                                Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus
+                                et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis,
+                                ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa
+                                quis enim.</p>
+                        </div>
+                        <div class="tab-pane" id="messages-b2">
+                            <p>Vakal text here dolor sit amet, consectetuer adipiscing elit. Aenean commodo
+                                ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis
+                                parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec,
+                                pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim.</p>
+                            <p class="mb-0">Donec pede justo, fringilla vel, aliquet nec, vulputate eget,
+                                arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam
+                                dictum felis eu pede mollis pretium. Integer tincidunt.Cras dapibus. Vivamus
+                                elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula,
+                                porttitor eu, consequat vitae, eleifend ac, enim.</p>
                         </div>
                     </div>
 
-                </div>
-            </div>
-        </section>
-
-    </main><!-- End #main -->
+                </div> <!-- end card-->
+            </div> <!-- end col -->
+        </div>
 
 
-
-
-</body>
-{% endblock %}
+        {# </div> #}
+    </div>
+    {% endblock %}
