@@ -1,0 +1,143 @@
+{% extends 'layouts/user.html.twig' %}
+
+
+{% block main %}
+
+<div class="container my-3">
+
+    <main class="row justify-content-center">
+        <div class="col-sm-3" style="background-color: white; ">
+            <div class="card">
+                <div class="text-center">
+                    <br><br>
+                    <img src="{{ asset('uploads/avatarProfilePic/' ~ user.avatarPath) }}"
+                        class="rounded-circle avatar-xl img-thumbnail mb-3" alt="profile-image">
+                    <h3 class="card-title text-black font-weight-bold" style="font-size: 1.5rem;">{{user.firstName}}
+                        {{user.lastName}}</h3>
+                    {%if user.getType == 'user'%}
+                    <div class=" row text-center">
+                        <h3 class="card-title text-primary font-weight-bold mt-4">
+                            Niveau:
+                            {{ user.getLevel() }} </h3>
+                        <div class="col-12">
+                            <div class="progress">
+                                <div class="progress-bar" role="progressbar"
+                                    aria-valuenow="{{ user.computeCurrentLevelScore() }}" aria-valuemin="0"
+                                    aria-valuemax="{{ user.computeLevelBreakpointScore(user.computeLevel()) }}"
+                                    style="width: {{ user.setScoreBar() }}%">
+                                </div>
+                            </div>
+                            <br>
+                            Points: {{ user.computeCurrentLevelScore() }} /
+                            {{ user.computeLevelBreakpointScoreForLevel(user.computeLevel()) }}
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-8">
+            <div class="card">
+                <div class="card-body">
+                    <ul class="nav nav-tabs nav-bordered nav-justified">
+                        <li class="nav-item">
+                            <a href="#update-profil" data-bs-toggle="tab" aria-expanded="false" class="nav-link active">
+                                Modifier Profile
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#profile-b2" data-bs-toggle="tab" aria-expanded="true" class="nav-link">
+                                Certificats
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#messages-b2" data-bs-toggle="tab" aria-expanded="false" class="nav-link">
+                                Séances Créers
+                            </a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="update-profil">
+                            <!-- Profile Edit Form -->
+                            <form method="post" action="{{ path('profil') }}">
+                                {{ form_start(form) }}
+                                <div class="mb-3">
+                                    <label for="{{ form.firstName.vars.id }}"><strong>Prénom</strong></label>
+                                    {{ form_widget(form.firstName, {'attr': {'class': 'form-control'}}) }}
+                                    <div style="color:brown; font-size: 14px">
+                                        {{ form_errors(form.firstName) }}
+                                    </div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="{{ form.lastName.vars.id }}"><strong>Nom</strong></label>
+                                    {{ form_widget(form.lastName, {'attr': {'class': 'form-control'}}) }}
+                                    <div style="color:brown; font-size: 14px">
+                                        {{ form_errors(form.lastName) }}
+                                    </div>
+                                </div>
+                                {# <div class="mb-3">
+                                    {{form_row(form.ImageFile)}}
+                                </div> #}
+
+                                <div class="mb-3">
+                                    <label for="{{ form.age.vars.id }}"><strong>Age</strong></label>
+                                    {{ form_widget(form.age, {'attr': {'class': 'form-control'}}) }}
+                                    <div style="color:brown; font-size: 14px">
+                                        {{ form_errors(form.age) }}
+                                    </div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="{{ form.bio.vars.id }}"><strong>Bio</strong></label>
+                                    {{ form_widget(form.bio, {'attr': {'class': 'form-control', 'rows': 5}})
+                                    }}
+                                    <div style="color:brown; font-size: 14px">
+                                        {{ form_errors(form.bio) }}
+                                    </div>
+                                </div>
+
+                                <div class="mb-3 text-center d-grid">
+                                    <button type="submit" class="btn btn-dark">Save Changes</button>
+                                </div>
+                                {{ form_end(form) }}
+                            </form>
+                            <!-- End Profile Edit Form -->
+
+                        </div>
+                        <div class="tab-pane" id="profile-b2">
+                            <p>Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim
+                                justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis
+                                eu pede mollis pretium. Integer tincidunt.Cras dapibus. Vivamus elementum
+                                semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor
+                                eu, consequat vitae, eleifend ac, enim.</p>
+                            <p class="mb-0">Vakal text here dolor sit amet, consectetuer adipiscing elit.
+                                Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus
+                                et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis,
+                                ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa
+                                quis enim.</p>
+                        </div>
+                        <div class="tab-pane" id="messages-b2">
+                            <p>Vakal text here dolor sit amet, consectetuer adipiscing elit. Aenean commodo
+                                ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis
+                                parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec,
+                                pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim.</p>
+                            <p class="mb-0">Donec pede justo, fringilla vel, aliquet nec, vulputate eget,
+                                arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam
+                                dictum felis eu pede mollis pretium. Integer tincidunt.Cras dapibus. Vivamus
+                                elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula,
+                                porttitor eu, consequat vitae, eleifend ac, enim.</p>
+                        </div>
+                    </div>
+
+                </div> <!-- end card-->
+            </div> <!-- end col -->
+        </div>
+
+
+        {# </div> #}
+    </main>
+
+</div>
+
+{% endblock %}

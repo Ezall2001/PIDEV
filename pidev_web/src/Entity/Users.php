@@ -2,13 +2,16 @@
 
 namespace App\Entity;
 
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\UsersRepository;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: UsersRepository::class)]
-class Users
+#[UniqueEntity(fields: ['email'], message: 'Un compte existe déjà avec cette adresse e-mail')]
+class Users implements UserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -42,6 +45,12 @@ class Users
 
     #[ORM\Column(length: 50)]
     private ?string $type = 'STUDENT';
+
+    #[ORM\Column(type: 'json')]
+    private $roles = [];
+
+    #[ORM\Column(type: 'string', length: 100, nullable: true)]
+    private $resetToken;
 
     #[ORM\Column]
     private ?int $warnings = 0;
@@ -339,4 +348,103 @@ class Users
 
     //     return $this;
     // }
+
+    public function getUserIdentifier(): string
+    {
+        return (string) $this->email;
+    }
+
+    public function getUsername(): string
+    {
+        return (string) $this->email;
+    }
+
+    public function getRoles(): array
+    {
+        $roles = $this->roles;
+        $roles[] = 'ROLE_USER';
+
+        return array_unique($roles);
+    }
+
+    public function setRoles(array $roles): self
+    {
+        $this->roles = $roles;
+
+        return $this;
+    }
+
+    public function getSalt(): ?string
+    {
+        return null;
+    }
+
+    public function eraseCredentials()
+    {
+        // $this->plainPassword = null;
+    }
+
+    public function getResetToken(): ?string
+    {
+        return $this->resetToken;
+    }
+
+    public function setResetToken(?string $resetToken): self
+    {
+        $this->resetToken = $resetToken;
+
+        return $this;
+    }
+
+    private static $levels = ['NEWCOMER', 'BEGINNER', 'COMPETENT', 'PROFICIENT', 'EXPERT'];
+    public static function computeLevelBreakpointScore($levelIndex)
+    {
+        $levelIndex = (int) $levelIndex;
+        return pow(($levelIndex + 1), 2) * 100;
+    }
+
+    public function getLevel()
+    {
+        $level = $this->computeLevel();
+        return ucfirst(strtolower($level));
+    }
+
+    public function computeLevel()
+    {
+        $levelIndex = 0;
+        while ($this->score > self::computeLevelBreakpointScore($levelIndex)) {
+            $levelIndex++;
+        }
+        return self::$levels[$levelIndex];
+    }
+
+    public function computeCurrentLevelScore()
+    {
+        $levelIndex = 0;
+        $levelBreakpointScore = self::computeLevelBreakpointScore($levelIndex);
+        $currentLevelScore = $this->score;
+
+        while ($currentLevelScore > $levelBreakpointScore) {
+            $currentLevelScore -= $levelBreakpointScore;
+            $levelIndex++;
+            $levelBreakpointScore = self::computeLevelBreakpointScore($levelIndex);
+        }
+
+        return $currentLevelScore;
+    }
+
+    public static function computeLevelBreakpointScoreForLevel($levelName)
+    {
+        $levelIndex = array_search(strtoupper($levelName), self::$levels);
+        return pow(($levelIndex + 1), 2) * 100;
+    }
+
+    public function setScoreBar()
+    {
+        $currentScore = $this->computeCurrentLevelScore();
+        $currentBreakpointScore = self::computeLevelBreakpointScoreForLevel($this->computeLevel());
+        $barWidth = ($currentScore / $currentBreakpointScore) * 100;
+
+        return $barWidth;
+    }
 }

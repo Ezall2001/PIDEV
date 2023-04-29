@@ -27,10 +27,15 @@
 			<ul class="d-flex align-items-center justify-content-end col-4">
 
 				<li class="dropdown notification-list topbar-dropdown">
-					<a class="nav-link dropdown-toggle nav-user me-0 waves-effect waves-light" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
+					<a class="nav-link dropdown-toggle nav-user me-0 waves-effect waves-light" data-bs-toggle="dropdown"
+						href="#" role="button" aria-haspopup="false" aria-expanded="false">
 						<span class="pro-user-name ms-1  text-light">
-							Armen Bakir
+							{% if (app.user) %}
+							{{app.user.getFirstName()}} {{app.user.getLastName()}}
 							<i class="mdi mdi-chevron-down"></i>
+							{% else %}
+							<i class="fas fa-th-list"></i>
+							{% endif %}
 						</span>
 					</a>
 					<div class="dropdown-menu dropdown-menu-end profile-dropdown ">
@@ -38,19 +43,28 @@
 							<h6 class="text-overflow m-0">Bienvenue !</h6>
 						</div>
 
-						<a href="#" class="dropdown-item notify-item">
+						{% if (app.user) %}
+						<a href="{{ path('profil') }}" class="dropdown-item notify-item">
 							<i class="fe-user"></i>
 							<span>Mon Profil</span>
 						</a>
-
 						<div class="dropdown-divider"></div>
 
-						<a href="#" class="dropdown-item notify-item text-danger">
+						<a href="{{ path('app_logout') }}" class="dropdown-item notify-item text-danger">
 							<i class="fe-log-out"></i>
-							<span>Logout</span>
+							<span>Deconnexion</span>
 						</a>
-
-					</div>
+						{% else %}
+						<a href="{{ path('app_register') }}" class="dropdown-item notify-item">
+							<i class="fe-user"></i>
+							<span>S'inscrire</span>
+						</a>
+						<div class="dropdown-divider"></div>
+						<a href="{{ path('app_login') }}" class="dropdown-item notify-item text-danger">
+							<i class="fe-log-out"></i>
+							<span>Se Connecter</span>
+						</a>
+						{% endif %}
 				</li>
 
 				<li class="dropdown notification-list">

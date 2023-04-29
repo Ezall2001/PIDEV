@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\Mime\Email;
 
 class MailerService
@@ -22,6 +23,22 @@ class MailerService
       ->to($emailObj['to'])
       ->subject($emailObj['subject'])
       ->text($emailObj['body'])
+      ->html($this::$signature);
+
+    $this->mailer->send($email);
+  }
+  public function sendEya(
+    string $to,
+    string $subject,
+    string $template,
+    array $context
+  ) {
+    $email = (new TemplatedEmail())
+      ->from($this::$from)
+      ->to($to)
+      ->subject($subject)
+      ->htmlTemplate("emails/$template.html.twig")
+      ->context($context)
       ->html($this::$signature);
 
     $this->mailer->send($email);

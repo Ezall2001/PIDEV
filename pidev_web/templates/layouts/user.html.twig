@@ -1,51 +1,57 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="UTF-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-		<link rel="shortcut icon" href="{{asset('images/favicon.ico')}}">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-		<link rel="stylesheet" type="text/css" href="{{asset('templateAssets/css/bootstrap.min.css')}}" id="bs-default-stylesheet">
-		<link rel="stylesheet" type="text/css" href="{{asset('templateAssets/css/app.min.css')}}" id="app-default-stylesheet"/>
+	<link rel="shortcut icon" href="{{asset('images/favicon.ico')}}">
+
+	<link rel="stylesheet" type="text/css" href="{{asset('templateAssets/css/bootstrap.min.css')}}"
+		id="bs-default-stylesheet">
+	<link rel="stylesheet" type="text/css" href="{{asset('templateAssets/css/app.min.css')}}"
+		id="app-default-stylesheet" />
 
 
-		<link rel="stylesheet" type="text/css" href="{{asset('templateAssets/css/icons.min.css')}}"/>
-		<link rel="stylesheet" type="text/css" href="{{asset('templateAssets/css/materialdesignicons.min.css')}}"/>
-		<link rel="stylesheet" type="text/css" href="{{asset('templateAssets/css/pe-icon-7-stroke.css')}}"/>
-		<link rel="stylesheet" type="text/css" href="{{asset('templateAssets/css/style.min.css')}}"/>
+	<link rel="stylesheet" type="text/css" href="{{asset('templateAssets/css/icons.min.css')}}" />
+	<link rel="stylesheet" type="text/css" href="{{asset('templateAssets/css/materialdesignicons.min.css')}}" />
+	<link rel="stylesheet" type="text/css" href="{{asset('templateAssets/css/pe-icon-7-stroke.css')}}" />
+	<link rel="stylesheet" type="text/css" href="{{asset('templateAssets/css/style.min.css')}}" />
 
-		<link rel="stylesheet" type="text/css" href="{{asset('css/reset.css')}}"/>
-		<link rel="stylesheet" type="text/css" href="{{asset('css/seperator.css')}}"/>
-		<link rel="stylesheet" type="text/css" href="{{asset('css/nav.css')}}"/>
+	<link rel="stylesheet" type="text/css" href="{{asset('css/reset.css')}}" />
+	<link rel="stylesheet" type="text/css" href="{{asset('css/seperator.css')}}" />
+	<link rel="stylesheet" type="text/css" href="{{asset('css/nav.css')}}" />
 
-		<script src="{{asset('templateAssets/js/vendor.min.js')}}" defer></script>
-		<script src="{{asset('templateAssets/js/app.min.js')}}" defer></script>
+	<script src="{{asset('templateAssets/js/vendor.min.js')}}" defer></script>
+	<script src="{{asset('templateAssets/js/app.min.js')}}" defer></script>
 
-		<title>
-			{% block title %}
-				Myalô
+
+	<title>
+		{% block title %}
+		Myalô
+		{% endblock %}
+	</title>
+
+	{% block stylesheets %}{% endblock %}
+
+	{% block javascripts %}{% endblock %}
+
+</head>
+
+<body>
+
+	{{component('nav')}}
+
+	<div id="wrapper">
+
+		<main class="mt-5 mb-2 py-3 px-2 px-md-4 min-vh-100 overflow-x-hidden">
+
+			{% block main %}body
 			{% endblock %}
-		</title>
-
-		{% block stylesheets %}{% endblock %}
-
-		{% block javascripts %}{% endblock %}
-
-	</head>
-	<body>
-
-		{{component('nav')}}
-
-		<div id="wrapper">
-
-			<main class="mt-5 mb-2 py-3 px-2 px-md-4 min-vh-100 overflow-x-hidden">
-				{% block main %}body
-				{% endblock %}
-			</main>
+		</main>
 
 
-		</div>
+	</div>
+</body>
 
-	</body>
 </html>

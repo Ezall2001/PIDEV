@@ -1,0 +1,112 @@
+{% extends 'layouts/user.html.twig' %}
+
+{% block title %}Liste des utilisateurs{% endblock %}
+{% block stylesheets %}
+<style>
+    .table {
+        width: 100%;
+        margin-bottom: 1rem;
+        color: #212529;
+        border-collapse: collapse;
+    }
+
+    .table th,
+    .table td {
+        padding: .75rem;
+        vertical-align: top;
+        border-top: 1px solid #dee2e6;
+    }
+
+    .table thead th {
+        vertical-align: bottom;
+        border-bottom: 2px solid #dee2e6;
+    }
+
+    .table tbody+tbody {
+        border-top: 2px solid #dee2e6;
+    }
+
+    .table .badge {
+        font-size: 100%;
+        font-weight: 400;
+        padding: .35em .65em;
+        border-radius: .25rem;
+    }
+
+    .badge.bg-danger {
+        background-color: #dc3545;
+    }
+
+    .badge.bg-success {
+        background-color: #28a745;
+    }
+
+    .badge.bg-warning {
+        background-color: #ffc107;
+    }
+</style>
+{% endblock %}
+{% block main %}
+<div class="container">
+    <div class="row">
+        <main class="col-9 border border-light bg-white p-2">
+            <h1>Liste des utilisateurs</h1>
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Prénom</th>
+                            <th>Nom</th>
+                            <th>Email</th>
+                            <th>Score</th>
+                            <th>Rôles</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for user in users %}
+                        <tr>
+                            <td>{{ user.id }}</td>
+                            <td>{{ user.firstName }}</td>
+                            <td>{{ user.lastName }}</td>
+                            <td>{{ user.email }}</td>
+                            <td>{{ user.score }}</td>
+                            <td>
+                                {% for role in user.roles %}
+                                {% if role == "ROLE_ADMIN" %}
+                                {% set name = "Administrateur" %}
+                                {% set color = "danger" %}
+                                {% elseif role == "ROLE_PRODUCT_ADMIN" %}
+                                {% set name = "Admin produits" %}
+                                {% set color = "warning" %}
+                                {% else %}
+                                {% set name = "Membre" %}
+                                {% set color = "success" %}
+                                {% endif %}
+                                <span class="badge bg-{{ color }}">{{ name }}</span>
+                                {% endfor %}
+                            </td>
+                            <td class="text-center">
+                                <a href="{{ path('admin_user_delete', {'id': user.id}) }}">
+                                    <i class="fas fa-trash-alt fa-lg" style="color: #ff0000;"></i>
+                                </a>
+                                {# <form action="{{ path('admin_user_delete', {'id': user.id}) }}" method="post">
+                                    <input type="hidden" name="token" value="{{ csrf_token('delete-user') }}" />
+                                    <button type="submit">Delete</button>
+                                </form> #}
+
+
+
+
+                            </td>
+
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+</div>
+{% endblock %}
