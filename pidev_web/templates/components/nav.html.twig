@@ -21,6 +21,12 @@
 				<li class="mx-2">
 					<a href="{{path('admin_sessions_list')}}" class="fs-4">Admin</a>
 				</li>
+				{% if (app.user) %}
+							<li class="mx-2">
+								<a href="{{path('app_question')}}" class="fs-4">Forum</a>
+							</li>
+							{% endif %}
+
 			</ul>
 
 
@@ -31,8 +37,10 @@
 						href="#" role="button" aria-haspopup="false" aria-expanded="false">
 						<span class="pro-user-name ms-1  text-light">
 							{% if (app.user) %}
+							
 							{{app.user.getFirstName()}} {{app.user.getLastName()}}
 							<i class="mdi mdi-chevron-down"></i>
+							
 							{% else %}
 							<i class="fas fa-th-list"></i>
 							{% endif %}

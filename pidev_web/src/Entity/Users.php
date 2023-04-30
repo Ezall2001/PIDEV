@@ -68,6 +68,26 @@ class Users implements UserInterface
 
     #[ORM\OneToMany(targetEntity: Participations::class,  mappedBy: "user")]
     private ?Collection $participations = null;
+    #[ORM\Column(name: "blockedUntil", type: "datetime")]
+    private ?\DateTimeInterface $blockedUntil = null;
+    
+   
+
+    #[ORM\Column]
+    private ?int $blocked= 0 ;
+
+    public function getBlocked(): ?int
+    {
+        return $this->blocked;
+    }
+
+    public function setBlocked(?int $blocked): self
+    {
+        $this->blocked = $blocked;;
+
+        return $this;
+    }
+    
 
     // #[ORM\OneToMany(targetEntity: Questions::class, mappedBy: 'users')]
     // public ?Collection $question = null;
@@ -80,12 +100,20 @@ class Users implements UserInterface
 
     public function __construct()
     {
-        $this->sessions = new ArrayCollection();
-        // $this->question = new ArrayCollection();
-        // $this->answer = new ArrayCollection();
-        // $this->vote = new ArrayCollection();
+        //$this->session = new ArrayCollection();
+        $this->question = new ArrayCollection();
+        $this->answer = new ArrayCollection();
+        $this->vote = new ArrayCollection();
     }
 
+    #[ORM\OneToMany(targetEntity: Questions::class, mappedBy: 'users')]
+    public ?Collection $question = null;
+
+    #[ORM\OneToMany(targetEntity: Answers::class, mappedBy: 'users')]
+    public ?Collection $answer = null;
+
+    #[ORM\OneToMany(targetEntity: Votes::class, mappedBy: 'users')]
+    public ?Collection $vote = null;
 
     public function getId(): ?int
     {
@@ -102,6 +130,28 @@ class Users implements UserInterface
         $this->firstName = $firstName;
 
         return $this;
+    }
+    public function getBlockedUntil(): ?\DateTimeInterface
+    {
+        return $this->blockedUntil;
+    }
+
+    public function setBlockedUntil(string $blockedUntil): self
+    {
+        $this->blockedUntil = new \DateTime($blockedUntil);
+        return $this;
+    }
+    public function getAnswer(): Collection
+    {
+        return $this->answer;
+    }
+    public function getQuestion(): Collection
+    {
+        return $this->question;
+    }
+    public function getVote(): Collection
+    {
+        return $this->vote;
     }
 
     public function getWalledId(): ?string
@@ -447,4 +497,89 @@ class Users implements UserInterface
 
         return $barWidth;
     }
+    public function addQuestion(Questions $question): self
+    {
+        if (!$this->question->contains($question)) {
+            $this->question->add($question);
+            $question->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeQuestion(Questions $question): self
+    {
+        if ($this->question->removeElement($question)) {
+            // set the owning side to null (unless already changed)
+            if ($question->getUser() === $this) {
+                $question->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function addAnswer(Answers $answer): self
+    {
+        if (!$this->answer->contains($answer)) {
+            $this->answer->add($answer);
+            $answer->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAnswer(Answers $answer): self
+    {
+        if ($this->answer->removeElement($answer)) {
+            // set the owning side to null (unless already changed)
+            if ($answer->getUser() === $this) {
+                $answer->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function addVote(Votes $vote): self
+    {
+        if (!$this->vote->contains($vote)) {
+            $this->vote->add($vote);
+            $vote->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeVote(Votes $vote): self
+    {
+        if ($this->vote->removeElement($vote)) {
+            // set the owning side to null (unless already changed)
+            if ($vote->getUser() === $this) {
+                $vote->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+    public function __toString(): string
+    {
+        return $this->firstName;
+    }
+    public function isBlocked(): bool
+    {
+        if (!$this->blocked) {
+            // L'utilisateur n'est pas bloqué
+            return false;
+        }
+    
+        if (!$this->blockedUntil instanceof \DateTimeInterface) {
+            // L'utilisateur est bloqué indéfiniment 
+            return true;
+        }
+    
+        // Vérifier si l'utilisateur est bloqué jusqu'à une date et une heure ultérieures
+        return $this->blockedUntil > new \DateTime();
+    }
+    
 }

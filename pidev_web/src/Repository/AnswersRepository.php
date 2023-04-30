@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Answers;
+use App\Entity\Votes;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -38,6 +39,15 @@ class AnswersRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
+    public function findById($id): ?Answers
+    {
+        return $this->createQueryBuilder('q')
+            ->andWhere('q.id = :id')
+            ->setParameter('id', $id)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
 
 //    /**
 //     * @return Answers[] Returns an array of Answers objects
@@ -64,3 +74,4 @@ class AnswersRepository extends ServiceEntityRepository
 //        ;
 //    }
 }
+

@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use App\Entity\Answers;
+use App\Entity\Users;
 use App\Repository\VotesRepository;
 
 
@@ -73,4 +74,6 @@ class Votes
     {
         return $this->voteType;
     }
+
+ 
 }

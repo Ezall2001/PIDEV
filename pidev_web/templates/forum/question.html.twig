@@ -1,0 +1,524 @@
+{% extends 'layouts/user.html.twig' %}
+
+{% block title %}Hello QuestionController!{% endblock %}
+
+{% block main %}
+
+<!-- Begin page -->
+ 
+        <div class="content">
+
+            <!-- Start Content-->
+              
+           
+                    <div class="col-lg-12">
+                       
+                        
+                        <div class="card">
+                            <div class="bg-picture card-body">
+                                <div class="d-flex align-items-top">
+                                    <img src="{{ question.getUser().getAvatarPath() }}" class="flex-shrink-0 rounded-circle avatar-xl img-thumbnail float-start me-3" alt="profile-image"></img>
+
+        
+                                    <div class="flex-grow-1 overflow-hidden">
+                                     
+                                       
+        
+                                        <div class="m-0" style="font-weight: bold;">{{ question.getTitle() }}</div>
+                                        <br/>
+                                        <div class="card-header">{{ question.getDescription() }}</div>
+        
+        
+                                      {% if question.getUser()== user%}
+                                        <ul class="social-list list-inline mt-3 mb-0">
+                                            <li class="list-inline-item">
+                                              <a href="#" class="social-list-item border-danger text-danger" onclick="confirmDelete(event, '{{ path('delete_question', {'id': question.getId()}) }}')"><i class="fe-trash-2"></i></a>
+                                            </li>
+                                            <li class="list-inline-item">
+                                                <a class="social-list-item border-purple text-purple" data-bs-toggle="modal" data-bs-target="#editQuestionModal{{ question.getId() }}"><i class="fe-edit"></i></a>
+                                              </li>
+                                             
+                                            </ul>
+                                            {%endif%}
+
+                                          
+                                            <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+                                            <script>
+                                              function confirmDelete(event, url) {
+                                                event.preventDefault(); // Empêcher le lien de se soumettre
+                                                Swal.fire({
+                                                  title: 'Êtes-vous sûr de vouloir supprimer cette question ?',
+                                                  showCancelButton: true,
+                                                  confirmButtonText: 'Oui, supprimer',
+                                                  cancelButtonText: 'Annuler',
+                                                  icon: 'warning',
+                                                }).then((result) => {
+                                                  if (result.isConfirmed) {
+                                                    window.location.href = url; // Rediriger vers l'URL de suppression si l'utilisateur confirme
+                                                  }
+                                                });
+                                              }
+                                            </script>
+                                            
+                                            
+                                          
+                                          
+                                          
+                                          <!-- Signup modal content -->
+                                          <div id="editQuestionModal{{ question.getId() }}" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+                                            <div class="modal-dialog">
+                                              <div class="modal-content">
+                                                <div class="modal-body">
+                                                  <div class="text-center mt-2 mb-4">
+                                                    <div class="auth-logo">
+                                                      <div class="logo logo-light">
+                                                        <span class="logo-lg">
+                                                        
+                                                        </span>
+                                                      </div>
+                                          
+                                                      <div class="logo logo-dark">
+                                                        <span class="logo-lg">
+                                                      
+                                                        </span>
+                                                        
+                                                      </div>
+                                                    
+                                                    </div>
+                                                   
+                                                  </div>
+                                                
+                                          
+                                                  <form id="f" class="px-3 question-form" method="POST" data-parsley-validate>
+                                                    {% if app.request.get('containsP') is not null  %}
+                                                    <div class="alert alert-danger">
+                                                        La chaîne contient un mot interdit
+                                                    </div>
+                                                {% endif %}
+                                                
+                                                    <div class="form-group">
+                                                      {{ form_start(f, {attr: {novalidate: 'novalidate'} }) }}
+                                                      <div class="row">
+                                                        <label class="mb-1 fw-medium text-muted">Titre</label>
+                                                        {{ form_widget(f.title, {attr: {class: 'form-control'}, id: 'title' }) }}
+                                                       
+                                                      </div>
+                                                      {{ form_errors(f.title, {attr: {class: 'text-danger'} }) }}
+                                                      <br/>
+                                                      <div class="row">
+                                                        <label class="mb-1 fw-medium text-muted">Description</label>
+                                                        {{ form_widget(f.description, {attr: {class: 'form-control'}, id: 'description' }) }}
+                                                      
+                                                      </div>
+                                                      {{ form_errors(f.description, {attr: {class: 'text-danger'} }) }}
+                                                      <br/>
+                                                      <div class="row">
+                                                        <label class="mb-1 fw-medium text-muted">Matiere</label>
+                                                        {{ form_widget(f.subject, {attr: {class: 'form-control'} , id: 'subject'}) }}
+                                                      </div>
+                                                      {{ form_errors(f.subject, {attr: {class: 'text-danger'} }) }}
+                                                      <br>
+                                                    
+                                                      <br/>
+                                                      <div class="text-right">
+                                                        {{ form_widget(f.ajouter, {attr: {class: 'btn btn-primary', onclick: 'validateDescription(event)'} }) }}
+
+                                                      </div>
+                                                      {% if app.request.get('contains') %}
+                                                      <div class="alert alert-danger">
+                                                          y a une erreur de controle de saisie 
+                                                        
+                                                         {{ form_errors(f) }}
+                                                          
+                                                          
+                                                      {% endif %}
+                                                      {{ form_end(f) }}
+                                                    </div>
+                                                <br/>
+                                              
+                                                </div>
+                                                
+                                           
+                                            
+                                                  </form>
+                                                </div>
+                                              </div
+                                          ><!-- /.modal-content -->
+                                                </div><!-- /.modal-dialog -->
+                                           <!-- /.modal -->
+                                            <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+                                                <script>
+                                                    $(document).ready(function() {
+                                                        const queryParams = new URLSearchParams(window.location.search);
+                                                        const containsParam = queryParams.get('contains');
+                                                        if (containsParam == '1') {
+                                                            $('.fe-edit').click();
+                                                        }
+                                                    });
+                                                    </script>
+                                                    <script>
+                                                        $(document).ready(function() {
+                                                            const queryParams = new URLSearchParams(window.location.search);
+                                                            const containsParam = queryParams.get('containsP');
+                                                            if (containsParam == '1') {
+                                                                $('.fe-edit').click();
+                                                            }
+                                                        });
+                                                        </script>
+                                                        <script>
+                                                          function validateDescription(event) {
+                                                            var descriptionField = document.getElementById('description');
+                                                            var descriptionValue = descriptionField.value;
+                                                            var titleField = document.getElementById('title');
+                                                            var titleValue = titleField.value;
+                                                            var subjectField = document.getElementById('subject');
+                                                            var subjectValue = subjectField.value;
+                                                        
+                                                            if (descriptionValue.trim() === '' || titleValue.trim() === '' || subjectValue.trim() === '') {
+                                                              var alertDiv = document.createElement('div');
+                                                              alertDiv.classList.add('alert', 'alert-danger');
+                                                              alertDiv.setAttribute('role', 'alert');
+                                                              alertDiv.innerHTML = 'Tous les champs sont obligatoires et ne doivent pas être vides.';
+                                                              
+                                                              var modalBody = document.querySelector('.modal-body');
+                                                              modalBody.insertBefore(alertDiv, modalBody.firstChild);
+                                                              
+                                                              event.preventDefault(); // Empêcher le formulaire de se soumettre
+                                                            }
+                                                          }
+                                                        </script>
+                                                        
+                          
+                                                        </div>
+                                    </div>
+                                </div>
+        
+                                  
+                                </div>
+                            </div>
+        
+                        </div>
+        
+                        
+                        <div class="card">
+                            <form method="post" class="card-body" action="{{ path('question', {'id': question.getId()}) }}">
+                                {{ form_start(answerForm, {attr: {novalidate: 'novalidate'} }) }}
+                                <span class="input-icon icon-end">
+                                    {{ form_widget(answerForm.message, {'attr': {'class': 'form-control', 'placeholder': 'ici vous pouvez ajouter votre réponse' } }) }}
+                                    <br/>
+                                    {{ form_errors(answerForm.message,{'attr':{'class':'text-danger'} }) }}
+                                    <br/>
+                                
+                                    <br>
+                                    {{ form_widget(answerForm.ajouter, {'attr': {'class': 'btn btn-primary'}, 'label': 'Ajouter'}) }}
+                                     {% if app.request.get('containsProfanity') %}
+                                <div class="alert alert-danger">
+                                    La chaîne contient un mot interdit
+                                </div>
+                                {% endif %}   
+                                 
+                                    {{ form_end(answerForm) }}
+                             
+                            </form>
+                            
+                            
+                            
+                        </div>
+        
+                            <!--/ meta -->
+                         
+                            <form id="sortForm" method="get" action="{{ path('trier', {'id': question.getId()})  }}" class="d-flex flex-wrap align-items-center justify-content-sm-end">
+                                <label for="status-select" class="me-2">Filtrer par</label>
+                                <div class="me-sm-2">
+                                    <select name="sortOrder" onchange="document.getElementById('sortForm').submit();" class="form-select my-1 my-md-0" id="status-select">
+                                        <option value="2" {% if sortOrder is defined and sortOrder == 2 %}selected{% endif %}>Tous</option>
+                                        <option value="1" {% if sortOrder is defined and sortOrder == 1 %}selected{% endif %}>Récent</option>
+                                        <option value="3" {% if sortOrder is defined and sortOrder == 3 %}selected{% endif %}>Interessant</option>
+                                       
+                                        
+                                    </select>
+                                </div>
+                              
+                            </form>
+                      <br/>
+        
+                            <div class="card">
+                                <div class="card-body">
+                                    {% for answer in answers %}
+                                    
+                                    <div class="card">
+                                        <div class="d-flex align-items-top mb-3">
+                                            <img src="{{answer.getUser().getAvatarPath() }}" alt="" class="flex-shrink-0 comment-avatar avatar-sm rounded me-2"></img>
+                                           
+                                       
+                                            <div class="flex-grow-1">
+                                                
+                                                <h5 class="mt-0"><a href="#" class="text-dark">{{ answer.user }}</a><small class="ms-1 text-muted">{{ answer.getCreatedAt().format('Y-m-d H:i:s') }}</small></h5>
+                                                <p>{{ answer.getMessage() }}</p>
+                                    
+                                                <input type="hidden" name="answer_id" value="{{ answer.id }}">
+                                                <input type="hidden" name="u_id" value="{{userid}}">
+                                           
+                                             
+                                                <div class="comment-footer d-flex justify-content-between">
+                                                    <div class="d-flex align-items-center">
+                                                       
+                                                        <button class=" vote-button vote-up " data-vote="up" data-answer-id="{{ answer.id }}"  data-u-id="{{userid}}"  onclick="voteUp({{ answer.id }}, {{userid}})">
+                                                            <i class="fas fa-thumbs-up"></i> Vote up
+                                                        </button>
+                                                       
+                                                        <div id="vote-count-{{ answer.id }}" style="font-size: 24px; margin-left: 10px; margin-right: 10px;">
+                                                            <h7 class="vote-count">{{ answer.getVoteNb() }}</h7>
+                                                        </div>
+                                                       
+                                                        
+                                                        <button class="vote-button vote-down"  data-vote="down" data-answer-id="{{ answer.id }}" data-u-id="{{userid}}"  onclick="voteDown({{ answer.id }}, {{userid}})">
+                                                            <i class="fas fa-thumbs-down"></i> Vote down
+                                                        </button>
+                                                      
+
+                                                    </div>
+                                                </div>
+                                          
+                                                <style>
+                                                    .vote-button i {
+                                                        color: #999; /* couleur par défaut de l'icône de vote inactif */
+                                                      }
+                                                      
+                                                      .vote-button i.active {
+                                                        color: blue; /* couleur de l'icône de vote actif */
+                                                      }
+                                            
+                                                </style>
+                                                
+                                                <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+                                               
+                                                <script>
+                                                  $(document).ready(function() {
+                                                   
+                                                
+                                                    // Récupérer l'état de vote précédent à partir du stockage local
+                                                
+                                                    var previousVotes = JSON.parse(localStorage.getItem('votes')) || {};
+                                                  
+                                                    // Parcourir tous les boutons de vote
+                                                    $(".vote-up, .vote-down").each(function() {
+                                                      var answerId = $(this).data("answer-id");
+                                                      var voteType = $(this).data("vote");
+                                                      var userid= $(this).data("vote-user");
+                                                     
+                                                  
+                                                      // Si l'utilisateur a déjà voté pour cette réponse, mettre à jour l'état de l'icône
+                                                      if (previousVotes[answerId] === voteType) {
+                                                        $(this).find("i").addClass("active");
+                                                        console.log(userid)
+                                                        console.log("********************")
+                                                    
+                                                        
+                                                      }
+                                                  
+                                                      // Ajouter un gestionnaire d'événements pour enregistrer le vote dans le stockage local
+                                                      $(this).on("click", function() {
+                                                        var vote = $(this).data("vote");
+                                                        var previousVote = previousVotes[answerId];
+                                                        var userid= $(this).data("vote-user");
+                                                     
+                                                        previousVotes[answerId] = vote;
+                                                        localStorage.setItem('votes', JSON.stringify(previousVotes));
+                                                  
+                                                        // Supprimer la classe "active" de toutes les icônes de vote de la réponse correspondante si le vote actuel est différent du vote précédent
+                                                        if (previousVote === vote  ) {
+                                                          $(this).find("i").removeClass("active");
+                                                          previousVotes[answerId] = null;
+                                                          localStorage.setItem('votes', JSON.stringify(previousVotes));
+                                                        } else {
+                                                          $(this).siblings(".vote-up, .vote-down").find("i").removeClass("active");
+                                                          $(this).find("i").addClass("active");
+                                                        }
+                                                  
+                                                       
+                                                      });
+                                                    });
+                                                  });
+                                                
+
+                                                    function voteUp(answerId, Id) {
+                                                        var userid= $(this).data("vote-user");
+                                                      
+                                                        $.ajax({
+                                                            type: "POST",
+                                                            url: '/vote/' + answerId + '/' + Id,
+                                                            
+                                                            success: function(data) {
+                                                                // mettre à jour le nombre de votes sur la page
+                                                                $("#vote-count-" + answerId).html(data.count);
+                                                                // mettre à jour l'icône de vote pour indiquer qu'il a été sélectionné
+                                                                // ajouter la classe active au bouton de vote correspondant pour maintenir la coloration
+                                                            
+                                                                $(".vote-button[data-answer-id=" + answerId + "][data-vote-value=1]").addClass("active");
+                                                              
+                                                                // mettre à jour le nombre de votes automatiquement
+                                                                updateVoteCount(answerId);
+                                                            },
+                                                            error: function(data) {
+                                                                alert("Une erreur est survenue lors du vote.");
+                                                            }
+                                                        });
+                                                    }
+                                                   
+                                                    function voteDown(answerId, Id) {
+                                                        var userid= $(this).data("vote-user");
+                                                      
+                                                        $.ajax({
+                                                            type: "POST",
+                                                            url: '/voted/' + answerId + '/' + Id,
+                                                            success: function(data) {
+                                                                // mettre à jour le nombre de votes sur la page
+                                                                $("#vote-count-" + answerId).html(data.count);
+                                                                // mettre à jour l'icône de vote pour indiquer qu'il a été sélectionné
+                                                                // ajouter la classe active au bouton de vote correspondant pour maintenir la coloration
+                                                            
+                                                               $(".vote-button[data-answer-id=" + answerId + "][data-vote-value=-1]").addClass("active");
+                                                                
+                                                               
+                                                                // mettre à jour le nombre de votes automatiquement
+                                                                updateVoteCount(answerId);
+                                                            },
+                                                            error: function(data) {
+                                                                alert("Une erreur est survenue lors du vote.");
+                                                            }
+                                                        });
+                                                    }
+                                                   
+                                                    function updateVoteCount(answerId) {
+                                                        var url = '/get-vote-count/' + answerId + '?t=' + Date.now();
+                                                
+                                                
+                                                        $.ajax({
+                                                          type: "GET",
+                                                          url: url,
+                                                          success: function(data) {
+                                                            $("#vote-count-" + answerId).html(data.count);
+                                                            console.log(data.count)
+                                                          },
+                                                          error: function(data) {
+                                                            alert("Une erreur est survenue lors de la mise à jour du nombre de votes.");
+                                                       
+                                                          }
+                                                        });
+                                                      }
+                                                   
+                                                   
+                                                   
+                                                </script>
+                                                
+                                            
+                                          
+                                                
+                                                  
+                                                  
+                                            </div>
+                                           
+                                            </div>
+                                            <!-- /.modal -->
+                                           
+                                            <div class="flex-grow-2">
+                                                {%if answer.getUser()== user%}
+                                                <ul class="social-list list-inline mt-3 mb-0">
+                                                    <li class="list-inline-item">
+                                                               
+                                                      <a href="#" class="social-list-item border-danger text-danger" onclick="confirmDelete(event, '{{ path('delete_answer', {'id': answer.getId()}) }}')"><i class="fe-trash-2"></i></a>
+                
+                                                    </li>
+                                                    {%endif%}
+                                                    
+                                                  
+                                                    
+                                                    <script>
+                                                      function confirmDelete(event, url) {
+                                                        event.preventDefault(); // Empêcher le lien de se soumettre
+                                                        const swalWithBootstrapButtons = Swal.mixin({
+                                                          customClass: {
+                                                            confirmButton: 'btn btn-success mx-2',
+                                                            cancelButton: 'btn btn-danger mx-2'
+                                                          },
+                                                          buttonsStyling: false
+                                                        })
+                                                    
+                                                        swalWithBootstrapButtons.fire({
+                                                          title: 'Êtes-vous sûr de vouloir supprimer cette réponse ?',
+                                                          icon: 'warning',
+                                                          showCancelButton: true,
+                                                          confirmButtonText: 'Oui, supprimer!',
+                                                          cancelButtonText: 'Non, annuler!',
+                                                          reverseButtons: true
+                                                        }).then((result) => {
+                                                          if (result.isConfirmed) {
+                                                            window.location.href = url; // Rediriger vers l'URL de suppression si l'utilisateur confirme
+                                                          }
+                                                        })
+                                                      }
+                                                    </script>
+                                                    
+                                                  
+                                               
+                                            </div>
+                                        </div>
+                                        {% endfor %}
+                                    <!--  media -->
+            
+        
+                                
+                                    <div id="warning" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+                                        <div class="modal-dialog modal-sm">
+                                            <div class="modal-content">
+                                                <div class="modal-body">
+                                                    <div class="text-center">
+                                                        <i class="dripicons-warning h1 text-warning"></i>
+                                                        <h4 class="mt-2">Incorrect Information</h4>
+                                                  
+                                                        <button type="button" class="btn btn-warning my-2" data-bs-dismiss="modal">Continue</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        
+                                  
+                                    
+                                    
+                                 
+                                      
+                                      
+                                
+            
+                                </div>
+                            </div>
+                        </div>
+               
+                    <!-- ============================================================== -->
+               
+                </div>
+            
+
+            </div> 
+
+    
+   
+    <!-- ============================================================== -->
+    <!-- End Page content -->
+    <!-- ============================================================== -->
+
+
+</div>
+<!-- END wrapper -->
+
+
+
+
+
+
+
+
+{% endblock %}
