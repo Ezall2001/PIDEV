@@ -1,0 +1,109 @@
+{% extends 'layouts//admin.html.twig' %}
+{% block body %}
+
+
+
+    </div></div></div></div><div class="simplebar-placeholder" style="width: 0px; height: 0px;"></div></div><div class="simplebar-track simplebar-horizontal" style="visibility: hidden;"><div class="simplebar-scrollbar" style="width: 0px; display: none;"></div></div><div class="simplebar-track simplebar-vertical" style="visibility: hidden;"><div class="simplebar-scrollbar" style="height: 0px; transform: translate3d(0px, 0px, 0px); display: none;"></div></div></div>
+    <!-- Sidebar -left -->
+
+</div>
+<!-- Left Sidebar End -->
+            
+            <!-- ============================================================== -->
+            <!-- Start Page Content here -->
+            <!-- ============================================================== -->
+
+            <div class="content-page">
+                <div class="content">
+
+                    <!-- Start Content-->
+                   
+<div class="text-center">
+	<h1>Ajouter matiere</h1>
+</div>
+
+
+{{ form_start(f,{attr:{novalidate:'novalidate'}}) }}
+
+<div class="card">
+	<div class="card-body">
+
+		<form class="row g-3">
+
+			<!-- Name -->
+			<div class="col-12">
+			<div class="col-12">
+
+				<label for="inputNanme4" class="form-label">nom du matiere</label>
+<div class="select-wrapper">
+    {{ form_widget(f.name, {'attr': {'class': 'form-control','type':'text', 'style': 'margin-bottom: 15px;'}}) }}
+    {{ form_errors(f.name,{ 'attr':{'class':'text-danger'}}) }}
+</div>
+
+<label for="inputNanme4" class="form-label">description</label>
+<div class="select-wrapper">
+    {{ form_widget(f.description, {'attr': {'class': 'form-control', 'rows': 5, 'style': 'margin-bottom: 15px;'}}) }}
+    {{ form_errors(f.description, {'attr': {'class': 'text-danger'}}) }}
+</div>
+
+
+<label for="inputclasses_esprit" class="form-label">classe</label>
+<div class="select-wrapper">
+    {{ form_widget(f.classes_esprit, {'attr': {'class': 'form-select', 'style': 'margin-bottom: 25px;'}}) }}
+    {{ form_errors(f.classes_esprit, { 'attr': {'class':'text-danger'} }) }}
+</div>
+
+
+<div style="text-align: center;">
+<div class="button-wrapper">
+    {{ form_row(f.enregistrer, {'attr': {'class': 'btn btn-primary'}}) }}
+</div> 
+</div>     
+
+		
+				<div class="text-center">
+
+					{{ form_widget(f) }}
+
+				</div>
+
+			
+		</form>
+
+	</div>
+</div>
+
+
+                                    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</tbody>
+                                            </table>
+                                        </div> <!-- end .table-responsive-->
+                                    </div> <!-- end card-body -->
+                                </div> <!-- end card -->
+                            </div> <!-- end col -->
+                        </div> <!-- end row -->
+    
+                    </div> <!-- container -->
+
+                </div> <!-- content -->
+ 
+</body>
+
+{% endblock  %}

@@ -1,0 +1,85 @@
+{% extends 'layouts//admin.html.twig' %}
+{% block body %}
+  
+            <div class="content-page">
+                <div class="content">
+
+                    <!-- Start Content-->
+                    <div class="table-responsive">
+                    {% if subjects %}
+    <table class="table table-left" id="btn-editable">
+        <thead>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td style="text-align: right;">
+                    <a href="{{ path('addsubject') }}" class="btn btn-primary"><i class="fas fa-plus"></i> Ajouter</a>
+                </td>
+            </tr>
+
+            
+                       <div class="col-sm-8 col-xl-6">
+                        {{ form_start(form, {'attr': {'class': 'form-inline float-sm-right mt-3 mt-sm-0'}}) }}
+                        {{ form_widget(form.name, {'attr': {'class': 'form-control mr-sm-2 mb-2', 'placeholder': 'Name'}}) }}
+                        {{ form_widget(form.classes_esprit, {'attr': {'class': 'form-control mr-sm-2 mb-2', 'placeholder': 'classes_esprit'}}) }}
+                        <button class="btn btn-primary mb-2 mr-sm-2" type="submit"><i class="fas fa-search"></i> Search</button>
+                        {{ form_end(form) }}
+                    </div>
+            <tr>
+                <th style="text-align: left;">Nom </th>
+                <th >description </th>
+                <th >classe</th>
+                <th>  Actions</th>
+            </tr>
+           
+        </thead>
+                                            
+                 <tbody id="bac-table">
+				{% for subject in bla %}
+					<tr>
+
+						<td>
+						
+							{{subject.name}}
+						</td>
+
+						<td>
+						
+							{{subject.description}}
+						</td>
+
+						
+                        <td>
+						
+							{{ subject.getClassesEsprit()}}
+						</td>
+ <td>
+  <a href="{{ path('modifiersubject',{'id':subject.id}) }}" class="btn btn-success"><i class="fas fa-edit"></i></a>
+  </td>
+  <td>
+  <a href="{{ path('deletesubject',{'id':subject.id}) }}" class="btn btn-danger"><i class="far fa-trash-alt"></i></a>
+</td>
+						</tr>
+					{% endfor %}
+
+
+         
+
+				</tbody>
+             
+
+                                            </table>
+                                            {% endif %}
+                                        </div> <!-- end .table-responsive-->
+                                    </div> <!-- end card-body -->
+                                </div> <!-- end card -->
+                            </div> <!-- end col -->
+                        </div> <!-- end row -->
+    
+                    </div> <!-- container -->
+
+                </div> <!-- content -->
+
+                  
+                    {% endblock %}
