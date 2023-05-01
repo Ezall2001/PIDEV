@@ -19,27 +19,73 @@ class SubjectsListController extends AbstractController
 {
 
 
-    #[Route('/subjects', name: 'subject_list')]
+    // #[Route('/subjects', name: 'subject_list')]
 
-    public function list(Request $request,PaginatorInterface $paginator): Response
+    // public function list(Request $request,PaginatorInterface $paginator): Response
+    // { 
+    //     $subjects = $this->getDoctrine()->getRepository(Subjects::class)->findAll();
+    //     $subjects = $paginator->paginate(
+    //         $subjects, /* query NOT result */
+    //         $request->query->getInt('page', 1),
+    //         2
+    //     );
+    //     return $this->render('subjects/subjectsList.html.twig', [
+    //         'subjects' => $subjects,
+         
+    //     ]);   
+    // }
+
+    #[Route('/s', name: 'subject_list')]
+    public function ajax(Request $request, PaginatorInterface $paginator): Response
     { 
+        if ($request->isXmlHttpRequest()) {
+            $classesEsprit = $request->query->get('classes_esprit');
+            
+            $repository = $this->getDoctrine()->getRepository(Subjects::class);
+            
+            if ($classesEsprit) {
+                $subjects = $repository->findBy(['classes_esprit' => $classesEsprit]);
+            } else {
+                $subjects = $repository->findAll();
+            }
+            
+            $subjects = $paginator->paginate(
+                $subjects,
+                $request->query->getInt('page', 1),
+                2
+            );
+            
+            $response = new JsonResponse();
+            $response->setData([
+                'html' => $this->renderView('subjects/subjectsList.html.twig', [
+                    'subjects' => $subjects
+                ])
+            ]);
+            
+            return $response;
+        }
+        
+        // The non-AJAX fallback
         $subjects = $this->getDoctrine()->getRepository(Subjects::class)->findAll();
         $subjects = $paginator->paginate(
-            $subjects, /* query NOT result */
+            $subjects,
             $request->query->getInt('page', 1),
             2
         );
-        return $this->render('subjects/subjectsList.html.twig', [
-            'subjects' => $subjects,
-         
-        ]);   
+        
+        return $this->render('subjects/list.html.twig', [
+            'subjects' => $subjects
+        ]);
     }
+    
+    
+
+
+
 
 
 
 }
-
-
 
 
 

@@ -107,7 +107,7 @@ class SubjectsTableController extends AbstractController
 
             $em->flush();
 
-            return $this->redirectToRoute('displaySubject');
+            return $this->redirectToRoute('search');
         } else
             return $this->render('admin/modifiersubject.html.twig', ['f' => $form->createView()]);
     }

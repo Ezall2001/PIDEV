@@ -9,10 +9,11 @@ use Symfony\Component\HttpFoundation\Request;
 use App\Entity\Subjects;
 use App\Entity\Courses;
 use Dompdf\Dompdf;
-
+use BaconQrCode\Common\Mode;
 use App\Repository\CoursesRepository;
 use App\Repository\SubjectsRepository;
 use Knp\Component\Pager\PaginatorInterface;
+
 
 class CoursesListController extends AbstractController
 {
@@ -42,27 +43,31 @@ class CoursesListController extends AbstractController
 
 
     #[Route('/pdf', name: 'pdf')]
+public function generatePdf(): Response
+{
+    $imagePath = $this->getParameter('kernel.project_dir') . '/public/images/esprit.jpg';
+        $imageData = file_get_contents($imagePath);
+        $image = '<img src="data:image/png;base64,' . base64_encode($imageData) . '"/>';
+    
+    $html = $this->renderView('courses/PDF.html.twig', [
+        'title' => 'ESPRIT',
+        'body' => '',
+      
+        'image' => $image
+    ]);
+
+    $dompdf = new Dompdf();
+    $dompdf->loadHtml($html);
+    $dompdf->setPaper('A4', 'portrait');
+    $dompdf->render();
    
-    public function generatePdf(): Response
-    {
-        // Render the template with any data you need
-        $html = $this->renderView('courses/PDF.html.twig', [
-            'title' => 'My PDF Template',
-            'body' => '',
-         'image_path' => $this->getParameter('kernel.project_dir') . 'public\assets\images\esprit.png',
-        ]);
-        // Generate the PDF using the Dompdf library
-        $dompdf = new Dompdf();
-        $dompdf->loadHtml($html);
-        $dompdf->setPaper('A4', 'portrait');
-        $dompdf->render();
-        
-        // Return the PDF file as a response
-        return new Response($dompdf->output(), 200, [
-            'Content-Type' => 'application/pdf',
-            'Content-Disposition' => 'inline; filename="document.pdf"'
-        ]);
-    }
+
+    return new Response($dompdf->output(), 200, [
+        'Content-Type' => 'application/pdf',
+        'Content-Disposition' => 'inline; filename="document.pdf"'
+    ]);
+}
+
 }
 
 

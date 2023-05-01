@@ -32,6 +32,13 @@ class SearchFormType extends AbstractType
                 'placeholder' => 'Enter search terms...',
             ],
             'required' => false,
+        ])
+        ->add('description', SearchType::class, [
+            'label' => 'Search by description',
+            'attr' => [
+                'placeholder' => 'Enter search terms...',
+            ],
+            'required' => false,
         ]);
     }
 

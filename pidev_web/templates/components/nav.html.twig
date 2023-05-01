@@ -26,6 +26,11 @@
 						<a href="{{path('app_question')}}" class="fs-4">Forum</a>
 					</li>
 				{% endif %}
+				{% if (app.user) %}
+					<li class="mx-2">
+						<a href="{{path('subject_list')}}" class="fs-4">Matieres</a>
+					</li>
+				{% endif %}
 
 				{% if (app.user) %}
 					<li class="mx-2">
