@@ -58,6 +58,12 @@ class Users implements UserInterface
     #[ORM\Column]
     private ?string $walletId;
 
+    #[ORM\Column(type: 'boolean')]
+    private $is_verified = false;
+
+    #[ORM\Column(type: 'datetime_immutable')]
+    private $createdAt;
+
     #[ORM\OneToOne(targetEntity: TestResults::class, mappedBy: 'users')]
     private ?TestResults $result = null;
 
@@ -69,11 +75,11 @@ class Users implements UserInterface
     private ?Collection $participations = null;
     #[ORM\Column(name: "blockedUntil", type: "datetime")]
     private ?\DateTimeInterface $blockedUntil = null;
-    
-   
+
+
 
     #[ORM\Column]
-    private ?int $blocked= 0 ;
+    private ?int $blocked = 0;
 
     public function getBlocked(): ?int
     {
@@ -86,7 +92,7 @@ class Users implements UserInterface
 
         return $this;
     }
-    
+
 
     // #[ORM\OneToMany(targetEntity: Questions::class, mappedBy: 'users')]
     // public ?Collection $question = null;
@@ -119,9 +125,13 @@ class Users implements UserInterface
         return $this->id;
     }
 
+
     public function getFirstName(): ?string
     {
-        return $this->firstName;
+
+        $firstName =
+            $this->firstName;
+        return ucfirst(($firstName));
     }
 
     public function setFirstName(string $firstName): self
@@ -167,7 +177,9 @@ class Users implements UserInterface
 
     public function getLastName(): ?string
     {
-        return $this->lastName;
+        $lastName =
+            $this->lastName;
+        return ucfirst(($lastName));
     }
 
     public function setLastName(string $lastName): self
@@ -189,10 +201,24 @@ class Users implements UserInterface
         return $this;
     }
 
+    // public function getAvatarPath(): ?string
+    // {
+    //     return $this->avatarPath;
+    // }
+
     public function getAvatarPath(): ?string
     {
+
+        // if (strpos($this->avatarPath, 'server/profile_avatars/') !== false) {
+        //     // remove "server/profile_avatars/" string from the path
+        //     $filename = str_replace('server/profile_avatars/', '', $this->avatarPath);
+        //     return $filename;
+        // }
+
+
         return $this->avatarPath;
     }
+
 
     public function setAvatarPath(?string $avatarPath): self
     {
@@ -444,6 +470,28 @@ class Users implements UserInterface
 
         return $this;
     }
+    public function getIsVerified(): ?bool
+    {
+        return $this->is_verified;
+    }
+
+    public function setIsVerified(bool $is_verified): self
+    {
+        $this->is_verified = $is_verified;
+
+        return $this;
+    }
+    public function getCreatedAt(): ?\DateTimeImmutable
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(): self
+    {
+        $this->createdAt = new \DateTimeImmutable();
+
+        return $this;
+    }
 
     private static $levels = ['NEWCOMER', 'BEGINNER', 'COMPETENT', 'PROFICIENT', 'EXPERT'];
     public static function computeLevelBreakpointScore($levelIndex)
@@ -571,14 +619,13 @@ class Users implements UserInterface
             // L'utilisateur n'est pas bloqué
             return false;
         }
-    
+
         if (!$this->blockedUntil instanceof \DateTimeInterface) {
             // L'utilisateur est bloqué indéfiniment 
             return true;
         }
-    
+
         // Vérifier si l'utilisateur est bloqué jusqu'à une date et une heure ultérieures
         return $this->blockedUntil > new \DateTime();
     }
-    
 }

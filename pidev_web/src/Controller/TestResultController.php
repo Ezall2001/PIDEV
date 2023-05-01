@@ -26,9 +26,9 @@ use Dompdf\Options;
 
 class TestResultController extends AbstractController
 {
-  
+
     #[Route('/check/{id}', name: 'check', methods: "POST")]
-    public function testScore(UsersRepository $userRep,TestResultsRepository $resRep, TestQsRepository $qsRepo,Request $request,$id,TestsRepository $testRep, ManagerRegistry $mr,Security $security): Response
+    public function testScore(UsersRepository $userRep, TestResultsRepository $resRep, TestQsRepository $qsRepo, Request $request, $id, TestsRepository $testRep, ManagerRegistry $mr, Security $security): Response
     {
         $user = $security->getUser();
 
@@ -40,47 +40,46 @@ class TestResultController extends AbstractController
         $data = json_decode($jsonContent, true);
         $responses = $data['responses'];
 
-            $nbCorrectOption = sizeof($responses);
-            for($i=0 ; $i<sizeof($responses) ;$i++){
-                $testQuestion = $qsRepo->find($responses[$i]["id"]);
-                
-                    if($responses[$i]["value"]!=$testQuestion->getCorrectOption()){
-                        $nbCorrectOption--;
-                    }
+        $nbCorrectOption = sizeof($responses);
+        for ($i = 0; $i < sizeof($responses); $i++) {
+            $testQuestion = $qsRepo->find($responses[$i]["id"]);
+
+            if ($responses[$i]["value"] != $testQuestion->getCorrectOption()) {
+                $nbCorrectOption--;
             }
+        }
 
-            $em=$mr->getManager();
-            $result = $resRep->findOneBy(
-                ['tests' => $id,
-                 'users' => $user->getId(),
-                ]
-            );
+        $em = $mr->getManager();
+        $result = $resRep->findOneBy(
+            [
+                'tests' => $id,
+                'users' => $user->getId(),
+            ]
+        );
 
-            if($result==null){
+        if ($result == null) {
+            $result = new TestResults();
+            $test = $testRep->find($id);
 
-                $result = new TestResults();
-                $test = $testRep->find($id);
+            $result->setUser($user);
+            $result->setTest($test);
+            $result->setMark($nbCorrectOption);
+            $user->setScore($user->getScore() + 50);
+            $em->persist($user);
 
-                $result->setUser($user);
-                $result->setTest($test);
-                $result->setMark($nbCorrectOption);
+            $em->persist($result);
+            $em->flush();
+        } else {
+            $result->setMark($nbCorrectOption);
+            $em->flush();
+        }
 
-                $em->persist($result);
-                $em->flush();
-            }
-
-            else {
-                 $result->setMark($nbCorrectOption);
-                 $em->flush();
-            }
-      
-     return $this->json(['nbCorrectOption'=>$nbCorrectOption],200);
-
+        return $this->json(['nbCorrectOption' => $nbCorrectOption], 200);
     }
 
     #[Route('/result/{id}', name: 'resultDownload')]
-    public function resultDataDowload(TestResultsRepository $rep,$id,BuilderInterface $qrBuilder,Security $security): Response
-    
+    public function resultDataDowload(TestResultsRepository $rep, $id, BuilderInterface $qrBuilder, Security $security): Response
+
     {
         $user = $security->getUser();
 
@@ -91,7 +90,7 @@ class TestResultController extends AbstractController
         // police default
 
         $pdfOptions = new Options();
-        $pdfOptions->set('defaultFont','Arial');
+        $pdfOptions->set('defaultFont', 'Arial');
         $pdfOptions->setIsRemoteEnabled(true);
         //$pdfOptions->set('chroot', [__DIR__.'/public', __DIR__.'/images']);
 
@@ -99,38 +98,38 @@ class TestResultController extends AbstractController
 
         $domPdf = new Dompdf($pdfOptions);
         $context = stream_context_create([
-            'ssl' => [ 
+            'ssl' => [
                 'verify_peer' => FALSE,
                 'verify_peer_name' => FALSE,
                 'allow_self_signed' => TRUE
             ]
-            ]);
+        ]);
 
-            $qrResult = $qrBuilder
+        $qrResult = $qrBuilder
             ->size(400)
             ->margin(20)
             ->data('https://www.facebook.com/profile.php?id=100090591443416&mibextid=ZbWKwL')
             ->build();
-    
-            $qrImage = $qrResult->getDataUri();
+
+        $qrImage = $qrResult->getDataUri();
 
         $domPdf->setHTTPContext($context);
-        $domPdf->set_option('isRemoteEnabled',TRUE);
+        $domPdf->set_option('isRemoteEnabled', TRUE);
 
-       
+
 
         $date = new DateTime();
         $formattedDate = $date->format('d/m/yy');
 
-    //  generating html
-        $html = $this->renderView('test_result/result.html.twig',[
-            'result' => $rep->getUserResult($user->getId(),$id), // ! current user 
+        //  generating html
+        $html = $this->renderView('test_result/result.html.twig', [
+            'result' => $rep->getUserResult($user->getId(), $id), // ! current user 
             'qrImage' => $qrImage,
-            'date' => $formattedDate, 
+            'date' => $formattedDate,
         ]);
 
         $domPdf->loadHtml($html);
-        $domPdf->setPaper('A4','landscape');
+        $domPdf->setPaper('A4', 'landscape');
         $domPdf->render();
 
         // generate filename
@@ -139,11 +138,11 @@ class TestResultController extends AbstractController
 
         // send pdf to navigator
 
-        $domPdf->stream($fichier,[
+        $domPdf->stream($fichier, [
             'Attachement' => true
         ]);
-        
-         return $this->render('fileName.html.twig');
+
+        return $this->render('fileName.html.twig');
     }
 
     #[Route('/getResults', name: 'getResults')]
@@ -158,28 +157,28 @@ class TestResultController extends AbstractController
     #[Route('/searchResult', name: 'searchResult', methods: "GET")]
     public function search(TestResultsRepository $rep, Request $req): Response
     {
-        $requestString=$req->get('res');
-        if(empty($requestString) )
-        $res = $rep->findAll();
+        $requestString = $req->get('res');
+        if (empty($requestString))
+            $res = $rep->findAll();
         else
-        $res = $rep->findMark($requestString);
+            $res = $rep->findMark($requestString);
 
-        if(!$res){
+        if (!$res) {
             $result['res']['error'] = "had";
-        } else{
+        } else {
             $result['res'] = $this->getRealEntities($res);
         }
 
         return new Response(json_encode($result));
     }
 
-    public function getRealEntities($entities){
+    public function getRealEntities($entities)
+    {
 
-        foreach ($entities as $entity){
-            $realEntities[$entity->getId()] = [ $entity->getMark(),$entity->getTest()->getCourse()->getName(), $entity->getUser()->getFirstName() ];
+        foreach ($entities as $entity) {
+            $realEntities[$entity->getId()] = [$entity->getMark(), $entity->getTest()->getCourse()->getName(), $entity->getUser()->getFirstName()];
         }
-  
+
         return $realEntities;
     }
-
 }

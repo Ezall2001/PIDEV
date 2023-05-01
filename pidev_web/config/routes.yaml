@@ -1,7 +1,4 @@
 api_login_check:
     path: /api/login_check
-admin_user_delete:
-    path: '/admin/users/{id}/delete'
-    controller: App\Controller\Admin\UserController::delete
-    methods: ['DELETE']
+
 

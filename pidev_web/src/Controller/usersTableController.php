@@ -9,7 +9,7 @@ use App\Repository\UsersRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Persistence\ManagerRegistry;
 use App\Entity\Users;
-
+use Google\Service\AndroidEnterprise\Resource\Users as ResourceUsers;
 
 #[Route('/admin', name: 'admin_')]
 class usersTableController extends AbstractController
@@ -25,26 +25,29 @@ class usersTableController extends AbstractController
     {
         return $this->render('admin/dashboard.html.twig');
     }
-    #[Route('/admin/users/{id}/delete', name: 'user_delete', methods: ['DELETE'])]
-    public function deleteUser(Request $request, Users $user): Response
+
+
+    #[Route('/admin/users/{id}/delete', name: 'user_delete')]
+    public function deleteUser(int $id): Response
     {
-        $submittedToken = $request->request->get('token');
+        $userRepository = $this->getDoctrine()->getManager()->getRepository(Users::class);
+        $user = $userRepository->find($id);
 
-        // Verify CSRF token
-        if (!$this->isCsrfTokenValid('delete-user', $submittedToken)) {
-            $this->addFlash('error', 'Invalid CSRF token.');
-            return $this->redirectToRoute('admin_usersTable');
+        if (!$user) {
+            throw $this->createNotFoundException('Utilisateur non trouvée');
         }
 
-        try {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->remove($user);
-            $entityManager->flush();
-
-            $this->addFlash('success', 'User deleted successfully!');
-        } catch (\Exception $e) {
-            $this->addFlash('error', 'An error occurred while deleting the user: ' . $e->getMessage());
+        $avatarPath = $user->getAvatarPath();
+        if ($avatarPath) {
+            $avatarFullPath = $this->getParameter('avatar_directory') . '/' . $avatarPath;
+            if (file_exists($avatarFullPath)) {
+                unlink($avatarFullPath);
+            }
         }
+
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($user);
+        $em->flush();
 
         return $this->redirectToRoute('admin_usersTable');
     }

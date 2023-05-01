@@ -25,6 +25,7 @@ use App\Security\UsersAuthAuthenticator;
 use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
 use App\Entity\Users;
 
+
 class UserController extends AbstractController
 {
     #[Route(path: '/conn', name: 'app_login')]
@@ -62,6 +63,7 @@ class UserController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $user->setCreatedAt();
             // encode the plain password
             $user->setPassword(
                 $userPasswordHasher->hashPassword(
@@ -74,16 +76,16 @@ class UserController extends AbstractController
             $avatarPath = $form->get('avatarPath')->getData();
             if ($avatarPath) {
                 $avatarFileName = md5(uniqid()) . '.' . $avatarPath->guessExtension();
-                $avatarPath->move(
-                    $this->getParameter('avatar_directory'),
-                    $avatarFileName
-                );
-                $user->setAvatarPath($avatarFileName);
+                // $avatarPath->move(
+                //     $this->getParameter('avatar_directory'),
+                //     $avatarFileName
+                // );
+                // $user->setAvatarPath($avatarFileName);
+                $user->setAvatarPath("server/profile_avatars/{$avatarFileName}");
             }
 
             $entityManager->persist($user);
             $entityManager->flush();
-
             // generate JWT token
             $header = [
                 'typ' => 'JWT',
@@ -99,12 +101,13 @@ class UserController extends AbstractController
             // send email with activation link and token
             $mail->sendEya(
                 $user->getEmail(),
-                'Activation de votre compte sur le site Myalo',
+                'Activation de votre compte sur le site Myalò',
                 'register',
                 compact('user', 'token')
             );
 
 
+            $this->addFlash('success', 'Email d activation envoyé avec succès');
             // authenticate user and redirect to homepage
             return $userAuthenticator->authenticateUser(
                 $user,
@@ -116,6 +119,72 @@ class UserController extends AbstractController
         return $this->render('security/register.html.twig', [
             'registrationForm' => $form->createView(),
         ]);
+    }
+
+    #[Route('/verif/{token}', name: 'verifyUser')]
+    public function verifyUser($token, JWTService $jwt, UsersRepository $usersRepository, EntityManagerInterface $em): Response
+    {
+        //On vérifie si le token est valide, n'a pas expiré et n'a pas été modifié
+        if ($jwt->isValid($token) && !$jwt->isExpired($token) && $jwt->check($token, $this->getParameter('app.jwtsecret'))) {
+            // On récupère le payload
+            $payload = $jwt->getPayload($token);
+
+            // On récupère le user du token
+            $user = $usersRepository->find($payload['user_id']);
+
+            //On vérifie que l'utilisateur existe et n'a pas encore activé son compte
+            if ($user && !$user->getIsVerified()) {
+                $user->setIsVerified(true);
+                $em->flush($user);
+                $this->addFlash('success', 'Utilisateur activé');
+                return $this->redirectToRoute('profil');
+            }
+        }
+        // Ici un problème se pose dans le token
+        $this->addFlash('danger', 'Le token est invalide ou a expiré');
+        return $this->redirectToRoute('app_login');
+    }
+
+    #[Route('/resendverif', name: 'resendVerif')]
+    public function resendVerif(JWTService $jwt, MailerService $mail, UsersRepository $usersRepository): Response
+    {
+        $user = $this->getUser();
+
+
+        if (!$user) {
+            $this->addFlash('danger', 'Vous devez être connecté pour accéder à cette page');
+            return $this->redirectToRoute('app_login');
+        }
+
+        if ($user->getIsVerified()) {
+            $this->addFlash('warning', 'Cet utilisateur est déjà activé');
+            return $this->redirectToRoute('profil');
+        }
+
+        // On génère le JWT de l'utilisateur
+        // On crée le Header
+        $header = [
+            'typ' => 'JWT',
+            'alg' => 'HS256'
+        ];
+
+        // On crée le Payload
+        $payload = [
+            'user_id' => $user->getId()
+        ];
+
+        // On génère le token
+        $token = $jwt->generate($header, $payload, $this->getParameter('app.jwtsecret'));
+
+        // On envoie un mail
+        $mail->sendEya(
+            $user->getEmail(),
+            'Activation de votre compte sur le site Myalò',
+            'register',
+            compact('user', 'token')
+        );
+        $this->addFlash('success', 'Email de vérification envoyé');
+        return $this->redirectToRoute('profil');
     }
 
     #[Route('/forgottenPassword', name: 'forgotten_password')]
@@ -204,6 +273,45 @@ class UserController extends AbstractController
         return $this->redirectToRoute('app_login');
     }
 
+    // #[Route('/profil', name: 'profil')]
+    // public function profil(Request $request, ManagerRegistry $registry, Security $security): Response
+    // {
+    //     $user = $security->getUser();
+
+    //     if (!$user) {
+    //         return $this->redirectToRoute('login');
+    //     }
+
+    //     $form = $this->createForm(UpdateProfileType::class, $user);
+
+    //     $form->handleRequest($request);
+
+    //     if ($form->isSubmitted() && $form->isValid()) {
+
+    //         $entityManager = $registry->getManager();
+
+    //         // $avatarPath = $form->get('avatarPath')->getData();
+    //         // if ($avatarPath) {
+    //         //     $avatarFileName = md5(uniqid()) . '.' . $avatarPath->guessExtension();
+    //         //     $avatarPath->move(
+    //         //         $this->getParameter('avatar_directory'),
+    //         //         $avatarFileName
+    //         //     );
+    //         //     $user->setAvatarPath($avatarFileName);
+    //         // }
+
+    //         $entityManager->flush();
+    //         $this->addFlash('success', 'Vos informations sont mis à jour .');
+    //         return $this->redirectToRoute('profil');
+    //     } elseif ($form->isSubmitted()) {
+    //         $this->addFlash('warning', 'Il y a des erreurs.');
+    //     }
+
+    //     return $this->render('profile/profile.html.twig', [
+    //         'user' => $user,
+    //         'form' => $form->createView(),
+    //     ]);
+    // }
     #[Route('/profil', name: 'profil')]
     public function profil(Request $request, ManagerRegistry $registry, Security $security): Response
     {
@@ -217,25 +325,17 @@ class UserController extends AbstractController
 
         $form->handleRequest($request);
 
+        $entityManager = $registry->getManager();
+
+
+        $entityManager->flush();
+
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $entityManager = $registry->getManager();
-
-            // $avatarPath = $form->get('avatarPath')->getData();
-            // if ($avatarPath) {
-            //     $avatarFileName = md5(uniqid()) . '.' . $avatarPath->guessExtension();
-            //     $avatarPath->move(
-            //         $this->getParameter('avatar_directory'),
-            //         $avatarFileName
-            //     );
-            //     $user->setAvatarPath($avatarFileName);
-            // }
-
-            $entityManager->flush();
-
+            $this->addFlash('success', 'Vos informations sont mises à jour.');
             return $this->redirectToRoute('profil');
         } elseif ($form->isSubmitted()) {
-            $this->addFlash('error', 'There are errors in the form.');
+            $this->addFlash('danger', 'Il y a des erreurs.');
         }
 
         return $this->render('profile/profile.html.twig', [

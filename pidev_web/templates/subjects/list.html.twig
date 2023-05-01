@@ -1,8 +1,8 @@
 {% extends 'layouts/user.html.twig' %}
 {% block main %}
-    <div class="mb-3">
-        <label for="classes_esprit" class="form-label">Filter by Classes Esprit:</label>
-        <<select name="classes_esprit" id="classes_esprit" class="form-select" onchange="updateSubjectList()">
+<div class="mb-3">
+  <label for="classes_esprit" class="form-label">Filtrer par classes :</label>
+  <select name="classes_esprit" id="classes_esprit" class="form-select" onchange="updateSubjectList()">
     <option value="">All</option>
     <option value="A1">A1</option>
     <option value="A2">A2</option>
@@ -10,43 +10,40 @@
     <option value="B1">B1</option>
     <option value="B2">B2</option>
     <option value="B3">B3</option>
-</select>
-    </div>
-    
-    <div id="subject-list">
-        {% include 'subjects/subjectsList.html.twig' %}
-    </div>
+  </select>
+</div>
+
+<div id="subject-list">
+  {% include 'subjects/subjectsList.html.twig' %}
+</div>
 {% endblock %}
 
 {% block javascripts %}
-    {{ parent() }}
-    <script>
-       
+{{ parent() }}
+<script>
+  function updateSubjectList() {
+    const filterSelect = document.querySelector('#classes_esprit');
+    const subjectList = document.querySelector('#subject-list');
 
- function updateSubjectList() {
-  const filterSelect = document.querySelector('#classes_esprit');
-  const subjectList = document.querySelector('#subject-list');
+    const classesEsprit = filterSelect.value;
 
-  const classesEsprit = filterSelect.value;
-
-  fetch(`/s?classes_esprit=${classesEsprit}`, {
-    headers: {
-      'X-Requested-With': 'XMLHttpRequest'
-    }
-  })
-  .then(response => {
-    if (!response.ok) {
-      throw new Error(response.statusText);
-    }
-    return response.json();
-  })
-  .then(data => {
-    subjectList.innerHTML = data.html;
-  })
-  .catch(error => {
-    console.error('Error:', error);
-  });
-}
-    </script>
+    fetch(`/s?classes_esprit=${classesEsprit}`, {
+        headers: {
+          'X-Requested-With': 'XMLHttpRequest'
+        }
+      })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error(response.statusText);
+        }
+        return response.json();
+      })
+      .then(data => {
+        subjectList.innerHTML = data.html;
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
+  }
+</script>
 {% endblock %}
-

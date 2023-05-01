@@ -1,0 +1,58 @@
+{% block stylesheet %}
+	<style>
+		#chart_div {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+		}
+	</style>
+{% endblock %}
+{% block body %}
+	<div id="chart_div">{{chartData | raw}}</div>
+{% endblock %}
+{% block javascripts %}
+	<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+	<script type="text/javascript">
+		google.charts.load('current', {'packages': ['corechart']});
+google.charts.setOnLoadCallback(drawChart);
+
+function drawChart() {
+var chartData = {{ chartData | raw }};
+var data = google.visualization.arrayToDataTable(chartData);
+console.log(typeof(chartData))
+
+var options = {
+title: 'User Level by Year',
+titleTextStyle: {
+color: '#333',
+fontSize: 18
+},
+isStacked: true,
+legend: {
+position: 'top',
+maxLines: 3
+},
+vAxis: {
+title: 'Number of Users',
+titleTextStyle: {
+color: '#333',
+fontSize: 18
+}
+},
+hAxis: {
+title: 'Year',
+titleTextStyle: {
+color: '#333',
+fontSize: 18
+}
+},
+width: 700,
+height: 500,
+colors: ['#8294C4', '#ACB1D6', '#DBDFEA', '#FFEAD2']
+};
+
+var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
+chart.draw(data, options);
+}
+	</script>
+{% endblock %}

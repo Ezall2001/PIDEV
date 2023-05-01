@@ -1,112 +1,140 @@
-{% extends 'layouts/user.html.twig' %}
+{% extends 'layouts//admin.html.twig' %}
 
-{% block title %}Liste des utilisateurs{% endblock %}
-{% block stylesheets %}
+
+{% block pageTitle %}
+<li>
+    <h4 class="page-title-main">Liste des Utilisateurs</h4>
+</li>
+
+{% endblock %}
+
+{% block body %}
+
+
 <style>
-    .table {
-        width: 100%;
-        margin-bottom: 1rem;
-        color: #212529;
-        border-collapse: collapse;
+    th,
+    td {
+        width: 30%;
+        /* set a fixed width for each th element */
+        padding: 30px;
+        /* adjust the padding as needed */
+        text-align: left;
+        /* center the text within each th element */
     }
 
-    .table th,
-    .table td {
-        padding: .75rem;
-        vertical-align: top;
-        border-top: 1px solid #dee2e6;
-    }
-
-    .table thead th {
-        vertical-align: bottom;
-        border-bottom: 2px solid #dee2e6;
-    }
-
-    .table tbody+tbody {
-        border-top: 2px solid #dee2e6;
-    }
-
-    .table .badge {
-        font-size: 100%;
-        font-weight: 400;
-        padding: .35em .65em;
-        border-radius: .25rem;
-    }
-
-    .badge.bg-danger {
-        background-color: #dc3545;
-    }
-
-    .badge.bg-success {
-        background-color: #28a745;
-    }
-
-    .badge.bg-warning {
-        background-color: #ffc107;
+    .btn-container {
+        text-align: right;
+        margin: 20px 40px 20px 0;
     }
 </style>
-{% endblock %}
-{% block main %}
-<div class="container">
-    <div class="row">
-        <main class="col-9 border border-light bg-white p-2">
-            <h1>Liste des utilisateurs</h1>
-            <div class="table-responsive">
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Prénom</th>
-                            <th>Nom</th>
-                            <th>Email</th>
-                            <th>Score</th>
-                            <th>Rôles</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for user in users %}
-                        <tr>
-                            <td>{{ user.id }}</td>
-                            <td>{{ user.firstName }}</td>
-                            <td>{{ user.lastName }}</td>
-                            <td>{{ user.email }}</td>
-                            <td>{{ user.score }}</td>
-                            <td>
-                                {% for role in user.roles %}
-                                {% if role == "ROLE_ADMIN" %}
-                                {% set name = "Administrateur" %}
-                                {% set color = "danger" %}
-                                {% elseif role == "ROLE_PRODUCT_ADMIN" %}
-                                {% set name = "Admin produits" %}
-                                {% set color = "warning" %}
-                                {% else %}
-                                {% set name = "Membre" %}
-                                {% set color = "success" %}
-                                {% endif %}
-                                <span class="badge bg-{{ color }}">{{ name }}</span>
-                                {% endfor %}
-                            </td>
-                            <td class="text-center">
-                                <a href="{{ path('admin_user_delete', {'id': user.id}) }}">
-                                    <i class="fas fa-trash-alt fa-lg" style="color: #ff0000;"></i>
-                                </a>
-                                {# <form action="{{ path('admin_user_delete', {'id': user.id}) }}" method="post">
-                                    <input type="hidden" name="token" value="{{ csrf_token('delete-user') }}" />
-                                    <button type="submit">Delete</button>
-                                </form> #}
+<div class="content-page">
+    <div class="content">
+
+        <!-- Start Content-->
 
 
 
+        <div>
+            <a href="{{ path('ma_page') }}"><i class="fas fa-arrow-circle-left fa-lg me-1"></i></a>
+        </div>
 
-                            </td>
+        <br />
 
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
+        <form action="{{ path('app_search_question2') }}" method="get">
+            <!-- Champ caché pour stocker l'identifiant de matière -->
+
+            <div class="input-group">
+                <input type="text" class="form-control" name="keywords" placeholder="Rechercher...">
+                <span class="input-group-btn">
+                    <button type="submit" class="btn btn-secondary">Rechercher</button>
+                </span>
             </div>
-        </main>
+        </form>
+
+        <div class="container-fluid">
+
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="table-responsive">
+                        <table>
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="table-responsive">
+                                        <table class="table table-left" id="btn-editable">
+                                            <thead>
+                                                <tr>
+                                                    <th>ID</th>
+                                                    <th>Prénom</th>
+                                                    <th>Nom</th>
+                                                    <th>Email</th>
+                                                    <th>Score</th>
+                                                    <th>Rôles</th>
+                                                    <th>Actions</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {% for user in users %}
+                                                <tr>
+                                                    <td>{{ user.id }}</td>
+                                                    <td>{{ user.firstName }}</td>
+                                                    <td>{{ user.lastName }}</td>
+                                                    <td>{{ user.email }}</td>
+                                                    <td>{{ user.score }}</td>
+                                                    <td>
+                                                        {% for role in user.roles %}
+                                                        {% if role == "ROLE_ADMIN" %}
+                                                        {% set name = "Administrateur" %}
+                                                        {% set color = "danger" %}
+                                                        {% else %}
+                                                        {% set name = "Membre" %}
+                                                        {% set color = "success" %}
+                                                        {% endif %}
+                                                        <span class="badge bg-{{ color }}">{{ name }}</span>
+                                                        {% endfor %}
+                                                    </td>
+                                                    <td class="text-center">
+
+
+                                                        <a href="{{path('admin_user_delete', {'id': user.id})}}"
+                                                            class="btn btn-danger">
+                                                            <i class="far fa-trash-alt"></i>
+                                                        </a>
+
+
+
+                                                    </td>
+
+
+                                                </tr>
+
+
+                                                {% endfor %}
+
+                                            </tbody>
+
+                                        </table>
+                                        {# <div class="navigation">
+                                            {{ knp_pagination_render(pagination) }}
+
+                                        </div> #}
+
+                                    </div>
+                                    <!-- end .table-responsive-->
+                                </div>
+                                <!-- end col -->
+                            </div>
+                            <!-- end row -->
+                    </div>
+                </div>
+                <!-- end row -->
+            </div>
+            <!-- container -->
+
+        </div>
     </div>
 </div>
+</div>
+</body>
+
+</html>
 {% endblock %}

@@ -41,6 +41,21 @@
 <body>
 
 	{{component('nav')}}
+	{% if app.user and app.user.isVerified == false and app.user.isVerified == NULL %}
+	<div class="alert alert-warning alert-dismissible" role="alert">
+		<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+		<div class="alert-message">
+			<strong>Votre compte n'est pas activé</strong>, <a href="{{ path('resendVerif') }}">renvoyer le lien
+				d'activation</a>
+		</div>
+	</div>
+	{% endif %}
+	{% include "layouts/flash.html.twig" %}
+
+	{# {% for message in app.flashes('error') %}
+	<div class="alert alert-warning">{{ message }}</div>
+	{% endfor %} #}
+
 
 	<div id="wrapper">
 
