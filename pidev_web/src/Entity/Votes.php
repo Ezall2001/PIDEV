@@ -28,7 +28,11 @@ class Votes
     #[ORM\ManyToOne(targetEntity: Users::class, inversedBy: 'votes')]
     #[ORM\JoinColumn(name: 'id_user', referencedColumnName: 'id', nullable: true)]
     private ?Users $user = null;
-
+    public function __construct()
+    {
+      
+      
+    }
     public function getId(): ?int
     {
         return $this->id;
@@ -77,3 +81,4 @@ class Votes
 
  
 }
+

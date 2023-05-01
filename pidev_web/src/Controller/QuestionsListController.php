@@ -66,8 +66,13 @@ class QuestionsListController extends AbstractController
         ]);
     }
     #[Route('/showtab', name: 'show_tab')]
-    public function index2(Request $request, PaginatorInterface $paginator, QuestionsRepository  $questionRepositoy): Response
-    { $question= $this->getDoctrine()->getManager()->getRepository(Questions::class)->findAll();
+    public function index2(Request $request, PaginatorInterface $paginator, QuestionsRepository  $questionRepositoy,Security $security): Response
+    { $user = $security->getUser();
+
+        if (!$user) {
+            return $this->redirectToRoute('app_login');
+        }
+        $question= $this->getDoctrine()->getManager()->getRepository(Questions::class)->findAll();
         $entityManager = $this->getDoctrine()->getManager();
 
         // $queryBuilder = $entityManager->getRepository(Questions::class)->createQueryBuilder('q');
@@ -220,7 +225,7 @@ if ($sortOrder == 2) {
         // Recherche par titre
         if ($keywords) {
             $keywordsArray = explode(' ', $keywords);
-            $qb->andWhere($qb->expr()->like('q.title', ':keywords'));
+            $qb->andWhere($qb->expr()->like('q.title', ':keywords')); //filtrer les resutltat selon title
             $qb->setParameter('keywords', '%' . implode('%', $keywordsArray) . '%'); //concaténation des element de tab
         }
        
@@ -301,32 +306,7 @@ if ($sortOrder == 2) {
         ]);
     }
     
-    // public function search(Request $request)
-    // {  $subjects = $this->getDoctrine()->getRepository(Subjects::class)->findAll();
-    //     $keywords = $request->query->get('keywords');
-    
-    //     // // Vérifie si le paramètre "keywords" est vide
-    //     // if (empty($keywords)) {
-    //     //     // Redirige l'utilisateur vers la page de recherche avec un message d'erreur
-    //     //     $this->addFlash('error', 'Veuillez entrer des mots clés pour votre recherche.');
-    //     //     return $this->redirectToRoute('app_question_index');
-    //     // }
-    
-    //     $keywordsArray = explode(' ', $keywords); // Transforme la chaîne de caractères en un tableau de mots-clés
-    
-    //     $questions = $this->getDoctrine()
-    //                       ->getRepository(Questions::class)
-    //                       ->searchByTitle($keywordsArray);
-    
-    //     return $this->render('forum/questionsList.html.twig', [
-    //         'questions' => $questions,
-    //         'subjects' => $subjects,
-    //     ]);
-    // }
 
-   /**
- * @Route("/trie", name="trie")
- */
 public function trie(Request $request, PaginatorInterface $paginator): Response
 {
     $subjects = $this->getDoctrine()->getRepository(Subjects::class)->findAll();
@@ -365,7 +345,7 @@ public function trie(Request $request, PaginatorInterface $paginator): Response
         return $clean_words !== $words || $clean_words1 !== $words1  ;
     }
 
-    #[Route('/addQuestion', name: 'addQuestion')]
+    #[Route('/addQuestion1', name: 'addQuestion1')]
     public function addQuestion(Request $request,Security $security): Response
     { $user = $security->getUser();
 
@@ -387,13 +367,13 @@ public function trie(Request $request, PaginatorInterface $paginator): Response
             // la chaîne contient un mot interdit
             //return new JsonResponse(['message' => 'La chaîne contient un mot interdit']);
           ;
-            return $this->redirectToRoute('addQuestion', ['true' => true, 'containsProfanity' => $hasProfanity]);
+            return $this->redirectToRoute('addQuestion1', ['true' => true, 'containsProfanity' => $hasProfanity]);
 
 
         } if ($question->getUser()->isBlocked() && $question->getUser()->getBlockedUntil() > new \DateTime()) {
             // L'utilisateur est bloqué, on empêche l'ajout de la question
       $block='b';
-            return $this->redirectToRoute('addQuestion', ['true' => true, 'block' => $block]);
+            return $this->redirectToRoute('addQuestion1', ['true' => true, 'block' => $block]);
         }
         else {
             // la chaîne ne contient pas de mot interdit
@@ -558,35 +538,41 @@ public function trie(Request $request, PaginatorInterface $paginator): Response
          
            
            
-// if($answers== null){
-//     $v =0;
-// }else{
-//     foreach ($answers as $a) {
-//         $userVotes = $voteRepository->findByVoteByiduser($id_user, $a->getId());
-    
-//         if($userVotes == null){
-//             $v=0;
-//         } else {
+
+             $answers = $question->getAnswers();
+             $hasVotedArray = array();
+             $votes = $this->getDoctrine()->getManager()->getRepository(Votes::class)->findAll();
+             $userVotesByAnswer = array(); // initialize an empty array to store user IDs who voted for each answer
+             
+             foreach ($answers as $answer) {
+                 $userVotes = $voteRepository->findByVoteByiduser($user->getId(), $answer->getId());
+                 $hasVoted = ($userVotes != null) ? 1 : 0;
+                 $hasVotedArray[$answer->getId()] = $hasVoted;
+                
+                 //check if the current user voted for this answer
+                 foreach ($votes as $vote) {
+                    $userVotesByAnswer[$vote->getAnswer()->getId()][] = $vote->getUser()->getId();
+                     
+                 }
             
-//             $v= $userVotes->getUser()->getId();
+             
+             }
+         
         
-//         // ajouter l'userVotes au tableau
-//         $userVotesArray[$a->getId()] = $v;}
-//     }
-    
-    
 
-// }
-            
+    // now you can use $hasVotedArray to render the voting buttons for each answer
+    
+    $previousVotes = isset($_COOKIE['votes']) ? json_decode($_COOKIE['votes'], true) : array();
 
-    //modifier
+  
  
-         $answers = $answers->getQuestion()->getAnswers();
-      
-           
              return $this->render('forum/question.html.twig', [
                  'question' => $question,
                  'answers' => $answers,
+            
+                 'userVotesByAnswer'=> $userVotesByAnswer,
+                 'previousVotes' => $previousVotes,
+                 'hasVotedArray'=>$hasVotedArray ,
                  'answerForm' => $answerForm->createView(),
                  'f' => $form->createView(),
                  'answerForms'=>$form->createView(),
@@ -604,12 +590,32 @@ public function trie(Request $request, PaginatorInterface $paginator): Response
 
 }
 
+public function hasUserVoted(Users $user,Answers $a, VotesRepository $voteRepository ): ?bool
+{ $userVotes = $voteRepository->findByVoteByiduser($user->getId(), $a->getId());
+    if($userVotes != null){
+        return 1;
+    }
+  
+   return 0;
+}
 
+public function getVotesByUser(Users $user,VotesRepository $voteRepository ) :votes 
+{ $vote = $voteRepository->findByuser($user->getId());
+   
+        return $vote ;
+    
+    
+}
 
 #[Route('/editQuestionModal/{id}', name: 'editQuestionModal')]
-public function editQuestionModal(Request $request, $id):Response
-{ 
+public function editQuestionModal(Request $request, $id,VotesRepository $voteRepository,Security $security):Response
+{ $user = $security->getUser();
+
+    if (!$user) {
+        return $this->redirectToRoute('app_login');
+    }
     $question = $this->getDoctrine()->getManager()->getRepository(Questions::class)->find($id);
+   $answers= $question->getAnswers();
     $form = $this->createForm(QuestionType::class,$question);
     $form->handleRequest($request);
     $invalidData = false;
@@ -639,15 +645,25 @@ if ($form->isSubmitted() && !$form->isValid()) {
   
     return $this->redirectToRoute('question', ['id'=>$id,'contains' => true]);
 }
+$a= $this->getDoctrine()->getManager()->getRepository(Answers::class)->findAll();
+$answers = $question->getAnswers();
+foreach ($answers as $answer) {
+    $hasVoted = $this->hasUserVoted($user,$answer,$voteRepository);
+   
+}
+$previousVotes = isset($_COOKIE['votes']) ? json_decode($_COOKIE['votes'], true) : array();
 
   
 return $this->render('forum/question.html.twig', [
     'question' => $question,
-
+    'hasVoted'=>$hasVoted ,
+    'previousVotes'=>$previousVotes,
     'f' => $form->createView(),
     'answerForms'=>$form->createView(),
     'invalidData'=> $invalidData ,
-    'answers' => $question->getAnswers() ,
+   
+    'a'=>$a,
+    'answers'=>$answers
 
   
         
@@ -674,43 +690,7 @@ private function getErrorsFromForm(FormInterface $form)
 
     return $errors;
 }
-// public function editQuestionModal(Request $request, $id): Response
-// { 
-//     $question = $this->getDoctrine()->getManager()->getRepository(Questions::class)->find($id);
-//     $form = $this->createForm(QuestionType::class,$question);
-//     $form->handleRequest($request);
-//     $invalidData = false;
-//   if ($form->isSubmitted() && $form->isValid()) {
-//     $entityManager = $this->getDoctrine()->getManager();
-//     $entityManager->persist($question);
-//     $entityManager->flush();
-//     return $this->redirectToRoute('question', ['id' => $id]);
 
-    
-    
-// } 
-// if ($form->isSubmitted() && !$form->isValid()) {
-//     $invalidData = true;
-//     // Ajoute chaque message d'erreur à la session flash
-//     $this->addFlash('error', 'Il y a des erreurs dans le formulaire.');
-// }
-//        // Création d'une nouvelle réponse associée à la question
-//        $answer = new Answers();
-//        $answer->setCreatedAt(new \DateTime()); 
-//        $answer->setQuestion($question);
-//     $answerForm = $this->createForm(AnswerType::class, $answer);
-//     $answerForm->handleRequest($request);
-
-//     return $this->render('forum/question.html.twig',[  
- 
-//       'question' => $question, 
-//       'f' => $form->createView(),
-//       'answers' => $answer->getQuestion()->getAnswers() ,
-//       'answerForm' => $answerForm->createView(),
-//   'invalidData'=>$invalidData,
-       
-//         ]);
-// }
 public function submitForm(Request $request, $form)
 { 
     if ($form->isSubmitted() && !$form->isValid()) {

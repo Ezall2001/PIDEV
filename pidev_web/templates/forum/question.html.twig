@@ -209,13 +209,15 @@
                                     <br/>
                                     {{ form_errors(answerForm.message,{'attr':{'class':'text-danger'} }) }}
                                     <br/>
-                                
+                                    {% if app.request.get('containsProfanity') %}
+                                    <div class="alert alert-danger">
+                                        La chaîne contient un mot interdit
+                                    </div>
                                     <br>
                                     {{ form_widget(answerForm.ajouter, {'attr': {'class': 'btn btn-primary'}, 'label': 'Ajouter'}) }}
-                                     {% if app.request.get('containsProfanity') %}
-                                <div class="alert alert-danger">
-                                    La chaîne contient un mot interdit
-                                </div>
+                                    <br> 
+                                    
+                                    
                                 {% endif %}   
                                  
                                     {{ form_end(answerForm) }}
@@ -232,8 +234,8 @@
                                 <label for="status-select" class="me-2">Filtrer par</label>
                                 <div class="me-sm-2">
                                     <select name="sortOrder" onchange="document.getElementById('sortForm').submit();" class="form-select my-1 my-md-0" id="status-select">
-                                        <option value="2" {% if sortOrder is defined and sortOrder == 2 %}selected{% endif %}>Tous</option>
-                                        <option value="1" {% if sortOrder is defined and sortOrder == 1 %}selected{% endif %}>Récent</option>
+                                        <option value="1" {% if sortOrder is defined and sortOrder == 1 %}selected{% endif %}>Tous</option>
+                                        <option value="2" {% if sortOrder is defined and sortOrder == 2 %}selected{% endif %}>Récent</option>
                                         <option value="3" {% if sortOrder is defined and sortOrder == 3 %}selected{% endif %}>Interessant</option>
                                        
                                         
@@ -245,8 +247,9 @@
         
                             <div class="card">
                                 <div class="card-body">
+                                  {% if answers is defined %}
                                     {% for answer in answers %}
-                                    
+                                  
                                     <div class="card">
                                         <div class="d-flex align-items-top mb-3">
                                             <img src="{{answer.getUser().getAvatarPath() }}" alt="" class="flex-shrink-0 comment-avatar avatar-sm rounded me-2"></img>
@@ -263,9 +266,8 @@
                                              
                                                 <div class="comment-footer d-flex justify-content-between">
                                                     <div class="d-flex align-items-center">
-                                                       
-                                                        <button class=" vote-button vote-up " data-vote="up" data-answer-id="{{ answer.id }}"  data-u-id="{{userid}}"  onclick="voteUp({{ answer.id }}, {{userid}})">
-                                                            <i class="fas fa-thumbs-up"></i> Vote up
+                                                      <button class="vote-button vote-up {{ (hasVotedArray is defined and hasVotedArray[answer.id] == 1) ? 'active' : '' }}" data-vote="up" data-answer-id="{{ answer.id }}" data-u-id="{{userid}}" onclick="voteUp({{ answer.id }}, {{userid}})">
+                                                      <i class=" fas fa-thumbs-up " ></i> Vote up
                                                         </button>
                                                        
                                                         <div id="vote-count-{{ answer.id }}" style="font-size: 24px; margin-left: 10px; margin-right: 10px;">
@@ -273,10 +275,9 @@
                                                         </div>
                                                        
                                                         
-                                                        <button class="vote-button vote-down"  data-vote="down" data-answer-id="{{ answer.id }}" data-u-id="{{userid}}"  onclick="voteDown({{ answer.id }}, {{userid}})">
+                                                        <button class="vote-button vote-down {{ (hasVotedArray is defined and hasVotedArray[answer.id] == 1) ? 'active' : '' }}"  data-vote="down" data-answer-id="{{ answer.id }}" data-u-id="{{userid}}"  onclick="voteDown({{ answer.id }}, {{userid}})">
                                                             <i class="fas fa-thumbs-down"></i> Vote down
                                                         </button>
-                                                      
 
                                                     </div>
                                                 </div>
@@ -296,51 +297,46 @@
                                                
                                                 <script>
                                                   $(document).ready(function() {
-                                                   
-                                                
-                                                    // Récupérer l'état de vote précédent à partir du stockage local
-                                                
-                                                    var previousVotes = JSON.parse(localStorage.getItem('votes')) || {};
-                                                  
-                                                    // Parcourir tous les boutons de vote
-                                                    $(".vote-up, .vote-down").each(function() {
-                                                      var answerId = $(this).data("answer-id");
-                                                      var voteType = $(this).data("vote");
-                                                      var userid= $(this).data("vote-user");
-                                                     
-                                                  
-                                                      // Si l'utilisateur a déjà voté pour cette réponse, mettre à jour l'état de l'icône
-                                                      if (previousVotes[answerId] === voteType) {
-                                                        $(this).find("i").addClass("active");
-                                                        console.log(userid)
-                                                        console.log("********************")
-                                                    
-                                                        
-                                                      }
-                                                  
-                                                      // Ajouter un gestionnaire d'événements pour enregistrer le vote dans le stockage local
-                                                      $(this).on("click", function() {
-                                                        var vote = $(this).data("vote");
-                                                        var previousVote = previousVotes[answerId];
-                                                        var userid= $(this).data("vote-user");
-                                                     
-                                                        previousVotes[answerId] = vote;
-                                                        localStorage.setItem('votes', JSON.stringify(previousVotes));
-                                                  
-                                                        // Supprimer la classe "active" de toutes les icônes de vote de la réponse correspondante si le vote actuel est différent du vote précédent
-                                                        if (previousVote === vote  ) {
-                                                          $(this).find("i").removeClass("active");
-                                                          previousVotes[answerId] = null;
-                                                          localStorage.setItem('votes', JSON.stringify(previousVotes));
-                                                        } else {
-                                                          $(this).siblings(".vote-up, .vote-down").find("i").removeClass("active");
-                                                          $(this).find("i").addClass("active");
-                                                        }
-                                                  
-                                                       
-                                                      });
-                                                    });
-                                                  });
+    // Récupérer l'état de vote précédent à partir du stockage local
+    var previousVotes = JSON.parse(localStorage.getItem('votes')) || {};
+      
+    // Parcourir tous les boutons de vote
+    $(".vote-up, .vote-down").each(function() {
+      var answerId = $(this).data("answer-id");
+      var voteType = $(this).data("vote");
+      var userId = $(this).data("u-id");
+            
+      // Si l'utilisateur a déjà voté pour cette réponse, mettre à jour l'état de l'icône
+      if (previousVotes[userId] && previousVotes[userId][answerId] === voteType) {
+        $(this).find("i").addClass("active");
+      }
+          
+      // Ajouter un gestionnaire d'événements pour enregistrer le vote dans le stockage local
+      $(this).on("click", function() {
+        var vote = $(this).data("vote");
+        var previousVote = previousVotes[userId] ? previousVotes[userId][answerId] : null;
+                  
+        // Créer un nouvel objet de vote pour l'utilisateur actuel s'il n'en existe pas encore
+        if (!previousVotes[userId]) {
+          previousVotes[userId] = {};
+        }
+                  
+        // Mettre à jour l'état de vote dans le stockage local
+        previousVotes[userId][answerId] = vote;
+        localStorage.setItem('votes', JSON.stringify(previousVotes));
+                  
+        // Supprimer la classe "active" de toutes les icônes de vote de la réponse correspondante si le vote actuel est différent du vote précédent
+        if (previousVote === vote) {
+          $(this).find("i").removeClass("active");
+          previousVotes[userId][answerId] = null;
+          localStorage.setItem('votes', JSON.stringify(previousVotes));
+        } else {
+          $(this).siblings(".vote-up, .vote-down").find("i").removeClass("active");
+          $(this).find("i").addClass("active");
+        }
+      });
+    });
+  });
                                                 
 
                                                     function voteUp(answerId, Id) {
@@ -432,6 +428,7 @@
                 
                                                     </li>
                                                     {%endif%}
+                                                   
                                                     
                                                   
                                                     
@@ -466,6 +463,7 @@
                                             </div>
                                         </div>
                                         {% endfor %}
+                                        {%endif%}
                                     <!--  media -->
             
         

@@ -35,7 +35,7 @@ class QuestionController extends AbstractController
     #[Route('/trie/{id}', name: 'trier')]
     public function trier(Request $request, int $id,VotesRepository $voteRepository,Security $security): Response
     {$user = $security->getUser();
-        $userVotes= 0;
+     
 
         if (!$user) {
             return $this->redirectToRoute('app_login');
@@ -45,8 +45,10 @@ class QuestionController extends AbstractController
     
         $sortOrder = $request->query->getInt('sortOrder', 1); // Valeur par défaut = 1
         $answerRepository = $this->getDoctrine()->getRepository(Answers::class);
+        $answers = $answerRepository->findBy(['question' => $question], ['createdAt' => $sortOrder == 1 ? 'DESC' : 'ASC']);
         $answers = $answerRepository->findBy(['question' => $question], ['createdAt' => $sortOrder == 2 ? 'ASC' : 'DESC']);
-        $answers = $answerRepository->findBy(['question' => $question], ['voteNb' => $sortOrder == 2 ? 'ASC' : 'DESC']);
+        $answers = $answerRepository->findBy(['question' => $question], ['voteNb' => $sortOrder == 3 ? 'DESC' : 'ASC']);
+        
         
         $invalidData=false ;
              
@@ -102,38 +104,47 @@ class QuestionController extends AbstractController
             $em->persist($question);
             $em->flush(); //mise a jour
         }
-        $answers = $this->getDoctrine()->getManager()->getRepository(answers::class)->findAll();
-        if($answers== null){
-            $v=0;
-        }else{
-        foreach ($answers as $a) {
-           $v=0;
-            $userVotes = $voteRepository->findByVoteByiduser($user->getId(), $a->getId());
-            if($userVotes == null){
-                $v=0;
-            }else{ $v= $userVotes->getUser()->getId();}
-          
-               
-                
-              
-        
-            // faire quelque chose avec $userVotes pour cette réponse
-        }}
+        // $answers = $this->getDoctrine()->getManager()->getRepository(answers::class)->findAll();
+        // if($answers== null){
+        //     $v=0;
+        // }else{
+        // foreach ($answers as $a) {
+        //    $v=0;
+        //     $userVotes = $voteRepository->findByVoteByiduser($user->getId(), $a->getId());
+        //     if($userVotes == null){
+        //         $v=0;
+        //     }else{ $v= $userVotes->getUser()->getId();}
+        // }}
+        $a = $question->getAnswers();
+        foreach ($a as $answer) {
+            $hasVoted = $this->hasUserVoted($user,$answer,$voteRepository);
+           
+        }
+        $previousVotes = isset($_COOKIE['votes']) ? json_decode($_COOKIE['votes'], true) : array();
+
+        $ac= $this->getDoctrine()->getManager()->getRepository(Answers::class)->findAll();
         return $this->render('forum/question.html.twig', [
             'answers' => $answers,
             'question' => $question,
+            'previousVotes'=>$previousVotes,
+            'hasVoted'=>$hasVoted ,
             'answerForm' => $form->createView(),
             'sortOrder' => $sortOrder,
             'f' => $formm->createView(),
             'invalidData'=> $invalidData ,
             "user"=>$user,
             "userid"=>$user->getId(),
-            'userVotes'=>$v,
-            
+            'a'=>$ac,
              
         ]);
     }
-    
+    public function hasUserVoted(Users $user,Answers $a, VotesRepository $voteRepository ): ?bool
+{ $userVotes = $voteRepository->findByVoteByiduser($user->getId(), $a->getId());
+    if($userVotes == null){
+        return false;
+    }
+   return true;
+}
     public function containsProfanity2(Answers $answer)
     {
        

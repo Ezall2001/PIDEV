@@ -53,3 +53,4 @@ class AnswerType extends AbstractType
         ]);
     }
 }
+

@@ -104,6 +104,16 @@ public function findByVoteByiduser($id_user, $answer_id) :?votes
         ->getQuery()
         ->getOneOrNullResult();
 }
+public function findByuser($id_user) :?votes
+{
+    return $this->createQueryBuilder('v')
+        ->andWhere('v.user = :id_user')
+    
+        ->setParameter('id_user', $id_user)
+      
+        ->getQuery()
+        ->getOneOrNullResult();
+}
 
 
 

@@ -24,11 +24,11 @@ class QuestionType extends AbstractType
         ->add('title', TextType::class, [
             'attr' => [
                 'class' => 'form-control',
-                'placeholder' => 'Ici vous pouvez ajouter votre titre',
+                'placeholder' => '',
             ],
             'constraints' => [
                 new NotBlank([
-                    'message' => 'Le titre ne peut pas être vide',
+                    'message' => '',
                 ]),
                 new Length([
                     'min' => 10,
@@ -41,15 +41,15 @@ class QuestionType extends AbstractType
             'required' => false,
             'attr' => [
                 'class' => 'form-control',
-                'placeholder' => 'Ici vous pouvez ajouter votre déscription',
+                'placeholder' => '',
             ],
             'constraints' => [
                 new NotBlank([
-                    'message' => 'vous dez ajouter desctip',
+                    'message' => '',
                 ]),
                 new Length([
                     'min' => 20,
-                    'minMessage' => 'la decrip doit etre au minimum 20 char',
+                    'minMessage' => '',
                 ]),
             ]])
             ->add('subject', EntityType::class, [
@@ -65,7 +65,7 @@ class QuestionType extends AbstractType
                 ],
                 'constraints' => [
                     new NotBlank([
-                        'message' => 'vous devez ajouter une matière',
+                        'message' => '',
                     ])
                 ]
             ])
