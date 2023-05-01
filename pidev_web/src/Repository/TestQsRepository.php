@@ -39,6 +39,19 @@ class TestQsRepository extends ServiceEntityRepository
         }
     }
 
+    public function findQuestionsByCourseName($name)
+    {
+        $entityManager=$this->getEntityManager();
+        $query=$entityManager
+            ->createQuery("SELECT q, t, c FROM App\Entity\TestQs 
+            q  JOIN q.test t JOIN t.course c WHERE c.name = :name")
+           ->setParameter('name',$name) ;
+        return $query->getResult();
+    }
+
+    
+
+
 //    /**
 //     * @return TestQs[] Returns an array of TestQs objects
 //     */
@@ -63,4 +76,6 @@ class TestQsRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+
+
 }

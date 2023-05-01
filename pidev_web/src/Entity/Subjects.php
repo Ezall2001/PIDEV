@@ -38,7 +38,7 @@ class Subjects
     #[ORM\OneToMany(targetEntity: Questions::class, mappedBy: "subjects")]
     private ?Collection $questions;
 
-    #[ORM\OneToMany(targetEntity: Tests::class, mappedBy: "subjects")]
+    #[ORM\OneToMany(targetEntity: Tests::class, mappedBy: "subject")]
     private ?Collection $tests;
 
     public function __construct()

@@ -37,9 +37,8 @@ class Courses
    #[ORM\JoinColumn(name: 'id_subject', referencedColumnName: 'id', nullable: true)]
    private ?Subjects $subject;
 
-    // #[ORM\ManyToOne(targetEntity: Tests::class, inversedBy: 'courses')]
-    // #[ORM\JoinColumn(name: '$id_test', referencedColumnName: 'id', nullable: true)]
-    // private Collection $tests;
+   #[ORM\OneToMany(targetEntity: Tests::class, mappedBy: 'course')]
+   private Collection $tests;
 
     #[ORM\OneToMany(targetEntity: Sessions::class, mappedBy: 'course')]
     private Collection $sessions;

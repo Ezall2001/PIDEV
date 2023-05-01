@@ -1,0 +1,106 @@
+{% extends 'layouts/admin.html.twig' %}
+{% block stylesheets %}
+
+	<!-- App favicon -->
+	<link
+	rel="shortcut icon" href="{{asset('images/favicon.ico')}}">
+
+	<!-- App css -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/css/bootstrap.min.css" integrity="sha512-LTumAojugr1KghbrzATeCmuR2d/w0MjXeeoHjM8iijp3q1g7zRuZ+Ww5ZSGVc+3k5/Kf4Xbgzwtr4yakBthU6Q==" crossorigin="anonymous"/>
+
+	<link href="{{asset('templateAssets/css/bootstrap.min.css')}}" rel="stylesheet" type="text/css" id="bs-default-stylesheet"/>
+	<link href="{{asset('templateAssets/css/app.min.css')}}" rel="stylesheet" type="text/css" id="app-default-stylesheet"/>
+
+	<link href="{{asset('templateAssets/css/bootstrap-dark.min.css')}}" rel="stylesheet" type="text/css" id="bs-dark-stylesheet" disabled="disabled"/>
+	<link
+	href="{{asset('templateAssets/css/app-dark.min.css')}}" rel="stylesheet" type="text/css" id="app-dark-stylesheet"/>
+
+	<!-- icons -->
+
+
+	<link href="{{asset('templateAssets/css/icons.min.css')}}" rel="stylesheet" type="text/css"/>
+
+{% endblock %}
+{% block body %}
+	<style>
+		th,
+		td {
+			width: 30%; /* set a fixed width for each th element */
+			padding: 30px; /* adjust the padding as needed */
+			text-align: left; /* center the text within each th element */
+		}
+		.btn-container {
+			text-align: right;
+			margin: 20px 40px 20px 0;
+		}
+	</style>
+	<div class="content-page">
+		<div
+			class="content">
+
+			<!-- Start Content-->
+
+			<div class="btn-container">
+				<a href="{{path('addTest')}}" class="btn btn-primary">
+					<i class="fas fa-plus"></i>
+					Ajouter un test</a>
+			</div>
+			<br>
+			<br>
+			<div class="container-fluid">
+
+				<div class="row">
+					<div class="col-sm-12">
+						<div class="table-responsive">
+							<table>
+								<div class="row">
+									<div class="col-12">
+										<div class="table-responsive">
+											<table class="table table-left" id="btn-editable">
+												<thead>
+													<tr>
+														<th>Type</th>
+														<th>Seuil</th>
+														<th>Durée</th>
+														<th>Actions</th>
+													</tr>
+												</thead>
+												<tbody>
+													{% for i in tests %}
+														<tr>
+															<td>{{i.type}}</td>
+															<td>{{i.minPoints}}</td>
+															<td>{{i.duration}}</td>
+															<td>
+																<a href="{{path('updateTest',{'id':i.id})}}" class="btn btn-success">
+																	<i class="fas fa-edit"></i>
+																</a>
+																<a href="{{path('deleteTest',{'id':i.id})}}" class="btn btn-danger">
+																	<i class="far fa-trash-alt"></i>
+																</a>
+															</td>
+														</tr>
+													{% endfor %}
+												</tbody>
+
+											</table>
+											<div
+												class="navigation">{# {{ knp_pagination_render(pagination) }} #}
+
+											</div>
+
+										</div>
+										<!-- end .table-responsive-->
+									</div>
+									<!-- end col -->
+								</div>
+								<!-- end row -->
+							</div>
+						{% endblock %}
+						{% block javascripts %}
+							<!-- Vendor js -->
+							<script src="{{asset('templateAssets/js/vendor.min.js')}}"></script><!-- knob plugin --><script src="{{asset('templateAssets/libs/jquery-knob/jquery.knob.min.js')}}"></script><!--Morris Chart--><script src="{{asset('templateAssets/libs/morris.js06/morris.min.js')}}"></script>
+							<script src="{{asset('templateAssets/libs/raphael/raphael.min.js')}}"></script><!-- Dashboar init js--><script src="{{asset('templateAssets/js/pages/dashboard.init.js')}}"></script>
+							<script src="{{asset('templateAssets/js/app.min.js')}}"></script><!-- App js--><script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+							<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.4.0/js/bootstrap.min.js" integrity="sha512-S5e/axilSCdpkNcQK1fN7iX5Zag6nYef6UzP6Rw8ivQzjKdDcsk82srFuyi3m/RnRG6Fj+6efKVU6PwU0arW2A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+						{% endblock %}

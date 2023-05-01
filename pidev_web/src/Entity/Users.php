@@ -58,9 +58,8 @@ class Users implements UserInterface
     #[ORM\Column]
     private ?string $walletId;
 
-    // #[ORM\OneToOne(targetEntity: TestResults::class, inversedBy: 'users')]
-    // #[ORM\JoinColumn(name: "id_user", referencedColumnName: "id", nullable: true)]
-    // public ?TestResults $result;
+    #[ORM\OneToOne(targetEntity: TestResults::class, mappedBy: 'users')]
+    private ?TestResults $result = null;
 
 
     #[ORM\OneToMany(targetEntity: Sessions::class,  mappedBy: "user")]

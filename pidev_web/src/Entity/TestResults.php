@@ -17,20 +17,24 @@ class TestResults
     #[ORM\Column]
     private ?int $mark = null;
 
-    #[ORM\OneToOne(targetEntity: Tests::class, inversedBy: 'testResults')]
-    private ?Tests $test = null;
+    #[ORM\OneToOne(targetEntity: Tests::class, inversedBy: 'result', fetch:'EAGER')]
+    #[ORM\JoinColumn(name: 'id_test', referencedColumnName: 'id', nullable: true)]
+    private ?Tests $tests;
 
+    #[ORM\OneToOne(targetEntity: Users::class, inversedBy: 'result', fetch:'EAGER')]
+    #[ORM\JoinColumn(name: "id_user", referencedColumnName: "id", nullable: true)]
+    public ?Users $users;
+
+    
     public function getTest(): ?Tests
     {
-        return $this->test;
+        return $this->tests;
     }
 
-    #[ORM\OneToOne(targetEntity: Users::class, inversedBy: 'testResults')]
-    private ?Users $user = null;
 
     public function getUser(): ?Users
     {
-        return $this->user;
+        return $this->users;
     }
 
     public function getId(): ?int
@@ -52,14 +56,14 @@ class TestResults
 
     public function setTest(?Tests $test): self
     {
-        $this->test = $test;
+        $this->tests = $test;
 
         return $this;
     }
 
     public function setUser(?Users $user): self
     {
-        $this->user = $user;
+        $this->users = $user;
 
         return $this;
     }

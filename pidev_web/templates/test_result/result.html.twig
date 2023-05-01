@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Certificat</title>
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.2/css/bootstrap.min.css">
+		<style>
+			body {
+				font-family: Arial, sans-serif;
+				font-size: 12pt;
+			}
+			.container {
+				max-width: 800px;
+				height: 500px;
+				margin: 30px auto 0;
+				background-color: #fff;
+				border: 2px solid #735F32;
+				padding: 50px;
+			}
+
+			.title {
+				font-family: "Times New Roman", Times, serif;
+				font-size: 50pt;
+				font-weight: bold;
+				text-align: center;
+				color: #0B2447;
+				text-transform: uppercase;
+				margin-bottom: 10px;
+				letter-spacing: 2px;
+			}
+
+			.certif-body {
+				text-align: center;
+			}
+
+			.course-name {
+				color: #576CBC;
+				margin-bottom: 20px;
+			}
+			.user-name {
+				color: #576CBC;
+				font-size: 30pt;
+				text-transform: capitalize;
+				margin-bottom: 30px;
+			}
+			.certif-body span {
+				text-transform: capitalize;
+			}
+			.certif-footer {
+				margin-top: 10px;
+			}
+			.signature {
+				display: inline-block;
+				float: left;
+				color: #576CBC;
+				font-weight: 600;
+			}
+
+			.qr-code {
+				display: inline-block;
+				float: right;
+			}
+			.qr-code img {
+				height: 60px;
+				width: 60px;
+			}
+
+			.date {
+				text-align: center;
+			}
+			.date span {
+				color: #A5D7E8;
+				font-weight: 600;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="container">
+			<div class="">
+				<h1 class="title">Certificat</h1>
+				<br>
+				<div class="certif-body">
+					<h3>Ce certificat est fièrement décerné à</h3>
+					<h2 class="user-name">{{result[0].getUser().getFirstName()}}
+						<span>{{result[0].getUser().getLastName()}}</span>
+					</h2>
+					<h3>Pour avoir terminé le quiz de :</h3>
+					<h2 class="course-name">
+						{{result[0].getTest().getCourse().getName()}}</h2>
+					<br>
+					<p>Au cours du quiz,
+						<span>{{result[0].getUser().getFirstName()}}</span>
+						a démontré une solide compréhension du sujet et un engagement envers l'apprentissage. Nous sommes fiers de présenter ce certificat en reconnaissance du travail acharné et de ses réalisations.
+					</p>
+				</div>
+				<p class="date">Présenté en :
+					<span>{{date}}</span>
+				</p>
+
+				<div class="certif-footer">
+					<div class="signature">
+						<p>Bug Diggers</p>
+						<p>Developpeurs de Myalò</p>
+					</div>
+					<div class="qr-code">
+						<img src="{{ qrImage }}" alt="QR Code"/>
+						Scannez moi !
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

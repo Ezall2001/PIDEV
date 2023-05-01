@@ -22,10 +22,16 @@
 					<a href="{{path('admin_sessions_list')}}" class="fs-4">Admin</a>
 				</li>
 				{% if (app.user) %}
-							<li class="mx-2">
-								<a href="{{path('app_question')}}" class="fs-4">Forum</a>
-							</li>
-							{% endif %}
+					<li class="mx-2">
+						<a href="{{path('app_question')}}" class="fs-4">Forum</a>
+					</li>
+				{% endif %}
+
+				{% if (app.user) %}
+					<li class="mx-2">
+						<a href="{{path('getUserTests')}}" class="fs-4">Testes</a>
+					</li>
+				{% endif %}
 
 			</ul>
 
@@ -33,16 +39,16 @@
 			<ul class="d-flex align-items-center justify-content-end col-4">
 
 				<li class="dropdown notification-list topbar-dropdown">
-					<a class="nav-link dropdown-toggle nav-user me-0 waves-effect waves-light" data-bs-toggle="dropdown"
-						href="#" role="button" aria-haspopup="false" aria-expanded="false">
+					<a class="nav-link dropdown-toggle nav-user me-0 waves-effect waves-light" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
 						<span class="pro-user-name ms-1  text-light">
 							{% if (app.user) %}
-							
-							{{app.user.getFirstName()}} {{app.user.getLastName()}}
-							<i class="mdi mdi-chevron-down"></i>
-							
+
+								{{app.user.getFirstName()}}
+								{{app.user.getLastName()}}
+								<i class="mdi mdi-chevron-down"></i>
+
 							{% else %}
-							<i class="fas fa-th-list"></i>
+								<i class="fas fa-th-list"></i>
 							{% endif %}
 						</span>
 					</a>
@@ -52,29 +58,29 @@
 						</div>
 
 						{% if (app.user) %}
-						<a href="{{ path('profil') }}" class="dropdown-item notify-item">
-							<i class="fe-user"></i>
-							<span>Mon Profil</span>
-						</a>
-						<div class="dropdown-divider"></div>
+							<a href="{{ path('profil') }}" class="dropdown-item notify-item">
+								<i class="fe-user"></i>
+								<span>Mon Profil</span>
+							</a>
+							<div class="dropdown-divider"></div>
 
-						<a href="{{ path('app_logout') }}" class="dropdown-item notify-item text-danger">
-							<i class="fe-log-out"></i>
-							<span>Deconnexion</span>
-						</a>
+							<a href="{{ path('app_logout') }}" class="dropdown-item notify-item text-danger">
+								<i class="fe-log-out"></i>
+								<span>Deconnexion</span>
+							</a>
 						{% else %}
-						<a href="{{ path('app_register') }}" class="dropdown-item notify-item">
-							<i class="fe-user"></i>
-							<span>S'inscrire</span>
-						</a>
-						<div class="dropdown-divider"></div>
-						<a href="{{ path('app_login') }}" class="dropdown-item notify-item text-danger">
-							<i class="fe-log-out"></i>
-							<span>Se Connecter</span>
-						</a>
+							<a href="{{ path('app_register') }}" class="dropdown-item notify-item">
+								<i class="fe-user"></i>
+								<span>S'inscrire</span>
+							</a>
+							<div class="dropdown-divider"></div>
+							<a href="{{ path('app_login') }}" class="dropdown-item notify-item text-danger">
+								<i class="fe-log-out"></i>
+								<span>Se Connecter</span>
+							</a>
 						{% endif %}
+					</li>
 				</li>
-
 				<li class="dropdown notification-list">
 					<a href="javascript:void(0);" class="nav-link right-bar-toggle waves-effect waves-light">
 						<i class="fe-settings noti-icon  text-light"></i>
