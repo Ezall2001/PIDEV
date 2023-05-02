@@ -1,5 +1,10 @@
 {% extends 'layouts/user.html.twig' %}
 
+{% block stylesheets %}
+	<link rel="stylesheet" type="text/css" href="{{asset('css/sessionCard.css')}}"/>
+
+{% endblock %}
+
 
 {% block main %}
 
@@ -11,7 +16,7 @@
 					<div class="text-center">
 						<br><br>
 						{# <img src="{{ asset('uploads/avatarProfilePic/' ~ user.avatarPath) }}"
-						                        class="rounded-circle avatar-xl img-thumbnail mb-3" alt="profile-image"> #}
+																																																																																										                        class="rounded-circle avatar-xl img-thumbnail mb-3" alt="profile-image"> #}
 						<img src="{{ user.avatarPath }}" class="rounded-circle avatar-xl img-thumbnail mb-3" alt="profile-image">
 						<h3 class="card-title text-black font-weight-bold" style="font-size: 1.5rem;">{{user.getFirstName}}
 							{{user.getLastName}}</h3>
@@ -47,7 +52,7 @@
 							</li>
 							<li class="nav-item">
 								<a href="#messages-b2" data-bs-toggle="tab" aria-expanded="false" class="nav-link">
-									Séances Créers
+									Séances Achetées
 								</a>
 							</li>
 						</ul>
@@ -77,8 +82,8 @@
 										</div>
 									</div>
 									{# <div class="mb-3">
-									                                    {{form_row(form.ImageFile)}}
-									                                </div> #}
+																																																																																																																																							                                    {{form_row(form.ImageFile)}}
+																																																																																																																																							                                </div> #}
 
 									<div class="mb-3">
 										<label for="{{ form.age.vars.id }}">
@@ -95,7 +100,7 @@
 											<strong>Bio</strong>
 										</label>
 										{{ form_widget(form.bio, {'attr': {'class': 'form-control', 'rows': 5}})
-										                                    }}
+																																																																																																																																																						                                    }}
 										<div style="color:brown; font-size: 14px">
 											{{ form_errors(form.bio) }}
 										</div>
@@ -109,28 +114,12 @@
 								<!-- End Profile Edit Form -->
 
 							</div>
-							<div class="tab-pane" id="profile-b2">
-								<p>Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim
-									                                justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis
-									                                eu pede mollis pretium. Integer tincidunt.Cras dapibus. Vivamus elementum
-									                                semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor
-									                                eu, consequat vitae, eleifend ac, enim.</p>
-								<p class="mb-0">Vakal text here dolor sit amet, consectetuer adipiscing elit.
-									                                Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus
-									                                et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis,
-									                                ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa
-									                                quis enim.</p>
-							</div>
 							<div class="tab-pane" id="messages-b2">
-								<p>Vakal text here dolor sit amet, consectetuer adipiscing elit. Aenean commodo
-									                                ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis
-									                                parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec,
-									                                pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim.</p>
-								<p class="mb-0">Donec pede justo, fringilla vel, aliquet nec, vulputate eget,
-									                                arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam
-									                                dictum felis eu pede mollis pretium. Integer tincidunt.Cras dapibus. Vivamus
-									                                elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula,
-									                                porttitor eu, consequat vitae, eleifend ac, enim.</p>
+								<div class="d-flex">
+									{% for session in sessions %}
+										{{component('sessionCard',{"session" : session,"userId":userId})}}
+									{% endfor %}
+								</div>
 							</div>
 						</div>
 

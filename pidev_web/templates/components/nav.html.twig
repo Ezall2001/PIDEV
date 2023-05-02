@@ -17,13 +17,10 @@
 				<li class="mx-2">
 					<a href="{{path('home')}}" class="fs-4">Home</a>
 				</li>
-				<li class="mx-2">
-					<a href="{{path('sessions_list')}}" class="fs-4">User</a>
-				</li>
-				<li class="mx-2">
-					<a href="{{path('admin_sessions_list')}}" class="fs-4">Admin</a>
-				</li>
 				{% if (app.user) %}
+					<li class="mx-2">
+						<a href="{{path('sessions_list')}}" class="fs-4">Séances</a>
+					</li>
 					<li class="mx-2">
 						<a href="{{path('app_question')}}" class="fs-4">Forum</a>
 					</li>

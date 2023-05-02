@@ -64,6 +64,19 @@ class SessionsRepository extends ServiceEntityRepository
         return $pagination;
     }
 
+    public function getBaughtSessions(int $userId)
+    {
+        return $this->createQueryBuilder('s')
+            ->select('s', 'c', 'u', 'p')
+            ->leftJoin('s.course', 'c')
+            ->leftJoin('s.user', 'u')
+            ->leftJoin('s.participations', 'p', 'WITH', 'p.user = ' . $userId)
+            ->andwhere('s.blocked = 0')
+            ->andWhere("p.state = 'ACCEPTED'")
+            ->getQuery()
+            ->getResult();
+    }
+
     public function getSessionCreators(): array
     {
         $result = $this->createQueryBuilder('s')

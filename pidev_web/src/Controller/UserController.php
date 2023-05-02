@@ -24,7 +24,7 @@ use Symfony\Component\Security\Core\Security;
 use App\Security\UsersAuthAuthenticator;
 use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
 use App\Entity\Users;
-
+use App\Repository\SessionsRepository;
 
 class UserController extends AbstractController
 {
@@ -80,7 +80,7 @@ class UserController extends AbstractController
                     $this->getParameter('avatar_directory'),
                     $avatarFileName
                 );
-                
+
                 // $user->setAvatarPath($avatarFileName);
                 $user->setAvatarPath("server/profile_avatars/{$avatarFileName}");
             }
@@ -314,7 +314,7 @@ class UserController extends AbstractController
     //     ]);
     // }
     #[Route('/profil', name: 'profil')]
-    public function profil(Request $request, ManagerRegistry $registry, Security $security): Response
+    public function profil(Request $request, ManagerRegistry $registry, Security $security, SessionsRepository $sessionsRepository): Response
     {
         $user = $security->getUser();
 
@@ -339,9 +339,14 @@ class UserController extends AbstractController
             $this->addFlash('danger', 'Il y a des erreurs.');
         }
 
+        $sessions = $sessionsRepository->getBaughtSessions($user->getId());
+
+
         return $this->render('profile/profile.html.twig', [
             'user' => $user,
             'form' => $form->createView(),
+            'sessions' => $sessions,
+            'userId' => $user->getId()
         ]);
     }
 

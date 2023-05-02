@@ -12,20 +12,22 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\InputBag;
 use Symfony\Component\Routing\Annotation\Route;
 use Knp\Component\Pager\Pagination\PaginationInterface;
-
+use Symfony\Component\Security\Core\Security;
 
 class SessionsListController extends AbstractController
 {
   private SessionsRepository $sessionsRepository;
   private CoursesRepository $coursesRepository;
-  private int $tmpUserId;
+  private ?int $userId = null;
 
 
-  public function __construct(SessionsRepository $sessionsRepository, CoursesRepository $coursesRepository)
+  public function __construct(SessionsRepository $sessionsRepository, CoursesRepository $coursesRepository, Security $security)
   {
     $this->sessionsRepository = $sessionsRepository;
     $this->coursesRepository = $coursesRepository;
-    $this->tmpUserId = $_ENV['TMP_USER_ID'];
+    $user = $security->getUser();
+    if ($user)
+      $this->userId = $security->getUser()->getId();;
   }
 
   private function buildFilterObject(InputBag $queryString, int $userId): array
@@ -154,12 +156,15 @@ class SessionsListController extends AbstractController
   #[Route('/sessionsList', name: 'sessions_list')]
   public function sessionsList(Request $request): Response
   {
-    $filterObject = $this->buildFilterObject($request->query, $this->tmpUserId);
+    if ($this->userId == null)
+      return $this->redirectToRoute('app_login');
+
+    $filterObject = $this->buildFilterObject($request->query, $this->userId);
     $sortObject = $this->buildSortObject($request->query);
     $pagingObject = $this->buildPagingObject($request->query);
 
 
-    $resultObj = $this->sessionsRepository->getSessionList($filterObject, $sortObject, $pagingObject, $this->tmpUserId);
+    $resultObj = $this->sessionsRepository->getSessionList($filterObject, $sortObject, $pagingObject, $this->userId);
     $paginationUI = $this->buildPaginationUIObject($resultObj, $pagingObject);
     $sessions = $resultObj->getItems();
     $totalFoundSessions = $resultObj->getTotalItemCount();
@@ -174,7 +179,7 @@ class SessionsListController extends AbstractController
       'courses' => $courses,
       'totalFoundSessions' => $totalFoundSessions,
       'filters' => $filterObject,
-      'userId' => $this->tmpUserId,
+      'userId' => $this->userId,
       'paginationUI' => $paginationUI,
       'sortObj' => $sortObject,
       'alert' => $alertObject
@@ -184,12 +189,15 @@ class SessionsListController extends AbstractController
   #[Route('/admin/sessionsList', name: 'admin_sessions_list')]
   public function adminSessionsList(Request $request): Response
   {
-    $filterObject = $this->buildFilterObject($request->query, $this->tmpUserId);
+    if ($this->userId == null)
+      return $this->redirectToRoute('app_login');
+
+    $filterObject = $this->buildFilterObject($request->query, $this->userId);
     $sortObject = $this->buildSortObject($request->query);
     $pagingObject = $this->buildPagingObject($request->query);
 
 
-    $resultObj = $this->sessionsRepository->getSessionList($filterObject, $sortObject, $pagingObject, $this->tmpUserId, true);
+    $resultObj = $this->sessionsRepository->getSessionList($filterObject, $sortObject, $pagingObject, $this->userId, true);
     $paginationUI = $this->buildPaginationUIObject($resultObj, $pagingObject);
     $sessions = $resultObj->getItems();
     $totalFoundSessions = $resultObj->getTotalItemCount();

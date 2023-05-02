@@ -11,20 +11,23 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\InputBag;
+use Symfony\Component\Security\Core\Security;
 
 class SessionController extends AbstractController
 {
   private SessionsRepository $sessionsRepository;
   private EntityManagerInterface $entityManager;
   private CoursesRepository $coursesRepository;
-  private int $tmpUserId;
+  private ?int $userId = null;
 
-  public function __construct(SessionsRepository $sessionsRepository, CoursesRepository $coursesRepository, EntityManagerInterface $entityManager)
+  public function __construct(SessionsRepository $sessionsRepository, CoursesRepository $coursesRepository, EntityManagerInterface $entityManager, Security $security)
   {
     $this->entityManager = $entityManager;
     $this->sessionsRepository = $sessionsRepository;
     $this->coursesRepository = $coursesRepository;
-    $this->tmpUserId = $_ENV['TMP_USER_ID'];
+    $user = $security->getUser();
+    if ($user)
+      $this->userId = $security->getUser()->getId();
   }
 
   private function buildAlertObject(InputBag $queryString): array
@@ -46,7 +49,7 @@ class SessionController extends AbstractController
 
   private function buildSessionObject(int $id): Sessions
   {
-    $session = $this->sessionsRepository->getPageSession($id, $this->tmpUserId);
+    $session = $this->sessionsRepository->getPageSession($id, $this->userId);
     $creatorId = $session->getUser()->getId();
 
 
@@ -67,7 +70,7 @@ class SessionController extends AbstractController
   {
     $actionType = 'participate';
 
-    if ($this->tmpUserId == $session->getUser()->getId())
+    if ($this->userId == $session->getUser()->getId())
       $actionType = 'creator';
     else if (
       sizeof($session->getParticipations()) > 0
@@ -81,6 +84,9 @@ class SessionController extends AbstractController
   #[Route('/session/{id}', name: 'session')]
   public function session(Request $request, int $id): Response
   {
+    if ($this->userId == null)
+      return $this->redirectToRoute('app_login');
+
     $session = $this->buildSessionObject($id);
     $actionType = $this->buildActionType($session);
     $alertObject = $this->buildAlertObject($request->query);
