@@ -1,0 +1,151 @@
+{% extends 'layouts//admin.html.twig' %}
+
+
+{% block pageTitle %}
+<li>
+	<h4 class="page-title-main">Liste des questions de Forum</h4>
+</li>
+
+{% endblock %}
+
+{% block body %}
+
+
+<style>
+	th,
+	td {
+		width: 30%;
+		/* set a fixed width for each th element */
+		padding: 30px;
+		/* adjust the padding as needed */
+		text-align: left;
+		/* center the text within each th element */
+	}
+
+	.btn-container {
+		text-align: right;
+		margin: 20px 40px 20px 0;
+	}
+</style>
+<div class="content-page">
+	<div class="content">
+
+		<!-- Start Content-->
+
+
+
+		<div>
+			<a href="{{ path('ma_page') }}"><i class="fas fa-arrow-circle-left fa-lg me-1"></i></a>
+		</div>
+
+		<br />
+
+		<form action="{{ path('app_search_question2') }}" method="get">
+			<!-- Champ caché pour stocker l'identifiant de matière -->
+
+			<div class="input-group">
+				<input type="text" class="form-control" name="keywords" placeholder="Rechercher...">
+				<span class="input-group-btn">
+					<button type="submit" class="btn btn-secondary">Rechercher</button>
+				</span>
+			</div>
+		</form>
+
+		<div class="container-fluid">
+
+			<div class="row">
+				<div class="col-sm-12">
+					<div class="table-responsive">
+						<table>
+							<div class="row">
+								<div class="col-12">
+									<div class="table-responsive">
+										<table class="table table-left" id="btn-editable">
+											<thead>
+												<tr>
+													<th>image</th>
+													<th>Prénom</th>
+													<th>Nom</th>
+													<th>Matiére</th>
+													<th>Titre</th>
+													<th>description</th>
+												</tr>
+											</thead>
+											<tbody>
+
+												{% for question in pagination %}
+												<tr>
+													<td width="150">
+														<img src="{{question.getUser().getAvatarPath() }}" alt=""
+															class="flex-shrink-0 comment-avatar avatar-sm rounded me-2"></img>
+
+
+
+
+													<td>{{ question.getUser().getFirstName()}}</td>
+													<td>{{ question.getUser().getLastName()}}</td>
+													<td>{{question.getSubject().getName()}}</td>
+													<td>{{question.getTitle()}}</td>
+													<td>{{question.getDescription()}}</td>
+													<td>
+
+														<a href="{{ path('delete_question2', {'id': question.getId()}) }}"
+															class="btn btn-danger">
+															<i class="far fa-trash-alt"></i>
+														</a>
+
+														</a>&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+														{% if not question.user.isBlocked() %}
+														<form method="post" action="{{ path('block_user') }}">
+															<input type="hidden" name="userId"
+																value="{{ question.user.id }}" />
+
+
+															<button type="submit" class="btn btn-success">
+																<i class="fas fa-ban"></i>
+															</button>
+														</form>
+														{% else %}
+														<p style="color: red; font-size: 14px;">L'utilisateur est
+															bloqué.</p>
+														{% endif %}
+
+									</div>
+
+
+									</td>
+									</tr>
+
+
+									{% endfor %}
+
+									</tbody>
+
+						</table>
+						<div class="navigation">
+							{{ knp_pagination_render(pagination) }}
+
+						</div>
+
+					</div>
+					<!-- end .table-responsive-->
+				</div>
+				<!-- end col -->
+			</div>
+			<!-- end row -->
+		</div>
+	</div>
+	<!-- end row -->
+</div>
+<!-- container -->
+
+</div>
+</div>
+</div>
+</div>
+</body>
+
+</html>
+{% endblock %}

@@ -1,0 +1,46 @@
+
+
+{% block main  %}
+<style>
+.card-img {
+  max-width: 100%;
+  height: auto;
+}
+</style>
+
+
+
+
+
+
+
+<div class="container">
+  <div class="row" id="bac-table">
+    {% for subject in subjects %}
+    <div class="col-xl-6 col-md-6 col-sm-12">
+      <div class="card mb-3">
+        <div class="row g-0">
+          <div class="col-md-4">
+             <div class="services-img">
+              <img class="card-img" src="../images/matiere.jpg" alt="">
+            </div>
+          </div>
+          <div class="col-md-8">
+            <div class="card-body">
+              <h5 class="card-title">{{ subject.name }}</h5>
+              <p class="card-text text-muted" style="height: 100px; overflow: hidden">{{ subject.description }}</p>
+              <p class="card-text"><strong>Classes Esprit:</strong> {{ subject.getClassesEsprit() }}</p>
+              <a href="{{ path('courses_list', {'subjectId': subject.id}) }}" class="btn btn-custom me-4">Consulter Cours</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% if loop.index % 2 == 0 %}
+    </div><div class="row" id="bac-table">
+    {% endif %}
+    {% endfor %}
+  </div>
+  {{ knp_pagination_render(subjects, 'subjects/pagination.html.twig') }}
+</div>
+{% endblock %}

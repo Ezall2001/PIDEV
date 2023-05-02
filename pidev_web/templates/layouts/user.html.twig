@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 	<head>
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -22,6 +23,7 @@
 		<script src="{{asset('templateAssets/js/vendor.min.js')}}" defer></script>
 		<script src="{{asset('templateAssets/js/app.min.js')}}" defer></script>
 
+
 		<title>
 			{% block title %}
 				Myalô
@@ -33,19 +35,37 @@
 		{% block javascripts %}{% endblock %}
 
 	</head>
+
 	<body>
 
 		{{component('nav')}}
+		{% if app.user and app.user.isVerified == false and app.user.isVerified == NULL %}
+			<div class="alert alert-warning alert-dismissible" role="alert">
+				<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+				<div class="alert-message">
+					<strong>Votre compte n'est pas activé</strong>,
+					<a href="{{ path('resendVerif') }}">renvoyer le lien
+										d'activation</a>
+				</div>
+			</div>
+		{% endif %}
+		{% include "layouts/flash.html.twig" %}
+
+		{# {% for message in app.flashes('error') %}
+			<div class="alert alert-warning">{{ message }}</div>
+			{% endfor %} #}
+
 
 		<div id="wrapper">
 
-			<main class="mt-5 mb-2 py-3 px-2 px-md-4 min-vh-100 overflow-x-hidden">
+			<main class="">
+
 				{% block main %}body
 				{% endblock %}
 			</main>
 
 
 		</div>
-
 	</body>
+
 </html>

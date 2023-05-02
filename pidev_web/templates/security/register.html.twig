@@ -1,0 +1,104 @@
+{% extends 'layouts/user.html.twig' %}
+{% block title %}Sign Up
+{% endblock %}
+{% block main %}
+
+	<body class="loading authentication-bg authentication-bg-pattern">
+
+		<div class="account-pages mt-5 mb-5">
+			<div class="container">
+				<div class="row justify-content-center">
+					<div class="col-md-8 col-lg-6 col-xl-4">
+						<div class="text-center">
+							<a href="index.html">
+								<img src="{{asset('templateAssets/images/logo-dark.png')}}" alt="" height="22" class="mx-auto">
+							</a>
+						</div>
+						<div class="card">
+
+							<div class="card-body p-4">
+								<header>
+									<div class="text-center mb-4">
+										<h4 class="text-bold mt-0">Devenir un membre Myalò</h4>
+									</div>
+								</header>
+								{{ form_start(registrationForm) }}
+
+								<div class="mb-3">
+									{{ form_label(registrationForm.firstName, 'Prénom') }}
+									{{ form_widget(registrationForm.firstName, {'attr': {'class': 'form-control'}})
+									                                }}
+
+								</div>
+								<div class="mb-3">
+									{{ form_label(registrationForm.lastName, 'Nom') }}
+									{{ form_widget(registrationForm.lastName, {'attr': {'class': 'form-control'}})
+									                                }}
+
+								</div>
+								<div class="mb-3">
+									{{ form_label(registrationForm.email, 'Email') }}
+									{{ form_widget(registrationForm.email, {'attr': {'class': 'form-control'}})
+									                                }}
+
+								</div>
+
+
+								<div class="mb-3">
+									{{ form_label(registrationForm.bio, 'Bio') }}
+									{{ form_widget(registrationForm.bio, {'attr': {'class': 'form-control'}})
+									                                }}
+
+								</div>
+								<div class="mb-3">
+									{{ form_label(registrationForm.avatarPath, 'Choisi une photo de Profil') }}
+									{{ form_widget(registrationForm.avatarPath, {'attr': {'class': 'form-control'}})
+									                                }}
+
+								</div>
+								<div class="mb-3">
+									{{ form_label(registrationForm.age, 'Age') }}
+									{{ form_widget(registrationForm.age, {'attr': {'class': 'form-control'}})
+									                                }}
+
+								</div>
+
+
+								<div class="mb-3">
+									{{ form_label(registrationForm.plainPassword, 'Mot de passe') }}
+									{{ form_widget(registrationForm.plainPassword, {'attr': {'class': 'form-control'}})
+									                                }}
+
+								</div>
+								<div class="mb-3">
+									{{ form_label(registrationForm.RGPDConsent, 'Vous devez acceptez nos termes et nos conditions') }}
+									{{ form_widget(registrationForm.RGPDConsent)
+                                }}
+
+								</div>
+
+
+								<div class="mb-3 text-center d-grid">
+									<button type="submit" class="btn btn-danger">M'inscrire</button>
+
+								</div>
+								<a href="{{ path('app_login') }}" class="text-muted">J'ai déja un compte</a>
+								{{ form_end(registrationForm) }}
+
+							</div>
+							<!-- end card-body -->
+						</div>
+						<!-- end card -->
+
+					</div>
+					<!-- end col -->
+				</div>
+				<!-- end row -->
+			</div>
+			<!-- end container -->
+		</div>
+		<!-- end page -->
+
+
+	</body>
+{% endblock %}

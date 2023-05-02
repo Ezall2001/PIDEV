@@ -20,21 +20,25 @@ class Courses
     private ?int $id = null;
 
     #[ORM\Column(type: 'string', length: 500)]
+    #[Assert\NotBlank]
     private ?string $name =  null;
 
     #[ORM\Column(type: 'string', length: 500)]
+    #[Assert\NotBlank(message: 'ajouter description')]
     private ?string $description =  null;
 
     #[ORM\Column(type: 'string', length: 255)]
+    #[Assert\NotBlank(message: 'choisir a difficulter')]
     #[Assert\Choice(choices: ['EASY', 'MEDIUM', 'HARD'], message: 'Choose a valid difficulty')]
     private ?string $difficulty = null;
 
-    // #[ORM\ManyToOne(targetEntity: Subjects::class, inversedBy: 'courses')]
-    // #[ORM\JoinColumn(name: 'id_subject', referencedColumnName: 'id', nullable: true)]
-    // private ?Subjects $subject;
+    #[Assert\NotBlank(message: 'choisir a quel matiere')]
+    #[ORM\ManyToOne(targetEntity: Subjects::class, inversedBy: 'courses')]
+   #[ORM\JoinColumn(name: 'id_subject', referencedColumnName: 'id', nullable: true)]
+   private ?Subjects $subject;
 
-    // #[ORM\OneToMany(targetEntity: Tests::class, mappedBy: 'course')]
-    // private Collection $tests;
+   #[ORM\OneToMany(targetEntity: Tests::class, mappedBy: 'course')]
+   private Collection $tests;
 
     #[ORM\OneToMany(targetEntity: Sessions::class, mappedBy: 'course')]
     private Collection $sessions;
@@ -95,17 +99,17 @@ class Courses
         return $this;
     }
 
-    // public function getSubject(): ?Subjects
-    // {
-    //     return $this->subject;
-    // }
+    public function getSubject(): ?Subjects
+    {
+        return $this->subject;
+    }
 
-    // public function setSubject(?Subjects $subject): self
-    // {
-    //     $this->subject = $subject;
+    public function setSubject(?Subjects $subject): self
+    {
+        $this->subject = $subject;
 
-    //     return $this;
-    // }
+        return $this;
+    }
 
     // public function setTests(?Collection $tests): self
     // {

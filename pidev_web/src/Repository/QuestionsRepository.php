@@ -38,21 +38,60 @@ class QuestionsRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
+    public function searchByTitle($keywordsArray)
+    {
+        $qb = $this->createQueryBuilder('q');
+    
+        foreach ($keywordsArray as $key => $keyword) {
+            $qb->andWhere($qb->expr()->like('q.title', ':keyword'.$key))
+               ->setParameter('keyword'.$key, '%'.$keyword.'%');
+        }
+    
+        return $qb->getQuery()->getResult();
+    }
+    public function findById($id): ?Questions
+{
+    return $this->createQueryBuilder('q')
+        ->andWhere('q.id = :id')
+        ->setParameter('id', $id)
+        ->getQuery()
+        ->getOneOrNullResult();
+}
+public function searchByTitleAndSubject($title, $subject_id )
+{
+    $qb = $this->createQueryBuilder('q')
+        ->leftJoin('q.subject', 's')
+        ->where('q.title LIKE :title')
+        ->setParameter('title', '%'.$title.'%');
+    
+    if ($subject_id ) {
+        $qb->andWhere('s.id = :subject_id ')
+           ->setParameter('subject_id ', $subject_id );
+    }
+    
+    return $qb->getQuery()->getResult();
+}
+  
 
 //    /**
 //     * @return Questions[] Returns an array of Questions objects
 //     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('q')
-//            ->andWhere('q.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('q.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+   public function paginationQuery()
+   {
+       return $this->createQueryBuilder('q')
+         
+           ->orderBy('q.id', 'ASC')
+           ->getQuery()
+         
+       ;
+   }
+   public function findBySortOrder($sortOrder)
+{
+    $queryBuilder = $this->createQueryBuilder('q')
+        ->orderBy('q.createdAt', $sortOrder == 1 ? 'DESC' : 'ASC');
+
+    return $queryBuilder->getQuery()->getResult();
+}
 
 //    public function findOneBySomeField($value): ?Questions
 //    {

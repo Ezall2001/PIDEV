@@ -4,12 +4,15 @@ namespace App\Entity;
 
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use App\Entity\Answer;
+use App\Entity\Answers;
 use Symfony\Component\Validator\Constraints\Date;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Repository\QuestionsRepository;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Symfony\Component\Validator\Constraints\NotBlank;
+use symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: QuestionsRepository::class)]
 class Questions
@@ -17,26 +20,46 @@ class Questions
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups("question")]
     private ?int $id;
+   
+   
 
-    #[ORM\Column(length: 1500)]
-    private ?string $title;
+    #[ORM\Column(length: 2550, nullable: true)]
+	#[Assert\NotBlank(message:" titre doit etre non vide")]
+	#[Assert\Length(
+		min : 10,
+		minMessage:" Entrer un titre au mini de 10 caracteres")]
+        #[Groups("question")]
+	
+    private ?string $title = null;
 
-    #[ORM\Column(length: 15000)]
-    private ?string $description;
+
+    #[ORM\Column(length: 2550, nullable: true)]
+	#[Assert\NotBlank(message:" la description doit etre non vide")]
+	#[Assert\Length(
+		min : 20,
+		minMessage:" Entrer une description au mini de 20 caracteres")]
+        #[Groups("question")]
+
+    private ?string $description= null;
 
 
 
     #[ORM\ManyToOne(targetEntity: Subjects::class, inversedBy: 'questions')]
     #[ORM\JoinColumn(name: 'subject_id', referencedColumnName: 'id', nullable: true)]
+    #[Assert\NotBlank(message:" vous devez choisir une matiére")]
+    #[Groups("question")]
     private ?Subjects $subject = null;
 
 
     #[ORM\ManyToOne(targetEntity: Users::class, inversedBy: 'questions')]
     #[ORM\JoinColumn(name: 'user_id', referencedColumnName: 'id', nullable: true)]
+    #[Groups("question")]
     private ?Users $user = null;
 
     #[ORM\Column(name: "created_at", type: "datetime")]
+    #[Groups("question")]
     private ?\DateTimeInterface $createdAt = null;
 
     public function getId(): ?int
@@ -103,6 +126,7 @@ class Questions
         return $this;
     }
     #[ORM\OneToMany(targetEntity: Answers::class, mappedBy: "question")]
+    #[Assert\NotBlank(message:" titre doit etre non vide")]
     private Collection $answers;
 
     public function __construct()
@@ -136,4 +160,25 @@ class Questions
 
         return $this;
     }
+    public function __call($name, $arguments) {
+        // Vérifie si la méthode appelée commence par "get" et si elle correspond à une propriété de l'entité
+        if (substr($name, 0, 3) === 'get') {
+            $property = lcfirst(substr($name, 3));
+            if (property_exists($this, $property)) {
+                return $this->{$property};
+            }
+        } elseif (substr($name, 0, 3) === 'set') { // Vérifie si la méthode appelée commence par "set" et si elle correspond à une propriété de l'entité
+            $property = lcfirst(substr($name, 3));
+            if (property_exists($this, $property)) {
+                $this->{$property} = $arguments[0];
+                return $this;
+            }
+        }
+
+        // Si la méthode appelée n'est pas reconnue, lance une exception
+        throw new \BadMethodCallException("La méthode $name n'existe pas dans cette entité.");
+    }
+
+
 }
+

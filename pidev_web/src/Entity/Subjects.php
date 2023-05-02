@@ -7,7 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Repository\SubjectsRepository;
-
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 #[ORM\Entity(repositoryClass: SubjectsRepository::class)]
 
 
@@ -20,24 +20,26 @@ class Subjects
     private ?int $id = null;
 
     #[ORM\Column(type: 'string', length: 50)]
+    #[Assert\NotBlank]
     private ?string $name =  null;
 
     #[ORM\Column(type: 'string', length: 500)]
+    #[Assert\NotBlank]
     private ?string $description =  null;
 
     #[ORM\Column(type: 'string', length: 255)]
+    #[Assert\NotBlank(message: 'Choisir a classe')]
     #[Assert\Choice(choices: ['A3', 'B3', 'B2', 'A2', 'A1', 'B1'], message: 'Choose a valid classe_esprit.')]
     private ?string $classes_esprit = null;
 
-    #[ORM\OneToMany(targetEntity: Courses::class, mappedBy: "subject")]
+    #[ORM\OneToMany(targetEntity: Courses::class, mappedBy: "subjects")]
     private ?Collection $courses;
 
-    #[ORM\OneToMany(targetEntity: Questions::class, mappedBy: "subject")]
+    #[ORM\OneToMany(targetEntity: Questions::class, mappedBy: "subjects")]
     private ?Collection $questions;
 
     #[ORM\OneToMany(targetEntity: Tests::class, mappedBy: "subject")]
     private ?Collection $tests;
-
 
     public function __construct()
     {
@@ -191,5 +193,9 @@ class Subjects
     public function getQuestions(): Collection
     {
         return $this->questions;
+    }
+    public function __toString(): string
+    {
+        return $this->name;
     }
 }

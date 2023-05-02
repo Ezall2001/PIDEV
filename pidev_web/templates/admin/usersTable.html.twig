@@ -1,0 +1,140 @@
+{% extends 'layouts//admin.html.twig' %}
+
+
+{% block pageTitle %}
+<li>
+    <h4 class="page-title-main">Liste des Utilisateurs</h4>
+</li>
+
+{% endblock %}
+
+{% block body %}
+
+
+<style>
+    th,
+    td {
+        width: 30%;
+        /* set a fixed width for each th element */
+        padding: 30px;
+        /* adjust the padding as needed */
+        text-align: left;
+        /* center the text within each th element */
+    }
+
+    .btn-container {
+        text-align: right;
+        margin: 20px 40px 20px 0;
+    }
+</style>
+<div class="content-page">
+    <div class="content">
+
+        <!-- Start Content-->
+
+
+
+        <div>
+            <a href="{{ path('ma_page') }}"><i class="fas fa-arrow-circle-left fa-lg me-1"></i></a>
+        </div>
+
+        <br />
+
+        <form action="{{ path('app_search_question2') }}" method="get">
+            <!-- Champ caché pour stocker l'identifiant de matière -->
+
+            <div class="input-group">
+                <input type="text" class="form-control" name="keywords" placeholder="Rechercher...">
+                <span class="input-group-btn">
+                    <button type="submit" class="btn btn-secondary">Rechercher</button>
+                </span>
+            </div>
+        </form>
+
+        <div class="container-fluid">
+
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="table-responsive">
+                        <table>
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="table-responsive">
+                                        <table class="table table-left" id="btn-editable">
+                                            <thead>
+                                                <tr>
+                                                    <th>ID</th>
+                                                    <th>Prénom</th>
+                                                    <th>Nom</th>
+                                                    <th>Email</th>
+                                                    <th>Score</th>
+                                                    <th>Rôles</th>
+                                                    <th>Actions</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {% for user in users %}
+                                                <tr>
+                                                    <td>{{ user.id }}</td>
+                                                    <td>{{ user.firstName }}</td>
+                                                    <td>{{ user.lastName }}</td>
+                                                    <td>{{ user.email }}</td>
+                                                    <td>{{ user.score }}</td>
+                                                    <td>
+                                                        {% for role in user.roles %}
+                                                        {% if role == "ROLE_ADMIN" %}
+                                                        {% set name = "Administrateur" %}
+                                                        {% set color = "danger" %}
+                                                        {% else %}
+                                                        {% set name = "Membre" %}
+                                                        {% set color = "success" %}
+                                                        {% endif %}
+                                                        <span class="badge bg-{{ color }}">{{ name }}</span>
+                                                        {% endfor %}
+                                                    </td>
+                                                    <td class="text-center">
+
+
+                                                        <a href="{{path('admin_user_delete', {'id': user.id})}}"
+                                                            class="btn btn-danger">
+                                                            <i class="far fa-trash-alt"></i>
+                                                        </a>
+
+
+
+                                                    </td>
+
+
+                                                </tr>
+
+
+                                                {% endfor %}
+
+                                            </tbody>
+
+                                        </table>
+                                        {# <div class="navigation">
+                                            {{ knp_pagination_render(pagination) }}
+
+                                        </div> #}
+
+                                    </div>
+                                    <!-- end .table-responsive-->
+                                </div>
+                                <!-- end col -->
+                            </div>
+                            <!-- end row -->
+                    </div>
+                </div>
+                <!-- end row -->
+            </div>
+            <!-- container -->
+
+        </div>
+    </div>
+</div>
+</div>
+</body>
+
+</html>
+{% endblock %}

@@ -1,0 +1,135 @@
+   {% extends 'layouts//admin.html.twig' %}
+{% block body %}
+ 
+ <div class="content-page">
+                <div class="content">
+
+                    <!-- Start Content-->
+                    <div class="container-fluid">
+
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="card">
+                                    <div class="card-body">
+        
+                                    <style>
+  th {
+    width: 50%; /* set a fixed width for each th element */
+    padding:40px; /* adjust the padding as needed */
+    text-align: left; /* center the text within each th element */
+  }
+</style>
+
+<table >
+                                                <thead>
+            
+                                                      <tr>
+  
+    <div class="col-sm-8 col-xl-6">
+  {{ form_start(form, {'attr': {'class': 'my-form-class', 'style': 'margin-top: 20px;'}}) }}
+  {{ form_row(form.sortField, {'attr': {'class': 'form-control'}}) }}
+  {{ form_row(form.sortOrder, {'attr': {'class': 'form-control'}}) }}
+   {{ form_row(form.sort) }}
+{{ form_end(form) }}
+</div>
+ <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                
+  <td style="text-align: right;">
+    <a href="{{ path('addcourse') }}" class="btn btn-primary"><i class="fas fa-plus"></i> Ajouter</a>
+  </td>
+</tr>
+                                                    <tr>
+                                                        
+                                                         <th style="text-align: left;">Nom </th>
+                                                        <th>description</th>
+                                                       <th > difficulter</th> 
+                                                         <th>  Actions</th>
+                                                    </tr>
+                                                </thead>
+                                            
+                                                                                        </div> <!-- end .table-responsive-->
+                                    </div> <!-- end card-body -->
+                                </div> <!-- end card -->
+                            </div> <!-- end col -->
+                        </div> <!-- end row -->
+
+
+                        <div class="row">
+                       
+                            <div class="col-12">
+                                <div class="card">
+                                    <div class="card-body">
+                                 
+   
+    
+
+                                        <div class="table-responsive">
+                                            <table class="table table-centered mb-0" id="btn-editable">
+                                                <thead>
+                                                    <tr>
+                                                        
+                                                     </tr>
+                                                </thead>
+                                            
+                                                <tbody>
+				{% for course in bla %}
+					<tr>
+
+						<td>
+						
+							{{course.name}}
+						</td>
+						<td>
+						
+							{{course.description}}
+						</td>
+<td style="color:
+    {% if course.getDifficulty() == 'EASY' %}
+         green
+    {% elseif course.getDifficulty() == 'MEDIUM' %}
+        orange
+    {% else %}
+       red
+    {% endif %}
+">
+    {{ course.getDifficulty() }}
+</td>
+
+
+		<td>
+  
+  <a href="{{ path('modifiercourse',{'id':course.id}) }}" class="btn btn-success"><i class="fas fa-edit"></i></a>
+ </td>
+  <td>
+  <a href="{{ path('deletecourse',{'id':course.id}) }}" class="btn btn-danger"><i class="far fa-trash-alt"></i></a>
+
+</td>
+						</tr>
+	
+
+
+
+
+
+					{% endfor %}
+     
+				</tbody>
+
+                                            </table>
+                                        </div> <!-- end .table-responsive-->
+                                    </div> <!-- end card-body -->
+                                </div> <!-- end card -->
+                            </div> <!-- end col -->
+                        </div> <!-- end row -->
+    
+                    </div> <!-- container -->
+
+                </div> <!-- content -->
+
+   
+
+
+{% endblock %}

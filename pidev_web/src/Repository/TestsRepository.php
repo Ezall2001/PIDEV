@@ -3,6 +3,8 @@
 namespace App\Repository;
 
 use App\Entity\Tests;
+use App\Entity\TestQs;
+
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -38,6 +40,35 @@ class TestsRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
+
+    
+    public function getTestQuestions($testId): array
+    { 
+        $entityManager = $this->getEntityManager();
+
+        $query = $entityManager
+        ->createQuery('SELECT q FROM App\Entity\TestQs q JOIN q.test t WHERE t.id = :id ORDER BY q.questionNumber ASC')
+        ->setParameter('id', $testId);
+
+        return $query->getResult();
+    }
+
+    public function findTestByCourseName($courseName): array
+    {
+        $entityManager = $this->getEntityManager();
+
+        $query = $entityManager
+        ->createQuery('SELECT t, c 
+        FROM App\Entity\Tests t 
+        JOIN t.course c 
+        WHERE c.name = :courseName ')
+        ->setParameter('courseName', $courseName);
+
+        return $query->getResult();
+    }
+
+
+
 
 //    /**
 //     * @return Tests[] Returns an array of Tests objects

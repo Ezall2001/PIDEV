@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use App\Entity\Answers;
+use App\Entity\Users;
 use App\Repository\VotesRepository;
 
 
@@ -27,7 +28,11 @@ class Votes
     #[ORM\ManyToOne(targetEntity: Users::class, inversedBy: 'votes')]
     #[ORM\JoinColumn(name: 'id_user', referencedColumnName: 'id', nullable: true)]
     private ?Users $user = null;
-
+    public function __construct()
+    {
+      
+      
+    }
     public function getId(): ?int
     {
         return $this->id;
@@ -73,4 +78,7 @@ class Votes
     {
         return $this->voteType;
     }
+
+ 
 }
+
