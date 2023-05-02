@@ -1,0 +1,29 @@
+Deadeye [
+  Una event
+  2 Una Rowen
+  anguished isle
+  unkowen island
+  illusion isle
+  tranquil isle
+
+  Gesbroy
+  forpe quest
+]
+
+Glaivier [
+  Una east Luterra
+  Una Peyto
+  tortoyk rapport
+  Luterra rapport
+]
+
+Arcanist [
+  Atlas
+  shangra
+]
+
+Paladin [
+  Gesbroy
+  
+  feiton
+]
