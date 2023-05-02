@@ -19,9 +19,9 @@ class TestType extends AbstractType
                     'Cours' => "COURSE",
                 ],
                 'attr' => [
-                    'class' => 'form-select'
+                    'class' => 'form-select disabled'
                 ],
-                'disabled' => true
+                'disabled' => false
                 ])
             ->add('minPoints', options:[
                 'label' => 'Seuil',

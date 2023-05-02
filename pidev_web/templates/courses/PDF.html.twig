@@ -1,247 +1,146 @@
 <!DOCTYPE html>
 <html>
 
-<head>
-  <meta charset="UTF-8">
-  <style>
-    img {
-      width: 200px;
-      height: 50px;
-    }
-  </style>
-  {{ image|raw }}
+	<head>
+		<meta charset="UTF-8">
+		<style>
+			img {
+				width: 200px;
+				height: 50px;
+			}
+		</style>
+		{{ image|raw }}
 
 
-  <title>{{ title }}</title>
-  <style>
-    body {
-      margin: 20px;
-    }
+		<title>{{ title }}</title>
+		<style>
+			body {
+				margin: 20px;
+			}
 
-    h1 {
-      text-align: center;
-    }
-  </style>
-  <div class="line"></div>
+			h1 {
+				text-align: center;
+			}
+		</style>
+		<div class="line"></div>
 
-  <style>
-    .line {
-      border-top: 1px solid black;
-      margin-top: 20px;
-      margin-bottom: 20px;
-    }
+		<style>
+			.line {
+				border-top: 1px solid black;
+				margin-top: 20px;
+				margin-bottom: 20px;
+			}
 
-    .page-number {
-      text-align: right;
-      font-size: 10pt;
-    }
+			.page-number {
+				text-align: right;
+				font-size: 10pt;
+			}
 
-    body {
-      margin: 0;
-      padding: 0;
-      font-size: 12pt;
-    }
+			body {
+				margin: 0;
+				padding: 0;
+				font-size: 12pt;
+			}
 
-    main {
-      padding: 20px;
-      min-height: calc(100vh - 80px);
-      box-sizing: border-box;
-    }
+			main {
+				padding: 20px;
+				min-height: calc(100vh - 80px);
+				box-sizing: border-box;
+			}
 
-    footer {
-      position: fixed;
-      bottom: 20px;
-      left: 0;
-      right: 0;
-      text-align: center;
-      font-size: 10pt;
-    }
+			footer {
+				position: fixed;
+				bottom: 20px;
+				left: 0;
+				right: 0;
+				text-align: center;
+				font-size: 10pt;
+			}
 
-    .page-number:after {
-      content: counter(page);
-    }
+			.page-number:after {
+				content: counter(page);
+			}
 
-    .page-break {
-      page-break-after: always;
-    }
-  </style>
-</head>
+			.page-break {
+				page-break-after: always;
+			}
 
-<body>
-  <h1>{{ title }}</h1>
-  <p>{{ body }}</p>
+			.definition {
+				font-weight: 600;
+			}
+			.sub-title {
+				color: #D21312;
+			}
+		</style>
+	</head>
 
+	<body>
+		<h1>{{ title }}</h1>
 
+		<div class="definition">
+			<h4>Définition :</h4>
+			<p>La structure de données est une façon d'organiser et de stocker des données de manière efficace pour qu'elles puissent être utilisées et gérées facilement. Il existe de nombreuses structures de données différentes, chacune avec ses propres avantages et inconvénients en termes d'utilisation, d'efficacité et de complexité.</p>
+		</div>
 
-  <p>
+		<div>
+			<h4 class="sub-title">Les tableaux</h4>
+			<p>
+				Les tableaux sont une structure de données simple et courante qui stocke les données de manière linéaire dans une séquence contiguë d'éléments. Les éléments sont accessibles en utilisant leur indice dans le tableau.</p>
+			<h4>Application</h4>
+			<ul>
+				<li>Écrire une fonction qui recherche un élément dans un tableau donné et retourne son indice s'il est trouvé, sinon -1.</li>
+				<li>Écrire une fonction qui fusionne deux tableaux triés en un seul tableau trié.</li>
+			</ul>
+		</div>
 
+		<div>
+			<h4 class="sub-title">Les listes chaînées :</h4>
+			<p>Les listes chaînées sont une structure de données qui stocke les éléments de manière non linéaire en utilisant des liens entre les éléments. Chaque élément de la liste contient un pointeur vers l'élément suivant, ce qui permet de parcourir la liste de manière efficace.</p>
+			<h4>Application</h4>
+			<ul>
+				<li>Écrire une fonction qui ajoute un élément à la fin d'une liste chaînée.</li>
+				<li>Écrire une fonction qui supprime le premier élément d'une liste chaînée.</li>
+			</ul>
+		</div>
 
-  </p>
-  Exercice 1:
+		<div>
+			<h4 class="sub-title">Les piles et les files :</h4>
+			<p>Les piles et les files sont des structures de données utilisées pour stocker des éléments dans un ordre spécifique. Les piles utilisent le principe Last-In-First-Out (LIFO) où le dernier élément ajouté est le premier à être retiré, tandis que les files utilisent le principe First-In-First-Out (FIFO) où le premier élément ajouté est le premier à être retiré.</p>
 
-  <p>
-  </p>
-  Soit la grammaire G suivante :
-  G = {S , {0,1} , S , R}
-  R = {S}
-  S → 11S
-  S → 0
-  <div>
-    1. Donnez une description du langage générer par G.
-    <div>
-      2. Déduire un automate fini déterministe acceptant le langage générer par G. 3. En déduire une
-      expression régulière dénotant le langage générer par G.
-    </div>
-    <p>
+			<footer>
+				<span class="page-number"></span>
+			</footer>
+			<div class="page-break"></div>
+			<h4>Application</h4>
+			<ul>
+				<li>Écrire une fonction qui utilise une pile pour inverser l'ordre d'une chaîne de caractères.</li>
+				<li>Écrire une fonction qui utilise une file pour simuler un ordre de traitement de tâches.</li>
+			</ul>
+		</div>
+		<div>
+			<h4 class="sub-title">Les arbres :</h4>
+			<p>Les arbres sont une structure de données non linéaire qui stocke les éléments de manière hiérarchique. Chaque élément est appelé nœud et chaque nœud peut avoir plusieurs enfants. Le nœud supérieur est appelé racine et les nœuds sans enfants sont appelés feuilles.</p>
+			<h4>Application</h4>
+			<ul>
+				<li>Écrire une fonction qui recherche un élément dans un arbre binaire de recherche.</li>
+				<li>Écrire une fonction qui calcule la hauteur d'un arbre donné.</li>
+			</ul>
+		</div>
 
-    </p>
-    <div>
-      Exercice 2 :
-    </div>
-    <p>
-    </p>
-    Soit L = {w ∈ {a, b} ∗/ w commence par a et se termine par bb }
-    <div>
-      1. Proposer une expression régulière dénotant L.
-    </div>
-    <div>
-      2. Déterminer un automate fini déterministe qui reconnaît L.
-    </div>
+		<div>
+			<h4 class="sub-title">Les graphes :</h4>
+			<p>Les graphes sont une structure de données utilisée pour représenter des relations entre les éléments. Les éléments sont appelés nœuds et les relations sont appelées arêtes. Les graphes peuvent être orientés ou non orientés.</p>
+			<h4>Application</h4>
+			<ul>
+				<li>Écrire une fonction qui vérifie si un graphe donné est biparti.</li>
+				<li>Écrire une fonction qui trouve le chemin le plus court entre deux nœuds d'un graphe pondéré.</li>
+			</ul>
+		</div>
 
-
-    <div>
-
-      3. Donner une grammaire régulière G qui génère le langage L.
-    </div>
-
-
-
-
-
-    <p>
-
-    </p>
-    <div>
-      Exercice 3 :
-    </div>
-    <p>
-    </p>
-    Soit L = {w ∈ {a, b} ∗/ w commence par a et se termine par bb }
-    <div>
-      1. Proposer une expression régulière dénotant L.
-    </div>
-    <div>
-      2. Déterminer un automate fini déterministe qui reconnaît L.
-    </div>
-
-
-    <div>
-
-      3. Donner une grammaire régulière G qui génère le langage L.
-    </div>
-
-
-
+		<footer>
+			<span class="page-number"></span>
+		</footer>
 
 
-    <p>
-
-    </p>
-    <div>
-      Exercice 4:
-    </div>
-    <p>
-    </p>
-    Soit L = {w ∈ {a, b} ∗/ w commence par a et se termine par bb }
-    <div>
-      1. Proposer une expression régulière dénotant L.
-    </div>
-    <div>
-      2. Déterminer un automate fini déterministe qui reconnaît L.
-    </div>
-
-
-    <div>
-
-      3. Donner une grammaire régulière G qui génère le langage L.
-    </div>
-
-    <footer>
-      <span class="page-number"></span>
-    </footer>
-    <div class="page-break"></div>
-
-
-    <p>
-
-    </p>
-    <div>
-      Exercice 5 :
-    </div>
-    <p>
-    </p>
-    Soit L = {w ∈ {a, b} ∗/ w commence par a et se termine par bb }
-    <div>
-      1. Proposer une expression régulière dénotant L.
-    </div>
-
-    <div>
-      2. Déterminer un automate fini déterministe qui reconnaît L.
-    </div>
-
-
-    <div>
-
-      3. Donner une grammaire régulière G qui génère le langage L.
-    </div>
-
-    <p>
-
-    </p>
-    <div>
-      Exercice 6:
-    </div>
-    <p>
-    </p>
-    Soit L = {w ∈ {a, b} ∗/ w commence par a et se termine par bb }
-    <div>
-      1. Proposer une expression régulière dénotant L.
-    </div>
-    <div>
-      2. Déterminer un automate fini déterministe qui reconnaît L.
-    </div>
-
-
-    <div>
-
-      3. Donner une grammaire régulière G qui génère le langage L.
-    </div>
-
-
-    <p>
-
-    </p>
-    <div>
-      Exercice 7:
-    </div>
-    <p>
-    </p>
-    Soit L = {w ∈ {a, b} ∗/ w commence par a et se termine par bb }
-    <div>
-      1. Proposer une expression régulière dénotant L.
-    </div>
-    <div>
-      2. Déterminer un automate fini déterministe qui reconnaît L.
-    </div>
-
-
-    <div>
-
-      3. Donner une grammaire régulière G qui génère le langage L.
-    </div>
-    <footer>
-      <span class="page-number"></span>
-    </footer>
-</body>
-
+	</body>
 </html>

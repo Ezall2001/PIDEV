@@ -23,7 +23,7 @@ class CoursesTableController extends AbstractController
         ]);
     }
 
-    #[Route('/afficher_courses', name: 'displaycourse')]
+    #[Route('/admin/afficher_courses', name: 'displaycourse')]
 public function affichercourses(Request $request): Response
 {
     $entityManager = $this->getDoctrine()->getManager();
@@ -91,7 +91,7 @@ public function affichercourses(Request $request): Response
     ]);
 }
 
-    #[Route('/addcourse', name: 'addcourse')]
+    #[Route('/admin/addcourse', name: 'addcourse')]
 
 public function addcourse(Request $request): Response
 {
@@ -117,7 +117,7 @@ public function addcourse(Request $request): Response
     ]);
 }
 
-#[Route('/modifiercourse/{id}', name: 'modifiercourse')]
+#[Route('/admin/modifiercourse/{id}', name: 'modifiercourse')]
 
     public function modifiercourse(Request $request, $id): Response
     {
@@ -137,7 +137,7 @@ public function addcourse(Request $request): Response
             return $this->render('admin/modifiercourse.html.twig', ['f' => $form->createView()]);
     }
 
-    #[Route('/deletecourse', name: 'deletecourse')]
+    #[Route('/admin/deletecourse', name: 'deletecourse')]
 
     public function deletecourse(Request $request ) {
 
@@ -146,11 +146,13 @@ public function addcourse(Request $request): Response
         $em->remove($course);
         $em->flush();
         $courses = $this->getDoctrine()->getManager()->getRepository(Courses::class)->findAll();
-        
-        return $this->render('admin/coursesTable.html.twig', [
-            'bla'=> $courses,
+
+
+        return $this->redirectToRoute('displaycourse');
+        // return $this->render('admin/coursesTable.html.twig', [
+        //     'bla'=> $courses,
             
-        ]);
+        // ]);
     }
 
 

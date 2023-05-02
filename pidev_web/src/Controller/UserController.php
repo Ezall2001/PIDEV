@@ -37,7 +37,7 @@ class UserController extends AbstractController
             if ($authChecker->isGranted('ROLE_ADMIN', $user)) {
                 return $this->redirectToRoute('admin_usersTable');
             } else if ($authChecker->isGranted('ROLE_USER', $user)) {
-                return $this->redirectToRoute('profil');
+                return $this->render('landing/landing.html.twig');
             }
         }
 
@@ -76,10 +76,11 @@ class UserController extends AbstractController
             $avatarPath = $form->get('avatarPath')->getData();
             if ($avatarPath) {
                 $avatarFileName = md5(uniqid()) . '.' . $avatarPath->guessExtension();
-                // $avatarPath->move(
-                //     $this->getParameter('avatar_directory'),
-                //     $avatarFileName
-                // );
+                $avatarPath->move(
+                    $this->getParameter('avatar_directory'),
+                    $avatarFileName
+                );
+                
                 // $user->setAvatarPath($avatarFileName);
                 $user->setAvatarPath("server/profile_avatars/{$avatarFileName}");
             }

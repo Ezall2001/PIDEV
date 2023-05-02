@@ -50,8 +50,8 @@ public function generatePdf(): Response
         $image = '<img src="data:image/png;base64,' . base64_encode($imageData) . '"/>';
     
     $html = $this->renderView('courses/PDF.html.twig', [
-        'title' => 'ESPRIT',
-        'body' => '',
+        'title' => 'Structure de données',
+        
       
         'image' => $image
     ]);

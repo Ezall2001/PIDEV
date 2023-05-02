@@ -1,72 +1,71 @@
 <!DOCTYPE html>
 <html>
 
-<head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-	<link rel="shortcut icon" href="{{asset('images/favicon.ico')}}">
+		<link rel="shortcut icon" href="{{asset('images/favicon.ico')}}">
 
-	<link rel="stylesheet" type="text/css" href="{{asset('templateAssets/css/bootstrap.min.css')}}"
-		id="bs-default-stylesheet">
-	<link rel="stylesheet" type="text/css" href="{{asset('templateAssets/css/app.min.css')}}"
-		id="app-default-stylesheet" />
+		<link rel="stylesheet" type="text/css" href="{{asset('templateAssets/css/bootstrap.min.css')}}" id="bs-default-stylesheet">
+		<link rel="stylesheet" type="text/css" href="{{asset('templateAssets/css/app.min.css')}}" id="app-default-stylesheet"/>
 
 
-	<link rel="stylesheet" type="text/css" href="{{asset('templateAssets/css/icons.min.css')}}" />
-	<link rel="stylesheet" type="text/css" href="{{asset('templateAssets/css/materialdesignicons.min.css')}}" />
-	<link rel="stylesheet" type="text/css" href="{{asset('templateAssets/css/pe-icon-7-stroke.css')}}" />
-	<link rel="stylesheet" type="text/css" href="{{asset('templateAssets/css/style.min.css')}}" />
+		<link rel="stylesheet" type="text/css" href="{{asset('templateAssets/css/icons.min.css')}}"/>
+		<link rel="stylesheet" type="text/css" href="{{asset('templateAssets/css/materialdesignicons.min.css')}}"/>
+		<link rel="stylesheet" type="text/css" href="{{asset('templateAssets/css/pe-icon-7-stroke.css')}}"/>
+		<link rel="stylesheet" type="text/css" href="{{asset('templateAssets/css/style.min.css')}}"/>
 
-	<link rel="stylesheet" type="text/css" href="{{asset('css/reset.css')}}" />
-	<link rel="stylesheet" type="text/css" href="{{asset('css/seperator.css')}}" />
-	<link rel="stylesheet" type="text/css" href="{{asset('css/nav.css')}}" />
+		<link rel="stylesheet" type="text/css" href="{{asset('css/reset.css')}}"/>
+		<link rel="stylesheet" type="text/css" href="{{asset('css/seperator.css')}}"/>
+		<link rel="stylesheet" type="text/css" href="{{asset('css/nav.css')}}"/>
 
-	<script src="{{asset('templateAssets/js/vendor.min.js')}}" defer></script>
-	<script src="{{asset('templateAssets/js/app.min.js')}}" defer></script>
-
-
-	<title>
-		{% block title %}
-		Myalô
-		{% endblock %}
-	</title>
-
-	{% block stylesheets %}{% endblock %}
-
-	{% block javascripts %}{% endblock %}
-
-</head>
-
-<body>
-
-	{{component('nav')}}
-	{% if app.user and app.user.isVerified == false and app.user.isVerified == NULL %}
-	<div class="alert alert-warning alert-dismissible" role="alert">
-		<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-		<div class="alert-message">
-			<strong>Votre compte n'est pas activé</strong>, <a href="{{ path('resendVerif') }}">renvoyer le lien
-				d'activation</a>
-		</div>
-	</div>
-	{% endif %}
-	{% include "layouts/flash.html.twig" %}
-
-	{# {% for message in app.flashes('error') %}
-	<div class="alert alert-warning">{{ message }}</div>
-	{% endfor %} #}
+		<script src="{{asset('templateAssets/js/vendor.min.js')}}" defer></script>
+		<script src="{{asset('templateAssets/js/app.min.js')}}" defer></script>
 
 
-	<div id="wrapper">
-
-		<main class="mt-5 mb-2 py-3 px-2 px-md-4 min-vh-100 overflow-x-hidden">
-
-			{% block main %}body
+		<title>
+			{% block title %}
+				Myalô
 			{% endblock %}
-		</main>
+		</title>
+
+		{% block stylesheets %}{% endblock %}
+
+		{% block javascripts %}{% endblock %}
+
+	</head>
+
+	<body>
+
+		{{component('nav')}}
+		{% if app.user and app.user.isVerified == false and app.user.isVerified == NULL %}
+			<div class="alert alert-warning alert-dismissible" role="alert">
+				<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+				<div class="alert-message">
+					<strong>Votre compte n'est pas activé</strong>,
+					<a href="{{ path('resendVerif') }}">renvoyer le lien
+										d'activation</a>
+				</div>
+			</div>
+		{% endif %}
+		{% include "layouts/flash.html.twig" %}
+
+		{# {% for message in app.flashes('error') %}
+			<div class="alert alert-warning">{{ message }}</div>
+			{% endfor %} #}
 
 
-	</div>
-</body>
+		<div id="wrapper">
+
+			<main class="">
+
+				{% block main %}body
+				{% endblock %}
+			</main>
+
+
+		</div>
+	</body>
 
 </html>

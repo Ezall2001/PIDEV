@@ -49,7 +49,7 @@ class UsersAuthAuthenticator extends AbstractLoginFormAuthenticator
         if (in_array('ROLE_ADMIN', $roles)) {
             return new RedirectResponse($this->urlGenerator->generate('admin_usersTable'));
         } else {
-            return new RedirectResponse($this->urlGenerator->generate('profil'));
+            return new RedirectResponse($this->urlGenerator->generate('home'));
         }
     }
     protected function getLoginUrl(Request $request): string

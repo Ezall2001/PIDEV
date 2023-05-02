@@ -28,7 +28,7 @@ class SubjectsTableController extends AbstractController
         ]);
     }
     
-    #[Route('/a/subjects', name: 'search')]
+    #[Route('/admin/subjects', name: 'search')]
     public function afficherSubject(Request $request): Response
     {
         //execution de url
@@ -75,7 +75,7 @@ class SubjectsTableController extends AbstractController
     
     
 
-    #[Route('/addsubject', name: 'addsubject')]
+    #[Route('/admin/addsubject', name: 'addsubject')]
 
     public function addSubject(Request $request): Response
     {
@@ -92,7 +92,7 @@ class SubjectsTableController extends AbstractController
     }
     
 
-    #[Route('/modifiersubject/{id}', name: 'modifiersubject')]
+    #[Route('/admin/modifiersubject/{id}', name: 'modifiersubject')]
 
     public function modifiersubject(Request $request, $id): Response
     {
@@ -112,7 +112,7 @@ class SubjectsTableController extends AbstractController
             return $this->render('admin/modifiersubject.html.twig', ['f' => $form->createView()]);
     }
 
-    #[Route('/deletesubject', name: 'deletesubject')]
+    #[Route('/admin/deletesubject', name: 'deletesubject')]
 
     public function deletesubject( Request $request) {
 

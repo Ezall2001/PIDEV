@@ -493,7 +493,7 @@ class Users implements UserInterface
         return $this;
     }
 
-    private static $levels = ['NEWCOMER', 'BEGINNER', 'COMPETENT', 'PROFICIENT', 'EXPERT'];
+    private static $levels = ['NOUVEAU VENU', 'débutant', 'compétent', 'PROFESSIONEL', 'EXPERT'];
     public static function computeLevelBreakpointScore($levelIndex)
     {
         $levelIndex = (int) $levelIndex;

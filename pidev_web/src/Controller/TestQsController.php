@@ -16,7 +16,7 @@ class TestQsController extends AbstractController
 {
 
 
-    #[Route('/addQuestion', name: 'addQuestion')]
+    #[Route('/admin/addQuestion', name: 'addQuestion')]
     public function add(TestQsRepository $rep, ManagerRegistry $mr,Request $req): Response
     {
         $question = new TestQs();
@@ -36,7 +36,7 @@ class TestQsController extends AbstractController
         ]);
     }
     
-    #[Route('/updateQuestionNour/{id}', name: 'updateQuestionNour')]
+    #[Route('/admin/updateQuestionNour/{id}', name: 'updateQuestionNour')]
     public function update( ManagerRegistry $mr,Request $req,$id): Response
     {
 
@@ -56,7 +56,7 @@ class TestQsController extends AbstractController
         ]);
     }
 
-    #[Route('/getTestQuestions', name: 'getTestQuestions')]
+    #[Route('/admin/getTestQuestions', name: 'getTestQuestions')]
     public function getAll_Sort(Request $req,TestQsRepository $rep): Response
     {
         $questions = new TestQs();
@@ -94,7 +94,7 @@ class TestQsController extends AbstractController
         ]);
     }
 
-    #[Route('/deleteQuestionNour/{id}', name: 'deleteQuestionNour')]
+    #[Route('/admin/deleteQuestionNour/{id}', name: 'deleteQuestionNour')]
     public function delete(TestQsRepository $rep,ManagerRegistry $mr,$id): Response
     {
         $em=$mr->getManager();

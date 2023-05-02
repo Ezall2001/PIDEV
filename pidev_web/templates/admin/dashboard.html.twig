@@ -1,14 +1,28 @@
+{% extends 'layouts//admin.html.twig' %}
 {% block stylesheet %}
 	<style>
-		#chart_div {
-			display: flex;
-			justify-content: center;
-			align-items: center;
+		#chart_container {
+
+			display: inline-block;
+			vertical-align: top;
+			width: 50%;
+			padding: 10px;
 		}
 	</style>
+
 {% endblock %}
 {% block body %}
-	<div id="chart_div">{{chartData | raw}}</div>
+	<div class="content-page">
+		<div class="content">
+			<div class="container-fluid">
+
+				<div class="chart_container" id="chart_div">{{chartData | raw}}</div>
+				<div class="chart_container" id="chart-container">{{chartDataRim | raw }}</div>
+
+			</div>
+		</div>
+	</div>
+
 {% endblock %}
 {% block javascripts %}
 	<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
@@ -22,7 +36,7 @@ var data = google.visualization.arrayToDataTable(chartData);
 console.log(typeof(chartData))
 
 var options = {
-title: 'User Level by Year',
+title: 'Niveau par année',
 titleTextStyle: {
 color: '#333',
 fontSize: 18
@@ -33,14 +47,14 @@ position: 'top',
 maxLines: 3
 },
 vAxis: {
-title: 'Number of Users',
+title: 'Nombres des utilisateurs',
 titleTextStyle: {
 color: '#333',
 fontSize: 18
 }
 },
 hAxis: {
-title: 'Year',
+title: 'Année',
 titleTextStyle: {
 color: '#333',
 fontSize: 18
@@ -51,8 +65,31 @@ height: 500,
 colors: ['#8294C4', '#ACB1D6', '#DBDFEA', '#FFEAD2']
 };
 
+// RIM
+
+
 var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
 chart.draw(data, options);
 }
+	</script>
+	<script src="https://code.highcharts.com/highcharts.js"></script>
+	<script src="https://code.highcharts.com/modules/exporting.js"></script>
+	<script src="https://code.highcharts.com/modules/export-data.js"></script>
+
+	<script>
+		Highcharts.chart('chart-container', {
+chart: {
+type: 'pie'
+},
+title: {
+text: 'Matière par classe '
+},
+series: [
+{
+name: 'Matière',
+data: {{ chartDataRim|raw }}
+}
+]
+});
 	</script>
 {% endblock %}

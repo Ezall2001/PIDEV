@@ -145,7 +145,7 @@ class TestResultController extends AbstractController
         return $this->render('fileName.html.twig');
     }
 
-    #[Route('/getResults', name: 'getResults')]
+    #[Route('/admin/getResults', name: 'getResults')]
     public function getAll(TestResultsRepository $rep): Response
     {
         return $this->render('admin/resultsTable.html.twig', [

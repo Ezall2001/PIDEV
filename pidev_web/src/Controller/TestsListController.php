@@ -15,7 +15,7 @@ class TestsListController extends AbstractController
 {
 
 
-    #[Route('/getTests', name: 'getTests')]
+    #[Route('/admin/getTests', name: 'getTests')]
     public function getAll(TestsRepository $rep): Response
     {
          return $this->render('admin/testsTable.html.twig', [
@@ -24,7 +24,7 @@ class TestsListController extends AbstractController
     }
 
     
-    #[Route('/addTest', name: 'addTest')]
+    #[Route('/admin/addTest', name: 'addTest')]
     public function add(TestsRepository $rep, ManagerRegistry $mr,Request $req): Response
     {
         $test = new Tests();
@@ -33,6 +33,7 @@ class TestsListController extends AbstractController
         if($testForm->isSubmitted() && $testForm->isValid())
         {
             $em = $this->getDoctrine()->getManager();
+      
                 $em->persist($test);
                 $em->flush();
                 
@@ -46,7 +47,7 @@ class TestsListController extends AbstractController
 
 }
 
-    #[Route('/updateTest/{id}', name: 'updateTest')]
+    #[Route('/admin/updateTest/{id}', name: 'updateTest')]
 public function update(ManagerRegistry $mr, Request $req, $id): Response
 {
 
@@ -69,7 +70,7 @@ public function update(ManagerRegistry $mr, Request $req, $id): Response
     ]);
 }
 
-    #[Route('/deleteTest/{id}', name: 'deleteTest')]
+    #[Route('/admin/deleteTest/{id}', name: 'deleteTest')]
     public function delete(ManagerRegistry $mr,$id,TestsRepository $rep): Response
     {
         $em=$mr->getManager();
