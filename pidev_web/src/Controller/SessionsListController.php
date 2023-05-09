@@ -12,7 +12,9 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\InputBag;
 use Symfony\Component\Routing\Annotation\Route;
 use Knp\Component\Pager\Pagination\PaginationInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Security\Core\Security;
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 class SessionsListController extends AbstractController
 {
@@ -214,5 +216,17 @@ class SessionsListController extends AbstractController
       'paginationUI' => $paginationUI,
       'sortObj' => $sortObject,
     ]);
+  }
+
+  #[Route('/api/sessionsList/{id}', name: 'api_sessions_list')]
+  public function apiSessionList(int $id, Request $request, NormalizerInterface $normalizer): JsonResponse
+  {
+    $filterObject = $this->buildFilterObject($request->query, $id);
+    $sortObject = $this->buildSortObject($request->query);
+    $sessions = $this->sessionsRepository->getSessionList($filterObject, $sortObject, null, $id, true);
+
+
+    $normalizedSession = $normalizer->normalize($sessions, 'json', ["groups" => "apiSessionsList"]);
+    return new JsonResponse($normalizedSession);
   }
 }

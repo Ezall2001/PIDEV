@@ -16,48 +16,49 @@ class Sessions
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups("sessionFrom")]
+    #[Groups(["sessionFrom", "apiSessionsList"])]
     private int $id;
 
 
     #[ORM\Column]
-    #[Groups("sessionFrom")]
+    #[Groups(["sessionFrom", "apiSessionsList"])]
     private float $price;
 
 
     #[ORM\Column(type: "date")]
-    #[Groups("sessionFrom")]
+    #[Groups(["sessionFrom", "apiSessionsList"])]
     private \DateTime $date;
 
 
     #[ORM\Column(type: "time")]
-    #[Groups("sessionFrom")]
+    #[Groups(["sessionFrom", "apiSessionsList"])]
     private \DateTime $startTime;
 
 
     #[ORM\Column(type: "time")]
-    #[Groups("sessionFrom")]
+    #[Groups(["sessionFrom", "apiSessionsList"])]
     private \DateTime $endTime;
 
 
     #[ORM\Column(length: 500)]
-    #[Groups("sessionFrom")]
+    #[Groups(["sessionFrom", "apiSessionsList"])]
     private string $topics = "";
 
     #[ORM\Column]
     private ?int $places = 0;
 
     #[ORM\Column]
-    #[Groups("sessionFrom")]
+    #[Groups(["sessionFrom"])]
     private ?int $maxPlaces = null;
 
 
     #[ORM\Column(length: 500)]
+    #[Groups(["apiSessionsList"])]
     private ?string $meetLink = null;
 
 
     #[ORM\Column(length: 500)]
-    #[Groups("sessionFrom")]
+    #[Groups(["sessionFrom"])]
     private ?string $imageLink = null;
 
     #[ORM\Column]
@@ -68,11 +69,11 @@ class Sessions
 
     #[ORM\ManyToOne(targetEntity: Courses::class, inversedBy: 'sessions')]
     #[ORM\JoinColumn(name: 'id_course', referencedColumnName: 'id', nullable: true)]
-    #[Groups("sessionFrom")]
+    #[Groups(["sessionFrom", "apiSessionsList"])]
     private ?Courses $course = null;
 
     #[ORM\OneToMany(targetEntity: Resources::class, mappedBy: "session", cascade: ["persist"])]
-    #[Groups("sessionFrom")]
+    #[Groups(["sessionFrom"])]
     private ?Collection $resources = null;
 
     #[ORM\OneToMany(targetEntity: Participations::class, mappedBy: "session")]
@@ -80,6 +81,7 @@ class Sessions
 
     #[ORM\ManyToOne(targetEntity: Users::class, inversedBy: 'sessions')]
     #[ORM\JoinColumn(name: 'id_user', referencedColumnName: 'id', nullable: true)]
+    #[Groups(["apiSessionsList"])]
     private ?Users $user = null;
 
 

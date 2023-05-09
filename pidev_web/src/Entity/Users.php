@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\UsersRepository;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: UsersRepository::class)]
 #[UniqueEntity(fields: ['email'], message: 'Un compte existe déjà avec cette adresse e-mail')]
@@ -16,13 +17,15 @@ class Users implements UserInterface
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-
+    #[Groups(["apiSessionsList"])]
     private ?int $id;
 
     #[ORM\Column(length: 100)]
+    #[Groups(["apiSessionsList"])]
     private ?string $firstName = null;
 
     #[ORM\Column(length: 100)]
+    #[Groups(["apiSessionsList"])]
     private ?string $lastName = null;
 
     #[ORM\Column(length: 500)]

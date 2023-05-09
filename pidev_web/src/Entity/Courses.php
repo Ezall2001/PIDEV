@@ -16,11 +16,12 @@ class Courses
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups("sessionFrom")]
+    #[Groups(["sessionFrom", "apiSessionsList"])]
     private ?int $id = null;
 
     #[ORM\Column(type: 'string', length: 500)]
     #[Assert\NotBlank]
+    #[Groups(["apiSessionsList"])]
     private ?string $name =  null;
 
     #[ORM\Column(type: 'string', length: 500)]
@@ -34,11 +35,11 @@ class Courses
 
     #[Assert\NotBlank(message: 'choisir a quel matiere')]
     #[ORM\ManyToOne(targetEntity: Subjects::class, inversedBy: 'courses')]
-   #[ORM\JoinColumn(name: 'id_subject', referencedColumnName: 'id', nullable: true)]
-   private ?Subjects $subject;
+    #[ORM\JoinColumn(name: 'id_subject', referencedColumnName: 'id', nullable: true)]
+    private ?Subjects $subject;
 
-   #[ORM\OneToMany(targetEntity: Tests::class, mappedBy: 'course')]
-   private Collection $tests;
+    #[ORM\OneToMany(targetEntity: Tests::class, mappedBy: 'course')]
+    private Collection $tests;
 
     #[ORM\OneToMany(targetEntity: Sessions::class, mappedBy: 'course')]
     private Collection $sessions;
