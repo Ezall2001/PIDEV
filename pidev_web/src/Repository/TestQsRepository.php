@@ -49,6 +49,16 @@ class TestQsRepository extends ServiceEntityRepository
         return $query->getResult();
     }
 
+    public function searchQuestion($question){
+
+        $queryBuilder = $this->createQueryBuilder('q');
+        $queryBuilder->where('q.question LIKE :question')
+                     ->setParameter('question', '%' .$question. '%');
+        $query = $queryBuilder->getQuery();
+        return $results = $query->getResult();
+    }
+
+
     
 
 
