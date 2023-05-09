@@ -97,11 +97,16 @@ class SessionsListController extends AbstractController
 
     $page = $queryString->get('page');
     $limit = $queryString->get('limit');
+    $testLimit = $queryString->get('testLimit');
 
     if ($page == null)
       $page = '1';
-    if ($limit != '20' and $limit != '50')
+
+    if ($testLimit != null)
+      $limit = $testLimit;
+    else if ($limit != '20' and $limit != '50')
       $limit = '10';
+
 
     $pagingObject['page'] = intval($page);
     $pagingObject['limit'] = intval($limit);

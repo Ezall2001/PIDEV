@@ -1,0 +1,29 @@
+Deadeye [
+  Runaway isle
+  
+  unkowen island
+  illusion isle
+  tranquil isle
+
+  Gesbroy
+]
+
+Glaivier [
+  Una Peyto
+  Una Raven
+]
+
+DeathBlade [
+  Luterra rapport
+  Runaway rapport
+  Peyto rapport
+]
+
+Arcanist [
+  Atlas
+  shangra
+]
+
+Paladin [
+  feiton
+]

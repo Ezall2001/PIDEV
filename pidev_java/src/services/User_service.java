@@ -209,6 +209,7 @@ public class User_service {
 
         if (user.equals_to_user(user_to_match)) {
           User matched_user = user_to_match;
+          System.out.println("here");
 
           matched_user.set_id(result.getInt("id"));
           matched_user.set_first_name(result.getString("first_name"));
