@@ -7,6 +7,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 use phpDocumentor\Reflection\Types\Boolean;
+use symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints\Date;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -17,6 +18,7 @@ use App\Entity\Votes;
 use Symfony\Component\Validator\Constraints as Assert;
 
 
+
 #[ORM\Entity(repositoryClass: AnswersRepository::class)]
 class Answers
 {
@@ -25,7 +27,8 @@ class Answers
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    private ?int $id;
+    #[Groups("answers")]
+    private ?int $id = null;
 
 
 
@@ -35,15 +38,18 @@ class Answers
         min : 5,
         minMessage:"Entrer une réponse au minimum de 20 caractères"
     )]
+    #[Groups("answers")]
     private ?string $message = null;
 
     #[ORM\Column]
+   
     private ?int $voteNb = 0;
 
 
 
     #[ORM\ManyToOne(targetEntity: Users::class, inversedBy: 'answers')]
     #[ORM\JoinColumn(name: 'user_id', referencedColumnName: 'id', nullable: true)]
+    #[Groups("answers")]
     private ?Users $user = null;
 
     #[ORM\OneToMany(targetEntity: Votes::class, mappedBy: "answers")]
@@ -58,10 +64,12 @@ class Answers
 
     #[ORM\ManyToOne(targetEntity: Questions::class, inversedBy: 'answers')]
     #[ORM\JoinColumn(name: 'question_id', referencedColumnName: 'id', nullable: true)]
+    #[Groups("answers")]
     private ?Questions $question = null;
 
 
     #[ORM\Column(name: "created_at", type: "datetime")]
+    #[Groups("answers")]
     private ?\DateTimeInterface $createdAt = null;
 
     public function getId(): ?int
@@ -200,4 +208,3 @@ public function hasUserVoted(?Users $user): ?bool
     
     
 }
-

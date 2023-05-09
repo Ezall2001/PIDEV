@@ -3,16 +3,17 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use App\Entity\Tests;
 use App\Repository\TestQsRepository;
 use Symfony\Component\Validator\Constraints as Assert;
-
+use Symfony\Component\Serializer\Annotation\Groups;
 #[ORM\Entity(repositoryClass: TestQsRepository::class)]
 class TestQs
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-   
+    #[Groups("questions")]
     private ?int $id = null;
 
     #[ORM\Column]
@@ -22,7 +23,7 @@ class TestQs
     )]
     #[Assert\Positive(message:"le numéro de la question ne doit pas etre négatif ou nul.")]
     #[Assert\NotBlank(message:"Veuillez saisir le numéro de la question.")]
-   
+    #[Groups("questions")]
     private ?int $questionNumber =null;
 
     #[ORM\Column(length: 255)]
@@ -33,7 +34,7 @@ class TestQs
         maxMessage: "l'option ne doit pas dépasser {{ limit }} caractères.",
     )]
     #[Assert\NotBlank(message:"Veuillez saisir l'option A.")]
-   
+    #[Groups("questions")]
     private ?string $optiona = null;
 
     #[ORM\Column(length: 255)]
@@ -44,7 +45,7 @@ class TestQs
         maxMessage: "l'option ne doit pas dépasser {{ limit }} caractères.",
     )]
     #[Assert\NotBlank(message:"Veuillez saisir l'option B.")]
-    
+    #[Groups("questions")]
     private ?string $optionb = null;
 
     
@@ -56,6 +57,7 @@ class TestQs
         maxMessage: "l'option ne doit pas dépasser {{ limit }} caractères.",
     )]
     #[Assert\NotBlank(message:"Veuillez saisir l'option C.")]
+    #[Groups("questions")]
     private ?string $optionc = null;
 
     #[ORM\Column(length: 255)]
@@ -66,7 +68,7 @@ class TestQs
         maxMessage: "l'option ne doit pas dépasser {{ limit }} caractères.",
     )]
     #[Assert\NotBlank(message:"Veuillez saisir l'option D.")]
-   
+    #[Groups("questions")]
     private ?string $optiond = null;
 
     #[ORM\Column(length: 255)]
@@ -78,7 +80,7 @@ class TestQs
     )]
 
     #[Assert\NotBlank(message:"Veuillez saisir l'option correcte.")]
-   
+    #[Groups("questions")]
     private ?string $correctOption = null;
 
     #[ORM\Column(length: 255)]
@@ -89,12 +91,37 @@ class TestQs
         maxMessage: "la question ne doit pas dépasser {{ limit }} caractères.",
     )]
     #[Assert\NotBlank(message:"Veuillez saisir la question.")]
-   
+    #[Groups("questions")]
     private ?string $question = null;
 
     #[ORM\ManyToOne(targetEntity: Tests::class, inversedBy: 'testQs', fetch:'LAZY')]
-    #[ORM\JoinColumn(name:'test_id' , referencedColumnName:'id', nullable: false)]
-    public $test;
+    #[ORM\JoinColumn(name:'test_id' , referencedColumnName:'id', nullable: true)]
+    private ?Tests $test = null;
+
+    #[Groups("questions")]
+    public function getIdTest(): ?int
+    {
+        return $this->test->getId();
+    }
+    
+    public function setIdTest(int $id): self
+    {
+        
+       $this->test->setId($id);
+        return $this;
+    }
+
+    public function getTest(): ?Tests
+    {
+        return $this->test;
+    }
+
+    public function setTest(?Tests $test): self
+    {
+        $this->test = $test;
+
+        return $this;
+    }
 
     public function getId(): ?int
     {
@@ -185,29 +212,8 @@ class TestQs
         return $this;
     }
 
-    public function getIdTest(): ?Tests
-    {
-        return $this->test;
-    }
-
-    public function setIdTest(?Tests $test): self
-    {
-        $this->test = $test;
-
-        return $this;
-    }
-
-    public function getTest(): ?Tests
-    {
-        return $this->test;
-    }
-
-    public function setTest(?Tests $test): self
-    {
-        $this->test = $test;
-
-        return $this;
-    }
+    
+    
 
 
 }

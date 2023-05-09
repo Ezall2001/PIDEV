@@ -2,17 +2,12 @@
 
 namespace App\Entity;
 
-use Doctrine\DBAL\Types\Types;
-use Doctrine\ORM\Mapping as ORM;
-use App\Entity\Answers;
-use Symfony\Component\Validator\Constraints\Date;
+use App\Repository\QuestionsRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
-use App\Repository\QuestionsRepository;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-use Symfony\Component\Validator\Constraints\NotBlank;
-use symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: QuestionsRepository::class)]
 class Questions
@@ -20,47 +15,49 @@ class Questions
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups("question")]
-    private ?int $id;
-   
-   
+    #[Groups("questions")]
+    private ?int $id = null;
 
     #[ORM\Column(length: 2550, nullable: true)]
-	#[Assert\NotBlank(message:" titre doit etre non vide")]
-	#[Assert\Length(
-		min : 10,
-		minMessage:" Entrer un titre au mini de 10 caracteres")]
-        #[Groups("question")]
-	
+    #[Assert\NotBlank(message:"Le titre doit être renseigné.")]
+    #[Assert\Length(
+        min : 10,
+        minMessage:"Le titre doit contenir au minimum 10 caractères.")]
+    #[Groups("questions")]
     private ?string $title = null;
 
-
     #[ORM\Column(length: 2550, nullable: true)]
-	#[Assert\NotBlank(message:" la description doit etre non vide")]
-	#[Assert\Length(
-		min : 20,
-		minMessage:" Entrer une description au mini de 20 caracteres")]
-        #[Groups("question")]
-
-    private ?string $description= null;
-
-
+    #[Assert\NotBlank(message:"La description doit être renseignée.")]
+    #[Assert\Length(
+        min : 20,
+        minMessage:"La description doit contenir au minimum 20 caractères.")]
+    #[Groups("questions")]
+    private ?string $description = null;
 
     #[ORM\ManyToOne(targetEntity: Subjects::class, inversedBy: 'questions')]
     #[ORM\JoinColumn(name: 'subject_id', referencedColumnName: 'id', nullable: true)]
-    #[Assert\NotBlank(message:" vous devez choisir une matiére")]
-    #[Groups("question")]
+    #[Assert\NotBlank(message:"Vous devez choisir une matière.")]
+    #[Groups("questions")]
     private ?Subjects $subject = null;
-
 
     #[ORM\ManyToOne(targetEntity: Users::class, inversedBy: 'questions')]
     #[ORM\JoinColumn(name: 'user_id', referencedColumnName: 'id', nullable: true)]
-    #[Groups("question")]
+    #[Groups("questions")]
     private ?Users $user = null;
 
     #[ORM\Column(name: "created_at", type: "datetime")]
-    #[Groups("question")]
+
     private ?\DateTimeInterface $createdAt = null;
+
+    #[ORM\OneToMany(targetEntity: Answers::class, mappedBy: "question")]
+    #[Assert\NotBlank(message:"Au moins une réponse est requise.")]
+    #[Groups("questions")]
+    private Collection $answers;
+
+    public function __construct()
+    {
+        $this->answers = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -114,6 +111,7 @@ class Questions
 
         return $this;
     }
+
     public function getCreatedAt(): ?\DateTimeInterface
     {
         return $this->createdAt;
@@ -124,14 +122,6 @@ class Questions
         $this->createdAt = $createdAt;
 
         return $this;
-    }
-    #[ORM\OneToMany(targetEntity: Answers::class, mappedBy: "question")]
-    #[Assert\NotBlank(message:" titre doit etre non vide")]
-    private Collection $answers;
-
-    public function __construct()
-    {
-        $this->answers = new ArrayCollection();
     }
 
     public function getAnswers(): Collection
@@ -181,4 +171,3 @@ class Questions
 
 
 }
-

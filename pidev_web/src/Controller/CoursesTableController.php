@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+ namespace App\Controller;
 use App\Entity\Courses;
 use App\Entity\Subjects;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -11,6 +11,11 @@ use Symfony\Component\Routing\Annotation\Route;
 use App\Form\CourseType;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\ORM\QueryBuilder;
+use Symfony\Component\Serializer\Serializer;
+use Symfony\Component\Serializer\SerializerInterface as SerializerSerializerInterface;
+use Symfony\Component\Messenger\Transport\Serialization\SerializerInterface;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 
 class CoursesTableController extends AbstractController
@@ -153,6 +158,81 @@ public function addcourse(Request $request): Response
         //     'bla'=> $courses,
             
         // ]);
+    }
+
+    #[Route('/addcoursemobile', name: 'addcoursemobile')]
+    public function addCourseMobile(Request $request, SerializerSerializerInterface $serializer, EntityManagerInterface $manager)
+    {
+        $name = $request->query->get("name");
+        $description = $request->query->get("description");
+        $difficulty = $request->query->get("difficulty");
+        $subjectId = $request->query->get("id_subject");
+    
+        // Check if the subject exists in the database
+        $subject = $manager->getRepository(Subjects::class)->find($subjectId);
+        if (!$subject) {
+            return new Response(sprintf("Subject with ID %d not found", $subjectId));
+        }
+    
+        // Create a new course and set its properties
+        $course = new Courses();
+        $course->setName($name);
+        $course->setDescription($description);
+        $course->setDifficulty($difficulty);
+        $course->setSubject($subject);
+    
+        // Persist the course entity to the database
+        $manager->persist($course);
+        $manager->flush();
+    
+        // Return a success response
+        return new Response("Success");
+    }
+
+   
+
+
+   
+
+    #[Route('/updatecoursemobile', name: 'updatecoursemobile')]
+    public function updateProduit(
+        Request $request,
+        SerializerInterface $serializer,
+        EntityManagerInterface $entityManager
+    ) {
+        $id = $request->query->get("id");
+        $course = $entityManager->getRepository(Courses::class)->findOneBy(['id' => $id]);
+        if (!$course) {
+            return new Response("Course with ID $id not found");
+        }
+    
+        $course->setName($request->query->get("name"));
+        $course->setDescription($request->query->get("description"));
+        $course->setDifficulty($request->query->get("difficulty"));
+      
+    
+        $subjectId = $request->query->get("id_subject");
+        $subject = $entityManager->getRepository(Subjects::class)->find($subjectId);
+        if (!$subject) {
+            return new Response(sprintf("Subject with ID %d not found", $subjectId));
+        }
+        $course->setSubject($subject);
+    
+        $entityManager->persist($course);
+        $entityManager->flush();
+    
+        return new Response("Success");
+    }
+
+    #[Route('/deletecoursemobile', name: 'deletecoursemobile')]
+    public function deleteProduitt(Request $request, serializerInterface $serializer, EntityManagerInterface $entityManager)
+    {
+
+        $Courses = $this->getDoctrine()->getRepository(Courses::class)->findOneBy(array('id' => $request->query->get("id")));
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($Courses);
+        $em->flush();
+        return new Response("success");
     }
 
 

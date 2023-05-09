@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\TestsRepository;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: TestsRepository::class)]
 class Tests
@@ -14,35 +15,42 @@ class Tests
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups("tests")]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank(message:"Veuillez choisir le type.")]
     #[Assert\Choice(choices: ['COURSE'], message: 'Veuillez saisir le type correctement')]
-    
+    #[Groups("tests")]
     private ?string $type = null;
 
     #[ORM\Column]
     #[Assert\NotBlank(message:"Veuillez saisir le seuil.")]
     #[Assert\Positive(message:"le seuil ne doit pas etre négatif ou null.")]
+    #[Groups("tests")]
     private ?int $minPoints = null;
 
     #[ORM\Column]
     #[Assert\NotBlank(message:"Veuillez saisir la durée.")]
     #[Assert\Positive(message:"la durée ne doit pas etre négative ou nulle.")]
+    #[Groups("tests")]
     private ?int $duration = null;
 
     #[ORM\OneToMany(targetEntity: TestQs::class, mappedBy: 'test', fetch:'EAGER')]
+    
     public Collection $testQs;
 
     #[ORM\ManyToOne(targetEntity: Subjects::class, inversedBy: 'tests', fetch:'EAGER')]
     #[ORM\JoinColumn(name: 'id_subject', referencedColumnName: 'id', nullable: true)]
+    
     private ?Subjects $subject;
 
     #[ORM\OneToOne(targetEntity: TestResults::class, mappedBy: 'tests', fetch:'EAGER')]
+    
     private ?TestResults $result = null;
 
     #[ORM\ManyToOne(targetEntity: Courses::class, inversedBy: 'tests', fetch:'EAGER')]
+    
     #[ORM\JoinColumn(name: 'id_course', referencedColumnName: 'id', nullable: true)]
     private ?Courses $course;
 
@@ -60,10 +68,10 @@ class Tests
         return $this->testQs;
     }
 
-    public function addQuestion(TestQs $question): self
+    public function addQuestion(TestQs $testQs): self
     {
-        if (!$this->testQs->contains($question)) {
-            $this->testQs->add($question);
+        if (!$this->testQs->contains($testQs)) {
+            $this->testQs->add($testQs);
             // $question->setClass($this);
         }
 
@@ -142,6 +150,33 @@ class Tests
 
         return $this;
     }
+
+    public function getSubject(): ?Subjects
+    {
+        return $this->subject;
+    }
+
+    public function setSubject(Subjects $subject): self
+    {
+        $this->subject = $subject;
+
+        return $this;
+    }
+
+    public function getResult(): ?TestResults
+    {
+        return $this->result;
+    }
+
+    public function setResult(TestResults $result): self
+    {
+        $this->result = $result;
+
+        return $this;
+    }
+
+
+
 
 
 

@@ -16,6 +16,9 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Serializer\Serializer;
 use RuntimeException;
+use Symfony\Component\Serializer\SerializerInterface as SerializerSerializerInterface;
+use Symfony\Component\Messenger\Transport\Serialization\SerializerInterface;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 
 
 class SubjectsTableController extends AbstractController
@@ -131,7 +134,63 @@ class SubjectsTableController extends AbstractController
     }
 
 
- 
+    #[Route('/addsubjectmobile', name: 'addsubjectmobile')]
+    public function addSubjectMobile(Request $request, SerializerSerializerInterface $serializer, EntityManagerInterface $manager)
+    {
+        $Subjects = new Subjects();
+
+
+        $name = $request->query->get("name");
+
+        $description = $request->query->get("description");
+        $classes_esprit = $request->query->get("classes_esprit");
+
+        $sql = "INSERT INTO Subjects`( name`, description, classes_esprit) VALUES 
+    ('$name',' $description','$classes_esprit')";
+        $stmt = $manager->getConnection()->prepare($sql);
+        $result = $stmt->execute();
+
+        return new Response("sucess");
+    }
+
+  
+
+
+  
+
+  
+     #[Route('/updatemobile', name: 'updatemobile')]
+
+     public function updatemobile(
+       Request $request,
+       serializerInterface $serializer,
+       EntityManagerInterface $entityManager
+   ) {
+       $subjectId = $request->query->get("id");
+       $Subjects = $this->getDoctrine()->getRepository(Subjects::class)->findOneBy(array('id' => $subjectId));
+       if (!$Subjects) {
+           return new Response("Subject with ID $subjectId not found");
+       }
+   
+       $Subjects->setName($request->query->get("name"));
+       $Subjects->setDescription($request->query->get("description"));
+       // $Subjects->setClassesEsprit($request->query->get("classes_esprit"));
+   
+       $entityManager->persist($Subjects);
+       $entityManager->flush();
+   
+       return new Response("success");
+   }
+
+   #[Route('/deletemobile{id}', name: 'deletemobile')]
+   public function deletemobile($id, EntityManagerInterface $entityManager)
+   {
+       $Subjects = $this->getDoctrine()->getRepository(Subjects::class)->find($id);
+       $em = $this->getDoctrine()->getManager();
+       $em->remove($Subjects);
+       $em->flush();
+       return new Response("success");
+   }
 
 
 
