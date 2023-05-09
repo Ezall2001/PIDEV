@@ -1,0 +1,25 @@
+Deadeye [
+  anguished isle
+  unkowen island
+  illusion isle
+  tranquil isle
+
+  Gesbroy
+]
+
+Glaivier [
+  Una east Luterra
+  Una Peyto
+  Luterra rapport
+]
+
+Arcanist [
+  Atlas
+  shangra
+]
+
+Paladin [
+  Gesbroy
+  
+  feiton
+]

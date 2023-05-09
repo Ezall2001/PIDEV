@@ -21,7 +21,7 @@ class SessionsRepository extends ServiceEntityRepository
         $this->entityManager = $entityManager;
     }
 
-    public function getSessionList($filterObj, $sortObj, $pageObj, $userId, $isAdmin = false): PaginationInterface
+    public function getSessionList($filterObj, $sortObj, $pageObj, $userId, $isAdmin = false): PaginationInterface | array
     {
 
         $query = $this->createQueryBuilder('s')
@@ -54,6 +54,8 @@ class SessionsRepository extends ServiceEntityRepository
         if ($filterObj['priceLimit'] < 100)
             $query->andWhere('s.price <= ' . $filterObj['priceLimit']);
 
+        if ($pageObj == null)
+            return $query->getQuery()->getResult();
 
         $pagination = $this->paginator->paginate(
             $query->getQuery(),

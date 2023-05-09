@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Resources;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\SessionsRepository;
+use App\Repository\CoursesRepository;
 use App\Entity\Sessions;
 use App\Entity\Users;
 use App\Entity\Courses;
@@ -20,6 +21,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Symfony\Component\Security\Core\Security;
+use Symfony\Component\Filesystem\Filesystem;
 
 if (!isset($_SESSION)) {
   session_start();
@@ -28,16 +30,18 @@ if (!isset($_SESSION)) {
 class SesssionsFormController extends AbstractController
 {
   private SessionsRepository $sessionsRepository;
+  private CoursesRepository $coursesRepository;
   private EntityManagerInterface $entityManager;
   private PaymentService $paymentService;
   private CalendarService $calendarService;
   private ?int $userId = null;
 
 
-  public function __construct(SessionsRepository $sessionsRepository, EntityManagerInterface $entityManager, Security $security)
+  public function __construct(SessionsRepository $sessionsRepository, CoursesRepository $coursesRepository, EntityManagerInterface $entityManager, Security $security)
   {
     $this->entityManager = $entityManager;
     $this->sessionsRepository = $sessionsRepository;
+    $this->coursesRepository = $coursesRepository;
     $this->paymentService = new PaymentService();
     $this->calendarService = new CalendarService();
 
@@ -315,5 +319,60 @@ class SesssionsFormController extends AbstractController
 
       return $this->redirectToRoute('sessions_list', ['success' => '1']);
     }
+  }
+
+  #[Route('/api/removeSession/{id}', name: 'api_remove_session')]
+  public function apiRemoveSession(int $id): JsonResponse
+  {
+
+    $session = $this->sessionsRepository->find($id);
+    $this->entityManager->remove($session);
+    $this->entityManager->flush();
+
+    return new JsonResponse(['ok' => true]);
+  }
+
+  #[Route('/api/persistSession', name: 'api_persist_session', methods: ['POST'])]
+  public function apiPersistSession(Request $request): JsonResponse
+  {
+    $body = json_decode($request->getContent(), true);
+    $session = new Sessions();
+
+    if (!empty($body["id"]))
+      $session = $this->sessionsRepository->find(intval($body["id"]));
+    else {
+      $user = $this->entityManager->getRepository(Users::class)->find(intval($body["idUser"]));
+      $session->setUser($user);
+    }
+
+    $course = $this->coursesRepository->find(intval($body["course"]));
+
+    $endTimeMinutes = intval($body["endTime"]);
+    $endTime = new \DateTime();
+    $endTime->setTime($endTimeMinutes / 60, $endTimeMinutes % 60);
+
+    $startTimeMinutes = intval($body["startTime"]);
+    $startTime = new \DateTime();
+    $startTime->setTime($startTimeMinutes / 60, $startTimeMinutes % 60);
+
+    $session->setMeetLink($body["meetLink"]);
+    $session->setPrice(doubleval($body["price"]));
+    $session->setTopics($body["topics"]);
+    $session->setCourse($course);
+    $session->setDate(new \DateTime($body["date"]));
+    $session->setEndTime($endTime);
+    $session->setStartTime($startTime);
+
+    $this->entityManager->persist($session);
+    $this->entityManager->flush();
+
+    return new JsonResponse(["ok" => true]);
+  }
+
+  #[Route('/api/coursesNames', name: 'api_courses_names')]
+  public function apiCoursesNames(): JsonResponse
+  {
+    $courses = $this->coursesRepository->getCourseNames();
+    return new JsonResponse($courses);
   }
 }

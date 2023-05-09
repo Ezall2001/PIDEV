@@ -16,7 +16,7 @@
 					<div class="text-center">
 						<br><br>
 						{# <img src="{{ asset('uploads/avatarProfilePic/' ~ user.avatarPath) }}"
-																																																																																										                        class="rounded-circle avatar-xl img-thumbnail mb-3" alt="profile-image"> #}
+																																																																																																																								                        class="rounded-circle avatar-xl img-thumbnail mb-3" alt="profile-image"> #}
 						<img src="{{ user.avatarPath }}" class="rounded-circle avatar-xl img-thumbnail mb-3" alt="profile-image">
 						<h3 class="card-title text-black font-weight-bold" style="font-size: 1.5rem;">{{user.getFirstName}}
 							{{user.getLastName}}</h3>
@@ -82,8 +82,8 @@
 										</div>
 									</div>
 									{# <div class="mb-3">
-																																																																																																																																							                                    {{form_row(form.ImageFile)}}
-																																																																																																																																							                                </div> #}
+																																																																																																																																																																																				                                    {{form_row(form.ImageFile)}}
+																																																																																																																																																																																				                                </div> #}
 
 									<div class="mb-3">
 										<label for="{{ form.age.vars.id }}">
@@ -100,7 +100,7 @@
 											<strong>Bio</strong>
 										</label>
 										{{ form_widget(form.bio, {'attr': {'class': 'form-control', 'rows': 5}})
-																																																																																																																																																						                                    }}
+																																																																																																																																																																																																								                                    }}
 										<div style="color:brown; font-size: 14px">
 											{{ form_errors(form.bio) }}
 										</div>
